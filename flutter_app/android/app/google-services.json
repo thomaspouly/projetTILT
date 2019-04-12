@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "139820369040",
+    "firebase_url": "https://projet-tilt.firebaseio.com",
+    "project_id": "projet-tilt",
+    "storage_bucket": "projet-tilt.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:139820369040:android:072b48f3c7cbda3e",
+        "android_client_info": {
+          "package_name": "com.example.flutter_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "139820369040-tofi6qbplcpf1o63luihjkkk48b6cmbs.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.flutter_app",
+            "certificate_hash": "8b0671cf8c0a9f17c03bffa4844501905247820e"
+          }
+        },
+        {
+          "client_id": "139820369040-lhd36aort8j3dbdgdfmkq4ef9rv8rie0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB-lu67A-Qqc99dZhxjtMLk32sWwkSm3j4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "139820369040-lhd36aort8j3dbdgdfmkq4ef9rv8rie0.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
