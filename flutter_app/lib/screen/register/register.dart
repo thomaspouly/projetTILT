@@ -2,7 +2,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_app/bloc/bloc.dart';
 import 'package:flutter_app/provider/provider.dart';
+import 'package:flutter_app/screen/custom/texFieldCustom.dart';
 
 class RegisterPage extends StatefulWidget {
   var _colorTree1 = Colors.green[200];
@@ -60,7 +62,7 @@ class _RegisterPageState extends State<RegisterPage> {
 
   @override
   Widget build(BuildContext context) {
-       final bloc = Provider.of(context);
+    //  final Bloc bloc = Provider.of(context);
     return new Scaffold(
       appBar: new AppBar(
         title: Text("Inscription"),
@@ -81,47 +83,21 @@ class _RegisterPageState extends State<RegisterPage> {
   }
 
   Widget _buildTextFields() {
-    Color colorTextField = Colors.green[100];
     return new Container(
       child: new Column(
         children: <Widget>[
           new Container(
             margin: EdgeInsets.only(bottom: 10),
-            child: new TextField(
-              controller: _nameFilter,
-              decoration: new InputDecoration(
-                  labelText: 'Nom',
-                  border: OutlineInputBorder(),
-                  prefixIcon: Icon(Icons.person),
-                  fillColor: colorTextField,
-                  filled: true),
-            ),
+            child: new TextFieldCustom(controller: _nameFilter,title: 'Nom',icon: Icon(Icons.person),)
           ),
           new Container(
             margin: EdgeInsets.only(top: 10, bottom: 10),
-            child: new TextField(
-              controller: _emailFilter,
-              decoration: new InputDecoration(
-                labelText: 'Email',
-                border: OutlineInputBorder(),
-                prefixIcon: Icon(Icons.email),
-                fillColor: colorTextField,
-                filled: true,
-              ),
-            ),
+             child: new TextFieldCustom(controller: _emailFilter,title: 'Email',icon: Icon(Icons.email),)
+           
           ),
           new Container(
             margin: EdgeInsets.only(top: 10, bottom: 20),
-            child: new TextField(
-              controller: _passwordFilter,
-              decoration: new InputDecoration(
-                  labelText: 'Mot de passe',
-                  border: OutlineInputBorder(),
-                  prefixIcon: Icon(Icons.lock),
-                  fillColor: colorTextField,
-                  filled: true),
-              obscureText: true,
-            ),
+            child: new TextFieldCustom(controller: _passwordFilter,title: 'Mot de Passe',icon: Icon(Icons.lock),)
           ),
           new Container(
             child: new Text("Choississez un arbre:",
