@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter_app/screen/register/register.dart';
 
 void main() => runApp(MyApp());
 
@@ -12,32 +13,15 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
         title: 'Flutter Demo',
         theme: ThemeData(
-          // This is the theme of your application.
-          //
-          // Try running your application with "flutter run". You'll see the
-          // application has a blue toolbar. Then, without quitting the app, try
-          // changing the primarySwatch below to Colors.green and then invoke
-          // "hot reload" (press "r" in the console where you ran "flutter run",
-          // or simply save your changes to "hot reload" in a Flutter IDE).
-          // Notice that the counter didn't reset back to zero; the application
-          // is not restarted.
+  
           primarySwatch: Colors.green,
         ),
-        home: MyHomePage(title: 'EarthState'));
+        home:MyHomePage(title: "is",));
   }
 }
 
 class MyHomePage extends StatefulWidget {
   MyHomePage({Key key, this.title}) : super(key: key);
-
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
-
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
 
   final String title;
 
@@ -49,26 +33,14 @@ class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
 
   void _incrementCounter() async {
-    /*
- try {
-
-   //Test Authentification
-      final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
-      FirebaseUser user = await _firebaseAuth.signInWithEmailAndPassword(
-          email: "toto@gmail.com", password: "123456");
-      print(user.uid);
-//Test cloud_firestore
-       Firestore.instance.collection('carres').document().setData({
-                    'couleur': "rouge",});
-
-
-    } catch (e) {
-      print(e.toString());
-    }
-*/
+ Navigator.push(
+    context,
+    MaterialPageRoute(builder: (context) => LoginPage()),
+  );
+/*
     setState(() {
       _counter++;
-    });
+    });*/
   }
 
   @override
@@ -82,7 +54,7 @@ class _MyHomePageState extends State<MyHomePage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Text(
-              'You have pushed the button this many times:',
+              'PUSH:',
             ),
             Text(
               '$_counter',
