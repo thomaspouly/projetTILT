@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter_app/screen/login/login.dart';
 import 'package:flutter_app/screen/register/register.dart';
 
 void main() => runApp(MyApp());
@@ -35,7 +36,7 @@ class _MyHomePageState extends State<MyHomePage> {
   void _incrementCounter() async {
  Navigator.push(
     context,
-    MaterialPageRoute(builder: (context) => LoginPage()),
+    MaterialPageRoute(builder: (context) => Login()),
   );
 /*
     setState(() {
