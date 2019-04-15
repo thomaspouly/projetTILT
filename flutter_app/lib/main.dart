@@ -35,7 +35,7 @@ class _MyHomePageState extends State<MyHomePage> {
   void _incrementCounter() async {
  Navigator.push(
     context,
-    MaterialPageRoute(builder: (context) => LoginPage()),
+    MaterialPageRoute(builder: (context) => RegisterPage()),
   );
 /*
     setState(() {
