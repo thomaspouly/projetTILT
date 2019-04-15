@@ -1,12 +1,11 @@
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_app/screen/register/register.dart';
 import 'package:flutter/material.dart';
 
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter_app/screen/register/register.dart';
-
-void main() => runApp(MyApp());
+void main() => runApp(new MyApp());
 
 class MyApp extends StatelessWidget {
+<<<<<<< Updated upstream
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
@@ -42,32 +41,19 @@ class _MyHomePageState extends State<MyHomePage> {
       _counter++;
     });*/
   }
+=======
+  var routes = <String, WidgetBuilder>{
+    //"/Login": (BuildContext context) => new LoginPage(),
+    "/Register": (BuildContext context) => new RegisterPage(),
+  };
+>>>>>>> Stashed changes
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(
-              'PUSH:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.display1,
-            ),
-          ],
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: Icon(Icons.add),
-      ),
+    return new MaterialApp(
+      theme: new ThemeData(primarySwatch: Colors.green),
+      home: new RegisterPage(),
+      routes: routes,
     );
   }
 }
