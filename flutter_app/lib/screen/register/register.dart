@@ -2,14 +2,14 @@
 import 'package:flutter/material.dart';
 
 import 'package:firebase_auth/firebase_auth.dart';
-class LoginPage extends StatefulWidget {
+class RegisterPage extends StatefulWidget {
 
 
 
-  LoginPage({Key key}) : super(key: key);
+  RegisterPage({Key key}) : super(key: key);
  
   @override
-  State<StatefulWidget> createState() => new _LoginPageState();
+  State<StatefulWidget> createState() => new _RegisterPageState();
 }
 
 // Used for controlling whether the user is loggin or creating an account
@@ -18,7 +18,7 @@ enum FormType {
   register
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _RegisterPageState extends State<RegisterPage> {
 //Model model=;
 
 
@@ -28,7 +28,7 @@ class _LoginPageState extends State<LoginPage> {
   String _password = "";
   FormType _form = FormType.login; // our default setting is to login, and we should switch to creating an account when the user chooses to
 
-  _LoginPageState() {
+  _RegisterPageState() {
     _emailFilter.addListener(_emailListen);
     _passwordFilter.addListener(_passwordListen);
   }
