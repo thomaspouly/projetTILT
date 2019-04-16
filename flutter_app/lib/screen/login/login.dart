@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/bloc/login_bloc.dart';
 import 'package:flutter_app/main.dart';
+import 'package:flutter_app/provider/login_bloc_provider.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -60,13 +62,20 @@ class MyHomePage extends StatefulWidget {
   // used by the build method of the State. Fields in a Widget subclass are
   // always marked "final".
   final String title;
+
   @override
   _MyHomePageState createState() => _MyHomePageState();
+
+
+  static LoginBloc of(BuildContext context) {
+
+    return (context.inheritFromWidgetOfExactType(LoginBlocProvider) as LoginBlocProvider).bloc;
+  }
 }
 
 class _MyHomePageState extends State<MyHomePage> {
   TextStyle style = TextStyle(fontFamily: 'Montserrat', fontSize: 20.0);
-
+  LoginBloc _bloc;
   final emailFieldController = TextEditingController();
   final passFieldController = TextEditingController();
   String _email;
@@ -77,17 +86,9 @@ class _MyHomePageState extends State<MyHomePage> {
     passFieldController.addListener(_passwordListen);
   }
 
-  @override
-  void dispose() {
-    // TODO: implement dispose
-    // Detache le controller quand tout est fini
-    emailFieldController.dispose();
-    passFieldController.dispose();
-    super.dispose();
-  }
-
   void _emailListen() {
     if (emailFieldController.text.isEmpty) {
+      _email = "";
     } else {
       _email = emailFieldController.text;
     }
@@ -95,44 +96,24 @@ class _MyHomePageState extends State<MyHomePage> {
 
   void _passwordListen() {
     if (passFieldController.text.isEmpty) {
+      _password = "";
     } else {
       _password = passFieldController.text;
     }
   }
 
   @override
-  Widget build(BuildContext context) {
+  void dispose() {
+    // TODO: implement dispose
+    // Detache le controller quand tout est fini
+    _bloc.dispose();
+    emailFieldController.dispose();
+    passFieldController.dispose();
+    super.dispose();
+  }
 
-    void validate() async {
-      setState(() {
-        _email = emailFieldController.text;
-        _password = passFieldController.text;
-      });
-      if (_email != null && _password != null) {
-        try {
-          new FutureBuilder(
-              future: FirebaseAuth.instance.signInWithEmailAndPassword(
-                  email: _email, password: _password),
-              builder: (BuildContext context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  print("Test");
-                } else {
-                  if (snapshot.hasData) {
-                    print("Vous êtes connecté");
-                  }
-                }
-              }
-          );
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => MyApp()),
-          );
-        }
-        catch (e) {
-          print('Error : ${e}');
-        }
-      }
-    }
+  @override
+  Widget build(BuildContext context) {
 
     final emailField = TextField(
       obscureText: false,
@@ -164,7 +145,7 @@ class _MyHomePageState extends State<MyHomePage> {
             .width,
         padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
         onPressed: () {
-          validate();
+            _bloc.submit();
         },
         child: Text("Login",
             textAlign: TextAlign.center,
