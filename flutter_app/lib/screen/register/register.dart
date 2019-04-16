@@ -2,34 +2,39 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter_app/bloc/bloc.dart';
-import 'package:flutter_app/provider/provider.dart';
+import 'package:flutter_app/bloc/register_bloc.dart';
+import 'package:flutter_app/bloc/bloc_provider.dart';
 import 'package:flutter_app/screen/custom/texFieldCustom.dart';
 
 class RegisterPage extends StatefulWidget {
   var _colorTree1 = Colors.green[200];
-   var _colorTree2 = Colors.green[200];
-    var _colorTree3 = Colors.green[200];
+  var _colorTree2 = Colors.green[200];
+  var _colorTree3 = Colors.green[200];
 
   RegisterPage({Key key}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() => new _RegisterPageState();
-}
 
-// Used for controlling whether the user is loggin or creating an account
-enum FormType { login, register }
+  static RegisterBloc of(BuildContext context) {
+    return (context.inheritFromWidgetOfExactType(BlocProvider) as BlocProvider)
+        .bloc;
+  }
+}
 
 class _RegisterPageState extends State<RegisterPage> {
   final TextEditingController _nameFilter = new TextEditingController();
   final TextEditingController _emailFilter = new TextEditingController();
   final TextEditingController _passwordFilter = new TextEditingController();
+  RegisterBloc _bloc;
+
   String _name = "";
   String _email = "";
   String _password = "";
   bool _booleanCheckBox = false;
-  int _threeNumber = -1;
+  int _treeNumber = -1;
   String _textError = "";
+
   _RegisterPageState() {
     _nameFilter.addListener(_nameListen);
     _emailFilter.addListener(_emailListen);
@@ -62,7 +67,7 @@ class _RegisterPageState extends State<RegisterPage> {
 
   @override
   Widget build(BuildContext context) {
-    //  final Bloc bloc = Provider.of(context);
+    _bloc = BlocProvider.of(context);
     return new Scaffold(
       appBar: new AppBar(
         title: Text("Inscription"),
@@ -87,18 +92,26 @@ class _RegisterPageState extends State<RegisterPage> {
       child: new Column(
         children: <Widget>[
           new Container(
-            margin: EdgeInsets.only(bottom: 10),
-            child: new TextFieldCustom(controller: _nameFilter,title: 'Nom',icon: Icon(Icons.person),)
-          ),
+              margin: EdgeInsets.only(bottom: 10),
+              child: new TextFieldCustom(
+                  controller: _nameFilter,
+                  title: 'Nom',
+                  icon: Icon(Icons.person),
+                  hide: false)),
           new Container(
-            margin: EdgeInsets.only(top: 10, bottom: 10),
-             child: new TextFieldCustom(controller: _emailFilter,title: 'Email',icon: Icon(Icons.email),)
-           
-          ),
+              margin: EdgeInsets.only(top: 10, bottom: 10),
+              child: new TextFieldCustom(
+                  controller: _emailFilter,
+                  title: 'Email',
+                  icon: Icon(Icons.email),
+                  hide: false)),
           new Container(
-            margin: EdgeInsets.only(top: 10, bottom: 20),
-            child: new TextFieldCustom(controller: _passwordFilter,title: 'Mot de Passe',icon: Icon(Icons.lock),)
-          ),
+              margin: EdgeInsets.only(top: 10, bottom: 20),
+              child: new TextFieldCustom(
+                  controller: _passwordFilter,
+                  title: 'Mot de Passe',
+                  icon: Icon(Icons.lock),
+                  hide: true)),
           new Container(
             child: new Text("Choississez un arbre:",
                 style: TextStyle(fontSize: 20)),
@@ -111,9 +124,8 @@ class _RegisterPageState extends State<RegisterPage> {
   Widget _selectArbre() {
     double sizeSquare = 85;
     return new Container(
-      margin: EdgeInsets.only(top:10,bottom: 10),
+      margin: EdgeInsets.only(top: 10, bottom: 10),
       child: new Row(
-        
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: <Widget>[
           new Container(
@@ -124,16 +136,14 @@ class _RegisterPageState extends State<RegisterPage> {
               color: widget._colorTree1,
               onPressed: () {
                 setState(() {
-                   widget._colorTree1=Colors.green[400];
-                    widget._colorTree2=Colors.green[200];
-                  widget._colorTree3=Colors.green[200];
-                _threeNumber = 1;
+                  widget._colorTree1 = Colors.green[400];
+                  widget._colorTree2 = Colors.green[200];
+                  widget._colorTree3 = Colors.green[200];
+                  _treeNumber = 1;
                 });
               },
             ),
           ),
-          
-          
           new Container(
             width: sizeSquare,
             height: sizeSquare,
@@ -141,37 +151,31 @@ class _RegisterPageState extends State<RegisterPage> {
               child: Icon(Icons.nature),
               color: widget._colorTree2,
               onPressed: () {
-               setState(() {
-                  widget._colorTree1=Colors.green[200];
-                    widget._colorTree2=Colors.green[400];
-                  widget._colorTree3=Colors.green[200];
-                _threeNumber = 2;
+                setState(() {
+                  widget._colorTree1 = Colors.green[200];
+                  widget._colorTree2 = Colors.green[400];
+                  widget._colorTree3 = Colors.green[200];
+                  _treeNumber = 2;
                 });
               },
-            ),   
+            ),
           ),
-          
-          
           new Container(
             width: sizeSquare,
             height: sizeSquare,
             child: RaisedButton(
-              
               color: widget._colorTree3,
               child: Icon(Icons.nature),
               onPressed: () {
                 setState(() {
-                   widget._colorTree1=Colors.green[200];
-                    widget._colorTree2=Colors.green[200];
-                  widget._colorTree3=Colors.green[400];
-                _threeNumber = 3;
+                  widget._colorTree1 = Colors.green[200];
+                  widget._colorTree2 = Colors.green[200];
+                  widget._colorTree3 = Colors.green[400];
+                  _treeNumber = 3;
                 });
-               
               },
             ),
           ),
-
-
         ],
       ),
     );
@@ -194,7 +198,6 @@ class _RegisterPageState extends State<RegisterPage> {
                 onChanged: _valueChanged,
               ),
               GestureDetector(
-                // onTap: () => _setAgreedToTOS(!_agreedToTOS),
                 child: const Text(
                   'Accepter les CGU',
                   style: TextStyle(fontSize: 15),
@@ -205,10 +208,13 @@ class _RegisterPageState extends State<RegisterPage> {
           new Container(
             child: new RaisedButton(
               child: new Text('Inscription'),
-              padding: EdgeInsets.only(left: 40,right: 40),
+              padding: EdgeInsets.only(left: 40, right: 40),
               color: Colors.green[200],
-               shape: new RoundedRectangleBorder(borderRadius: new BorderRadius.circular(30.0)),
-              onPressed: _loginPressed,
+              shape: new RoundedRectangleBorder(
+                  borderRadius: new BorderRadius.circular(30.0)),
+              onPressed: () {
+                _loginPressed();
+              },
             ),
           )
         ],
@@ -223,11 +229,11 @@ class _RegisterPageState extends State<RegisterPage> {
       setState(() {
         _textError = "Veuillez accepter les CGU";
       });
-    } else if (_threeNumber < 0) {
+    } else if (_treeNumber < 0) {
       setState(() {
         _textError = "Veuillez selectionner un arbre";
       });
-    } else if (_password.length < 7) {
+    } else if (_password.length < 6) {
       setState(() {
         _textError = "Le mot de passe doit faire au moins 6 caractères";
       });
@@ -244,13 +250,18 @@ class _RegisterPageState extends State<RegisterPage> {
       setState(() {
         _textError = "";
       });
+
+      _bloc.registerUser(_email, _password,_name,_treeNumber);
+      /*
       FirebaseUser user = await FirebaseAuth.instance
           .createUserWithEmailAndPassword(email: _email, password: _password);
       Firestore.instance.collection('user').document(user.uid).setData({
         'name': _name,
         'email': _email,
-        'numArbre': _threeNumber,
+        'threeNumber': _threeNumber,
+        
       });
+      */
     }
   }
 }
