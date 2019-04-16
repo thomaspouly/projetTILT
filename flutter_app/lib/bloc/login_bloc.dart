@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'package:flutter/material.dart';
 import 'package:flutter_app/services/Repository.dart';
 
 class LoginBloc {
@@ -8,7 +7,7 @@ class LoginBloc {
   String _password;
 
 
-  Future<int> submit(String email, String password) {
+  Future<String> submit(String email, String password) {
     if(validateFields(email, password)) {
       return _repository.authenticateUser(email, password);
     }

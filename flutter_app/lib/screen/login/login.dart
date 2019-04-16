@@ -1,5 +1,8 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/bloc/login_bloc.dart';
+import 'package:flutter_app/provider/AuthProvider.dart';
+import 'package:flutter_app/provider/FirestoreProvider.dart';
 import 'package:flutter_app/provider/login_bloc_provider.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -13,11 +16,13 @@ final String tableName = 'assets/table.svg';
 final Widget svg = new SvgPicture.asset(assetName, semanticsLabel: 'Acme Logo');
 
 final Widget chaise =
-new SvgPicture.asset(chaiseName, semanticsLabel: 'Acme Logo');
+    new SvgPicture.asset(chaiseName, semanticsLabel: 'Acme Logo');
 
 final Widget table =
-new SvgPicture.asset(tableName, semanticsLabel: 'Acme Logo');
+    new SvgPicture.asset(tableName, semanticsLabel: 'Acme Logo');
 
+AuthProvider authProvider;
+FirestoreProvider firestoreProvider;
 
 // LOGIN PAGE
 
@@ -38,8 +43,6 @@ class MyLoginPage extends StatefulWidget {
 
   @override
   _MyLoginPageState createState() => _MyLoginPageState();
-
-
 }
 
 class _MyLoginPageState extends State<MyLoginPage> {
@@ -48,7 +51,6 @@ class _MyLoginPageState extends State<MyLoginPage> {
   final passFieldController = TextEditingController();
   String _email;
   String _password;
-  LoginBloc _bloc;
 
   _MyLoginPageState() {
     emailFieldController.addListener(_emailListen);
@@ -84,17 +86,6 @@ class _MyLoginPageState extends State<MyLoginPage> {
   Widget build(BuildContext context) {
     final bloc = BlocProvider.of(context);
 
-    /*return new LoginBlocProvider(
-      child: new Scaffold(
-        appBar: new AppBar(
-          title: new Text('On t\'a niqué enculé'),
-        ),
-        body: FlatButton(onPressed: () =>  print(_bloc.toString()), child: Text("ich ich")),
-      ),
-    );*/
-
-    //_bloc = LoginBlocProvider.of(context);
-
     final emailField = TextField(
       obscureText: false,
       style: style,
@@ -102,8 +93,7 @@ class _MyLoginPageState extends State<MyLoginPage> {
       decoration: InputDecoration(
           contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
           hintText: "Email",
-          border:
-          OutlineInputBorder()),
+          border: OutlineInputBorder()),
     );
     final passwordField = TextField(
       obscureText: true,
@@ -112,22 +102,36 @@ class _MyLoginPageState extends State<MyLoginPage> {
       decoration: InputDecoration(
           contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
           hintText: "Password",
-          border:
-          OutlineInputBorder()),
+          border: OutlineInputBorder()),
     );
     final loginButon = Material(
       elevation: 5.0,
       color: Color.fromRGBO(32, 168, 30, 1),
       child: MaterialButton(
-        minWidth: MediaQuery
-            .of(context)
-            .size
-            .width,
+        minWidth: MediaQuery.of(context).size.width,
         padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
         onPressed: () {
-          bloc.submit(emailFieldController.text,passFieldController.text);
+          if (bloc.submit(
+                  emailFieldController.text, passFieldController.text) != null) {
+            if(authProvider != null) {
+              authProvider.authenticateUser(
+                  emailFieldController.text, passFieldController.text).then((userId) {
+                    print("COUCOU");
+                new FutureBuilder(
+                    future: firestoreProvider.getUserById(userId),
+                    builder: (BuildContext context, snapshot) {
+                      //AsyncSnapShot User
+                      //print("EMAIL ======> " + snapshot.data['email']);
+                      //print("NAME =======> " + snapshot.data['name']);
+                      //print(snapshot.data['treeNumber']);
+                    });
+              });
+            }
+          } else {
+            print("Mauvais utilisateur");
+          }
         },
-        child: Text(bloc.toString(),
+        child: Text("Login",
             textAlign: TextAlign.center,
             style: style.copyWith(
                 color: Colors.white, fontWeight: FontWeight.bold)),
@@ -136,25 +140,33 @@ class _MyLoginPageState extends State<MyLoginPage> {
 
     final _register = MaterialButton(
       padding: EdgeInsets.all(0),
-      child: Text("Register",
+      child: Text(
+        "Register",
         textAlign: TextAlign.end,
-        style: TextStyle(color: Color.fromRGBO(32, 168, 30, 1),),
+        style: TextStyle(
+          color: Color.fromRGBO(32, 168, 30, 1),
+        ),
       ),
     );
 
     final _forgot = MaterialButton(
       padding: EdgeInsets.all(0),
-      child: Text("Forgot password ?",
+      child: Text(
+        "Forgot password ?",
         textAlign: TextAlign.end,
-        style: TextStyle(color: Color.fromRGBO(32, 168, 30, 1),),
+        style: TextStyle(
+          color: Color.fromRGBO(32, 168, 30, 1),
+        ),
       ),
     );
 
     final _continue = MaterialButton(
-        child: Text("Continuer en tant qu'invité",
-          style: TextStyle(color: Color.fromRGBO(32, 168, 30, 1),),
-
-        ));
+        child: Text(
+      "Continuer en tant qu'invité",
+      style: TextStyle(
+        color: Color.fromRGBO(32, 168, 30, 1),
+      ),
+    ));
 
     return SafeArea(
       child: Scaffold(
@@ -171,33 +183,25 @@ class _MyLoginPageState extends State<MyLoginPage> {
                 Column(
                   children: <Widget>[
                     passwordField,
-                    Row(
-                        children: <Widget>[
-                          Expanded(
-                              child:
-                              Align(
-                                alignment: Alignment.topRight,
-                                child: _forgot,
-                              )
-                          ),
-                        ]
-                    ),
+                    Row(children: <Widget>[
+                      Expanded(
+                          child: Align(
+                        alignment: Alignment.topRight,
+                        child: _forgot,
+                      )),
+                    ]),
                   ],
                 ),
                 Column(
                   children: <Widget>[
                     loginButon,
-                    Row(
-                        children: <Widget>[
-                          Expanded(
-                              child:
-                              Align(
-                                alignment: Alignment.centerRight,
-                                child: _register,
-                              )
-                          ),
-                        ]
-                    ),
+                    Row(children: <Widget>[
+                      Expanded(
+                          child: Align(
+                        alignment: Alignment.centerRight,
+                        child: _register,
+                      )),
+                    ]),
                   ],
                 ),
                 _continue,
@@ -209,22 +213,3 @@ class _MyLoginPageState extends State<MyLoginPage> {
     );
   }
 }
-
-class MyTree extends StatefulWidget {
-  @override
-  _MyTreeState createState() => new _MyTreeState();
-}
-
-class _MyTreeState extends State<MyTree> {
-  @override
-  Widget build(BuildContext context) {
-    return new BlocProvider(
-      child: new Scaffold(
-        appBar: new AppBar(
-          title: new Text('On t\'a niqué enculé'),
-        ),
-      ),
-    );
-  }
-}
-

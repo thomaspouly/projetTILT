@@ -1,19 +1,23 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_app/models/User.dart';
+import 'package:flutter_app/provider/AuthProvider.dart';
 
 class FirestoreProvider {
   Firestore _firestore = Firestore.instance;
+  AuthProvider auth = AuthProvider();
 
-  Future<int> authenticateUser(String email, String password) async {
-    final QuerySnapshot result = await _firestore
-        .collection("users")
-        .where("email", isEqualTo: email)
-        .getDocuments();
-    final List<DocumentSnapshot> docs = result.documents;
-    if (docs.length == 0) {
-      return 0;
-    } else {
-      return 1;
-    }
+  Future<User> getUserById(String id) {
+    _firestore.collection('users').document('${id}').get().then((result) {
+      User u = new User(
+      email:result.data['email'],
+      name:result.data['name'],
+      treeNumber:result.data['treeNumber'] ,
+      reference: null
+      );
+    return u;
+    });
+    return null;
   }
 
   Future<void> registerUser(String email, String password) async {
