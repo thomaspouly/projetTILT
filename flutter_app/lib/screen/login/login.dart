@@ -4,6 +4,7 @@ import 'package:flutter_app/bloc/login_bloc.dart';
 import 'package:flutter_app/provider/AuthProvider.dart';
 import 'package:flutter_app/provider/FirestoreProvider.dart';
 import 'package:flutter_app/provider/login_bloc_provider.dart';
+import 'package:flutter_app/screen/customs/TextFieldCustom.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 // INITIALISATION
@@ -38,6 +39,13 @@ class MyLoginPage extends StatefulWidget {
   // always marked "final".
   final String title;
   LoginBloc bloc;
+
+
+
+
+  String emailError;
+  String passwordError;
+
 
   final Widget child;
 
@@ -82,28 +90,36 @@ class _MyLoginPageState extends State<MyLoginPage> {
     super.dispose();
   }
 
+  String validateEmail(String value) {
+    Pattern pattern =
+        r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
+    RegExp regex = new RegExp(pattern);
+    if (!regex.hasMatch(value))
+      return 'Invalide email';
+    else
+      return null;
+  }
+
   @override
   Widget build(BuildContext context) {
     final bloc = BlocProvider.of(context);
 
-    final emailField = TextField(
-      obscureText: false,
-      style: style,
+    final emailField = TextFieldCustom(
+      title: "Email",
       controller: emailFieldController,
-      decoration: InputDecoration(
-          contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-          hintText: "Email",
-          border: OutlineInputBorder()),
+      icon: Icon(Icons.email),
+      hide: false,
+      textError: widget.emailError,
     );
-    final passwordField = TextField(
-      obscureText: true,
-      style: style,
+    final passwordField = TextFieldCustom(
+      title: "Password",
       controller: passFieldController,
-      decoration: InputDecoration(
-          contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-          hintText: "Password",
-          border: OutlineInputBorder()),
+      icon: Icon(Icons.lock),
+      hide: true,
+      textError: widget.passwordError,
     );
+
+
     final loginButon = Material(
       elevation: 5.0,
       color: Color.fromRGBO(32, 168, 30, 1),
@@ -112,11 +128,14 @@ class _MyLoginPageState extends State<MyLoginPage> {
         padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
         onPressed: () {
           if (bloc.submit(
-                  emailFieldController.text, passFieldController.text) != null) {
-            if(authProvider != null) {
-              authProvider.authenticateUser(
-                  emailFieldController.text, passFieldController.text).then((userId) {
-                    print("COUCOU");
+                  emailFieldController.text, passFieldController.text) !=
+              null) {
+            if (authProvider != null) {
+              authProvider
+                  .authenticateUser(
+                      emailFieldController.text, passFieldController.text)
+                  .then((userId) {
+                print("COUCOU");
                 new FutureBuilder(
                     future: firestoreProvider.getUserById(userId),
                     builder: (BuildContext context, snapshot) {
@@ -127,8 +146,26 @@ class _MyLoginPageState extends State<MyLoginPage> {
                     });
               });
             }
-          } else {
-            print("Mauvais utilisateur");
+          }else {
+            if (emailFieldController.text.isEmpty) {
+              setState(() {
+                widget.emailError = "Veuillez remplir tous les champs";
+              });
+            } else if (passFieldController.text.isEmpty) {
+              setState(() {
+                widget.passwordError = "Veuillez remplir tous les champs";
+              });
+            } else if (!RegExp(
+                r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$')
+                .hasMatch(emailFieldController.text)) {
+              setState(() {
+                widget.emailError = "Invalide Email";
+              });
+            } else if (passFieldController.text.length > 3) {
+              setState(() {
+                widget.passwordError = "Invalide Password";
+              });
+            }
           }
         },
         child: Text("Login",
