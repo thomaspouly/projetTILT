@@ -5,6 +5,8 @@ import 'package:flutter_app/provider/AuthProvider.dart';
 import 'package:flutter_app/provider/FirestoreProvider.dart';
 import 'package:flutter_app/provider/login_bloc_provider.dart';
 import 'package:flutter_app/screen/customs/TextFieldCustom.dart';
+import 'package:flutter_app/screen/forgot/forgot.dart';
+import 'package:flutter_app/screen/register/register.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 // INITIALISATION
@@ -40,12 +42,8 @@ class MyLoginPage extends StatefulWidget {
   final String title;
   LoginBloc bloc;
 
-
-
-
   String emailError;
   String passwordError;
-
 
   final Widget child;
 
@@ -119,7 +117,6 @@ class _MyLoginPageState extends State<MyLoginPage> {
       textError: widget.passwordError,
     );
 
-
     final loginButon = Material(
       elevation: 5.0,
       color: Color.fromRGBO(32, 168, 30, 1),
@@ -131,22 +128,36 @@ class _MyLoginPageState extends State<MyLoginPage> {
                   emailFieldController.text, passFieldController.text) !=
               null) {
             if (authProvider != null) {
-              authProvider
-                  .authenticateUser(
-                      emailFieldController.text, passFieldController.text)
-                  .then((userId) {
-                print("COUCOU");
-                new FutureBuilder(
-                    future: firestoreProvider.getUserById(userId),
-                    builder: (BuildContext context, snapshot) {
-                      //AsyncSnapShot User
-                      //print("EMAIL ======> " + snapshot.data['email']);
-                      //print("NAME =======> " + snapshot.data['name']);
-                      //print(snapshot.data['treeNumber']);
-                    });
-              });
+              try{
+                authProvider
+                    .authenticateUser(emailFieldController.text, passFieldController.text)
+                    .then((userId) {
+                        new FutureBuilder(
+                            future: firestoreProvider.getUserById(userId),
+                            builder: (BuildContext context, snapshot) {
+                              //AsyncSnapShot User
+                              //print("EMAIL ======> " + snapshot.data['email']);
+                              //print("NAME =======> " + snapshot.data['name']);
+                              //print(snapshot.data['treeNumber']);
+                            });
+
+                })
+                /*
+                .catchError((onError) {
+                  print("en erreur");
+                  setState(() {
+                    widget.emailError = onError.toString();
+                  });
+                  print("error $onError");
+                })
+                */;
+              } catch (e) {
+                print("bouhouuuuu");
+                print(e.toString());
+              }
+
             }
-          }else {
+          } else {
             if (emailFieldController.text.isEmpty) {
               setState(() {
                 widget.emailError = "Veuillez remplir tous les champs";
@@ -156,14 +167,14 @@ class _MyLoginPageState extends State<MyLoginPage> {
                 widget.passwordError = "Veuillez remplir tous les champs";
               });
             } else if (!RegExp(
-                r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$')
+                    r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$')
                 .hasMatch(emailFieldController.text)) {
               setState(() {
                 widget.emailError = "Invalide Email";
               });
-            } else if (passFieldController.text.length > 3) {
+            } else if (passFieldController.text.length < 6) {
               setState(() {
-                widget.passwordError = "Invalide Password";
+                widget.passwordError = "Password too short";
               });
             }
           }
@@ -175,6 +186,20 @@ class _MyLoginPageState extends State<MyLoginPage> {
       ),
     );
 
+    void register() async {
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => RegisterPage()),
+      );
+    }
+
+    void forgot() async {
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => ForgotPage()),
+      );
+    }
+
     final _register = MaterialButton(
       padding: EdgeInsets.all(0),
       child: Text(
@@ -184,6 +209,8 @@ class _MyLoginPageState extends State<MyLoginPage> {
           color: Color.fromRGBO(32, 168, 30, 1),
         ),
       ),
+      onPressed:
+      register,
     );
 
     final _forgot = MaterialButton(
@@ -195,6 +222,8 @@ class _MyLoginPageState extends State<MyLoginPage> {
           color: Color.fromRGBO(32, 168, 30, 1),
         ),
       ),
+      onPressed:
+      forgot,
     );
 
     final _continue = MaterialButton(
@@ -203,7 +232,8 @@ class _MyLoginPageState extends State<MyLoginPage> {
       style: TextStyle(
         color: Color.fromRGBO(32, 168, 30, 1),
       ),
-    ));
+    ),
+    );
 
     return SafeArea(
       child: Scaffold(

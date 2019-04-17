@@ -14,6 +14,13 @@ class LoginBloc {
     return null;
   }
 
+  Future<void> submitWithEmail(String email) {
+    if(validateFieldsEmail(email)) {
+      return _repository.resetPasswordEmail(email);
+    }
+    return null;
+  }
+
   Future<void> registerUser(String email, String password) {
     if(validateFields(email, password)) {
       return _repository.registerUser(email, password);
@@ -27,7 +34,18 @@ class LoginBloc {
         password != null &&
         password.isNotEmpty &&
         RegExp(r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$').hasMatch(email) &&
-        password.length > 3) {
+        password.length >= 6) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  bool validateFieldsEmail(String email) {
+    if (email != null &&
+        email.isNotEmpty &&
+        RegExp(r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$').hasMatch(email)
+    ) {
       return true;
     } else {
       return false;
