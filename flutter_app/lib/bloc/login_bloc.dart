@@ -21,13 +21,6 @@ class LoginBloc {
     return null;
   }
 
-  Future<void> registerUser(String email, String password) {
-    if(validateFields(email, password)) {
-      return _repository.registerUser(email, password);
-    }
-    return null;
-  }
-
   bool validateFields(String email, String password) {
     if (email != null &&
         email.isNotEmpty &&

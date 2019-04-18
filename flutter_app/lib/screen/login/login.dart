@@ -5,7 +5,6 @@ import 'package:flutter_app/provider/AuthProvider.dart';
 import 'package:flutter_app/provider/FirestoreProvider.dart';
 import 'package:flutter_app/provider/login_bloc_provider.dart';
 import 'package:flutter_app/screen/customs/TextFieldCustom.dart';
-import 'package:flutter_app/screen/forgot/forgot.dart';
 import 'package:flutter_app/screen/register/register.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -193,12 +192,51 @@ class _MyLoginPageState extends State<MyLoginPage> {
       );
     }
 
-    void forgot() async {
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => ForgotPage()),
+    Widget _buildTextFields() {
+      return new Container(
+        child: new Column(
+          children: <Widget>[
+            new Container(
+              margin: EdgeInsets.only(top: 10, bottom: 10),
+              child: new TextFieldCustom(
+                controller: emailFieldController,
+                icon: Icon(Icons.email),
+                title: 'Email',
+                hide: false,
+              ),
+            ),
+          ],
+        ),
       );
     }
+
+      void _showDialog() {
+        // flutter defined function
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            // return object of type Dialog
+            return AlertDialog(
+              title: new Text("Reset password"),
+              content: _buildTextFields(),
+              actions: <Widget>[
+                // usually buttons at the bottom of the dialog
+                new FlatButton(
+                  child: new Text("Close"),
+                  onPressed: () {
+                    if (bloc.submitWithEmail(emailFieldController.text) != null) {
+                      if (authProvider != null) {
+                        authProvider.resetPasswordUser(emailFieldController.text);
+                      }
+                    }
+                    Navigator.of(context).pop();
+                  },
+                ),
+              ],
+            );
+          },
+        );
+      }
 
     final _register = MaterialButton(
       padding: EdgeInsets.all(0),
@@ -222,8 +260,9 @@ class _MyLoginPageState extends State<MyLoginPage> {
           color: Color.fromRGBO(32, 168, 30, 1),
         ),
       ),
-      onPressed:
-      forgot,
+      onPressed: () {
+        _showDialog();
+      },
     );
 
     final _continue = MaterialButton(
