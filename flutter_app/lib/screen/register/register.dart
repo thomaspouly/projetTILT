@@ -1,15 +1,23 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/material.dart';
+import 'dart:io';
 
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
+
 import 'package:flutter_app/bloc/register_bloc.dart';
 import 'package:flutter_app/bloc/bloc_provider.dart';
 import 'package:flutter_app/screen/custom/texFieldCustom.dart';
+import 'package:flutter_app/screen/home/home.dart';
+import 'package:image_crop/image_crop.dart';
+import 'package:image_cropper/image_cropper.dart';
 
 class RegisterPage extends StatefulWidget {
   var _colorTree1 = Colors.green[200];
   var _colorTree2 = Colors.green[200];
   var _colorTree3 = Colors.green[200];
+
+  String emailError;
+  String passwordError;
+  String nameError;
 
   RegisterPage({Key key}) : super(key: key);
 
@@ -34,6 +42,8 @@ class _RegisterPageState extends State<RegisterPage> {
   bool _booleanCheckBox = false;
   int _treeNumber = -1;
   String _textError = "";
+
+  File _image;
 
   _RegisterPageState() {
     _nameFilter.addListener(_nameListen);
@@ -65,18 +75,93 @@ class _RegisterPageState extends State<RegisterPage> {
     }
   }
 
+  Future getImageFromCamera() async {
+   var image = await ImagePicker.pickImage(source: ImageSource.camera);
+                       image= await ImageCropper.cropImage(
+      sourcePath: image.path,
+      ratioX: 1.0,
+      ratioY: 1.0,
+      maxWidth: 512,
+      maxHeight: 512,
+    );
+    setState(() {
+      _image = image;
+    });
+  }
+
+  Future getImageFromGallery() async {
+    var image = await ImagePicker.pickImage(source: ImageSource.gallery);
+                       image= await ImageCropper.cropImage(
+      sourcePath: image.path,
+      ratioX: 1.0,
+      ratioY: 1.0,
+      maxWidth: 512,
+      maxHeight: 512,
+    );
+    setState(() {
+     _image = image;
+   
+    });
+  }
+
+
+
+
+  void _showDialog() {
+    // flutter defined function
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        // return object of type Dialog
+        return AlertDialog(
+          title: new Text("Selectionnez une image:"),
+          content: Column(
+            children: <Widget>[
+              new RaisedButton(
+                onPressed: () {
+                  getImageFromCamera();
+                },
+                child: Text("Camera"),
+              ),
+              new RaisedButton(
+                onPressed: () async{
+               getImageFromGallery();
+              
+                },
+                child: Text("Galerie"),
+              )
+            ],
+          ),
+          actions: <Widget>[
+            // usually buttons at the bottom of the dialog
+            new FlatButton(
+              child: new Text("Close"),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     _bloc = BlocProvider.of(context);
     return new Scaffold(
-      appBar: new AppBar(
-        title: Text("Inscription"),
-      ),
       body: new Container(
-        padding: EdgeInsets.all(16.0),
+        padding: EdgeInsets.only(right: 15, left: 15),
         child: SafeArea(
           child: new ListView(
             children: <Widget>[
+              new Center(
+                child: Container(
+                  margin: EdgeInsets.only(bottom: 15, top: 15),
+                  child: Text("Inscription", style: TextStyle(fontSize: 30)),
+                ),
+              ),
+              _buildImage(),
               _buildTextFields(),
               _selectArbre(),
               _buildButtons(),
@@ -87,31 +172,72 @@ class _RegisterPageState extends State<RegisterPage> {
     );
   }
 
+  Widget _buildImage() {
+    return new Row(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: <Widget>[
+          new Container(
+            margin: EdgeInsets.only(bottom: 15),
+            child: _image == null
+                ? new FlatButton(
+                    onPressed: _showDialog,
+                    child: new Container(
+                        height: 100,
+                        width: 100,
+                        decoration: new BoxDecoration(
+                            shape: BoxShape.circle,
+                            image: new DecorationImage(
+                              fit: BoxFit.fill,
+                              image:AssetImage("assets/avatar.png"),
+                            ))),
+                  )
+                : new FlatButton(
+                    onPressed: _showDialog,
+                    child: new Container(
+                        height: 100,
+                        width: 100,
+                        decoration: new BoxDecoration(
+                            shape: BoxShape.circle,
+                            image: new DecorationImage(
+                              fit: BoxFit.fill,
+                              image: Image.file(_image).image,
+                            ))),
+                  ),
+          ),
+
+        ]);
+  }
+
   Widget _buildTextFields() {
     return new Container(
       child: new Column(
         children: <Widget>[
           new Container(
-              margin: EdgeInsets.only(bottom: 10),
+              margin: EdgeInsets.only(bottom: 30),
               child: new TextFieldCustom(
                   controller: _nameFilter,
                   title: 'Nom',
                   icon: Icon(Icons.person),
-                  hide: false)),
+                  hide: false,
+                  textError: widget.nameError)),
           new Container(
-              margin: EdgeInsets.only(top: 10, bottom: 10),
+              margin: EdgeInsets.only(top: 10, bottom: 30),
               child: new TextFieldCustom(
-                  controller: _emailFilter,
-                  title: 'Email',
-                  icon: Icon(Icons.email),
-                  hide: false)),
+                controller: _emailFilter,
+                title: 'Email',
+                icon: Icon(Icons.email),
+                hide: false,
+                textError: widget.emailError,
+              )),
           new Container(
-              margin: EdgeInsets.only(top: 10, bottom: 20),
+              margin: EdgeInsets.only(top: 10, bottom: 30),
               child: new TextFieldCustom(
-                  controller: _passwordFilter,
-                  title: 'Mot de Passe',
-                  icon: Icon(Icons.lock),
-                  hide: true)),
+                controller: _passwordFilter,
+                title: 'Mot de Passe',
+                icon: Icon(Icons.lock),
+                hide: true,
+                textError: widget.passwordError,
+              )),
           new Container(
             child: new Text("Choississez un arbre:",
                 style: TextStyle(fontSize: 20)),
@@ -225,7 +351,29 @@ class _RegisterPageState extends State<RegisterPage> {
   // These functions can self contain any user auth logic required, they all have access to _email and _password
 
   void _loginPressed() async {
-    if (_booleanCheckBox == false) {
+    if (_nameFilter.text.isEmpty) {
+      setState(() {
+        widget.nameError = "Veuillez remplir tout les champs";
+      });
+    } else if (_emailFilter.text.isEmpty) {
+      setState(() {
+        widget.emailError = "Veuillez remplir tout les champs";
+      });
+    } else if (_passwordFilter.text.isEmpty) {
+      setState(() {
+        widget.passwordError = "Veuillez remplir tout les champs";
+      });
+    } else if (!RegExp(r"^[a-zA-Z0-9.]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+        .hasMatch(_emailFilter.text)) {
+      setState(() {
+        widget.emailError = "Email incorrect";
+      });
+    } else if (_passwordFilter.text.length < 6) {
+      setState(() {
+        widget.passwordError =
+            "Le mot de passe doit faire au moins 6 caractères";
+      });
+    } else if (_booleanCheckBox == false) {
       setState(() {
         _textError = "Veuillez accepter les CGU";
       });
@@ -233,35 +381,31 @@ class _RegisterPageState extends State<RegisterPage> {
       setState(() {
         _textError = "Veuillez selectionner un arbre";
       });
-    } else if (_password.length < 6) {
-      setState(() {
-        _textError = "Le mot de passe doit faire au moins 6 caractères";
-      });
-    } else if (!RegExp(r"^[a-zA-Z0-9.]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
-        .hasMatch(_email)) {
-      setState(() {
-        _textError = "Email incorrect";
-      });
-    } else if (_name.isEmpty || _email.isEmpty || _password.isEmpty) {
-      setState(() {
-        _textError = "Veuillez remplir tout les champs";
-      });
     } else {
       setState(() {
         _textError = "";
       });
+ 
+      try {
+      
+      } catch (e) {
+        print(e.toString());
+      }
 
-      _bloc.registerUser(_email, _password,_name,_treeNumber);
-      /*
-      FirebaseUser user = await FirebaseAuth.instance
-          .createUserWithEmailAndPassword(email: _email, password: _password);
-      Firestore.instance.collection('user').document(user.uid).setData({
-        'name': _name,
-        'email': _email,
-        'threeNumber': _threeNumber,
-        
-      });
-      */
+
+
+
+
+
+
+      String id = await _bloc.registerUser(
+          _email, _password, _name, _treeNumber, _image);
+      if (id.isNotEmpty) {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => HomePage()),
+        );
+      }
     }
   }
 }

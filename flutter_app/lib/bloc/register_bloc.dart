@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/provider/repository.dart';
 
@@ -7,11 +8,11 @@ class RegisterBloc {
   String _email;
   String _password;
 
-  Future<void> registerUser(String email, String password,String name,int treeNumber) {
+  Future<String> registerUser(String email, String password,String name,int treeNumber,File image) {
  
    
-    if(validateFields(email, password) && name.isNotEmpty && treeNumber>-1) {
-      return _repository.registerUser(email, password,name,treeNumber);
+    if(validateFields(email, password) && name.isNotEmpty && treeNumber>-1 && image!=null) {
+      return _repository.registerUser(email, password,name,treeNumber,image);
     }
     return null;
   }
@@ -22,7 +23,7 @@ class RegisterBloc {
         password != null &&
         password.isNotEmpty &&
         email.contains('@') &&
-        password.length > 6) {
+        password.length >4) {
       return true;
     } else {
       return false;
