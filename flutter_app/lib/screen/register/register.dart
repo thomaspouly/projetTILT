@@ -1,13 +1,13 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_app/main.dart';
+import 'package:flutter_app/provider/login_bloc_provider.dart';
+import 'package:flutter_app/screen/customs/TextFieldCustom.dart';
+import 'package:flutter_app/screen/login/login.dart';
 import 'package:image_picker/image_picker.dart';
 
 import 'package:flutter_app/bloc/register_bloc.dart';
-import 'package:flutter_app/bloc/bloc_provider.dart';
-import 'package:flutter_app/screen/custom/texFieldCustom.dart';
-import 'package:flutter_app/screen/home/home.dart';
-import 'package:image_crop/image_crop.dart';
 import 'package:image_cropper/image_cropper.dart';
 
 class RegisterPage extends StatefulWidget {
@@ -24,9 +24,9 @@ class RegisterPage extends StatefulWidget {
   @override
   State<StatefulWidget> createState() => new _RegisterPageState();
 
-  static RegisterBloc of(BuildContext context) {
+  static RegisterBloc ofRegi(BuildContext context) {
     return (context.inheritFromWidgetOfExactType(BlocProvider) as BlocProvider)
-        .bloc;
+        .registerBloc;
   }
 }
 
@@ -76,8 +76,8 @@ class _RegisterPageState extends State<RegisterPage> {
   }
 
   Future getImageFromCamera() async {
-   var image = await ImagePicker.pickImage(source: ImageSource.camera);
-                       image= await ImageCropper.cropImage(
+    var image = await ImagePicker.pickImage(source: ImageSource.camera);
+    image = await ImageCropper.cropImage(
       sourcePath: image.path,
       ratioX: 1.0,
       ratioY: 1.0,
@@ -91,7 +91,7 @@ class _RegisterPageState extends State<RegisterPage> {
 
   Future getImageFromGallery() async {
     var image = await ImagePicker.pickImage(source: ImageSource.gallery);
-                       image= await ImageCropper.cropImage(
+    image = await ImageCropper.cropImage(
       sourcePath: image.path,
       ratioX: 1.0,
       ratioY: 1.0,
@@ -99,13 +99,9 @@ class _RegisterPageState extends State<RegisterPage> {
       maxHeight: 512,
     );
     setState(() {
-     _image = image;
-   
+      _image = image;
     });
   }
-
-
-
 
   void _showDialog() {
     // flutter defined function
@@ -120,13 +116,14 @@ class _RegisterPageState extends State<RegisterPage> {
               new RaisedButton(
                 onPressed: () {
                   getImageFromCamera();
+                  Navigator.of(context).pop();
                 },
                 child: Text("Camera"),
               ),
               new RaisedButton(
-                onPressed: () async{
-               getImageFromGallery();
-              
+                onPressed: () async {
+                  getImageFromGallery();
+                  Navigator.of(context).pop();
                 },
                 child: Text("Galerie"),
               )
@@ -148,7 +145,7 @@ class _RegisterPageState extends State<RegisterPage> {
 
   @override
   Widget build(BuildContext context) {
-    _bloc = BlocProvider.of(context);
+    _bloc = BlocProvider.ofRegi(context);
     return new Scaffold(
       body: new Container(
         padding: EdgeInsets.only(right: 15, left: 15),
@@ -179,18 +176,21 @@ class _RegisterPageState extends State<RegisterPage> {
           new Container(
             margin: EdgeInsets.only(bottom: 15),
             child: _image == null
-                ? new FlatButton(
-                    onPressed: _showDialog,
-                    child: new Container(
-                        height: 100,
-                        width: 100,
-                        decoration: new BoxDecoration(
-                            shape: BoxShape.circle,
-                            image: new DecorationImage(
-                              fit: BoxFit.fill,
-                              image:AssetImage("assets/avatar.png"),
-                            ))),
-                  )
+                ? new Column(children: <Widget>[
+                    new FlatButton(
+                      onPressed: _showDialog,
+                      child: new Container(
+                          height: 100,
+                          width: 100,
+                          decoration: new BoxDecoration(
+                              shape: BoxShape.circle,
+                              image: new DecorationImage(
+                                fit: BoxFit.fill,
+                                image: AssetImage("assets/avatar.png"),
+                              ))),
+                    ),
+              Text("Choisissez une image"),
+                  ])
                 : new FlatButton(
                     onPressed: _showDialog,
                     child: new Container(
@@ -204,7 +204,6 @@ class _RegisterPageState extends State<RegisterPage> {
                             ))),
                   ),
           ),
-
         ]);
   }
 
@@ -348,7 +347,6 @@ class _RegisterPageState extends State<RegisterPage> {
     );
   }
 
-  // These functions can self contain any user auth logic required, they all have access to _email and _password
 
   void _loginPressed() async {
     if (_nameFilter.text.isEmpty) {
@@ -381,29 +379,25 @@ class _RegisterPageState extends State<RegisterPage> {
       setState(() {
         _textError = "Veuillez selectionner un arbre";
       });
+    } else if (_image==null) {
+      setState(() {
+        _image = _image;
+      });
     } else {
       setState(() {
         _textError = "";
       });
- 
-      try {
-      
-      } catch (e) {
+
+      try {} catch (e) {
         print(e.toString());
       }
-
-
-
-
-
-
 
       String id = await _bloc.registerUser(
           _email, _password, _name, _treeNumber, _image);
       if (id.isNotEmpty) {
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => HomePage()),
+          MaterialPageRoute(builder: (context) => MyLoginPage()),
         );
       }
     }
