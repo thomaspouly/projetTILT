@@ -77,7 +77,7 @@ class _RegisterPageState extends State<RegisterPage> {
 
   Future getImageFromCamera() async {
     var image = await ImagePicker.pickImage(source: ImageSource.camera);
-    image= await ImageCropper.cropImage(
+    image = await ImageCropper.cropImage(
       sourcePath: image.path,
       ratioX: 1.0,
       ratioY: 1.0,
@@ -91,7 +91,7 @@ class _RegisterPageState extends State<RegisterPage> {
 
   Future getImageFromGallery() async {
     var image = await ImagePicker.pickImage(source: ImageSource.gallery);
-    image= await ImageCropper.cropImage(
+    image = await ImageCropper.cropImage(
       sourcePath: image.path,
       ratioX: 1.0,
       ratioY: 1.0,
@@ -100,12 +100,8 @@ class _RegisterPageState extends State<RegisterPage> {
     );
     setState(() {
       _image = image;
-
     });
   }
-
-
-
 
   void _showDialog() {
     // flutter defined function
@@ -120,13 +116,14 @@ class _RegisterPageState extends State<RegisterPage> {
               new RaisedButton(
                 onPressed: () {
                   getImageFromCamera();
+                  Navigator.of(context).pop();
                 },
                 child: Text("Camera"),
               ),
               new RaisedButton(
-                onPressed: () async{
+                onPressed: () async {
                   getImageFromGallery();
-
+                  Navigator.of(context).pop();
                 },
                 child: Text("Galerie"),
               )
@@ -179,32 +176,34 @@ class _RegisterPageState extends State<RegisterPage> {
           new Container(
             margin: EdgeInsets.only(bottom: 15),
             child: _image == null
-                ? new FlatButton(
-              onPressed: _showDialog,
-              child: new Container(
-                  height: 100,
-                  width: 100,
-                  decoration: new BoxDecoration(
-                      shape: BoxShape.circle,
-                      image: new DecorationImage(
-                        fit: BoxFit.fill,
-                        image:AssetImage("assets/avatar.png"),
-                      ))),
-            )
+                ? new Column(children: <Widget>[
+                    new FlatButton(
+                      onPressed: _showDialog,
+                      child: new Container(
+                          height: 100,
+                          width: 100,
+                          decoration: new BoxDecoration(
+                              shape: BoxShape.circle,
+                              image: new DecorationImage(
+                                fit: BoxFit.fill,
+                                image: AssetImage("assets/avatar.png"),
+                              ))),
+                    ),
+              Text("Choisissez une image"),
+                  ])
                 : new FlatButton(
-              onPressed: _showDialog,
-              child: new Container(
-                  height: 100,
-                  width: 100,
-                  decoration: new BoxDecoration(
-                      shape: BoxShape.circle,
-                      image: new DecorationImage(
-                        fit: BoxFit.fill,
-                        image: Image.file(_image).image,
-                      ))),
-            ),
+                    onPressed: _showDialog,
+                    child: new Container(
+                        height: 100,
+                        width: 100,
+                        decoration: new BoxDecoration(
+                            shape: BoxShape.circle,
+                            image: new DecorationImage(
+                              fit: BoxFit.fill,
+                              image: Image.file(_image).image,
+                            ))),
+                  ),
           ),
-
         ]);
   }
 
@@ -371,7 +370,7 @@ class _RegisterPageState extends State<RegisterPage> {
     } else if (_passwordFilter.text.length < 6) {
       setState(() {
         widget.passwordError =
-        "Le mot de passe doit faire au moins 6 caractères";
+            "Le mot de passe doit faire au moins 6 caractères";
       });
     } else if (_booleanCheckBox == false) {
       setState(() {
@@ -381,22 +380,18 @@ class _RegisterPageState extends State<RegisterPage> {
       setState(() {
         _textError = "Veuillez selectionner un arbre";
       });
+    } else if (_image==null) {
+      setState(() {
+        _image = _image;
+      });
     } else {
       setState(() {
         _textError = "";
       });
 
-      try {
-
-      } catch (e) {
+      try {} catch (e) {
         print(e.toString());
       }
-
-
-
-
-
-
 
       String id = await _bloc.registerUser(
           _email, _password, _name, _treeNumber, _image);

@@ -222,7 +222,7 @@ class _MyLoginPageState extends State<MyLoginPage> {
               actions: <Widget>[
                 // usually buttons at the bottom of the dialog
                 new FlatButton(
-                  child: new Text("Close"),
+                  child: new Text("Envoyer"),
                   onPressed: () {
                     if (bloc.submitWithEmail(emailFieldController.text) != null) {
                       if (authProvider != null) {
