@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/screen/home/home.dart';
 import 'package:flutter_app/screen/register/register.dart';
 import 'package:flutter_app/bloc/bloc_provider.dart';
 import 'package:flutter/material.dart';
@@ -9,6 +10,7 @@ class MyApp extends StatelessWidget {
   var routes = <String, WidgetBuilder>{
     //"/Login": (BuildContext context) => new LoginPage(),
     "/Register": (BuildContext context) => new RegisterPage(),
+    "/Home": (BuildContext context) => new HomePage(),
   };
 
 
