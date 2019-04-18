@@ -21,6 +21,13 @@ class User {
   User.fromSnapshot(DocumentSnapshot snapshot)
       : this.fromMap(snapshot.data, reference: snapshot.reference);
 
+  Map<String, dynamic> toJson() =>
+      {
+        'email': email,
+        'name': name,
+        'treeNumber': treeNumber,
+      };
+
   @override
   String toString() => "User<$email:$name:$treeNumber>";
 

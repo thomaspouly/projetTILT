@@ -1,4 +1,5 @@
-import 'package:firebase_auth/firebase_auth.dart';
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_app/bloc/login_bloc.dart';
 import 'package:flutter_app/provider/AuthProvider.dart';
@@ -7,21 +8,15 @@ import 'package:flutter_app/provider/login_bloc_provider.dart';
 import 'package:flutter_app/screen/customs/TextFieldCustom.dart';
 import 'package:flutter_app/screen/register/register.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter_statusbarcolor/flutter_statusbarcolor.dart';
 
 // INITIALISATION
 
 TextStyle style = TextStyle(fontFamily: 'Montserrat', fontSize: 20.0);
 
 final String assetName = 'assets/earth.svg';
-final String chaiseName = 'assets/chaise.svg';
-final String tableName = 'assets/table.svg';
+
 final Widget svg = new SvgPicture.asset(assetName, semanticsLabel: 'Acme Logo');
-
-final Widget chaise =
-    new SvgPicture.asset(chaiseName, semanticsLabel: 'Acme Logo');
-
-final Widget table =
-    new SvgPicture.asset(tableName, semanticsLabel: 'Acme Logo');
 
 AuthProvider authProvider;
 FirestoreProvider firestoreProvider;
@@ -100,6 +95,8 @@ class _MyLoginPageState extends State<MyLoginPage> {
   @override
   Widget build(BuildContext context) {
     final bloc = BlocProvider.of(context);
+    FlutterStatusbarcolor.setStatusBarColor(Color.fromRGBO(210, 251, 209, 1));
+    FlutterStatusbarcolor.setStatusBarWhiteForeground(false);
 
     final emailField = TextFieldCustom(
       title: "Email",
@@ -119,6 +116,7 @@ class _MyLoginPageState extends State<MyLoginPage> {
     final loginButon = Material(
       elevation: 5.0,
       color: Color.fromRGBO(32, 168, 30, 1),
+      borderRadius: BorderRadius.circular(5),
       child: MaterialButton(
         minWidth: MediaQuery.of(context).size.width,
         padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
@@ -127,34 +125,19 @@ class _MyLoginPageState extends State<MyLoginPage> {
                   emailFieldController.text, passFieldController.text) !=
               null) {
             if (authProvider != null) {
-              try{
-                authProvider
-                    .authenticateUser(emailFieldController.text, passFieldController.text)
-                    .then((userId) {
-                        new FutureBuilder(
-                            future: firestoreProvider.getUserById(userId),
-                            builder: (BuildContext context, snapshot) {
-                              //AsyncSnapShot User
-                              //print("EMAIL ======> " + snapshot.data['email']);
-                              //print("NAME =======> " + snapshot.data['name']);
-                              //print(snapshot.data['treeNumber']);
-                            });
-
-                })
-                /*
-                .catchError((onError) {
-                  print("en erreur");
-                  setState(() {
-                    widget.emailError = onError.toString();
-                  });
-                  print("error $onError");
-                })
-                */;
-              } catch (e) {
-                print("bouhouuuuu");
-                print(e.toString());
-              }
-
+              authProvider
+                  .authenticateUser(
+                      emailFieldController.text, passFieldController.text)
+                  .then((userId) {
+                new FutureBuilder(
+                    future: firestoreProvider.getUserById(userId),
+                    builder: (BuildContext context, snapshot) {
+                      //AsyncSnapShot User
+                      //print("EMAIL ======> " + snapshot.data['email']);
+                      //print("NAME =======> " + snapshot.data['name']);
+                      //print(snapshot.data['treeNumber']);
+                    });
+              });
             }
           } else {
             if (emailFieldController.text.isEmpty) {
@@ -169,11 +152,11 @@ class _MyLoginPageState extends State<MyLoginPage> {
                     r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$')
                 .hasMatch(emailFieldController.text)) {
               setState(() {
-                widget.emailError = "Invalide Email";
+                widget.emailError = "Email incorrecte";
               });
             } else if (passFieldController.text.length < 6) {
               setState(() {
-                widget.passwordError = "Password too short";
+                widget.passwordError = "Password trop court";
               });
             }
           }
@@ -194,49 +177,45 @@ class _MyLoginPageState extends State<MyLoginPage> {
 
     Widget _buildTextFields() {
       return new Container(
-        child: new Column(
-          children: <Widget>[
-            new Container(
-              margin: EdgeInsets.only(top: 10, bottom: 10),
-              child: new TextFieldCustom(
-                controller: emailFieldController,
-                icon: Icon(Icons.email),
-                title: 'Email',
-                hide: false,
-              ),
-            ),
-          ],
+        child: new Container(
+          margin: EdgeInsets.only(top: 10, bottom: 10),
+          child: new TextFieldCustom(
+            controller: emailFieldController,
+            icon: Icon(Icons.email),
+            title: 'Email',
+            hide: false,
+          ),
         ),
       );
     }
 
-      void _showDialog() {
-        // flutter defined function
-        showDialog(
-          context: context,
-          builder: (BuildContext context) {
-            // return object of type Dialog
-            return AlertDialog(
-              title: new Text("Reset password"),
-              content: _buildTextFields(),
-              actions: <Widget>[
-                // usually buttons at the bottom of the dialog
-                new FlatButton(
-                  child: new Text("Envoyer"),
-                  onPressed: () {
-                    if (bloc.submitWithEmail(emailFieldController.text) != null) {
-                      if (authProvider != null) {
-                        authProvider.resetPasswordUser(emailFieldController.text);
-                      }
+    void _showDialog() {
+      // flutter defined function
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          // return object of type Dialog
+          return AlertDialog(
+            title: new Text("Reset password"),
+            content: _buildTextFields(),
+            actions: <Widget>[
+              // usually buttons at the bottom of the dialog
+              new FlatButton(
+                child: new Text("Envoyer"),
+                onPressed: () {
+                  if (bloc.submitWithEmail(emailFieldController.text) != null) {
+                    if (authProvider != null) {
+                      authProvider.resetPasswordUser(emailFieldController.text);
                     }
-                    Navigator.of(context).pop();
-                  },
-                ),
-              ],
-            );
-          },
-        );
-      }
+                  }
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
+          );
+        },
+      );
+    }
 
     final _register = MaterialButton(
       padding: EdgeInsets.all(0),
@@ -247,8 +226,7 @@ class _MyLoginPageState extends State<MyLoginPage> {
           color: Color.fromRGBO(32, 168, 30, 1),
         ),
       ),
-      onPressed:
-      register,
+      onPressed: register,
     );
 
     final _forgot = MaterialButton(
@@ -266,55 +244,64 @@ class _MyLoginPageState extends State<MyLoginPage> {
     );
 
     final _continue = MaterialButton(
-        child: Text(
-      "Continuer en tant qu'invité",
-      style: TextStyle(
-        color: Color.fromRGBO(32, 168, 30, 1),
+      child: Text(
+        "Continuer en tant qu'invité",
+        style: TextStyle(
+          color: Color.fromRGBO(32, 168, 30, 1),
+          fontSize: 8,
+        ),
       ),
-    ),
     );
+
+    double padding = 20;
 
     return SafeArea(
       child: Scaffold(
         backgroundColor: Color.fromRGBO(210, 251, 209, 1),
         body: Container(
-          child: Padding(
-            padding: EdgeInsets.only(left: 36, right: 36, top: 36),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              crossAxisAlignment: CrossAxisAlignment.center,
+            padding: EdgeInsets.only(left: padding, right: padding),
+            child: Stack(
               children: <Widget>[
-                svg,
-                emailField,
                 Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
-                    passwordField,
-                    Row(children: <Widget>[
-                      Expanded(
-                          child: Align(
-                        alignment: Alignment.topRight,
-                        child: _forgot,
-                      )),
-                    ]),
+                    svg,
+                    emailField,
+                    Column(
+                      children: <Widget>[
+                        passwordField,
+                        Row(children: <Widget>[
+                          Expanded(
+                              child: Align(
+                            alignment: Alignment.topRight,
+                            child: _forgot,
+                          )),
+                        ]),
+                      ],
+                    ),
+                    Column(
+                      children: <Widget>[
+                        loginButon,
+                        Row(children: <Widget>[
+                          Expanded(
+                              child: Align(
+                            alignment: Alignment.centerRight,
+                            child: _register,
+                          )),
+                        ]),
+                      ],
+                    ),
                   ],
                 ),
-                Column(
-                  children: <Widget>[
-                    loginButon,
-                    Row(children: <Widget>[
-                      Expanded(
-                          child: Align(
-                        alignment: Alignment.centerRight,
-                        child: _register,
-                      )),
-                    ]),
-                  ],
+                new Positioned(
+                  child: new Align(
+                    alignment: FractionalOffset.bottomCenter,
+                    child: _continue,
+                  ),
                 ),
-                _continue,
               ],
-            ),
-          ),
-        ),
+            )),
       ),
     );
   }
