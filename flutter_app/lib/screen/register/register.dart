@@ -4,11 +4,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/main.dart';
 import 'package:flutter_app/provider/login_bloc_provider.dart';
 import 'package:flutter_app/screen/customs/TextFieldCustom.dart';
+import 'package:flutter_app/screen/home/home.dart';
 import 'package:flutter_app/screen/login/login.dart';
 import 'package:image_picker/image_picker.dart';
 
 import 'package:flutter_app/bloc/register_bloc.dart';
 import 'package:image_cropper/image_cropper.dart';
+import 'package:image_crop/image_crop.dart';
+import 'package:flutter_statusbarcolor/flutter_statusbarcolor.dart';
 
 class RegisterPage extends StatefulWidget {
   var _colorTree1 = Colors.green[200];
@@ -143,9 +146,36 @@ class _RegisterPageState extends State<RegisterPage> {
     );
   }
 
+
+ void _showCGU() {
+    // flutter defined function
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        // return object of type Dialog
+        return AlertDialog(
+          title: new Text("Conditions générales d'utilisation:"),
+          content: Center(
+            child:Text("Hello World")
+          ),
+          actions: <Widget>[
+            // usually buttons at the bottom of the dialog
+            new FlatButton(
+              child: new Text("Close"),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
   @override
   Widget build(BuildContext context) {
     _bloc = BlocProvider.ofRegi(context);
+       FlutterStatusbarcolor.setStatusBarColor(Colors.green[100]);
+       FlutterStatusbarcolor.setStatusBarWhiteForeground(false);
     return new Scaffold(
       body: new Container(
         padding: EdgeInsets.only(right: 15, left: 15),
@@ -322,12 +352,13 @@ class _RegisterPageState extends State<RegisterPage> {
                 value: _booleanCheckBox,
                 onChanged: _valueChanged,
               ),
+             
               GestureDetector(
-                child: const Text(
-                  'Accepter les CGU',
-                  style: TextStyle(fontSize: 15),
-                ),
+                child: FlatButton(child: Text("Accepter les CGU"),onPressed: (){
+                _showCGU();
+              },),
               ),
+               
             ],
           ),
           new Container(
@@ -381,7 +412,7 @@ class _RegisterPageState extends State<RegisterPage> {
       });
     } else if (_image==null) {
       setState(() {
-        _image = _image;
+      //  _image =new File("avatar.png");
       });
     } else {
       setState(() {
@@ -392,12 +423,19 @@ class _RegisterPageState extends State<RegisterPage> {
         print(e.toString());
       }
 
+
+
+_image = await ImageCrop.sampleImage(
+    file: _image,
+    preferredWidth: 100,
+    preferredHeight: 100,
+);
       String id = await _bloc.registerUser(
           _email, _password, _name, _treeNumber, _image);
       if (id.isNotEmpty) {
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => MyLoginPage()),
+          MaterialPageRoute(builder: (context) => HomePage(uid: id,)), 
         );
       }
     }
