@@ -8,12 +8,11 @@ class RegisterBloc {
   String _password;
 
   Future<String> registerUser(String email, String password,String name,int treeNumber,File image) {
-
-
     if(validateFields(email, password) && name.isNotEmpty && treeNumber>-1 && image!=null) {
       return _repository.registerUser(email, password,name,treeNumber,image);
+    }else {
+      return null;
     }
-    return null;
   }
 
   bool validateFields(String email, String password) {

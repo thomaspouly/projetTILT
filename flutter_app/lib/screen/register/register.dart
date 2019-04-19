@@ -392,14 +392,15 @@ class _RegisterPageState extends State<RegisterPage> {
         print(e.toString());
       }
 
-      String id = await _bloc.registerUser(
-          _email, _password, _name, _treeNumber, _image);
-      if (id.isNotEmpty) {
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => MyLoginPage()),
-        );
-      }
+       _bloc.registerUser(
+          _email, _password, _name, _treeNumber, _image).then((userId){
+         if (userId.isNotEmpty) {
+           Navigator.push(
+             context,
+             MaterialPageRoute(builder: (context) => MyLoginPage()),
+           );
+         }
+       });
     }
   }
 }
