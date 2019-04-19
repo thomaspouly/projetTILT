@@ -10,7 +10,7 @@ class BlocProvider extends InheritedWidget{
 
   bool updateShouldNotify(_) => true;
 
-  static LoginBloc of(BuildContext context) {
+  static LoginBloc ofLogin(BuildContext context) {
     return (context.inheritFromWidgetOfExactType(BlocProvider) as BlocProvider).loginBloc;
   }
 

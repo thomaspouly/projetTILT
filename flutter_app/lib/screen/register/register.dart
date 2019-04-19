@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_app/main.dart';
-import 'package:flutter_app/provider/login_bloc_provider.dart';
+import 'package:flutter_app/provider/BlocProvider.dart';
 import 'package:flutter_app/screen/customs/TextFieldCustom.dart';
 import 'package:flutter_app/screen/login/login.dart';
 import 'package:image_picker/image_picker.dart';

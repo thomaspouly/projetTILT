@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter_app/bloc/register_bloc.dart';
-import 'package:flutter_app/provider/login_bloc_provider.dart';
+import 'package:flutter_app/provider/BlocProvider.dart';
 
 class HomePage extends StatefulWidget {
 
