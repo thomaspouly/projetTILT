@@ -145,7 +145,7 @@ class _RegisterPageState extends State<RegisterPage> {
 
   @override
   Widget build(BuildContext context) {
-    _bloc = BlocProvider.ofRegi(context);
+    _bloc = BlocProvider.ofRegister(context);
     return new Scaffold(
       body: new Container(
         padding: EdgeInsets.only(right: 15, left: 15),

@@ -1,10 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_app/bloc/register_bloc.dart';
-import 'package:flutter_app/bloc/bloc_provider.dart';
-import 'package:flutter_app/screen/custom/texFieldCustom.dart';
+import 'package:flutter_app/provider/login_bloc_provider.dart';
 
 class HomePage extends StatefulWidget {
 
@@ -16,7 +14,7 @@ class HomePage extends StatefulWidget {
 
   static RegisterBloc of(BuildContext context) {
     return (context.inheritFromWidgetOfExactType(BlocProvider) as BlocProvider)
-        .bloc;
+        .registerBloc;
   }
 }
 
@@ -27,7 +25,7 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    _bloc = BlocProvider.of(context);
+    _bloc = BlocProvider.ofRegister(context);
     return new Scaffold(
       body: new Container(
         padding: EdgeInsets.all(16.0),

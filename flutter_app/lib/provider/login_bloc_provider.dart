@@ -14,7 +14,7 @@ class BlocProvider extends InheritedWidget{
     return (context.inheritFromWidgetOfExactType(BlocProvider) as BlocProvider).loginBloc;
   }
 
-  static RegisterBloc ofRegi(BuildContext context) {
+  static RegisterBloc ofRegister(BuildContext context) {
     return (context.inheritFromWidgetOfExactType(BlocProvider) as BlocProvider).registerBloc;
   }
 }
