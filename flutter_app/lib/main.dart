@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_app/provider/login_bloc_provider.dart';
 import 'package:flutter_app/screen/home/home.dart';
+import 'package:flutter_app/screen/home/tuile.dart';
 import 'package:flutter_app/screen/login/login.dart';
 import 'package:flutter_app/screen/register/register.dart';
 import 'package:flutter/material.dart';
@@ -27,7 +28,7 @@ class MyApp extends StatelessWidget {
             theme: ThemeData(
               primarySwatch: Colors.green,
             ),
-            home: RegisterPage())
+            home: HomePage())
     );
   }
 }

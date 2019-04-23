@@ -5,6 +5,7 @@ import 'package:flutter_app/provider/AuthProvider.dart';
 import 'package:flutter_app/provider/FirestoreProvider.dart';
 import 'package:flutter_app/provider/login_bloc_provider.dart';
 import 'package:flutter_app/screen/customs/TextFieldCustom.dart';
+import 'package:flutter_app/screen/home/home.dart';
 import 'package:flutter_app/screen/register/register.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -123,24 +124,27 @@ class _MyLoginPageState extends State<MyLoginPage> {
         minWidth: MediaQuery.of(context).size.width,
         padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
         onPressed: () {
+         
+        
           if (bloc.submit(
                   emailFieldController.text, passFieldController.text) !=
               null) {
             if (authProvider != null) {
               try{
+                  print("XXXXXXXXXXXXx");
                 authProvider
                     .authenticateUser(emailFieldController.text, passFieldController.text)
                     .then((userId) {
+         
+      
                         new FutureBuilder(
                             future: firestoreProvider.getUserById(userId),
                             builder: (BuildContext context, snapshot) {
-                              //AsyncSnapShot User
-                              //print("EMAIL ======> " + snapshot.data['email']);
-                              //print("NAME =======> " + snapshot.data['name']);
-                              //print(snapshot.data['treeNumber']);
+                   
                             });
-
+        
                 })
+                
                 /*
                 .catchError((onError) {
                   print("en erreur");
@@ -266,6 +270,12 @@ class _MyLoginPageState extends State<MyLoginPage> {
     );
 
     final _continue = MaterialButton(
+      onPressed: (){
+            Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => HomePage(uid:null,)), 
+        );
+      },
         child: Text(
       "Continuer en tant qu'invité",
       style: TextStyle(

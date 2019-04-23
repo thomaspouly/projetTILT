@@ -28,6 +28,7 @@ class FirestoreProvider {
 
     FirebaseUser _user = await _firebaseAuth
         .createUserWithEmailAndPassword(email: email, password: password);
+        
 
     FirebaseStorage.instance.ref().child('/image/'+_user.uid).putFile(image);
 
