@@ -1,24 +1,18 @@
-import 'dart:io';
-
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
-
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter_app/bloc/register_bloc.dart';
-import 'package:flutter_app/screen/customs/fab.dart';
-import 'package:flutter_app/screen/customs/staggeredView.dart';
-
-import 'package:flutter_app/provider/login_bloc_provider.dart';
-import 'package:flutter_app/screen/customs/TextFieldCustom.dart';
-import 'package:flutter_app/screen/login/login.dart';
-import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:flutter_statusbarcolor/flutter_statusbarcolor.dart';
+import 'package:flutter_sparkline/flutter_sparkline.dart';
 
 class TuilePage extends StatefulWidget {
-  /*String uid;
-  TuilePage({this.uid});
-*/
+  Color color;
+  IconData iconData;
+  String idCard;
+  String title;
+  String value;
+  Color textColor = Colors.white;
+  var data = [0.0, 1.0, 1.5, 2.0, 0.0, 0.0, -0.5, -1.0, -0.5, 0.0, 0.0];
+
+  TuilePage({this.idCard, this.color, this.iconData, this.title, this.value});
+
   @override
   State<StatefulWidget> createState() => new _TuilePageState();
 }
@@ -26,88 +20,110 @@ class TuilePage extends StatefulWidget {
 class _TuilePageState extends State<TuilePage> {
   @override
   Widget build(BuildContext context) {
-    FlutterStatusbarcolor.setStatusBarColor(Colors.grey);
+    FlutterStatusbarcolor.setStatusBarColor(widget.color);
     FlutterStatusbarcolor.setStatusBarWhiteForeground(false);
     return new SafeArea(
       child: new Scaffold(
-          body: ListView(
-            shrinkWrap: true,
+          body: CustomScrollView(
+        slivers: <Widget>[
+          SliverAppBar(
+            title: Text(
+                widget.title,
+                style: TextStyle(fontSize: 20, color: Colors.white),
+              ),
             
-        children: <Widget>[
-          Container(
-                height: 300,
-                child:Card(
-               
-                  color: Colors.red,
-                  child: new Stack(children: <Widget>[
-        Positioned(
-            top: 30,
-            left: 100,
-             child: Hero(
-              tag: "icon",
-               child:  Icon(
-                          
-                      Icons.nature,
-                      color: Colors.white,
-                      size: 100,
-                    ),),),
-                   Positioned(
-                     
-                    
-                      child: Text(
-                        "Eau gaspillée",
-                        style: TextStyle(fontSize: 30, color: Colors.black),
-                      ),
+            backgroundColor: widget.color,
+            floating: true,
+            expandedHeight: 170,
+            flexibleSpace: FlexibleSpaceBar(
+                background: Stack(
+              children: <Widget>[
+                Hero(
+                  tag: 'icon_${widget.idCard}',
+                  child: Align(
+                    alignment: Alignment.center,
+                    child: Icon(
+                      widget.iconData,
+                      color: Colors.black,
+                      size: 150,
                     ),
-                   Positioned(
-                     top:50,
-                     
+                  ),
+                ),
+               Align(
+                        alignment: Alignment.center,
                         child: Text(
-                          "1 659 643 L",
+                          widget.value,
                           style: TextStyle(
-                              fontSize: 30,
                               color: Colors.white,
+                              fontSize: 50,
                               fontWeight: FontWeight.bold),
                         ))
-                  ]))),
-
-
-
-             Container(
-                height: 200,
-                child:Card(
-               
-            child: Column(children: <Widget>[
-              Text("Description:",
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25)),
-              Text(
-                  "Le développement mobile cross-platforms n’a jamais vraiment convaincu : amenant souvent de lourdes contraintes qui entachent la productivité ou l’expérience utilisateur. Mais Google a repensé cette approche et propose une solution qui fait beaucoup parler. Nous verrons ensemble pourquoi il faut prêter une attention particulière à cette technologie.")
-            ]),
-            color: Colors.yellow,
-          ),),
-          Container(
-                height: 300,
-                child:Card(
-               
-            child: Column(children: <Widget>[
-              Text("Tendance:",
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25)),
-              Text("METTRE GRAPH")
-            ]),
-            color: Colors.yellow[600],
-          ),),
-         Container(
-                height: 200,
-                child:Card(
-               
-            child: Column(children: <Widget>[
-              Text("Conseils:",
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25)),
-              Text(
-                  "-Prenez des douches plus courtes\n-Ne prenez pas de bains\n-Fabriquez un récupérateur d'eau pour alimenter vos plantes")
-            ]),
-            color: Colors.yellow,
-          ),),
+              ],
+            )),
+          ),
+          SliverToBoxAdapter(
+            child: Container(
+              height: 200,
+              child: Card(
+                child: Column(children: <Widget>[
+                  Text("Description:\n",
+                      style: TextStyle(
+                          color: widget.textColor,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 25)),
+                  Text(
+                    "Le développement mobile cross-platforms n’a jamais vraiment convaincu : amenant souvent de lourdes contraintes qui entachent la productivité ou l’expérience utilisateur. Mais Google a repensé cette approche et propose une solution qui fait beaucoup parler. Nous verrons ensemble pourquoi il faut prêter une attention particulière à cette technologie.",
+                    style: TextStyle(color: widget.textColor),
+                  )
+                ]),
+                color: Colors.red,
+              ),
+            ),
+          ),
+          SliverToBoxAdapter(
+            child: Container(
+              height: 200,
+              child: Card(
+                child: Column(children: <Widget>[
+                  Text("Tendance:",
+                      style: TextStyle(
+                          color: widget.textColor,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 25)),
+                  Container(
+                    margin: EdgeInsets.all(20),
+                    child: Sparkline(
+                      data: widget.data,
+                      pointSize: 8,
+                      lineColor: Colors.blue,
+                      pointColor: Colors.blue[700],
+                      pointsMode: PointsMode.all,
+                    ),
+                  ),
+                ]),
+                color: Colors.yellow[600],
+              ),
+            ),
+          ),
+          SliverToBoxAdapter(
+            child: Container(
+              height: 200,
+              child: Card(
+                child: Column(children: <Widget>[
+                  Text("Conseils:\n",
+                      style: TextStyle(
+                          color: widget.textColor,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 25)),
+                  Text(
+                    "-Prenez des douches plus courtes\n-Ne prenez pas de bains\n-Fabriquez un récupérateur d'eau pour alimenter vos plantes",
+                    style: TextStyle(color: widget.textColor),
+                  )
+                ]),
+                color: Colors.green,
+              ),
+            ),
+          ),
         ],
       )),
     );

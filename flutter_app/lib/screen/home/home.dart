@@ -1,10 +1,12 @@
 import 'dart:io';
+import 'dart:math';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_app/bloc/register_bloc.dart';
 import 'package:flutter_app/screen/customs/fab.dart';
 import 'package:flutter_app/screen/customs/staggeredView.dart';
@@ -14,230 +16,6 @@ import 'package:flutter_app/screen/customs/TextFieldCustom.dart';
 import 'package:flutter_app/screen/login/login.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:flutter_statusbarcolor/flutter_statusbarcolor.dart';
-//import 'package:lottie_flutter/lottie_flutter.dart';
-
-List<StaggeredTile> _staggeredTiles = const <StaggeredTile>[
-  const StaggeredTile.count(4,
-      2), /*
-  const StaggeredTile.count(3, 1),
-  const StaggeredTile.count(2, 1),
-  const StaggeredTile.count(2, 1),
-  const StaggeredTile.count(3, 1),
-  const StaggeredTile.count(1, 1),
-  const StaggeredTile.count(2, 1),
-  const StaggeredTile.count(2, 1),
-  const StaggeredTile.count(4, 1),
-  const StaggeredTile.count(3, 1),
-  const StaggeredTile.count(1, 1),
-  const StaggeredTile.count(1, 1),
-  const StaggeredTile.count(3, 1),
-  const StaggeredTile.count(2, 1),
-  const StaggeredTile.count(2, 1),
-  const StaggeredTile.count(3, 1),
-  const StaggeredTile.count(1, 1),
-  const StaggeredTile.count(2, 1),
-  const StaggeredTile.count(2, 1),
-  const StaggeredTile.count(3, 1),
-  const StaggeredTile.count(1, 1),
-  const StaggeredTile.count(1, 1),
-  const StaggeredTile.count(3, 1),
-  const StaggeredTile.count(2, 1),
-  const StaggeredTile.count(2, 1),
-  const StaggeredTile.count(3, 1),
-  const StaggeredTile.count(1, 1),
-  const StaggeredTile.count(2, 1),
-  const StaggeredTile.count(2, 1),
-  const StaggeredTile.count(3, 1),
-  const StaggeredTile.count(1, 1),
-  const StaggeredTile.count(1, 1),
-  const StaggeredTile.count(3, 1),
-  const StaggeredTile.count(2, 1),
-  const StaggeredTile.count(2, 1),
-  const StaggeredTile.count(3, 1),
-  const StaggeredTile.count(1, 1),
-  const StaggeredTile.count(2, 1),
-  const StaggeredTile.count(2, 1),
-  const StaggeredTile.count(3, 1),
-  const StaggeredTile.count(1, 1),
-  const StaggeredTile.count(1, 1),
-  const StaggeredTile.count(3, 1),
-  const StaggeredTile.count(2, 1),
-  const StaggeredTile.count(2, 1),
-  const StaggeredTile.count(3, 1),
-  const StaggeredTile.count(1, 1),
-  const StaggeredTile.count(2, 1),
-  const StaggeredTile.count(2, 1),
-  const StaggeredTile.count(3, 1),
-  const StaggeredTile.count(1, 1),
-  const StaggeredTile.count(1, 1),
-  const StaggeredTile.count(3, 1),
-  const StaggeredTile.count(2, 1),
-  const StaggeredTile.count(2, 1),
-  const StaggeredTile.count(3, 1),
-  const StaggeredTile.count(1, 1),
-  const StaggeredTile.count(2, 1),
-  const StaggeredTile.count(2, 1),
-  const StaggeredTile.count(3, 1),
-  const StaggeredTile.count(1, 1),
-  const StaggeredTile.count(1, 1),
-  const StaggeredTile.count(3, 1),
-  const StaggeredTile.count(2, 1),
-  const StaggeredTile.count(2, 1),
-  const StaggeredTile.count(3, 1),
-  const StaggeredTile.count(1, 1),
-  const StaggeredTile.count(2, 1),
-  const StaggeredTile.count(2, 1),
-  const StaggeredTile.count(3, 1),
-  const StaggeredTile.count(1, 1),
-  const StaggeredTile.count(1, 1),
-  const StaggeredTile.count(3, 1),
-  const StaggeredTile.count(2, 1),
-  const StaggeredTile.count(2, 1),
-  const StaggeredTile.count(3, 1),
-  const StaggeredTile.count(1, 1),
-  const StaggeredTile.count(2, 1),
-  const StaggeredTile.count(2, 1),*/
-];
-
-List<Widget> _tiles = const <Widget>[
-  const StaggeredView(
-      Colors.green, Icons.nature, "Eau gaspillée", "1 659 643 L"),
-/*  const StaggeredView(
-      Colors.lightBlue, Icons.wifi, "Eau gaspillée", "1 659 643 L"),
-  const StaggeredView(
-      Colors.amber, Icons.panorama_wide_angle, "Eau gaspillée", "1 659 643 L"),
-  const StaggeredView(Colors.brown, Icons.map, "Eau gaspillée", "1 659 643 L"),
-  const StaggeredView(
-      Colors.deepOrange, Icons.send, "Eau gaspillée", "1 659 643 L"),
-  const StaggeredView(
-      Colors.indigo, Icons.airline_seat_flat, "Eau gaspillée", "1 659 643 L"),
-  const StaggeredView(
-      Colors.red, Icons.bluetooth, "Eau gaspillée", "1 659 643 L"),
-  const StaggeredView(
-      Colors.pink, Icons.battery_alert, "Eau gaspillée", "1 659 643 L"),
-  const StaggeredView(
-      Colors.purple, Icons.desktop_windows, "Eau gaspillée", "1 659 643 L"),
-  const StaggeredView(
-      Colors.green, Icons.widgets, "Eau gaspillée", "1 659 643 L"),
-  const StaggeredView(
-      Colors.lightBlue, Icons.wifi, "Eau gaspillée", "1 659 643 L"),
-  const StaggeredView(
-      Colors.amber, Icons.panorama_wide_angle, "Eau gaspillée", "1 659 643 L"),
-  const StaggeredView(Colors.brown, Icons.map, "Eau gaspillée", "1 659 643 L"),
-  const StaggeredView(
-      Colors.deepOrange, Icons.send, "Eau gaspillée", "1 659 643 L"),
-  const StaggeredView(
-      Colors.indigo, Icons.airline_seat_flat, "Eau gaspillée", "1 659 643 L"),
-  const StaggeredView(
-      Colors.red, Icons.bluetooth, "Eau gaspillée", "1 659 643 L"),
-  const StaggeredView(
-      Colors.pink, Icons.battery_alert, "Eau gaspillée", "1 659 643 L"),
-  const StaggeredView(
-      Colors.purple, Icons.desktop_windows, "Eau gaspillée", "1 659 643 L"),
-  const StaggeredView(
-      Colors.green, Icons.widgets, "Eau gaspillée", "1 659 643 L"),
-  const StaggeredView(
-      Colors.lightBlue, Icons.wifi, "Eau gaspillée", "1 659 643 L"),
-  const StaggeredView(
-      Colors.amber, Icons.panorama_wide_angle, "Eau gaspillée", "1 659 643 L"),
-  const StaggeredView(Colors.brown, Icons.map, "Eau gaspillée", "1 659 643 L"),
-  const StaggeredView(
-      Colors.deepOrange, Icons.send, "Eau gaspillée", "1 659 643 L"),
-  const StaggeredView(
-      Colors.indigo, Icons.airline_seat_flat, "Eau gaspillée", "1 659 643 L"),
-  const StaggeredView(
-      Colors.red, Icons.bluetooth, "Eau gaspillée", "1 659 643 L"),
-  const StaggeredView(
-      Colors.pink, Icons.battery_alert, "Eau gaspillée", "1 659 643 L"),
-  const StaggeredView(
-      Colors.purple, Icons.desktop_windows, "Eau gaspillée", "1 659 643 L"),
-  const StaggeredView(
-      Colors.green, Icons.widgets, "Eau gaspillée", "1 659 643 L"),
-  const StaggeredView(
-      Colors.lightBlue, Icons.wifi, "Eau gaspillée", "1 659 643 L"),
-  const StaggeredView(
-      Colors.amber, Icons.panorama_wide_angle, "Eau gaspillée", "1 659 643 L"),
-  const StaggeredView(Colors.brown, Icons.map, "Eau gaspillée", "1 659 643 L"),
-  const StaggeredView(
-      Colors.deepOrange, Icons.send, "Eau gaspillée", "1 659 643 L"),
-  const StaggeredView(
-      Colors.indigo, Icons.airline_seat_flat, "Eau gaspillée", "1 659 643 L"),
-  const StaggeredView(
-      Colors.red, Icons.bluetooth, "Eau gaspillée", "1 659 643 L"),
-  const StaggeredView(
-      Colors.pink, Icons.battery_alert, "Eau gaspillée", "1 659 643 L"),
-  const StaggeredView(
-      Colors.purple, Icons.desktop_windows, "Eau gaspillée", "1 659 643 L"),
-  const StaggeredView(
-      Colors.green, Icons.widgets, "Eau gaspillée", "1 659 643 L"),
-  const StaggeredView(
-      Colors.lightBlue, Icons.wifi, "Eau gaspillée", "1 659 643 L"),
-  const StaggeredView(
-      Colors.amber, Icons.panorama_wide_angle, "Eau gaspillée", "1 659 643 L"),
-  const StaggeredView(Colors.brown, Icons.map, "Eau gaspillée", "1 659 643 L"),
-  const StaggeredView(
-      Colors.deepOrange, Icons.send, "Eau gaspillée", "1 659 643 L"),
-  const StaggeredView(
-      Colors.indigo, Icons.airline_seat_flat, "Eau gaspillée", "1 659 643 L"),
-  const StaggeredView(
-      Colors.red, Icons.bluetooth, "Eau gaspillée", "1 659 643 L"),
-  const StaggeredView(
-      Colors.pink, Icons.battery_alert, "Eau gaspillée", "1 659 643 L"),
-  const StaggeredView(
-      Colors.purple, Icons.desktop_windows, "Eau gaspillée", "1 659 643 L"),
-  const StaggeredView(
-      Colors.green, Icons.widgets, "Eau gaspillée", "1 659 643 L"),
-  const StaggeredView(
-      Colors.lightBlue, Icons.wifi, "Eau gaspillée", "1 659 643 L"),
-  const StaggeredView(
-      Colors.amber, Icons.panorama_wide_angle, "Eau gaspillée", "1 659 643 L"),
-  const StaggeredView(Colors.brown, Icons.map, "Eau gaspillée", "1 659 643 L"),
-  const StaggeredView(
-      Colors.deepOrange, Icons.send, "Eau gaspillée", "1 659 643 L"),
-  const StaggeredView(
-      Colors.indigo, Icons.airline_seat_flat, "Eau gaspillée", "1 659 643 L"),
-  const StaggeredView(
-      Colors.red, Icons.bluetooth, "Eau gaspillée", "1 659 643 L"),
-  const StaggeredView(
-      Colors.pink, Icons.battery_alert, "Eau gaspillée", "1 659 643 L"),
-  const StaggeredView(
-      Colors.purple, Icons.desktop_windows, "Eau gaspillée", "1 659 643 L"),
-  const StaggeredView(
-      Colors.green, Icons.widgets, "Eau gaspillée", "1 659 643 L"),
-  const StaggeredView(
-      Colors.lightBlue, Icons.wifi, "Eau gaspillée", "1 659 643 L"),
-  const StaggeredView(
-      Colors.amber, Icons.panorama_wide_angle, "Eau gaspillée", "1 659 643 L"),
-  const StaggeredView(Colors.brown, Icons.map, "Eau gaspillée", "1 659 643 L"),
-  const StaggeredView(
-      Colors.deepOrange, Icons.send, "Eau gaspillée", "1 659 643 L"),
-  const StaggeredView(
-      Colors.indigo, Icons.airline_seat_flat, "Eau gaspillée", "1 659 643 L"),
-  const StaggeredView(
-      Colors.red, Icons.bluetooth, "Eau gaspillée", "1 659 643 L"),
-  const StaggeredView(
-      Colors.pink, Icons.battery_alert, "Eau gaspillée", "1 659 643 L"),
-  const StaggeredView(
-      Colors.purple, Icons.desktop_windows, "Eau gaspillée", "1 659 643 L"),
-  const StaggeredView(
-      Colors.green, Icons.widgets, "Eau gaspillée", "1 659 643 L"),
-  const StaggeredView(
-      Colors.lightBlue, Icons.wifi, "Eau gaspillée", "1 659 643 L"),
-  const StaggeredView(
-      Colors.amber, Icons.panorama_wide_angle, "Eau gaspillée", "1 659 643 L"),
-  const StaggeredView(Colors.brown, Icons.map, "Eau gaspillée", "1 659 643 L"),
-  const StaggeredView(
-      Colors.deepOrange, Icons.send, "Eau gaspillée", "1 659 643 L"),
-  const StaggeredView(
-      Colors.indigo, Icons.airline_seat_flat, "Eau gaspillée", "1 659 643 L"),
-  const StaggeredView(
-      Colors.red, Icons.bluetooth, "Eau gaspillée", "1 659 643 L"),
-  const StaggeredView(
-      Colors.pink, Icons.battery_alert, "Eau gaspillée", "1 659 643 L"),
-  const StaggeredView(
-      Colors.purple, Icons.desktop_windows, "Eau gaspillée", "1 659 643 L"),
-*/
-];
 
 class HomePage extends StatefulWidget {
   String uid;
@@ -265,63 +43,119 @@ Future<String> getImage(String uid) async {
 }
 
 class _HomePageState extends State<HomePage> {
+  ScrollController _hideButtonController = new ScrollController();
+  var _isVisible;
+  double opacity = 1;
+  void initState() {
+    super.initState();
+    _hideButtonController.addListener(() {
+      if (_hideButtonController.position.userScrollDirection ==
+          ScrollDirection.forward) {
+        setState(() {
+          if (opacity <= 0.95) opacity = opacity + 0.05;
+        });
+      }
+      if (_hideButtonController.position.userScrollDirection ==
+          ScrollDirection.reverse) {
+        setState(() {
+          if (opacity >= 0.05) opacity = opacity - 0.05;
+        });
+      }
+    });
+  }
+
   RegisterBloc _bloc;
   String url;
 
   @override
   Widget build(BuildContext context) {
     _bloc = BlocProvider.ofRegi(context);
-/*getImage(widget.uid).then((u) {
-  setState(() {
-    url=u;
-  });
-  });
-  File i=NetworkImage(url) as File;*/
-    FlutterStatusbarcolor.setStatusBarColor(Colors.grey);
+      List<Widget> _tiles = new List<Widget>();
+    List<StaggeredTile> _staggeredTiles = List<StaggeredTile>();
+    int tileLength = 50;
+
+    for (int i = 0; i < tileLength; i++) {
+      StaggeredView s = StaggeredView(Colors.lightGreen[400], Icons.nature,
+          "Arbres coupés", "2 000 000", i.toString());
+      _tiles.add(s);
+    }
+  
+  _staggeredTiles.add(StaggeredTile.count(2, 2));
+  _staggeredTiles.add(StaggeredTile.count(2, 1));
+_staggeredTiles.add(StaggeredTile.count(2, 1));
+_staggeredTiles.add(StaggeredTile.count(4, 1));
+_staggeredTiles.add(StaggeredTile.count(2, 1));
+_staggeredTiles.add(StaggeredTile.count(2, 1));
+_staggeredTiles.add(StaggeredTile.count(4,2));
+ _staggeredTiles.add(StaggeredTile.count(2, 1));
+_staggeredTiles.add(StaggeredTile.count(2, 1));
+ _staggeredTiles.add(StaggeredTile.count(2, 2));
+  _staggeredTiles.add(StaggeredTile.count(2, 2));
+  _staggeredTiles.add(StaggeredTile.count(2, 1));
+_staggeredTiles.add(StaggeredTile.count(2, 1));
+  _staggeredTiles.add(StaggeredTile.count(2, 2));
+  _staggeredTiles.add(StaggeredTile.count(2, 1));
+_staggeredTiles.add(StaggeredTile.count(2, 1));
+_staggeredTiles.add(StaggeredTile.count(4, 1));
+_staggeredTiles.add(StaggeredTile.count(2, 1));
+_staggeredTiles.add(StaggeredTile.count(2, 1));
+_staggeredTiles.add(StaggeredTile.count(4,2));
+ _staggeredTiles.add(StaggeredTile.count(2, 1));
+_staggeredTiles.add(StaggeredTile.count(2, 1));
+ _staggeredTiles.add(StaggeredTile.count(2, 2));
+  _staggeredTiles.add(StaggeredTile.count(2, 2));
+  _staggeredTiles.add(StaggeredTile.count(2, 1));
+_staggeredTiles.add(StaggeredTile.count(2, 1));
+  _staggeredTiles.add(StaggeredTile.count(2, 2));
+  _staggeredTiles.add(StaggeredTile.count(2, 1));
+_staggeredTiles.add(StaggeredTile.count(2, 1));
+_staggeredTiles.add(StaggeredTile.count(4, 1));
+_staggeredTiles.add(StaggeredTile.count(2, 1));
+_staggeredTiles.add(StaggeredTile.count(2, 1));
+_staggeredTiles.add(StaggeredTile.count(4,2));
+ _staggeredTiles.add(StaggeredTile.count(2, 1));
+_staggeredTiles.add(StaggeredTile.count(2, 1));
+ _staggeredTiles.add(StaggeredTile.count(2, 2));
+  _staggeredTiles.add(StaggeredTile.count(2, 2));
+  _staggeredTiles.add(StaggeredTile.count(2, 1));
+_staggeredTiles.add(StaggeredTile.count(2, 1));
+
+
+
+
+    FlutterStatusbarcolor.setStatusBarColor(Colors.grey[200]);
     FlutterStatusbarcolor.setStatusBarWhiteForeground(false);
     return new SafeArea(
       child: new Scaffold(
           bottomNavigationBar: _buildBottomBar(),
           floatingActionButtonLocation:
               FloatingActionButtonLocation.centerDocked,
-          floatingActionButton: _buildFab(
-              context), // This trailing comma makes auto-formatting nicer for build methods.
-
-          /*    body: Stack(alignment: Alignment.topCenter, children: <Widget>[
-          Positioned(child: _buildStaggredView()),
-          Positioned(
-            child:  Row(
-              children: <Widget>[
-                _buildDropDownButton1(),
-                _buildImage(),
-                _buildDropDownButton2(),
-              ],
-            ),
-            top: 10,
-          )
-        ]),*/
-///////////////////
-
-          body: Column(
-            children: <Widget>[
-              Container(
-                margin: EdgeInsets.only(top: 5, bottom: 5),
-                child: Center(
-                  child: Row(
-                    children: <Widget>[
-                      _buildDropDownButton1(),
-                      _buildImage(),
-                      _buildDropDownButton2(),
-                    ],
+          floatingActionButton: _buildFab(context),
+          body: CustomScrollView(
+            slivers: <Widget>[
+              SliverAppBar(
+                backgroundColor: Colors.white,
+                floating: true,
+                expandedHeight: 100,
+                flexibleSpace: FlexibleSpaceBar(
+                  background: Container(
+                    padding: EdgeInsets.only(top: 5, bottom: 5),
+                    child: Row(
+                      children: <Widget>[
+                        _buildDropDownButton1(),
+                        _buildImage(),
+                        _buildDropDownButton2(),
+                      ],
+                    ),
                   ),
                 ),
               ),
-              Expanded(child: _buildStaggredView())
+              SliverToBoxAdapter(
+                child: _buildStaggredView(
+                    _hideButtonController, _staggeredTiles, _tiles),
+              ),
             ],
-          )
-////////////////:
-
-          ),
+          )),
     );
   }
 
@@ -396,6 +230,7 @@ class _HomePageState extends State<HomePage> {
                             height: 70,
                             width: 70,
                             decoration: new BoxDecoration(
+
                                 /*  boxShadow: [
                                   new BoxShadow(
                                     color: Colors.black,
@@ -438,18 +273,6 @@ var _currentItemSelected2 = 'Aujourd\'hui';
 Color color = Colors.white;
 Widget _buildDropDownButton1() {
   return Container(
-    decoration: new BoxDecoration(
-      color: color,
-      borderRadius: new BorderRadius.circular(7.0),
-      boxShadow: [
-        new BoxShadow(
-          color: Colors.black,
-          //  spreadRadius: 2,
-          offset: new Offset(8.0, 8.0),
-          blurRadius: 15.0,
-        )
-      ],
-    ),
     child: DropdownButton<String>(
       items: _currencies.map((String dropDownStringItem) {
         return DropdownMenuItem<String>(
@@ -470,18 +293,6 @@ Widget _buildDropDownButton1() {
 
 Widget _buildDropDownButton2() {
   return Container(
-    decoration: new BoxDecoration(
-      boxShadow: [
-        new BoxShadow(
-          color: Colors.black,
-          spreadRadius: 2,
-          offset: new Offset(8.0, 8.0),
-          blurRadius: 15.0,
-        )
-      ],
-      color: color,
-      borderRadius: new BorderRadius.circular(7.0),
-    ),
     child: DropdownButton<String>(
       items: _currencies2.map((String dropDownStringItem) {
         return DropdownMenuItem<String>(
@@ -500,12 +311,14 @@ Widget _buildDropDownButton2() {
   );
 }
 
-Widget _buildStaggredView() {
+Widget _buildStaggredView(ScrollController controller,
+    List<StaggeredTile> staggeredTiles, List<Widget> tiles) {
   return StaggeredGridView.count(
     crossAxisCount: 4,
     shrinkWrap: true,
-    staggeredTiles: _staggeredTiles,
-    children: _tiles,
+    staggeredTiles: staggeredTiles,
+    children: tiles,
+    controller: controller,
     mainAxisSpacing: 4.0,
     crossAxisSpacing: 4.0,
   );
