@@ -246,7 +246,7 @@ class _MyLoginPageState extends State<MyLoginPage> {
       style: TextStyle(
         color: Color.fromRGBO(32, 168, 30, 1),
       ),
-    );
+    ));
 
     double padding = 20;
 

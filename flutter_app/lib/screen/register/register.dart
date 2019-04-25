@@ -173,7 +173,7 @@ class _RegisterPageState extends State<RegisterPage> {
   }
   @override
   Widget build(BuildContext context) {
-    _bloc = BlocProvider.ofRegi(context);
+    _bloc = BlocProvider.ofRegister(context);
        FlutterStatusbarcolor.setStatusBarColor(Colors.green[100]);
        FlutterStatusbarcolor.setStatusBarWhiteForeground(false);
     return new Scaffold(

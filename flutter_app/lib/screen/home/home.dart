@@ -52,7 +52,7 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    _bloc = BlocProvider.ofRegi(context);
+   // _bloc = BlocProvider.ofRegister(context);
     List<Widget> _tiles = new List<Widget>();
     List<StaggeredTile> _staggeredTiles = List<StaggeredTile>();
     int tileLength = 50;
