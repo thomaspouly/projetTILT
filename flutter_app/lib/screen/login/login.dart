@@ -127,39 +127,13 @@ class _MyLoginPageState extends State<MyLoginPage> {
          
         
           if (bloc.submit(
-                  emailFieldController.text, passFieldController.text) !=
+                  emailFieldController.text, passFieldController.text).then((userId){
+         Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => HomePage(uid: userId,)), 
+        );
+                  }) !=
               null) {
-            if (authProvider != null) {
-              try{
-                  print("XXXXXXXXXXXXx");
-                authProvider
-                    .authenticateUser(emailFieldController.text, passFieldController.text)
-                    .then((userId) {
-         
-      
-                        new FutureBuilder(
-                            future: firestoreProvider.getUserById(userId),
-                            builder: (BuildContext context, snapshot) {
-                   
-                            });
-        
-                })
-                
-                /*
-                .catchError((onError) {
-                  print("en erreur");
-                  setState(() {
-                    widget.emailError = onError.toString();
-                  });
-                  print("error $onError");
-                })
-                */;
-              } catch (e) {
-                print("bouhouuuuu");
-                print(e.toString());
-              }
-
-            }
           } else {
             if (emailFieldController.text.isEmpty) {
               setState(() {

@@ -24,11 +24,12 @@ class MyApp extends StatelessWidget {
 
     return new BlocProvider(
         child: MaterialApp(
+          
             title: 'Flutter Demo',
             theme: ThemeData(
               primarySwatch: Colors.green,
             ),
-            home: HomePage())
+            home: MyLoginPage())
     );
   }
 }

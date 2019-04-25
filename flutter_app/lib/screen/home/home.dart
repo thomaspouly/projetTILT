@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_app/bloc/register_bloc.dart';
 import 'package:flutter_app/screen/customs/fab.dart';
 import 'package:flutter_app/screen/customs/staggeredView.dart';
@@ -44,33 +45,15 @@ Future<String> getImage(String uid) async {
 
 class _HomePageState extends State<HomePage> {
   ScrollController _hideButtonController = new ScrollController();
-  var _isVisible;
+
   double opacity = 1;
-  void initState() {
-    super.initState();
-    _hideButtonController.addListener(() {
-      if (_hideButtonController.position.userScrollDirection ==
-          ScrollDirection.forward) {
-        setState(() {
-          if (opacity <= 0.95) opacity = opacity + 0.05;
-        });
-      }
-      if (_hideButtonController.position.userScrollDirection ==
-          ScrollDirection.reverse) {
-        setState(() {
-          if (opacity >= 0.05) opacity = opacity - 0.05;
-        });
-      }
-    });
-  }
 
   RegisterBloc _bloc;
-  String url;
 
   @override
   Widget build(BuildContext context) {
     _bloc = BlocProvider.ofRegi(context);
-      List<Widget> _tiles = new List<Widget>();
+    List<Widget> _tiles = new List<Widget>();
     List<StaggeredTile> _staggeredTiles = List<StaggeredTile>();
     int tileLength = 50;
 
@@ -79,49 +62,46 @@ class _HomePageState extends State<HomePage> {
           "Arbres coupés", "2 000 000", i.toString());
       _tiles.add(s);
     }
-  
-  _staggeredTiles.add(StaggeredTile.count(2, 2));
-  _staggeredTiles.add(StaggeredTile.count(2, 1));
-_staggeredTiles.add(StaggeredTile.count(2, 1));
-_staggeredTiles.add(StaggeredTile.count(4, 1));
-_staggeredTiles.add(StaggeredTile.count(2, 1));
-_staggeredTiles.add(StaggeredTile.count(2, 1));
-_staggeredTiles.add(StaggeredTile.count(4,2));
- _staggeredTiles.add(StaggeredTile.count(2, 1));
-_staggeredTiles.add(StaggeredTile.count(2, 1));
- _staggeredTiles.add(StaggeredTile.count(2, 2));
-  _staggeredTiles.add(StaggeredTile.count(2, 2));
-  _staggeredTiles.add(StaggeredTile.count(2, 1));
-_staggeredTiles.add(StaggeredTile.count(2, 1));
-  _staggeredTiles.add(StaggeredTile.count(2, 2));
-  _staggeredTiles.add(StaggeredTile.count(2, 1));
-_staggeredTiles.add(StaggeredTile.count(2, 1));
-_staggeredTiles.add(StaggeredTile.count(4, 1));
-_staggeredTiles.add(StaggeredTile.count(2, 1));
-_staggeredTiles.add(StaggeredTile.count(2, 1));
-_staggeredTiles.add(StaggeredTile.count(4,2));
- _staggeredTiles.add(StaggeredTile.count(2, 1));
-_staggeredTiles.add(StaggeredTile.count(2, 1));
- _staggeredTiles.add(StaggeredTile.count(2, 2));
-  _staggeredTiles.add(StaggeredTile.count(2, 2));
-  _staggeredTiles.add(StaggeredTile.count(2, 1));
-_staggeredTiles.add(StaggeredTile.count(2, 1));
-  _staggeredTiles.add(StaggeredTile.count(2, 2));
-  _staggeredTiles.add(StaggeredTile.count(2, 1));
-_staggeredTiles.add(StaggeredTile.count(2, 1));
-_staggeredTiles.add(StaggeredTile.count(4, 1));
-_staggeredTiles.add(StaggeredTile.count(2, 1));
-_staggeredTiles.add(StaggeredTile.count(2, 1));
-_staggeredTiles.add(StaggeredTile.count(4,2));
- _staggeredTiles.add(StaggeredTile.count(2, 1));
-_staggeredTiles.add(StaggeredTile.count(2, 1));
- _staggeredTiles.add(StaggeredTile.count(2, 2));
-  _staggeredTiles.add(StaggeredTile.count(2, 2));
-  _staggeredTiles.add(StaggeredTile.count(2, 1));
-_staggeredTiles.add(StaggeredTile.count(2, 1));
 
-
-
+    _staggeredTiles.add(StaggeredTile.count(2, 2));
+    _staggeredTiles.add(StaggeredTile.count(2, 1));
+    _staggeredTiles.add(StaggeredTile.count(2, 1));
+    _staggeredTiles.add(StaggeredTile.count(4, 1));
+    _staggeredTiles.add(StaggeredTile.count(2, 1));
+    _staggeredTiles.add(StaggeredTile.count(2, 1));
+    _staggeredTiles.add(StaggeredTile.count(4, 2));
+    _staggeredTiles.add(StaggeredTile.count(2, 1));
+    _staggeredTiles.add(StaggeredTile.count(2, 1));
+    _staggeredTiles.add(StaggeredTile.count(2, 2));
+    _staggeredTiles.add(StaggeredTile.count(2, 2));
+    _staggeredTiles.add(StaggeredTile.count(2, 1));
+    _staggeredTiles.add(StaggeredTile.count(2, 1));
+    _staggeredTiles.add(StaggeredTile.count(2, 2));
+    _staggeredTiles.add(StaggeredTile.count(2, 1));
+    _staggeredTiles.add(StaggeredTile.count(2, 1));
+    _staggeredTiles.add(StaggeredTile.count(4, 1));
+    _staggeredTiles.add(StaggeredTile.count(2, 1));
+    _staggeredTiles.add(StaggeredTile.count(2, 1));
+    _staggeredTiles.add(StaggeredTile.count(4, 2));
+    _staggeredTiles.add(StaggeredTile.count(2, 1));
+    _staggeredTiles.add(StaggeredTile.count(2, 1));
+    _staggeredTiles.add(StaggeredTile.count(2, 2));
+    _staggeredTiles.add(StaggeredTile.count(2, 2));
+    _staggeredTiles.add(StaggeredTile.count(2, 1));
+    _staggeredTiles.add(StaggeredTile.count(2, 1));
+    _staggeredTiles.add(StaggeredTile.count(2, 2));
+    _staggeredTiles.add(StaggeredTile.count(2, 1));
+    _staggeredTiles.add(StaggeredTile.count(2, 1));
+    _staggeredTiles.add(StaggeredTile.count(4, 1));
+    _staggeredTiles.add(StaggeredTile.count(2, 1));
+    _staggeredTiles.add(StaggeredTile.count(2, 1));
+    _staggeredTiles.add(StaggeredTile.count(4, 2));
+    _staggeredTiles.add(StaggeredTile.count(2, 1));
+    _staggeredTiles.add(StaggeredTile.count(2, 1));
+    _staggeredTiles.add(StaggeredTile.count(2, 2));
+    _staggeredTiles.add(StaggeredTile.count(2, 2));
+    _staggeredTiles.add(StaggeredTile.count(2, 1));
+    _staggeredTiles.add(StaggeredTile.count(2, 1));
 
     FlutterStatusbarcolor.setStatusBarColor(Colors.grey[200]);
     FlutterStatusbarcolor.setStatusBarWhiteForeground(false);
@@ -134,20 +114,23 @@ _staggeredTiles.add(StaggeredTile.count(2, 1));
           body: CustomScrollView(
             slivers: <Widget>[
               SliverAppBar(
+                leading: Container(),
                 backgroundColor: Colors.white,
                 floating: true,
                 expandedHeight: 100,
                 flexibleSpace: FlexibleSpaceBar(
                   background: Container(
-                    padding: EdgeInsets.only(top: 5, bottom: 5),
-                    child: Row(
-                      children: <Widget>[
-                        _buildDropDownButton1(),
-                        _buildImage(),
-                        _buildDropDownButton2(),
-                      ],
-                    ),
-                  ),
+                      padding: EdgeInsets.only(top: 5, bottom: 5),
+                      child: Center(
+                        child:Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            _buildDropDownButton1(),
+                            _buildImage(),
+                            _buildDropDownButton2(),
+                          ],
+                        ),
+                      )),
                 ),
               ),
               SliverToBoxAdapter(
@@ -250,64 +233,65 @@ _staggeredTiles.add(StaggeredTile.count(2, 1));
                 },
               ));
   }
-}
 
-var _currencies = [
+
+
+Color color = Colors.white;
+
+String dropdownValue1 = 'Catégories';
+DropdownButton _buildDropDownButton1() {
+  return  DropdownButton<String>(
+    value: dropdownValue1,
+    onChanged: (String newValue) {
+     setState(() {
+       
+     dropdownValue1=newValue;
+
+     });
+     
+    },
+    items: <String>[
   'Catégories',
   'Réchauffement',
   'Eau',
   'Electricité',
   'Pétrole'
-];
-var _currentItemSelected = 'Catégories';
+]
+        .map<DropdownMenuItem<String>>((String value) {
+      return DropdownMenuItem<String>(
+        value: value,
+        
+       child: Text(value,style: TextStyle(fontSize: 15),),
+      );
+    }).toList(),
+  );
+}
 
-var _currencies2 = [
+
+String dropdownValue2 = 'Aujourd\'hui';
+DropdownButton _buildDropDownButton2() {
+  return DropdownButton<String>(
+    value: dropdownValue2,
+    onChanged: (String newValue) {
+      setState(() {
+        dropdownValue2=newValue;
+      });
+    },
+    items: <String>[
   'Aujourd\'hui',
   'Cette semaine',
   'Ce mois-ci',
   'Cette année',
   'Depuis 2000'
-];
-
-var _currentItemSelected2 = 'Aujourd\'hui';
-Color color = Colors.white;
-Widget _buildDropDownButton1() {
-  return Container(
-    child: DropdownButton<String>(
-      items: _currencies.map((String dropDownStringItem) {
-        return DropdownMenuItem<String>(
-          value: dropDownStringItem,
-          child: Text(
-            dropDownStringItem,
-            style: TextStyle(fontSize: 15),
-          ),
-        );
-      }).toList(),
-      onChanged: (String newValueSelected) {
-        // Your code to execute, when a menu item i
-      },
-      value: _currentItemSelected,
-    ),
-  );
-}
-
-Widget _buildDropDownButton2() {
-  return Container(
-    child: DropdownButton<String>(
-      items: _currencies2.map((String dropDownStringItem) {
-        return DropdownMenuItem<String>(
-          value: dropDownStringItem,
-          child: Text(
-            dropDownStringItem,
-            style: TextStyle(fontSize: 15),
-          ),
-        );
-      }).toList(),
-      onChanged: (String newValueSelected) {
-        // Your code to execute, when a menu item i
-      },
-      value: _currentItemSelected2,
-    ),
+]
+        .map<DropdownMenuItem<String>>((String value) {
+      return DropdownMenuItem<String>(
+        value: value,
+        child: Text(value,style: TextStyle(fontSize: 15),),
+        
+      );
+    }).toList(),
+   
   );
 }
 
@@ -323,3 +307,6 @@ Widget _buildStaggredView(ScrollController controller,
     crossAxisSpacing: 4.0,
   );
 }
+
+}
+

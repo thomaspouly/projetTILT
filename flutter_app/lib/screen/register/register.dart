@@ -433,6 +433,7 @@ _image = await ImageCrop.sampleImage(
       String id = await _bloc.registerUser(
           _email, _password, _name, _treeNumber, _image);
       if (id.isNotEmpty) {
+        sleep(Duration(seconds: 2));
         Navigator.push(
           context,
           MaterialPageRoute(builder: (context) => HomePage(uid: id,)), 
