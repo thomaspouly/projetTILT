@@ -1,15 +1,14 @@
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_app/models/User.dart';
 import 'package:flutter_app/provider/AuthProvider.dart';
-import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter_app/provider/StorageProvider.dart';
 
 class FirestoreProvider {
   Firestore _firestore = Firestore.instance;
   AuthProvider auth = AuthProvider();
-  FirebaseAuth _firebaseAuth=FirebaseAuth.instance;
+  StorageProvider storage = StorageProvider();
 
   Future<User> getUserById(String id) {
     _firestore.collection('users').document('${id}').get().then((result) {
@@ -24,20 +23,18 @@ class FirestoreProvider {
     return null;
   }
 
-  Future<String> registerUser(String email, String password,String name,int treeNumber,File image) async {
+  Future<String> registerUser(String email, String password,String name,int treeNumber,File image) {
+    return auth.registerUser(email, password).then((userId) {
+      storage.setImage(userId,image);
+      User user = new User(reference: null,
+          treeNumber: treeNumber,
+          email: email,
+          name: name);
 
-    FirebaseUser _user = await _firebaseAuth
-        .createUserWithEmailAndPassword(email: email, password: password);
-        
+      _firestore.collection('user').document(userId).setData(user.toJson());
+      return userId;
 
-    FirebaseStorage.instance.ref().child('/image/'+_user.uid).putFile(image);
-
-    Firestore.instance.collection('user').document(_user.uid).setData({
-      'name': name,
-      'email': email,
-      'treeNumber': treeNumber,
     });
-    return _user.uid;
 
   }
 }
