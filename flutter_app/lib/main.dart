@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/provider/BlocProvider.dart';
 import 'package:flutter_app/screen/classement/classement.dart';
+import 'package:flutter_app/screen/login/login.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:splashscreen/splashscreen.dart';
 
@@ -22,7 +23,7 @@ class MyApp extends StatelessWidget {
               primarySwatch: Colors.green,
             ),
             home:  new SplashScreen(
-                seconds: 15,
+                seconds: 2,
                 navigateAfterSeconds: new MyClassementPage(),
                 title: new Text('Bienvenue sur EarthState',textAlign: TextAlign.center,style: TextStyle(fontSize: 20,color: Colors.grey,wordSpacing: 3),),
                 image: Image.asset(assetName),
