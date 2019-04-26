@@ -35,6 +35,8 @@ dependencies:
   splashscreen: ^1.2.0
   csv: ^4.0.3
   path_provider: ^0.5.0+1
+  html: ^0.14.0+2
+  http: ^0.12.0+2
 
   
 dev_dependencies:
@@ -61,8 +63,10 @@ flutter:
     - assets/cup.png
     - test.csv
     - classement.txt
-    - country.json
-    - countryArray.json
+    - country2017.json
+    - country2016.json
+    - country2015.json
+    - country2014.json
     - trophy.svg
   #  - images/a_dot_ham.jpeg
 
