@@ -15,6 +15,7 @@ import 'package:flutter_app/screen/customs/staggeredView.dart';
 import 'package:flutter_app/provider/login_bloc_provider.dart';
 import 'package:flutter_app/screen/customs/TextFieldCustom.dart';
 import 'package:flutter_app/screen/login/login.dart';
+import 'package:flutter_app/screen/tree/tree.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:flutter_statusbarcolor/flutter_statusbarcolor.dart';
 
@@ -111,6 +112,7 @@ class _HomePageState extends State<HomePage> {
           floatingActionButtonLocation:
               FloatingActionButtonLocation.centerDocked,
           floatingActionButton: _buildFab(context),
+
           body: CustomScrollView(
             slivers: <Widget>[
               SliverAppBar(
@@ -159,8 +161,43 @@ class _HomePageState extends State<HomePage> {
   Widget _buildFab(BuildContext context) {
     return FloatingActionButton(
       onPressed: () {
-        print(widget.uid);
-        getImage(widget.uid);
+        if(widget.uid!=null){
+          Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => TreePage(uid: widget.uid,)), 
+        );
+        }else{
+ showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        // return object of type Dialog
+        return AlertDialog(
+          title: new Text("Veuillez vous connecter pour acceder à l'arbre"),
+          content: 
+          RaisedButton(
+            color: Colors.green,
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => MyLoginPage()),
+                  );
+                },
+                child: Text("Connexion"),
+              ),
+          actions: <Widget>[
+            // usually buttons at the bottom of the dialog
+            new FlatButton(
+              child: new Text("Close"),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+
+        }
       },
       child: Icon(Icons.nature),
       elevation: 3.0,

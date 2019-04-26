@@ -21,7 +21,7 @@ class TuilePage extends StatefulWidget {
 class _TuilePageState extends State<TuilePage> {
   @override
   Widget build(BuildContext context) {
-    FlutterStatusbarcolor.setStatusBarColor(widget.color);
+ FlutterStatusbarcolor.setStatusBarColor(Colors.green);
     FlutterStatusbarcolor.setStatusBarWhiteForeground(false);
     return new SafeArea(
       child: new Scaffold(
