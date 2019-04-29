@@ -8,8 +8,6 @@ import 'package:flutter_app/screen/customs/fab.dart';
 import 'package:flutter_app/screen/login/login.dart';
 import 'dart:convert';
 import 'package:flutter/services.dart' show rootBundle;
-import 'package:html/parser.dart' show parse;
-import 'package:http/http.dart' as http;
 
 // INITIALISATION
 
@@ -156,6 +154,7 @@ class _MyClassementPageState extends State<MyClassementPage> {
 
 
   var _currentItemSelected2 = '2017';
+  int taille = 40;
   Color color = Colors.white;
 
   Widget _buildDropDownButton1() {
@@ -177,19 +176,20 @@ class _MyClassementPageState extends State<MyClassementPage> {
         onChanged: (String newValue) {
           setState(() {
             _currentItemSelected=newValue;
+              taille <= 40 ? taille = int.parse(_currentItemSelected.split(' ')[1]) : taille = 40;
           });
         },
         items: <String>[
+          'Top 3',
+          'Top 5',
           'Top 10',
           'Top 20',
-          'Top 40',
-          'Top 50',
-          'Top 100'
+          'Top 40'
         ]
             .map<DropdownMenuItem<String>>((String value) {
           return DropdownMenuItem<String>(
             value: value,
-            child: Text(value,style: TextStyle(fontSize: 15),),
+            child: Text(value,style: TextStyle(fontSize: 20),),
 
           );
         }).toList(),
@@ -229,7 +229,7 @@ class _MyClassementPageState extends State<MyClassementPage> {
             .map<DropdownMenuItem<String>>((String value) {
           return DropdownMenuItem<String>(
             value: value,
-            child: Text(value,style: TextStyle(fontSize: 15),),
+            child: Text(value,style: TextStyle(fontSize: 20),),
 
           );
         }).toList(),
@@ -238,88 +238,58 @@ class _MyClassementPageState extends State<MyClassementPage> {
     );
   }
 
-  Widget getLoadedCountry() {
+  Widget getLoadedRankingCountry() {
     if(_currentItemSelected2 == "2017") {
-      return new FutureBuilder(future: loadCountry2017(),
+      return new FutureBuilder(future: loadCountries(),
           builder: (BuildContext context, AsyncSnapshot snapshot) {
             return Expanded(
-                child: Countries(snapshot.data).build(context));
+                child: Countries(snapshot.data,taille).build(context));
           });
     } else if(_currentItemSelected2 == "2016") {
-      return new FutureBuilder(future: loadCountry2016(),
+      return new FutureBuilder(future: loadCountries(),
           builder: (BuildContext context, AsyncSnapshot snapshot) {
             return Expanded(
-                child: Countries(snapshot.data).build(context));
+                child: Countries(snapshot.data,taille).build(context));
           });
     }else if(_currentItemSelected2 == "2015") {
-      return new FutureBuilder(future: loadCountry2015(),
+      return new FutureBuilder(future: loadCountries(),
           builder: (BuildContext context, AsyncSnapshot snapshot) {
             return Expanded(
-                child: Countries(snapshot.data).build(context));
+                child: Countries(snapshot.data,taille).build(context));
           });
     }else if(_currentItemSelected2 == "2014") {
-      return new FutureBuilder(future: loadCountry2014(),
+      return new FutureBuilder(future: loadCountries(),
           builder: (BuildContext context, AsyncSnapshot snapshot) {
             return Expanded(
-                child: Countries(snapshot.data).build(context));
+                child: Countries(snapshot.data,taille).build(context));
           });
     } else {
-      return new FutureBuilder(future: loadCountry2017(),
+      return new FutureBuilder(future: loadCountries(),
           builder: (BuildContext context, AsyncSnapshot snapshot) {
             return Expanded(
-                child: Countries(snapshot.data).build(context));
+                child: Countries(snapshot.data,taille).build(context));
           });
     }
   }
 
-  Future<String> _loadCountry2017Asset() async {
-    return await rootBundle.loadString('assets/country2017.json');
-  }
-  Future<String> _loadCountry2016Asset() async {
-    return await rootBundle.loadString('assets/country2016.json');
-  }
-  Future<String> _loadCountry2015Asset() async {
-    return await rootBundle.loadString('assets/country2015.json');
-  }
-  Future<String> _loadCountry2014Asset() async {
-    return await rootBundle.loadString('assets/country2014.json');
-  }
-
-  Future<List<Country>> loadCountry2017() async {
-    String jsonString = await _loadCountry2017Asset();
-    List<dynamic> jsonResponse = json.decode(jsonString);
-    List<Country> countries = new List();
-    for(int i = 0; i < jsonResponse.length;i++) {
-      Country country = Country.fromJson(jsonResponse[i]);
-      countries.add(country);
+  Future<String> _loadCountryAsset() async {
+    if(_currentItemSelected2 == "2017") {
+      return await rootBundle.loadString('assets/country2017.json');
+    } else if(_currentItemSelected2 == "2016") {
+      return await rootBundle.loadString('assets/country2016.json');
     }
-    return countries;
-  }
-
-  Future<List<Country>> loadCountry2016() async {
-    String jsonString = await _loadCountry2016Asset();
-    List<dynamic> jsonResponse = json.decode(jsonString);
-    List<Country> countries = new List();
-    for(int i = 0; i < jsonResponse.length;i++) {
-      Country country = Country.fromJson(jsonResponse[i]);
-      countries.add(country);
+    else if(_currentItemSelected2 == "2015") {
+      return await rootBundle.loadString('assets/country2015.json');
     }
-    return countries;
-  }
-
-  Future<List<Country>> loadCountry2015() async {
-    String jsonString = await _loadCountry2015Asset();
-    List<dynamic> jsonResponse = json.decode(jsonString);
-    List<Country> countries = new List();
-    for(int i = 0; i < jsonResponse.length;i++) {
-      Country country = Country.fromJson(jsonResponse[i]);
-      countries.add(country);
+    else if(_currentItemSelected2 == "2014") {
+      return await rootBundle.loadString('assets/country2014.json');
+    } else {
+      return await rootBundle.loadString('assets/country2017.json');
     }
-    return countries;
   }
 
-  Future<List<Country>> loadCountry2014() async {
-    String jsonString = await _loadCountry2014Asset();
+  Future<List<Country>> loadCountries() async {
+    String jsonString = await _loadCountryAsset();
     List<dynamic> jsonResponse = json.decode(jsonString);
     List<Country> countries = new List();
     for(int i = 0; i < jsonResponse.length;i++) {
@@ -349,12 +319,12 @@ class _MyClassementPageState extends State<MyClassementPage> {
                   _buildDropDownButton2(),
                 ],
               ),
-              new TextField(
+              /*new TextField(
                 decoration: new InputDecoration(
                     prefixIcon: new Icon(Icons.search),
                     hintText: 'Recherche...'),
-              ),
-              getLoadedCountry(),
+              ),*/
+              getLoadedRankingCountry(),
             ]),
       ),
     );
