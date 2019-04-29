@@ -6,15 +6,10 @@ class AuthProvider {
 
   Future<String> authenticateUser(String email, String password) async {
     FirebaseUser user;
-    //try {
       user = await firebase.signInWithEmailAndPassword(
           email: email, password: password);
+      print("Signed in : " + user.uid);
       return user.uid;
-    //} catch (e) {
-      //print("Ce compte n'existe pas");
-      //throw("la");
-      //return null;
-    //}
   }
 
   Future<FirebaseUser> currentUser() {

@@ -1,10 +1,12 @@
 import 'dart:io';
 import 'package:flutter_app/provider/AuthProvider.dart';
 import 'package:flutter_app/provider/FirestoreProvider.dart';
+import 'package:flutter_app/provider/RootBundleProvider.dart';
 
 class Repository {
   final _firestoreProvider = FirestoreProvider();
   final authProvider = AuthProvider();
+  final rootBundleProvider = RootBundleProvider();
 
   Future<String> authenticateUser(String email, String password) =>
       authProvider.authenticateUser(email, password);
@@ -16,4 +18,6 @@ class Repository {
       authProvider.resetPasswordUser(email);
 
 
+  Future<String> loadJsonFile(String file) =>
+      rootBundleProvider.loadJsonFile(file);
 }

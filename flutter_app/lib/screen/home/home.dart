@@ -1,22 +1,13 @@
-import 'dart:io';
-import 'dart:math';
-
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
-
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/rendering.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_app/bloc/register_bloc.dart';
 import 'package:flutter_app/screen/customs/fab.dart';
 import 'package:flutter_app/screen/customs/staggeredView.dart';
-
-import 'package:flutter_app/provider/login_bloc_provider.dart';
-import 'package:flutter_app/screen/customs/TextFieldCustom.dart';
 import 'package:flutter_app/screen/login/login.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:flutter_statusbarcolor/flutter_statusbarcolor.dart';
+import 'package:flutter_app/provider/BlocProvider.dart';
 
 class HomePage extends StatefulWidget {
   String uid;

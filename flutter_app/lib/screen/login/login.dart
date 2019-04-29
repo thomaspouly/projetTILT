@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/bloc/login_bloc.dart';
 import 'package:flutter_app/provider/AuthProvider.dart';
 import 'package:flutter_app/provider/FirestoreProvider.dart';
-import 'package:flutter_app/provider/login_bloc_provider.dart';
+import 'package:flutter_app/provider/BlocProvider.dart';
+import 'package:flutter_app/screen/classement/classement.dart';
 import 'package:flutter_app/screen/customs/TextFieldCustom.dart';
 import 'package:flutter_app/screen/home/home.dart';
 import 'package:flutter_app/screen/register/register.dart';
@@ -32,12 +33,11 @@ class MyLoginPage extends StatefulWidget {
   // case the title) provided by the parent (in this case the App widget) and
   // used by the build method of the State. Fields in a Widget subclass are
   // always marked "final".
+
   final String title;
   LoginBloc bloc;
-
   String emailError;
   String passwordError;
-
   final Widget child;
 
   @override
@@ -48,6 +48,7 @@ class _MyLoginPageState extends State<MyLoginPage> {
   TextStyle style = TextStyle(fontFamily: 'Montserrat', fontSize: 20.0);
   final emailFieldController = TextEditingController();
   final passFieldController = TextEditingController();
+
   String _email;
   String _password;
 
@@ -81,19 +82,9 @@ class _MyLoginPageState extends State<MyLoginPage> {
     super.dispose();
   }
 
-  String validateEmail(String value) {
-    Pattern pattern =
-        r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
-    RegExp regex = new RegExp(pattern);
-    if (!regex.hasMatch(value))
-      return 'Invalide email';
-    else
-      return null;
-  }
-
   @override
   Widget build(BuildContext context) {
-    final bloc = BlocProvider.of(context);
+    final bloc = BlocProvider.ofLogin(context);
     FlutterStatusbarcolor.setStatusBarColor(Color.fromRGBO(210, 251, 209, 1));
     FlutterStatusbarcolor.setStatusBarWhiteForeground(false);
 
