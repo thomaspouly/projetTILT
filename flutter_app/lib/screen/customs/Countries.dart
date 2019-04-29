@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/bloc/classement_bloc.dart';
 import 'package:flutter_app/models/Country.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 final String assetName = 'assets/trophy.svg';
 
-final Widget svg = new SvgPicture.asset(assetName, semanticsLabel: 'Acme Logo');
+final Widget svg = new SvgPicture.asset(assetName, semanticsLabel: 'Acme Logo',color: Colors.amber);
 
 class Countries extends StatelessWidget {
   List<Country> countries = new List();
