@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter_app/models/DataTreeForm.dart';
 import 'package:flutter_app/models/User.dart';
 import 'package:flutter_app/provider/AuthProvider.dart';
 import 'package:flutter_app/provider/StorageProvider.dart';
@@ -35,6 +36,16 @@ class FirestoreProvider {
       return userId;
 
     });
+  }
 
+  Future<String> enterDataFromFormTree(int valueWater,int valueElectricity,int waste,int don,int bulk,int bio,int car,int bike,int bus) {
+
+      DataTreeForm data = new DataTreeForm(
+        reference: null,
+        bike: bike,bio: bio,bulk: bulk,bus: bus,car: car,don: don,valueElectricity: valueElectricity,valueWater: valueWater,waste: waste,);
+      auth.currentUser().then((userID) {
+        _firestore.collection('users').document(userID).setData(data.toJson());
+        return userID;
+      });
   }
 }

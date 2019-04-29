@@ -17,6 +17,11 @@ class Repository {
   Future<void> resetPasswordEmail(String email) =>
       authProvider.resetPasswordUser(email);
 
+  Future<String> getCurrentUser() =>
+    authProvider.currentUser();
+
+  Future<String> enterDataFormForm(int valueWater,int valueElectricity,int waste,int don,int bulk,int bio,int car,int bike,int bus) =>
+   _firestoreProvider.enterDataFromFormTree( valueWater, valueElectricity, waste, don, bulk, bio, car, bike, bus);
 
   Future<String> loadJsonFile(String file) =>
       rootBundleProvider.loadJsonFile(file);
