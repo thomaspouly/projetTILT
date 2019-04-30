@@ -9,7 +9,7 @@ class FormTreeBloc {
     return _repository.getCurrentUser();
   }
 
-  Future<String> enterDataFormForm(int valueWater,int valueElectricity,int waste,int don,int bulk,int bio,int car,int bike,int bus) {
+  Future<String> enterDataFormForm(int valueWater,int valueElectricity,String waste,String don,String bulk,String bio,String car,String bike,String bus) {
     return _repository.enterDataFormForm(
         valueWater,
         valueElectricity,

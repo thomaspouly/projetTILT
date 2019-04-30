@@ -2,7 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 class DataTreeForm {
 
-  int valueWater, valueElectricity, waste, don, bulk, bio, car, bike, bus;
+  int valueWater, valueElectricity;
+  String waste, don, bulk, bio,car, bike, bus;
   final DocumentReference reference;
 
   DataTreeForm({this.valueWater, this.valueElectricity,this.waste, this.don,this.bulk, this.bio,this.car, this.bike,this.bus, this.reference});

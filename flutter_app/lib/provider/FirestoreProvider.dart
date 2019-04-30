@@ -38,13 +38,13 @@ class FirestoreProvider {
     });
   }
 
-  Future<String> enterDataFromFormTree(int valueWater,int valueElectricity,int waste,int don,int bulk,int bio,int car,int bike,int bus) {
+  Future<String> enterDataFromFormTree(int valueWater,int valueElectricity,String waste,String don,String bulk,String bio,String car,String bike,String bus) {
 
       DataTreeForm data = new DataTreeForm(
         reference: null,
         bike: bike,bio: bio,bulk: bulk,bus: bus,car: car,don: don,valueElectricity: valueElectricity,valueWater: valueWater,waste: waste,);
       auth.currentUser().then((userID) {
-        _firestore.collection('users').document(userID).setData(data.toJson());
+        _firestore.collection('data').document(userID).setData(data.toJson());
         return userID;
       });
   }

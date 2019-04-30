@@ -71,7 +71,6 @@ flutter:
     - country2015.json
     - country2014.json
     - trophy.svg
-    - animations/pot.json
   #  - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

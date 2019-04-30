@@ -12,13 +12,9 @@ class MyFormTreePage extends StatefulWidget {
 class _MyFormTreePageState extends State<MyFormTreePage> {
   double padding = 20;
 
-  int _radioValueWaste;
-  int _radioValueDon;
-  int _radioValueBulk;
-  int _radioValueBio;
-  int _radioValueCar;
-  int _radioValueBike;
-  int _radioValueBus;
+  int _radioValueWaste,_radioValueDon,_radioValueBulk,_radioValueBio,_radioValueCar,_radioValueBike,_radioValueBus;
+
+  String textWaste,textDon,textBulk,textBio,textCar,textBike,textBus;
 
   final waterFieldController = TextEditingController();
   final electricityFieldController = TextEditingController();
@@ -29,13 +25,10 @@ class _MyFormTreePageState extends State<MyFormTreePage> {
 
       switch (_radioValueWaste) {
         case 0:
-          //_result = ...
+          textWaste = "Oui";
           break;
         case 1:
-          //_result = ...
-          break;
-        case 2:
-          //_result = ...
+          textWaste = "Non";
           break;
       }
     });
@@ -47,13 +40,10 @@ class _MyFormTreePageState extends State<MyFormTreePage> {
 
       switch (_radioValueDon) {
         case 0:
-        //_result = ...
+          textDon = "Oui";
           break;
         case 1:
-        //_result = ...
-          break;
-        case 2:
-        //_result = ...
+          textDon = "Non";
           break;
       }
     });
@@ -65,13 +55,10 @@ class _MyFormTreePageState extends State<MyFormTreePage> {
 
       switch (_radioValueBulk) {
         case 0:
-        //_result = ...
+          textBulk = "Oui";
           break;
         case 1:
-        //_result = ...
-          break;
-        case 2:
-        //_result = ...
+          textBulk = "Non";
           break;
       }
     });
@@ -83,13 +70,10 @@ class _MyFormTreePageState extends State<MyFormTreePage> {
 
       switch (_radioValueBio) {
         case 0:
-        //_result = ...
+          textBio = "Oui";
           break;
         case 1:
-        //_result = ...
-          break;
-        case 2:
-        //_result = ...
+          textBio = "Non";
           break;
       }
     });
@@ -101,13 +85,13 @@ class _MyFormTreePageState extends State<MyFormTreePage> {
 
       switch (_radioValueCar) {
         case 0:
-        //_result = ...
+          textCar = "Régulièrement";
           break;
         case 1:
-        //_result = ...
+          textCar = "Occasionnel";
           break;
         case 2:
-        //_result = ...
+          textCar = "Jamais";
           break;
       }
     });
@@ -119,18 +103,14 @@ class _MyFormTreePageState extends State<MyFormTreePage> {
 
       switch (_radioValueBike) {
         case 0:
-        //_result = ...
+          textBike = "Oui";
           break;
         case 1:
-        //_result = ...
-          break;
-        case 2:
-        //_result = ...
+          textBike = "Non";
           break;
       }
     });
   }
-
 
   void _handleRadioValueChangeBus(int value) {
     setState(() {
@@ -138,13 +118,10 @@ class _MyFormTreePageState extends State<MyFormTreePage> {
 
       switch (_radioValueBus) {
         case 0:
-        //_result = ...
+          textBus = "Oui";
           break;
         case 1:
-        //_result = ...
-          break;
-        case 2:
-        //_result = ...
+          textBus = "Non";
           break;
       }
     });
@@ -153,308 +130,351 @@ class _MyFormTreePageState extends State<MyFormTreePage> {
   @override
   Widget build(BuildContext context) {
     final bloc = BlocProvider.ofFormTree(context);
+
+    double fontSize = 18;
+
     return SafeArea(
       child: Scaffold(
-        backgroundColor: Color.fromRGBO(210, 251, 209, 1),
-        body: Container(
-          padding: EdgeInsets.only(left: padding, right: padding),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              Text(
-                "Consommations",
-                style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-                textAlign: TextAlign.center,
-              ),
-              TextFieldCustom(
-                title: "Consommation d'eau en m²",
-                controller: waterFieldController,
-                icon: Icon(Icons.opacity),
-                hide: false,
-              ),
-              TextFieldCustom(
-                title: "Consommation d'éléctricité en kW/h",
-                controller: electricityFieldController,
-                icon: Icon(Icons.offline_bolt),
-                hide: false,
-              ),
-              new Container(
-                height: 5.0,
-                width: MediaQuery.of(context).size.width,
-                color: Colors.amber,
-                margin: const EdgeInsets.only(left: 10.0, right: 10.0),
-              ),
-              Text(
-                "Actions",
-                style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-                textAlign: TextAlign.center,
-              ),
-              new Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  new Text(
-                    'Trie dechets',
-                    style: new TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 16.0,
-                    ),
+          backgroundColor: Color.fromRGBO(210, 251, 209, 1),
+          body: Container(
+            padding: EdgeInsets.only(left: padding, right: padding),
+            child: Stack(
+              children: <Widget>[
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: <Widget>[
+                      Text(
+                        "Consommations",
+                        style:
+                            TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                        textAlign: TextAlign.center,
+                      ),
+                      TextFieldCustom(
+                        title: "Consommation d'eau en m²",
+                        controller: waterFieldController,
+                        icon: Icon(Icons.opacity),
+                        hide: false,
+                      ),
+                      TextFieldCustom(
+                        title: "Consommation d'éléctricité en kW/h",
+                        controller: electricityFieldController,
+                        icon: Icon(Icons.offline_bolt),
+                        hide: false,
+                      ),
+                      new Container(
+                        height: 5.0,
+                        width: MediaQuery.of(context).size.width,
+                        color: Colors.amber,
+                        margin: const EdgeInsets.only(left: 10.0, right: 10.0),
+                      ),
+                      Text(
+                        "Actions",
+                        style:
+                            TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                        textAlign: TextAlign.center,
+                      ),
+                      new Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: <Widget>[
+                          new Text(
+                            'Trie dechets',
+                            style: new TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 16.0,
+                            ),
+                          ),
+                          new Expanded(
+                            child: new RadioListTile(
+                              title: Text(
+                                'Oui',
+                                style: TextStyle(fontSize: fontSize),
+                              ),
+                              value: 0,
+                              groupValue: _radioValueWaste,
+                              onChanged: _handleRadioValueChangeWaste,
+                            ),
+                          ),
+                          new Expanded(
+                            child: new RadioListTile(
+                              title: Text(
+                                'Non',
+                                style: TextStyle(fontSize: fontSize),
+                              ),
+                              value: 1,
+                              groupValue: _radioValueWaste,
+                              onChanged: _handleRadioValueChangeWaste,
+                            ),
+                          ),
+                        ],
+                      ),
+                      new Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: <Widget>[
+                          new Text(
+                            'Don association',
+                            style: new TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 16.0,
+                            ),
+                          ),
+                          new Expanded(
+                            child: new RadioListTile(
+                              title: Text(
+                                'Oui',
+                                style: TextStyle(fontSize: fontSize),
+                              ),
+                              value: 0,
+                              groupValue: _radioValueDon,
+                              onChanged: _handleRadioValueChangeDon,
+                            ),
+                          ),
+                          new Expanded(
+                            child: new RadioListTile(
+                              title: Text(
+                                'Non',
+                                style: TextStyle(fontSize: fontSize),
+                              ),
+                              value: 1,
+                              groupValue: _radioValueDon,
+                              onChanged: _handleRadioValueChangeDon,
+                            ),
+                          ),
+                        ],
+                      ),
+                      new Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: <Widget>[
+                          new Text(
+                            'Achat produit en vrac',
+                            style: new TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 16.0,
+                            ),
+                          ),
+                          new Expanded(
+                            child: new RadioListTile(
+                              title: Text(
+                                'Oui',
+                                style: TextStyle(fontSize: fontSize),
+                              ),
+                              value: 0,
+                              groupValue: _radioValueBulk,
+                              onChanged: _handleRadioValueChangeBulk,
+                            ),
+                          ),
+                          new Expanded(
+                            child: new RadioListTile(
+                              title: Text(
+                                'Non',
+                                style: TextStyle(fontSize: fontSize),
+                              ),
+                              value: 1,
+                              groupValue: _radioValueBulk,
+                              onChanged: _handleRadioValueChangeBulk,
+                            ),
+                          ),
+                        ],
+                      ),
+                      new Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: <Widget>[
+                          new Text(
+                            'Achat produit bio',
+                            style: new TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 16.0,
+                            ),
+                          ),
+                          new Expanded(
+                            child: new RadioListTile(
+                              title: Text(
+                                'Oui',
+                                style: TextStyle(fontSize: fontSize),
+                              ),
+                              value: 0,
+                              groupValue: _radioValueBio,
+                              onChanged: _handleRadioValueChangeBio,
+                            ),
+                          ),
+                          new Expanded(
+                            child: new RadioListTile(
+                              title: Text(
+                                'Non',
+                                style: TextStyle(fontSize: fontSize),
+                              ),
+                              value: 1,
+                              groupValue: _radioValueBio,
+                              onChanged: _handleRadioValueChangeBio,
+                            ),
+                          ),
+                        ],
+                      ),
+                      new Container(
+                        height: 5.0,
+                        width: MediaQuery.of(context).size.width,
+                        color: Colors.amber,
+                        margin: const EdgeInsets.only(left: 10.0, right: 10.0),
+                      ),
+                      Text(
+                        "Utilitaires",
+                        style:
+                            TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                        textAlign: TextAlign.center,
+                      ),
+                      new Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: <Widget>[
+                          new Text(
+                            'Voiture',
+                            style: new TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 16.0,
+                            ),
+                          ),
+                          new Expanded(
+                            child: new RadioListTile(
+                              title: Text(
+                                'Régulièrement',
+                                style: TextStyle(fontSize: 12),
+                              ),
+                              value: 0,
+                              groupValue: _radioValueCar,
+                              onChanged: _handleRadioValueChangeCar,
+                            ),
+                          ),
+                          new Expanded(
+                            child: new RadioListTile(
+                              title: Text(
+                                'Occasionnel',
+                                style: TextStyle(fontSize: 12),
+                              ),
+                              value: 1,
+                              groupValue: _radioValueCar,
+                              onChanged: _handleRadioValueChangeCar,
+                            ),
+                          ),
+                          new Expanded(
+                            child: new RadioListTile(
+                              title: Text(
+                                'Jamais',
+                                style: TextStyle(fontSize: 12),
+                              ),
+                              value: 2,
+                              groupValue: _radioValueCar,
+                              onChanged: _handleRadioValueChangeCar,
+                            ),
+                          ),
+                        ],
+                      ),
+                      new Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: <Widget>[
+                          new Text(
+                            'Vélo',
+                            style: new TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 16.0,
+                            ),
+                          ),
+                          new Expanded(
+                            child: new RadioListTile(
+                              title: Text(
+                                'Oui',
+                                style: TextStyle(fontSize: fontSize),
+                              ),
+                              value: 0,
+                              groupValue: _radioValueBike,
+                              onChanged: _handleRadioValueChangeBike,
+                            ),
+                          ),
+                          new Expanded(
+                            child: new RadioListTile(
+                              title: Text(
+                                'Non',
+                                style: TextStyle(fontSize: fontSize),
+                              ),
+                              value: 1,
+                              groupValue: _radioValueBike,
+                              onChanged: _handleRadioValueChangeBike,
+                            ),
+                          ),
+                        ],
+                      ),
+                      new Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: <Widget>[
+                          new Text(
+                            'Bus',
+                            style: new TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 16.0,
+                            ),
+                          ),
+                          new Expanded(
+                            child: new RadioListTile(
+                              title: Text(
+                                'Oui',
+                                style: TextStyle(fontSize: fontSize),
+                              ),
+                              value: 0,
+                              groupValue: _radioValueBus,
+                              onChanged: _handleRadioValueChangeBus,
+                            ),
+                          ),
+                          new Expanded(
+                            child: new RadioListTile(
+                              title: Text(
+                                'Non',
+                                style: TextStyle(fontSize: fontSize),
+                              ),
+                              value: 1,
+                              groupValue: _radioValueBus,
+                              onChanged: _handleRadioValueChangeBus,
+                            ),
+                          ),
+                        ],
+                      ),
+                      new Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: <Widget>[
+                          //bloc.enterDataFormForm(waterFieldController.text, valueElectricity, waste, don, bulk, bio, car, bike, bus)
+                          new MaterialButton(
+                            child: Text("Submit"),
+                            color: Colors.blue,
+                            onPressed: () {
+                              bloc.enterDataFormForm(
+                                  int.parse(waterFieldController.text),
+                                  int.parse(electricityFieldController.text),
+                                  textWaste,
+                                  textDon,
+                                  textBulk,
+                                  textBio,
+                                  textCar,
+                                  textBike,
+                                  textBus);
+                            },
+                          ),
+                          new MaterialButton(
+                            child: Text("Annuler"),
+                            color: Colors.blue,
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                          ),
+                        ],
+                      ),
+                    ],
                   ),
-                  new Radio(
-                    value: 0,
-                    groupValue: _radioValueWaste,
-                    onChanged: _handleRadioValueChangeWaste,
-                  ),
-                  new Text(
-                    'Oui',
-                    style: new TextStyle(fontSize: 16.0),
-                  ),
-                  new Radio(
-                    value: 1,
-                    groupValue: _radioValueWaste,
-                    onChanged: _handleRadioValueChangeWaste,
-                  ),
-                  new Text(
-                    'Non',
-                    style: new TextStyle(
-                      fontSize: 16.0,
-                    ),
-                  ),
-                ],
-              ),
-              new Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  new Text(
-                    'Don association',
-                    style: new TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 16.0,
-                    ),
-                  ),
-                  new Radio(
-                    value: 0,
-                    groupValue: _radioValueDon,
-                    onChanged: _handleRadioValueChangeDon,
-                  ),
-                  new Text(
-                    'Oui',
-                    style: new TextStyle(fontSize: 16.0),
-                  ),
-                  new Radio(
-                    value: 1,
-                    groupValue: _radioValueDon,
-                    onChanged: _handleRadioValueChangeDon,
-                  ),
-                  new Text(
-                    'Non',
-                    style: new TextStyle(
-                      fontSize: 16.0,
-                    ),
-                  ),
-                ],
-              ),
-              new Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  new Text(
-                    'Achat produit en vrac',
-                    style: new TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 16.0,
-                    ),
-                  ),
-                  new Radio(
-                    value: 0,
-                    groupValue: _radioValueBulk,
-                    onChanged: _handleRadioValueChangeBulk,
-                  ),
-                  new Text(
-                    'Oui',
-                    style: new TextStyle(fontSize: 16.0),
-                  ),
-                  new Radio(
-                    value: 1,
-                    groupValue: _radioValueBulk,
-                    onChanged: _handleRadioValueChangeBulk,
-                  ),
-                  new Text(
-                    'Non',
-                    style: new TextStyle(
-                      fontSize: 16.0,
-                    ),
-                  ),
-                ],
-              ),
-              new Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  new Text(
-                    'Achat produit bio',
-                    style: new TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 16.0,
-                    ),
-                  ),
-                  new Radio(
-                    value: 0,
-                    groupValue: _radioValueBio,
-                    onChanged: _handleRadioValueChangeBio,
-                  ),
-                  new Text(
-                    'Oui',
-                    style: new TextStyle(fontSize: 16.0),
-                  ),
-                  new Radio(
-                    value: 1,
-                    groupValue: _radioValueBio,
-                    onChanged: _handleRadioValueChangeBio,
-                  ),
-                  new Text(
-                    'Non',
-                    style: new TextStyle(
-                      fontSize: 16.0,
-                    ),
-                  ),
-                ],
-              ),
-              new Container(
-                height: 5.0,
-                width: MediaQuery.of(context).size.width,
-                color: Colors.amber,
-                margin: const EdgeInsets.only(left: 10.0, right: 10.0),
-              ),
-              Text(
-                "Utilitaires",
-                style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-                textAlign: TextAlign.center,
-              ),
-              new Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  new Text(
-                    'Voiture',
-                    style: new TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 16.0,
-                    ),
-                  ),
-                  new Radio(
-                    value: 0,
-                    groupValue: _radioValueCar,
-                    onChanged: _handleRadioValueChangeCar,
-                  ),
-                  new Text(
-                    'Régulièrement',
-                    style: new TextStyle(fontSize: 16.0),
-                  ),
-                  new Radio(
-                    value: 1,
-                    groupValue: _radioValueCar,
-                    onChanged: _handleRadioValueChangeCar,
-                  ),
-                  new Text(
-                    'Occasionnel',
-                    style: new TextStyle(
-                      fontSize: 16.0,
-                    ),
-                  ),
-                  new Radio(
-                    value: 2,
-                    groupValue: _radioValueCar,
-                    onChanged: _handleRadioValueChangeCar,
-                  ),
-                  new Text(
-                    'Jamais',
-                    style: new TextStyle(
-                      fontSize: 16.0,
-                    ),
-                  ),
-                ],
-              ),
-              new Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  new Text(
-                    'Vélo',
-                    style: new TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 16.0,
-                    ),
-                  ),
-                  new Radio(
-                    value: 0,
-                    groupValue: _radioValueBike,
-                    onChanged: _handleRadioValueChangeBike,
-                  ),
-                  new Text(
-                    'Oui',
-                    style: new TextStyle(fontSize: 16.0),
-                  ),
-                  new Radio(
-                    value: 1,
-                    groupValue: _radioValueBike,
-                    onChanged: _handleRadioValueChangeBike,
-                  ),
-                  new Text(
-                    'Non',
-                    style: new TextStyle(
-                      fontSize: 16.0,
-                    ),
-                  ),
-                ],
-              ),
-              new Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  new Text(
-                    'Bus',
-                    style: new TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 16.0,
-                    ),
-                  ),
-                  new Radio(
-                    value: 0,
-                    groupValue: _radioValueBus,
-                    onChanged: _handleRadioValueChangeBus,
-                  ),
-                  new Text(
-                    'Oui',
-                    style: new TextStyle(fontSize: 16.0),
-                  ),
-                  new Radio(
-                    value: 1,
-                    groupValue: _radioValueBus,
-                    onChanged: _handleRadioValueChangeBus,
-                  ),
-                  new Text(
-                    'Non',
-                    style: new TextStyle(
-                      fontSize: 16.0,
-                    ),
-                  ),
-                ],
-              ),
-              new Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: <Widget>[
-                  //bloc.enterDataFormForm(waterFieldController.text, valueElectricity, waste, don, bulk, bio, car, bike, bus)
-                  new MaterialButton(
-                    onPressed: null,
-                    child: Text("Submit"),
-                    color: Colors.blue,
-                  ),
-                  new MaterialButton(
-                    onPressed: null,
-                    child: Text("Annuler"),
-                    color: Colors.blue,
-                  ),
-                ],
-              ),
             ],
-          ),
-        ),
+            ),
+              ),
       ),
     );
   }
