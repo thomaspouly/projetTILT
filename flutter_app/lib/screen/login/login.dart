@@ -18,7 +18,7 @@ TextStyle style = TextStyle(fontFamily: 'Montserrat', fontSize: 20.0);
 
 final String assetName = 'assets/earth.svg';
 
-final Widget svg = new SvgPicture.asset(assetName, semanticsLabel: 'Acme Logo');
+final Widget svg = new SvgPicture.asset(assetName, semanticsLabel: 'Acme Logo',width: 150,height:150);
 
 AuthProvider authProvider;
 FirestoreProvider firestoreProvider;
@@ -113,10 +113,15 @@ class _MyLoginPageState extends State<MyLoginPage> {
         minWidth: MediaQuery.of(context).size.width,
         padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
         onPressed: () {
+          if (emailFieldController.text.contains(" ")) {
+              setState(() {
+                widget.emailError = "Un email ne contient pas d'espace";
+              });
+            } else {
           if (bloc
                   .submit(emailFieldController.text, passFieldController.text)
                   .then((userId) {
-                sleep(Duration(seconds: 2));
+               // sleep(Duration(seconds: 1));
                 Navigator.push(
                   context,
                   MaterialPageRoute(
@@ -124,6 +129,8 @@ class _MyLoginPageState extends State<MyLoginPage> {
                             uid: userId,
                           )),
                 );
+              }).catchError((error){
+                print(error);
               }) !=
               null) {
           } else {
@@ -146,6 +153,7 @@ class _MyLoginPageState extends State<MyLoginPage> {
                 widget.passwordError = "Password trop court";
               });
             }
+          }
           }
         },
         child: Text("Login",
@@ -256,11 +264,10 @@ class _MyLoginPageState extends State<MyLoginPage> {
             padding: EdgeInsets.only(left: padding, right: padding),
             child: Stack(
               children: <Widget>[
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  crossAxisAlignment: CrossAxisAlignment.center,
+                ListView(
+                  
                   children: <Widget>[
-                    svg,
+                    Container(height:150,width:150,child:svg),
                     emailField,
                     Column(
                       children: <Widget>[
@@ -294,6 +301,7 @@ class _MyLoginPageState extends State<MyLoginPage> {
                     child: _continue,
                   ),
                 ),
+              
               ],
             )),
       ),

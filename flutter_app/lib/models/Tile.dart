@@ -25,22 +25,19 @@ class Tile {
   @override
   String toString() => "Tile<$id:$name:$categorie:$counter:$increment>";
 
-  void increase() {
-    counter += increment / 10;
-  }
 
   List<Tile> listTile() {
     List<Tile> list = <Tile>[
       Tile(
           id: 1,
-          name: "Ailerons de requins prélevés",
+          name: "Ailerons de requins prélevés(en kg)",
           categorie: Categorie(Names.faune),
           icon: Icons.donut_large,
           counter: 0,
-          increment: 117,
+          increment: 0.25,
           description:
-              "D'après les estimations d'une étude américaine, les chats tuent près de 117 oiseaux chaque seconde aux États-Unis. Cette hécatombe, estimée entre 1,4 et 3,7 milliards d'oiseaux tués, est causée majoritairement par des chats errants"),
-      Tile(
+              "Chaque année 8 000 tonnes d'ailerons de requins sont prélevés, soit 8 000 000 kg d'ailerons par an soit environ 1 kg d'ailerons tourtes les quatre secondes (compteur), une habitude qui contribue au massacre des requins."),
+     Tile(
           id: 2,
           name: "Le prélèvement végétal de l'humanité(kg)",
           categorie: Categorie(Names.flore),
@@ -195,7 +192,7 @@ class Tile {
           increment: 103,
           description:
               "Difficile à estimer, ce chiffre varie de 3.400 à 4.000 milliards de tonnes par an, soit de 80 à 126 tonnes de déchets générés chaque seconde ! Chaque jour, l'activité humaine produit environ plus de 10 milliards de kilos de déchets. Le flou entourant les chiffres des déchets toxiques ou dangereux (solvants, ....) est important. Entre 2008 et 2020 la quantité de déchets devrait augmenter de 40% dans le monde."),
-    ];
+   ];
     return list;
   }
 }

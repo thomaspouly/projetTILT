@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/bloc/classement_bloc.dart';
 import 'package:flutter_app/models/Country.dart';
@@ -11,13 +12,14 @@ final Widget svg = new SvgPicture.asset(assetName,
 class Countries extends StatelessWidget {
   List<Country> countries = new List();
   int taille;
+  ScrollController controller;
 
-  Countries(this.countries, this.taille);
+  Countries(this.countries, this.taille,this.controller);
 
   Widget _buildProductItem(BuildContext context, int index) {
     if (index < 3) {
       return Card(
-        color: Color(0xFF65ff7f),
+        color: Colors.green[600],
         child: Container(
           padding: EdgeInsets.only(right: 10, left: 10, bottom: 10, top: 10),
           margin: EdgeInsets.all(10),
@@ -25,22 +27,32 @@ class Countries extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
+              Text((index+1).toString(), style: TextStyle(fontSize: 20,color: Colors.green[300])),
               svg,
-              Text(
+             Container(
+               width: MediaQuery.of(context).size.width/2,
+               child: AutoSizeText(
                 countries[index].name,
+                minFontSize: 10,
                 style: TextStyle(fontSize: 25),
-              ),
+              ),),
               Text(
                 countries[index].value,
-                style: TextStyle(fontSize: 20),
+                style: TextStyle(fontSize: 20,color: Colors.white),
               ),
             ],
           ),
         ),
       );
+
+
+
+
+
+
     } else {
       return Card(
-        color: Color(0xFF65ff7f),
+        color: Colors.green[400],
         child: Container(
           height: 50,
           padding: EdgeInsets.only(right: 10, left: 10, bottom: 10, top: 10),
@@ -48,17 +60,20 @@ class Countries extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
-              Text(
+              AutoSizeText(
                 countries[index].rank.toString(),
-                style: TextStyle(fontSize: 20),
+                style: TextStyle(fontSize: 20,color: Colors.green[900]),
               ),
-              Text(
+            Container(
+               width: MediaQuery.of(context).size.width/2,
+               child: AutoSizeText(
                 countries[index].name,
+                minFontSize: 10,
                 style: TextStyle(fontSize: 25),
-              ),
+              ),),
               Text(
                 countries[index].value,
-                style: TextStyle(fontSize: 20),
+                style: TextStyle(fontSize: 20,color: Colors.white),
               ),
             ],
           ),
@@ -70,8 +85,10 @@ class Countries extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
+      shrinkWrap: true,
       itemBuilder: _buildProductItem,
       itemCount: taille,
+      controller: controller,
     );
   }
 }

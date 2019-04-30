@@ -429,7 +429,7 @@ class _RegisterPageState extends State<RegisterPage> {
       String id = await _bloc.registerUser(
           _email, _password, _name, _treeNumber, _image);
       if (id.isNotEmpty) {
-        sleep(Duration(seconds: 2));
+       // sleep(Duration(seconds: 1));
         Navigator.push(
           context,
           MaterialPageRoute(

@@ -34,12 +34,11 @@ class _StaggeredViewState extends State<StaggeredView> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    Timer timer;
 
     bloc.setCounter(widget.value, widget.increment);
 
-    counter = bloc.counter.toStringAsFixed(0);
-    timer = Timer.periodic(
+  counter = bloc.counter.toStringAsFixed(0);
+    Timer.periodic(
         Duration(milliseconds: 100),
         (Timer t) => setState(() {
               bloc.increase();
@@ -52,7 +51,7 @@ class _StaggeredViewState extends State<StaggeredView> {
 
   @override
   Widget build(BuildContext context) {
-    double width = MediaQuery.of(context).size.width;
+    double widthScreen = MediaQuery.of(context).size.width;
 
     return new InkWell(
         onTap: () {
@@ -66,7 +65,8 @@ class _StaggeredViewState extends State<StaggeredView> {
                   child: TileDetail(widget.id, widget.iconData, widget.title,
                       widget.description, widget.categorie)));
         },
-        child: Card(
+        child: Container(padding:EdgeInsets.only(left:2,right: 2),child:Card(
+          
             elevation: 3,
             color: widget.categorie.color,
             child: new Row(
@@ -84,12 +84,12 @@ class _StaggeredViewState extends State<StaggeredView> {
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: <Widget>[
                     Container(
-                      width: width / 3 * 2,
+                      width: widthScreen / 3 * 2,
                       child: AutoSizeText(
                         widget.title,
                         textAlign: TextAlign.center,
                         style: TextStyle(
-                            fontSize: 20.0,
+                            fontSize: widthScreen/17,
                             color: widget.categorie.colorLogo,
                             fontWeight: FontWeight.bold),
                         minFontSize: 10.0,
@@ -98,12 +98,12 @@ class _StaggeredViewState extends State<StaggeredView> {
                       ),
                     ),
                     Container(
-                      width: width / 3 * 2,
+                      width: widthScreen / 3 * 2,
                       child: AutoSizeText(
                         counter,
                         textAlign: TextAlign.end,
                         style: TextStyle(
-                            fontSize: 30.0,
+                            fontSize: widthScreen / 10,
                             color: Colors.white,
                             fontFamily: "Calibre-Semibold"),
                         minFontSize: 7.0,
@@ -114,6 +114,6 @@ class _StaggeredViewState extends State<StaggeredView> {
                   ],
                 )
               ],
-            )));
+            ))));
   }
 }

@@ -3,6 +3,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_app/models/Tile.dart';
+import 'package:flutter_app/screen/classement/classement.dart';
 import 'package:flutter_app/screen/customs/fab.dart';
 import 'package:flutter_app/screen/customs/staggeredView.dart';
 import 'package:flutter_app/screen/login/login.dart';
@@ -24,7 +25,6 @@ Future<String> getImage(String uid) async {
     final ref = FirebaseStorage.instance.ref().child("image/" + uid);
 // no need of the file extension, the name will do fine.
     String url = await ref.getDownloadURL();
-
     return url;
   } catch (e) {
     // print(e.toString());
@@ -34,20 +34,6 @@ Future<String> getImage(String uid) async {
 class _HomePageState extends State<HomePage> {
   List<Tile> tiles = Tile().listTile();
   List<StaggeredView> tileGrid;
-  Timer timer;
-
-  @override
-  void initState() {
-    super.initState();
-
-    timer = Timer.periodic(
-        Duration(milliseconds: 100),
-        (Timer t) => setState(() {
-              for (int i = 0; i < tiles.length; i++) {
-                tiles[i].increase();
-              }
-            }));
-  }
 
   ScrollController _hideButtonController = new ScrollController();
 
@@ -121,12 +107,28 @@ class _HomePageState extends State<HomePage> {
 
   Widget _buildBottomBar() {
     return FABBottomAppBar(
+      index: 0,
       color: Colors.grey,
       selectedColor: Colors.green,
       notchedShape: CircularNotchedRectangle(),
-      //  onTabSelected: _selectedTab,
+  onTabSelected:(index){
+    if(index==1){
+       Navigator.push(
+            context,
+            MaterialPageRoute(
+
+              
+                builder: (context) => MyClassementPage(
+                      uid: widget.uid,
+                    )),
+          );
+    }
+  } ,
+
+
+
       items: [
-        FABBottomAppBarItem(iconData: Icons.my_location, text: 'Statistiques'),
+        FABBottomAppBarItem(iconData: Icons.my_location, text: 'Statistiques',),
         FABBottomAppBarItem(
             iconData: Icons.format_list_numbered, text: 'Classements'),
       ],
@@ -137,9 +139,12 @@ class _HomePageState extends State<HomePage> {
     return FloatingActionButton(
       onPressed: () {
         if (widget.uid != null) {
+          print("UID:"+widget.uid);
           Navigator.push(
             context,
             MaterialPageRoute(
+
+              
                 builder: (context) => TreePage(
                       uid: widget.uid,
                     )),
@@ -209,6 +214,8 @@ class _HomePageState extends State<HomePage> {
                     decoration: new BoxDecoration(
                         shape: BoxShape.circle, color: Colors.blue)),
               )
+
+              ///////////////
             : new FutureBuilder<String>(
                 future: url,
                 builder:
@@ -217,33 +224,40 @@ class _HomePageState extends State<HomePage> {
                     case ConnectionState.none:
                       return Text('Press button to start.');
                     case ConnectionState.active:
+   return Text('Active...');
 
                     case ConnectionState.waiting:
                       return Text('Awaiting result...');
+                     
+
                     case ConnectionState.done:
-                      return new FlatButton(
+                    return new FlatButton(
                         onPressed: () {},
                         child: new Container(
+                          
                             height: 70,
                             width: 70,
-                            decoration: new BoxDecoration(
+                           decoration: new BoxDecoration(
 
-                                /*  boxShadow: [
+                                  /*boxShadow: [
                                   new BoxShadow(
                                     color: Colors.black,
-                                    spreadRadius: 3,
+                                    spreadRadius: 0,
                                     offset: new Offset(0.0, 00.0),
-                                    // blurRadius: 10.0,
+                                  blurRadius: 15.0,
                                   )
                                 ],*/
                                 shape: BoxShape.circle,
                                 image: new DecorationImage(
+                                  
                                   fit: BoxFit.fill,
                                   image: NetworkImage(snapshot.data),
-                                ))),
+                                ))
+                                
+                                
+                                ),
                       );
                   }
-                  return null; // unreachable
                 },
               ));
   }

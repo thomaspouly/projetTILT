@@ -22,6 +22,7 @@ class MyApp extends StatelessWidget {
         title: 'Flutter Demo',
         theme: ThemeData(
           primarySwatch: Colors.green,
+          fontFamily: 'Calibre-Semibold'
         ),
         home: new SplashScreen(
             seconds: 2,
