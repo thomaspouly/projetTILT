@@ -1,9 +1,11 @@
+
 import 'dart:async';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_app/models/Tile.dart';
-import 'package:flutter_app/screen/classement/classement.dart';
+import 'package:flutter_app/provider/BlocProvider.dart';
+import 'package:flutter_app/screen/customs/Countries.dart';
 import 'package:flutter_app/screen/customs/fab.dart';
 import 'package:flutter_app/screen/customs/staggeredView.dart';
 import 'package:flutter_app/screen/login/login.dart';
@@ -34,6 +36,8 @@ Future<String> getImage(String uid) async {
 class _HomePageState extends State<HomePage> {
   List<Tile> tiles = Tile().listTile();
   List<StaggeredView> tileGrid;
+  List<StaggeredTile> _staggeredTiles;
+  bool classement = false;
 
   ScrollController _hideButtonController = new ScrollController();
 
@@ -41,8 +45,9 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    final bloc = BlocProvider.ofClassement(context);
     tileGrid = new List<StaggeredView>();
-    List<StaggeredTile> _staggeredTiles = List<StaggeredTile>();
+    _staggeredTiles = List<StaggeredTile>();
 
     List<Tile> tiles = Tile().listTile();
 
@@ -60,14 +65,9 @@ class _HomePageState extends State<HomePage> {
       _staggeredTiles.add(StaggeredTile.count(4, 1.5));
     }
 
-    /*
-  _staggeredTiles.add(StaggeredTile.count(4, 1));
-  _staggeredTiles.add(StaggeredTile.count(4, 1));
-  _staggeredTiles.add(StaggeredTile.count(4, 1));
-  _staggeredTiles.add(StaggeredTile.count(4, 1));
-*/
     FlutterStatusbarcolor.setStatusBarColor(Colors.grey[200]);
     FlutterStatusbarcolor.setStatusBarWhiteForeground(false);
+
     return new SafeArea(
       child: new Scaffold(
           bottomNavigationBar: _buildBottomBar(),
@@ -84,51 +84,85 @@ class _HomePageState extends State<HomePage> {
                 flexibleSpace: FlexibleSpaceBar(
                   background: Container(
                       padding: EdgeInsets.only(top: 5, bottom: 5),
-                      child: Center(
-                        child: Row(
-                          // crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: <Widget>[
-                            _buildImage(),
-                            _buildDropDownButton(),
-                          ],
-                        ),
-                      )),
+                      child: Center(child: bar(classement))),
                 ),
               ),
               SliverToBoxAdapter(
-                child: _buildStaggredView(
-                    _hideButtonController, _staggeredTiles, tileGrid),
+                child: body(classement, bloc),
               ),
             ],
           )),
     );
   }
 
+  Widget getLoadedRankingCountry(var bloc) {
+    if (_currentItemSelected2 == "2017") {
+      return new FutureBuilder(
+          future: bloc.loadCountries(),
+          builder: (BuildContext context, AsyncSnapshot snapshot) {
+            return Countries(snapshot.data, taille, _hideButtonController)
+                .build(context);
+          });
+    } else if (_currentItemSelected2 == "2016") {
+      return new FutureBuilder(
+          future: bloc.loadCountries(),
+          builder: (BuildContext context, AsyncSnapshot snapshot) {
+            return Countries(snapshot.data, taille, _hideButtonController)
+                .build(context);
+          });
+    } else if (_currentItemSelected2 == "2015") {
+      return new FutureBuilder(
+          future: bloc.loadCountries(),
+          builder: (BuildContext context, AsyncSnapshot snapshot) {
+            return Countries(snapshot.data, taille, _hideButtonController)
+                .build(context);
+          });
+    } else if (_currentItemSelected2 == "2014") {
+      return new FutureBuilder(
+          future: bloc.loadCountries(),
+          builder: (BuildContext context, AsyncSnapshot snapshot) {
+            return Countries(snapshot.data, taille, _hideButtonController)
+                .build(context);
+          });
+    } else {
+      return new FutureBuilder(
+          future: bloc.loadCountries(),
+          builder: (BuildContext context, AsyncSnapshot snapshot) {
+            return Countries(snapshot.data, taille, _hideButtonController)
+                .build(context);
+          });
+    }
+  }
+
   Widget _buildBottomBar() {
     return FABBottomAppBar(
-      index: 0,
+     
       color: Colors.grey,
       selectedColor: Colors.green,
       notchedShape: CircularNotchedRectangle(),
-  onTabSelected:(index){
-    if(index==1){
-       Navigator.push(
-            context,
-            MaterialPageRoute(
+      onTabSelected: (index) {
+        if(index==1){
+        setState(() {
+        
+            classement = true;
+         
+        });
+        }else{
+         setState(() {
+        
+            classement = false;
+          
+          
+        });
+        }
 
-              
-                builder: (context) => MyClassementPage(
-                      uid: widget.uid,
-                    )),
-          );
-    }
-  } ,
 
-
-
+      },
       items: [
-        FABBottomAppBarItem(iconData: Icons.my_location, text: 'Statistiques',),
+        FABBottomAppBarItem(
+          iconData: Icons.my_location,
+          text: 'Statistiques',
+        ),
         FABBottomAppBarItem(
             iconData: Icons.format_list_numbered, text: 'Classements'),
       ],
@@ -139,12 +173,9 @@ class _HomePageState extends State<HomePage> {
     return FloatingActionButton(
       onPressed: () {
         if (widget.uid != null) {
-          print("UID:"+widget.uid);
           Navigator.push(
             context,
             MaterialPageRoute(
-
-              
                 builder: (context) => TreePage(
                       uid: widget.uid,
                     )),
@@ -215,7 +246,7 @@ class _HomePageState extends State<HomePage> {
                         shape: BoxShape.circle, color: Colors.blue)),
               )
 
-              ///////////////
+            ///////////////
             : new FutureBuilder<String>(
                 future: url,
                 builder:
@@ -224,22 +255,20 @@ class _HomePageState extends State<HomePage> {
                     case ConnectionState.none:
                       return Text('Press button to start.');
                     case ConnectionState.active:
-   return Text('Active...');
+                      return Text('Active...');
 
                     case ConnectionState.waiting:
                       return Text('Awaiting result...');
-                     
 
                     case ConnectionState.done:
-                    return new FlatButton(
+                      return new FlatButton(
                         onPressed: () {},
                         child: new Container(
-                          
                             height: 70,
                             width: 70,
-                           decoration: new BoxDecoration(
+                            decoration: new BoxDecoration(
 
-                                  /*boxShadow: [
+                                /*boxShadow: [
                                   new BoxShadow(
                                     color: Colors.black,
                                     spreadRadius: 0,
@@ -249,13 +278,9 @@ class _HomePageState extends State<HomePage> {
                                 ],*/
                                 shape: BoxShape.circle,
                                 image: new DecorationImage(
-                                  
                                   fit: BoxFit.fill,
                                   image: NetworkImage(snapshot.data),
-                                ))
-                                
-                                
-                                ),
+                                ))),
                       );
                   }
                 },
@@ -305,5 +330,94 @@ class _HomePageState extends State<HomePage> {
       mainAxisSpacing: 4.0,
       crossAxisSpacing: 4.0,
     );
+  }
+
+  String _currentItemSelected1 = 'Top 40';
+
+  var _currentItemSelected2 = '2017';
+  int taille = 40;
+
+  Widget _buildDropDownButton1() {
+    return Container(
+      child: DropdownButton<String>(
+        value: _currentItemSelected1,
+        onChanged: (String newValue) {
+          setState(() {
+            _currentItemSelected1 = newValue;
+            taille <= 40
+                ? taille = int.parse(_currentItemSelected1.split(' ')[1])
+                : taille = 40;
+          });
+        },
+        items: <String>['Top 3', 'Top 5', 'Top 10', 'Top 20', 'Top 40']
+            .map<DropdownMenuItem<String>>((String value) {
+          return DropdownMenuItem<String>(
+            value: value,
+            child: Text(
+              value,
+              style: TextStyle(fontSize: 18),
+            ),
+          );
+        }).toList(),
+      ),
+    );
+  }
+
+  Widget _buildDropDownButton2() {
+    return Container(
+      child: DropdownButton<String>(
+        value: _currentItemSelected2,
+        onChanged: (String newValue) {
+          setState(() {
+            _currentItemSelected2 = newValue;
+          });
+        },
+        items: <String>['Cet année', '2018', '2017', '2016', '2015']
+            .map<DropdownMenuItem<String>>((String value) {
+          return DropdownMenuItem<String>(
+            value: value,
+            child: Text(
+              value,
+              style: TextStyle(fontSize: 18),
+            ),
+          );
+        }).toList(),
+      ),
+    );
+  }
+
+  Widget bar(bool b) {
+    switch (b) {
+      case false:
+        return Row(
+          // crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: <Widget>[Hero(tag:'image',child:_buildImage()), _buildDropDownButton()],
+        );
+        break;
+      case true:
+        return Row(
+          // crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: <Widget>[
+            _buildDropDownButton1(),
+            Hero(tag:'image',child:_buildImage()),
+            _buildDropDownButton2()
+          ],
+        );
+        break;
+    }
+  }
+
+  Widget body(bool b, var bloc) {
+    switch (b) {
+      case false:
+        return _buildStaggredView(
+            _hideButtonController, _staggeredTiles, tileGrid);
+        break;
+      case true:
+        return getLoadedRankingCountry(bloc);
+        break;
+    }
   }
 }

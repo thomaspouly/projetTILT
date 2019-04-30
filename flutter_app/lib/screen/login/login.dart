@@ -5,7 +5,6 @@ import 'package:flutter_app/bloc/login_bloc.dart';
 import 'package:flutter_app/provider/AuthProvider.dart';
 import 'package:flutter_app/provider/FirestoreProvider.dart';
 import 'package:flutter_app/provider/BlocProvider.dart';
-import 'package:flutter_app/screen/classement/classement.dart';
 import 'package:flutter_app/screen/customs/TextFieldCustom.dart';
 import 'package:flutter_app/screen/home/home.dart';
 import 'package:flutter_app/screen/register/register.dart';

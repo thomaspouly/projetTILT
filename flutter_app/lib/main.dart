@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/provider/BlocProvider.dart';
-import 'package:flutter_app/screen/classement/classement.dart';
 import 'package:flutter_app/screen/home/home.dart';
 import 'package:flutter_app/screen/login/login.dart';
 import 'package:flutter_app/screen/tree/tree.dart';

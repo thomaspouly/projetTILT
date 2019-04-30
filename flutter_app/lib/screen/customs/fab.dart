@@ -18,7 +18,6 @@ class FABBottomAppBar extends StatefulWidget {
     this.selectedColor,
     this.notchedShape,
     this.onTabSelected,
-    this.index
   }) {
     assert(this.items.length == 2 || this.items.length == 4);
   }
@@ -32,14 +31,13 @@ class FABBottomAppBar extends StatefulWidget {
   final Color selectedColor;
   final NotchedShape notchedShape;
   final ValueChanged<int> onTabSelected;
-  final int index;
 
   @override
   State<StatefulWidget> createState() => FABBottomAppBarState();
 }
 
 class FABBottomAppBarState extends State<FABBottomAppBar> {
-  int _selectedIndex;
+  int _selectedIndex = 0;
 
   _updateIndex(int index) {
     widget.onTabSelected(index);
@@ -50,7 +48,6 @@ class FABBottomAppBarState extends State<FABBottomAppBar> {
 
   @override
   Widget build(BuildContext context) {
-    _selectedIndex=widget.index;
     List<Widget> items = List.generate(widget.items.length, (int index) {
       return _buildTabItem(
         item: widget.items[index],
