@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/provider/BlocProvider.dart';
 import 'package:flutter_app/screen/customs/TextFieldCustom.dart';
+import 'package:flutter_statusbarcolor/flutter_statusbarcolor.dart';
 
 class MyFormTreePage extends StatefulWidget {
   MyFormTreePage({Key key}) : super(key: key);
@@ -10,7 +11,7 @@ class MyFormTreePage extends StatefulWidget {
 }
 
 class _MyFormTreePageState extends State<MyFormTreePage> {
-  double padding = 20;
+  double padding = 10;
 
   int _radioValueWaste,_radioValueDon,_radioValueBulk,_radioValueBio,_radioValueCar,_radioValueBike,_radioValueBus;
 
@@ -130,6 +131,8 @@ class _MyFormTreePageState extends State<MyFormTreePage> {
   @override
   Widget build(BuildContext context) {
     final bloc = BlocProvider.ofFormTree(context);
+    FlutterStatusbarcolor.setStatusBarColor(Color.fromRGBO(210, 251, 209, 1));
+    FlutterStatusbarcolor.setStatusBarWhiteForeground(false);
 
     double fontSize = 18;
 
@@ -137,11 +140,10 @@ class _MyFormTreePageState extends State<MyFormTreePage> {
       child: Scaffold(
           backgroundColor: Color.fromRGBO(210, 251, 209, 1),
           body: Container(
-            padding: EdgeInsets.only(left: padding, right: padding),
             child: Stack(
               children: <Widget>[
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  ListView(
+                    padding: EdgeInsets.only(left: padding,right: padding),
                     children: <Widget>[
                       Text(
                         "Consommations",
