@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/provider/BlocProvider.dart';
 import 'package:flutter_app/screen/classement/classement.dart';
+import 'package:flutter_app/screen/tree/tree.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:splashscreen/splashscreen.dart';
 
@@ -17,14 +18,13 @@ class MyApp extends StatelessWidget {
 
     return new BlocProvider(
         child: MaterialApp(
-          
             title: 'Flutter Demo',
             theme: ThemeData(
               primarySwatch: Colors.green,
             ),
             home:  new SplashScreen(
                 seconds: 2,
-                navigateAfterSeconds: new MyClassementPage(),
+                navigateAfterSeconds: new TreePage(),
                 title: new Text('Bienvenue sur EarthState',textAlign: TextAlign.center,style: TextStyle(fontSize: 20,color: Colors.grey,wordSpacing: 3),),
                 image: Image.asset(assetName),
                 backgroundColor: Color.fromRGBO(210, 251, 209, 1),

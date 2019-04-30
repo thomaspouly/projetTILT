@@ -39,6 +39,8 @@ dependencies:
   flutter_statusbarcolor: ^0.2.0
   splashscreen: ^1.2.0
   csv: ^4.0.3
+  fluttie: ^0.3.2
+  multi_page_form: ^1.0.4
 
 dev_dependencies:
   flutter_test:

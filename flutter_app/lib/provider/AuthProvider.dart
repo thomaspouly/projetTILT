@@ -12,8 +12,10 @@ class AuthProvider {
       return user.uid;
   }
 
-  Future<FirebaseUser> currentUser() {
-    return firebase.currentUser();
+  Future<String> currentUser() {
+    return firebase.currentUser().then((userID) {
+      return userID.uid;
+    });
   }
 
   Future<String> registerUser(String email,String password) async {
