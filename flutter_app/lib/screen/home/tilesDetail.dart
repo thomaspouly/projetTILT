@@ -1,64 +1,58 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_app/models/Categorie.dart';
 import 'package:flutter_statusbarcolor/flutter_statusbarcolor.dart';
 import 'package:flutter_sparkline/flutter_sparkline.dart';
 
-class TuilePage extends StatefulWidget {
-  Color color;
+class TileDetail extends StatefulWidget {
   IconData iconData;
-  String idCard;
+  int idCard;
   String title;
-  String value;
+  String description;
+  Categorie categorie;
   Color textColor = Colors.white;
   var data = [0.0, 1.0, 1.5, 2.0, 0.0, 0.0, -0.5, -1.0, -0.5, 0.0, 0.0];
 
-  TuilePage({this.idCard, this.color, this.iconData, this.title, this.value});
+  TileDetail(
+      this.idCard, this.iconData, this.title, this.description, this.categorie);
 
   @override
-  State<StatefulWidget> createState() => new _TuilePageState();
+  State<StatefulWidget> createState() => new _TileDetailState();
 }
 
-class _TuilePageState extends State<TuilePage> {
+class _TileDetailState extends State<TileDetail> {
   @override
   Widget build(BuildContext context) {
-    FlutterStatusbarcolor.setStatusBarColor(widget.color);
-    FlutterStatusbarcolor.setStatusBarWhiteForeground(false);
     return new SafeArea(
       child: new Scaffold(
           body: CustomScrollView(
         slivers: <Widget>[
           SliverAppBar(
             title: Text(
-                widget.title,
-                style: TextStyle(fontSize: 20, color: Colors.white),
-              ),
-            
-            backgroundColor: widget.color,
+              widget.title,
+              style: TextStyle(fontSize: 20, color: Colors.white),
+            ),
+            backgroundColor: widget.categorie.color,
             floating: true,
-            expandedHeight: 170,
+            expandedHeight: 120,
             flexibleSpace: FlexibleSpaceBar(
                 background: Stack(
               children: <Widget>[
-                Hero(
-                  tag: 'icon_${widget.idCard}',
-                  child: Align(
-                    alignment: Alignment.center,
-                    child: Icon(
-                      widget.iconData,
-                      color: Colors.black,
-                      size: 150,
+                Container(
+                  margin: EdgeInsets.only(top: 25),
+                  child: Hero(
+                    tag: 'icon_${widget.idCard}',
+                    child: Align(
+                      alignment: Alignment.center,
+                      child: Icon(
+                        widget.iconData,
+                        color: widget.categorie.colorLogo,
+                        size: 100,
+                      ),
                     ),
                   ),
                 ),
-               Align(
-                        alignment: Alignment.center,
-                        child: Text(
-                          widget.value,
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 50,
-                              fontWeight: FontWeight.bold),
-                        ))
               ],
             )),
           ),
@@ -72,10 +66,10 @@ class _TuilePageState extends State<TuilePage> {
                           color: widget.textColor,
                           fontWeight: FontWeight.bold,
                           fontSize: 25)),
-                  Text(
-                    "Le développement mobile cross-platforms n’a jamais vraiment convaincu : amenant souvent de lourdes contraintes qui entachent la productivité ou l’expérience utilisateur. Mais Google a repensé cette approche et propose une solution qui fait beaucoup parler. Nous verrons ensemble pourquoi il faut prêter une attention particulière à cette technologie.",
+                  AutoSizeText(
+                    widget.description,
                     style: TextStyle(color: widget.textColor),
-                  )
+                  ),
                 ]),
                 color: Colors.red,
               ),
@@ -117,7 +111,7 @@ class _TuilePageState extends State<TuilePage> {
                           fontWeight: FontWeight.bold,
                           fontSize: 25)),
                   Text(
-                    "-Prenez des douches plus courtes\n-Ne prenez pas de bains\n-Fabriquez un récupérateur d'eau pour alimenter vos plantes",
+                    widget.categorie.conseils,
                     style: TextStyle(color: widget.textColor),
                   )
                 ]),

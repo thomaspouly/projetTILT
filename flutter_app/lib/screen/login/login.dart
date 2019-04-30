@@ -100,6 +100,7 @@ class _MyLoginPageState extends State<MyLoginPage> {
 
   @override
   Widget build(BuildContext context) {
+ 
     final bloc = BlocProvider.of(context);
 
     final emailField = TextFieldCustom(
