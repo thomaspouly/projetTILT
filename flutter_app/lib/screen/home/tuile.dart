@@ -21,7 +21,7 @@ class TuilePage extends StatefulWidget {
 class _TuilePageState extends State<TuilePage> {
   @override
   Widget build(BuildContext context) {
- FlutterStatusbarcolor.setStatusBarColor(Colors.green);
+    FlutterStatusbarcolor.setStatusBarColor(Colors.green);
     FlutterStatusbarcolor.setStatusBarWhiteForeground(false);
     return new SafeArea(
       child: new Scaffold(
@@ -29,10 +29,9 @@ class _TuilePageState extends State<TuilePage> {
         slivers: <Widget>[
           SliverAppBar(
             title: Text(
-                widget.title,
-                style: TextStyle(fontSize: 20, color: Colors.white),
-              ),
-            
+              widget.title,
+              style: TextStyle(fontSize: 20, color: Colors.white),
+            ),
             backgroundColor: widget.color,
             floating: true,
             expandedHeight: 170,
@@ -50,15 +49,15 @@ class _TuilePageState extends State<TuilePage> {
                     ),
                   ),
                 ),
-               Align(
-                        alignment: Alignment.center,
-                        child: Text(
-                          widget.value,
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 50,
-                              fontWeight: FontWeight.bold),
-                        ))
+                Align(
+                    alignment: Alignment.center,
+                    child: Text(
+                      widget.value,
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 50,
+                          fontWeight: FontWeight.bold),
+                    ))
               ],
             )),
           ),

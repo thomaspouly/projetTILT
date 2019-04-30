@@ -1,13 +1,21 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class DataTreeForm {
-
   int valueWater, valueElectricity;
-  String waste, don, bulk, bio,car, bike, bus;
+  String waste, don, bulk, bio, car, bike, bus;
   final DocumentReference reference;
 
-  DataTreeForm({this.valueWater, this.valueElectricity,this.waste, this.don,this.bulk, this.bio,this.car, this.bike,this.bus, this.reference});
-
+  DataTreeForm(
+      {this.valueWater,
+      this.valueElectricity,
+      this.waste,
+      this.don,
+      this.bulk,
+      this.bio,
+      this.car,
+      this.bike,
+      this.bus,
+      this.reference});
 
   DataTreeForm.fromMap(Map<String, dynamic> map, {this.reference})
       : assert(map['valueWater'] != null),
@@ -32,8 +40,7 @@ class DataTreeForm {
   DataTreeForm.fromSnapshot(DocumentSnapshot snapshot)
       : this.fromMap(snapshot.data, reference: snapshot.reference);
 
-  Map<String, dynamic> toJson() =>
-      {
+  Map<String, dynamic> toJson() => {
         'valueWater': valueWater,
         'valueElectricity': valueElectricity,
         'waste': waste,
@@ -44,5 +51,4 @@ class DataTreeForm {
         'bike': bike,
         'bus': bus,
       };
-
 }

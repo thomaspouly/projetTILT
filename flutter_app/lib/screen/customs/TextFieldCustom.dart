@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
 class TextFieldCustom extends StatelessWidget {
-  TextFieldCustom({this.controller, this.title, this.icon, this.hide,this.textError});
+  TextFieldCustom(
+      {this.controller, this.title, this.icon, this.hide, this.textError});
 
   /// icon data to use (normally Icons.flight_takeoff or Icons.flight_land)
   final TextEditingController controller;

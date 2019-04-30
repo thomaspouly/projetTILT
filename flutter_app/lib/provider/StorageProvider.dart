@@ -9,6 +9,6 @@ class StorageProvider {
   AuthProvider auth = AuthProvider();
 
   Future<String> setImage(String userId, File image) async {
-    _firebaseStorage.ref().child('/image/'+userId).putFile(image);
+    _firebaseStorage.ref().child('/image/' + userId).putFile(image);
   }
 }

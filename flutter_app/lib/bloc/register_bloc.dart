@@ -7,10 +7,14 @@ class RegisterBloc {
   String _email;
   String _password;
 
-  Future<String> registerUser(String email, String password,String name,int treeNumber,File image) {
-    if(validateFields(email, password) && name.isNotEmpty && treeNumber>-1 && image!=null) {
-      return _repository.registerUser(email, password,name,treeNumber,image);
-    }else {
+  Future<String> registerUser(
+      String email, String password, String name, int treeNumber, File image) {
+    if (validateFields(email, password) &&
+        name.isNotEmpty &&
+        treeNumber > -1 &&
+        image != null) {
+      return _repository.registerUser(email, password, name, treeNumber, image);
+    } else {
       return null;
     }
   }
@@ -21,7 +25,7 @@ class RegisterBloc {
         password != null &&
         password.isNotEmpty &&
         email.contains('@') &&
-        password.length >4) {
+        password.length > 4) {
       return true;
     } else {
       return false;

@@ -15,10 +15,8 @@ import 'package:flutter/services.dart' show rootBundle;
 
 TextStyle style = TextStyle(fontFamily: 'Montserrat', fontSize: 20.0);
 
-
 AuthProvider authProvider;
 FirestoreProvider firestoreProvider;
-
 
 // LOGIN PAGE
 
@@ -154,7 +152,6 @@ class _MyClassementPageState extends State<MyClassementPage> {
 
   String _currentItemSelected = 'Top 40';
 
-
   var _currentItemSelected2 = '2017';
   int taille = 40;
   Color color = Colors.white;
@@ -177,25 +174,22 @@ class _MyClassementPageState extends State<MyClassementPage> {
         value: _currentItemSelected,
         onChanged: (String newValue) {
           setState(() {
-            _currentItemSelected=newValue;
-              taille <= 40 ? taille = int.parse(_currentItemSelected.split(' ')[1]) : taille = 40;
+            _currentItemSelected = newValue;
+            taille <= 40
+                ? taille = int.parse(_currentItemSelected.split(' ')[1])
+                : taille = 40;
           });
         },
-        items: <String>[
-          'Top 3',
-          'Top 5',
-          'Top 10',
-          'Top 20',
-          'Top 40'
-        ]
+        items: <String>['Top 3', 'Top 5', 'Top 10', 'Top 20', 'Top 40']
             .map<DropdownMenuItem<String>>((String value) {
           return DropdownMenuItem<String>(
             value: value,
-            child: Text(value,style: TextStyle(fontSize: 20),),
-
+            child: Text(
+              value,
+              style: TextStyle(fontSize: 20),
+            ),
           );
         }).toList(),
-
       ),
     );
   }
@@ -214,67 +208,66 @@ class _MyClassementPageState extends State<MyClassementPage> {
         color: color,
         borderRadius: new BorderRadius.circular(7.0),
       ),
-      child:DropdownButton<String>(
+      child: DropdownButton<String>(
         value: _currentItemSelected2,
         onChanged: (String newValue) {
           setState(() {
-            _currentItemSelected2=newValue;
+            _currentItemSelected2 = newValue;
           });
         },
-        items: <String>[
-          'Cet année',
-          '2018',
-          '2017',
-          '2016',
-          '2015'
-        ]
+        items: <String>['Cet année', '2018', '2017', '2016', '2015']
             .map<DropdownMenuItem<String>>((String value) {
           return DropdownMenuItem<String>(
             value: value,
-            child: Text(value,style: TextStyle(fontSize: 20),),
-
+            child: Text(
+              value,
+              style: TextStyle(fontSize: 20),
+            ),
           );
         }).toList(),
-
       ),
     );
   }
-
 
   @override
   Widget build(BuildContext context) {
     final bloc = BlocProvider.ofClassement(context);
 
     Widget getLoadedRankingCountry() {
-      if(_currentItemSelected2 == "2017") {
-        return new FutureBuilder(future: bloc.loadCountries(),
+      if (_currentItemSelected2 == "2017") {
+        return new FutureBuilder(
+            future: bloc.loadCountries(),
             builder: (BuildContext context, AsyncSnapshot snapshot) {
               return Expanded(
-                  child: Countries(snapshot.data,taille).build(context));
+                  child: Countries(snapshot.data, taille).build(context));
             });
-      } else if(_currentItemSelected2 == "2016") {
-        return new FutureBuilder(future: bloc.loadCountries(),
+      } else if (_currentItemSelected2 == "2016") {
+        return new FutureBuilder(
+            future: bloc.loadCountries(),
             builder: (BuildContext context, AsyncSnapshot snapshot) {
               return Expanded(
-                  child: Countries(snapshot.data,taille).build(context));
+                  child: Countries(snapshot.data, taille).build(context));
             });
-      }else if(_currentItemSelected2 == "2015") {
-        return new FutureBuilder(future: bloc.loadCountries(),
+      } else if (_currentItemSelected2 == "2015") {
+        return new FutureBuilder(
+            future: bloc.loadCountries(),
             builder: (BuildContext context, AsyncSnapshot snapshot) {
               return Expanded(
-                  child: Countries(snapshot.data,taille).build(context));
+                  child: Countries(snapshot.data, taille).build(context));
             });
-      }else if(_currentItemSelected2 == "2014") {
-        return new FutureBuilder(future: bloc.loadCountries(),
+      } else if (_currentItemSelected2 == "2014") {
+        return new FutureBuilder(
+            future: bloc.loadCountries(),
             builder: (BuildContext context, AsyncSnapshot snapshot) {
               return Expanded(
-                  child: Countries(snapshot.data,taille).build(context));
+                  child: Countries(snapshot.data, taille).build(context));
             });
       } else {
-        return new FutureBuilder(future: bloc.loadCountries(),
+        return new FutureBuilder(
+            future: bloc.loadCountries(),
             builder: (BuildContext context, AsyncSnapshot snapshot) {
               return Expanded(
-                  child: Countries(snapshot.data,taille).build(context));
+                  child: Countries(snapshot.data, taille).build(context));
             });
       }
     }

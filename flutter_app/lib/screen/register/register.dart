@@ -146,8 +146,7 @@ class _RegisterPageState extends State<RegisterPage> {
     );
   }
 
-
- void _showCGU() {
+  void _showCGU() {
     // flutter defined function
     showDialog(
       context: context,
@@ -155,9 +154,7 @@ class _RegisterPageState extends State<RegisterPage> {
         // return object of type Dialog
         return AlertDialog(
           title: new Text("Conditions générales d'utilisation:"),
-          content: Center(
-            child:Text("Hello World")
-          ),
+          content: Center(child: Text("Hello World")),
           actions: <Widget>[
             // usually buttons at the bottom of the dialog
             new FlatButton(
@@ -171,11 +168,12 @@ class _RegisterPageState extends State<RegisterPage> {
       },
     );
   }
+
   @override
   Widget build(BuildContext context) {
     _bloc = BlocProvider.ofRegister(context);
-       FlutterStatusbarcolor.setStatusBarColor(Colors.green[100]);
-       FlutterStatusbarcolor.setStatusBarWhiteForeground(false);
+    FlutterStatusbarcolor.setStatusBarColor(Colors.green[100]);
+    FlutterStatusbarcolor.setStatusBarWhiteForeground(false);
     return new Scaffold(
       body: new Container(
         padding: EdgeInsets.only(right: 15, left: 15),
@@ -219,7 +217,7 @@ class _RegisterPageState extends State<RegisterPage> {
                                 image: AssetImage("assets/avatar.png"),
                               ))),
                     ),
-              Text("Choisissez une image"),
+                    Text("Choisissez une image"),
                   ])
                 : new FlatButton(
                     onPressed: _showDialog,
@@ -352,13 +350,14 @@ class _RegisterPageState extends State<RegisterPage> {
                 value: _booleanCheckBox,
                 onChanged: _valueChanged,
               ),
-             
               GestureDetector(
-                child: FlatButton(child: Text("Accepter les CGU"),onPressed: (){
-                _showCGU();
-              },),
+                child: FlatButton(
+                  child: Text("Accepter les CGU"),
+                  onPressed: () {
+                    _showCGU();
+                  },
+                ),
               ),
-               
             ],
           ),
           new Container(
@@ -377,7 +376,6 @@ class _RegisterPageState extends State<RegisterPage> {
       ),
     );
   }
-
 
   void _loginPressed() async {
     if (_nameFilter.text.isEmpty) {
@@ -410,9 +408,9 @@ class _RegisterPageState extends State<RegisterPage> {
       setState(() {
         _textError = "Veuillez selectionner un arbre";
       });
-    } else if (_image==null) {
+    } else if (_image == null) {
       setState(() {
-      //  _image =new File("avatar.png");
+        //  _image =new File("avatar.png");
       });
     } else {
       setState(() {
@@ -423,20 +421,21 @@ class _RegisterPageState extends State<RegisterPage> {
         print(e.toString());
       }
 
-
-
-_image = await ImageCrop.sampleImage(
-    file: _image,
-    preferredWidth: 100,
-    preferredHeight: 100,
-);
+      _image = await ImageCrop.sampleImage(
+        file: _image,
+        preferredWidth: 100,
+        preferredHeight: 100,
+      );
       String id = await _bloc.registerUser(
           _email, _password, _name, _treeNumber, _image);
       if (id.isNotEmpty) {
         sleep(Duration(seconds: 2));
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => HomePage(uid: id,)), 
+          MaterialPageRoute(
+              builder: (context) => HomePage(
+                    uid: id,
+                  )),
         );
       }
     }

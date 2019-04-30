@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_app/bloc/login_bloc.dart';
 import 'package:flutter_app/provider/AuthProvider.dart';
@@ -111,15 +113,18 @@ class _MyLoginPageState extends State<MyLoginPage> {
         minWidth: MediaQuery.of(context).size.width,
         padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
         onPressed: () {
-         
-        
-          if (bloc.submit(
-                  emailFieldController.text, passFieldController.text).then((userId){
-         Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => HomePage(uid: userId,)), 
-        );
-                  }) !=
+          if (bloc
+                  .submit(emailFieldController.text, passFieldController.text)
+                  .then((userId) {
+                sleep(Duration(seconds: 2));
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => HomePage(
+                            uid: userId,
+                          )),
+                );
+              }) !=
               null) {
           } else {
             if (emailFieldController.text.isEmpty) {
@@ -226,18 +231,21 @@ class _MyLoginPageState extends State<MyLoginPage> {
     );
 
     final _continue = MaterialButton(
-      onPressed: (){
-            Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => HomePage(uid:null,)), 
-        );
-      },
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => HomePage(
+                      uid: null,
+                    )),
+          );
+        },
         child: Text(
-      "Continuer en tant qu'invité",
-      style: TextStyle(
-        color: Color.fromRGBO(32, 168, 30, 1),
-      ),
-    ));
+          "Continuer en tant qu'invité",
+          style: TextStyle(
+            color: Color.fromRGBO(32, 168, 30, 1),
+          ),
+        ));
 
     double padding = 20;
 

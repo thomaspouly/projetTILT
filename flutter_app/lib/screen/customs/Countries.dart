@@ -5,7 +5,8 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 final String assetName = 'assets/trophy.svg';
 
-final Widget svg = new SvgPicture.asset(assetName, semanticsLabel: 'Acme Logo',color: Colors.amber);
+final Widget svg = new SvgPicture.asset(assetName,
+    semanticsLabel: 'Acme Logo', color: Colors.amber);
 
 class Countries extends StatelessWidget {
   List<Country> countries = new List();
@@ -18,15 +19,21 @@ class Countries extends StatelessWidget {
       return Card(
         color: Color(0xFF65ff7f),
         child: Container(
-          padding: EdgeInsets.only(right: 10,left: 10,bottom: 10,top: 10),
+          padding: EdgeInsets.only(right: 10, left: 10, bottom: 10, top: 10),
           margin: EdgeInsets.all(10),
           height: 50,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
               svg,
-              Text(countries[index].name, style: TextStyle(fontSize: 25),),
-              Text(countries[index].value, style: TextStyle(fontSize: 20),),
+              Text(
+                countries[index].name,
+                style: TextStyle(fontSize: 25),
+              ),
+              Text(
+                countries[index].value,
+                style: TextStyle(fontSize: 20),
+              ),
             ],
           ),
         ),
@@ -36,14 +43,23 @@ class Countries extends StatelessWidget {
         color: Color(0xFF65ff7f),
         child: Container(
           height: 50,
-          padding: EdgeInsets.only(right: 10,left: 10,bottom: 10,top: 10),
+          padding: EdgeInsets.only(right: 10, left: 10, bottom: 10, top: 10),
           margin: EdgeInsets.all(10),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
-              Text(countries[index].rank.toString(), style: TextStyle(fontSize: 20),),
-              Text(countries[index].name, style: TextStyle(fontSize: 25),),
-              Text(countries[index].value, style: TextStyle(fontSize: 20),),
+              Text(
+                countries[index].rank.toString(),
+                style: TextStyle(fontSize: 20),
+              ),
+              Text(
+                countries[index].name,
+                style: TextStyle(fontSize: 25),
+              ),
+              Text(
+                countries[index].value,
+                style: TextStyle(fontSize: 20),
+              ),
             ],
           ),
         ),

@@ -1,32 +1,22 @@
 import 'dart:async';
-import 'dart:io';
-import 'dart:math';
-
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
-
 import 'package:flutter/rendering.dart';
-import 'package:flutter_app/bloc/register_bloc.dart';
 import 'package:flutter_app/models/Tile.dart';
 import 'package:flutter_app/screen/customs/fab.dart';
 import 'package:flutter_app/screen/customs/staggeredView.dart';
-
-import 'package:flutter_app/provider/login_bloc_provider.dart';
 import 'package:flutter_app/screen/login/login.dart';
 import 'package:flutter_app/screen/tree/tree.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:flutter_statusbarcolor/flutter_statusbarcolor.dart';
-import 'package:flutter_app/provider/BlocProvider.dart';
 
 class HomePage extends StatefulWidget {
   String uid;
+
   HomePage({this.uid});
 
   @override
   State<StatefulWidget> createState() => new _HomePageState();
-
-
 }
 
 Future<String> getImage(String uid) async {
@@ -37,7 +27,7 @@ Future<String> getImage(String uid) async {
 
     return url;
   } catch (e) {
-   // print(e.toString());
+    // print(e.toString());
   }
 }
 
@@ -45,6 +35,7 @@ class _HomePageState extends State<HomePage> {
   List<Tile> tiles = Tile().listTile();
   List<StaggeredView> tileGrid;
   Timer timer;
+
   @override
   void initState() {
     super.initState();
@@ -54,12 +45,8 @@ class _HomePageState extends State<HomePage> {
         (Timer t) => setState(() {
               for (int i = 0; i < tiles.length; i++) {
                 tiles[i].increase();
-           
-               
               }
             }));
-
-
   }
 
   ScrollController _hideButtonController = new ScrollController();
@@ -74,13 +61,20 @@ class _HomePageState extends State<HomePage> {
     List<Tile> tiles = Tile().listTile();
 
     for (int i = 0; i < tiles.length; i++) {
-          StaggeredView s=StaggeredView(tiles[i].icon,tiles[i].name, tiles[i].counter,tiles[i].increment, tiles[i].id,tiles[i].description,tiles[i].categorie);
-         
+      StaggeredView s = StaggeredView(
+          tiles[i].icon,
+          tiles[i].name,
+          tiles[i].counter,
+          tiles[i].increment,
+          tiles[i].id,
+          tiles[i].description,
+          tiles[i].categorie);
+
       tileGrid.add(s);
-         _staggeredTiles.add(StaggeredTile.count(4, 1.5));
+      _staggeredTiles.add(StaggeredTile.count(4, 1.5));
     }
 
- /*
+    /*
   _staggeredTiles.add(StaggeredTile.count(4, 1));
   _staggeredTiles.add(StaggeredTile.count(4, 1));
   _staggeredTiles.add(StaggeredTile.count(4, 1));
@@ -94,7 +88,6 @@ class _HomePageState extends State<HomePage> {
           floatingActionButtonLocation:
               FloatingActionButtonLocation.centerDocked,
           floatingActionButton: _buildFab(context),
-
           body: CustomScrollView(
             slivers: <Widget>[
               SliverAppBar(
@@ -107,12 +100,11 @@ class _HomePageState extends State<HomePage> {
                       padding: EdgeInsets.only(top: 5, bottom: 5),
                       child: Center(
                         child: Row(
-                         // crossAxisAlignment: CrossAxisAlignment.center,
+                          // crossAxisAlignment: CrossAxisAlignment.center,
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: <Widget>[
-                           
                             _buildImage(),
-                             _buildDropDownButton(),
+                            _buildDropDownButton(),
                           ],
                         ),
                       )),
@@ -144,42 +136,44 @@ class _HomePageState extends State<HomePage> {
   Widget _buildFab(BuildContext context) {
     return FloatingActionButton(
       onPressed: () {
-        if(widget.uid!=null){
+        if (widget.uid != null) {
           Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => TreePage(uid: widget.uid,)), 
-        );
-        }else{
- showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        // return object of type Dialog
-        return AlertDialog(
-          title: new Text("Veuillez vous connecter pour acceder à l'arbre"),
-          content: 
-          RaisedButton(
-            color: Colors.green,
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => MyLoginPage()),
-                  );
-                },
-                child: Text("Connexion"),
-              ),
-          actions: <Widget>[
-            // usually buttons at the bottom of the dialog
-            new FlatButton(
-              child: new Text("Close"),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-          ],
-        );
-      },
-    );
-
+            context,
+            MaterialPageRoute(
+                builder: (context) => TreePage(
+                      uid: widget.uid,
+                    )),
+          );
+        } else {
+          showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              // return object of type Dialog
+              return AlertDialog(
+                title:
+                    new Text("Veuillez vous connecter pour acceder à l'arbre"),
+                content: RaisedButton(
+                  color: Colors.green,
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => MyLoginPage()),
+                    );
+                  },
+                  child: Text("Connexion"),
+                ),
+                actions: <Widget>[
+                  // usually buttons at the bottom of the dialog
+                  new FlatButton(
+                    child: new Text("Close"),
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                  ),
+                ],
+              );
+            },
+          );
         }
       },
       child: Icon(Icons.nature),
@@ -257,6 +251,7 @@ class _HomePageState extends State<HomePage> {
   Color color = Colors.white;
 
   String dropdownValue1 = 'Catégories';
+
   DropdownButton _buildDropDownButton() {
     return DropdownButton<String>(
       value: dropdownValue1,
@@ -265,23 +260,25 @@ class _HomePageState extends State<HomePage> {
           dropdownValue1 = newValue;
         });
       },
-
-
-
       items: <String>[
-       'Catégories', 'Faune','Flore','Réchauffement','Pollution','Energies','Déchets'
+        'Catégories',
+        'Faune',
+        'Flore',
+        'Réchauffement',
+        'Pollution',
+        'Energies',
+        'Déchets'
       ].map<DropdownMenuItem<String>>((String value) {
         return DropdownMenuItem<String>(
           value: value,
           child: Text(
             value,
-          style: TextStyle(fontSize: 18),
+            style: TextStyle(fontSize: 18),
           ),
         );
       }).toList(),
     );
   }
-
 
   Widget _buildStaggredView(ScrollController controller,
       List<StaggeredTile> staggeredTiles, List<Widget> tiles) {

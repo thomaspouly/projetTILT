@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/bloc/counter_bloc.dart';
 import 'package:flutter_app/models/Categorie.dart';
 import 'package:flutter_app/screen/home/tilesDetail.dart';
-import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:intl/intl.dart';
 
@@ -30,6 +29,7 @@ class StaggeredView extends StatefulWidget {
 class _StaggeredViewState extends State<StaggeredView> {
   String counter;
   CounterBloc bloc = new CounterBloc();
+
   @override
   void initState() {
     // TODO: implement initState
@@ -38,21 +38,21 @@ class _StaggeredViewState extends State<StaggeredView> {
 
     bloc.setCounter(widget.value, widget.increment);
 
-counter=bloc.counter.toStringAsFixed(0);
+    counter = bloc.counter.toStringAsFixed(0);
     timer = Timer.periodic(
         Duration(milliseconds: 100),
         (Timer t) => setState(() {
               bloc.increase();
-              
 
-final formatter = new NumberFormat("###,###,###,###,###,###,###,###");
-counter=formatter.format(bloc.counter.toInt());
+              final formatter =
+                  new NumberFormat("###,###,###,###,###,###,###,###");
+              counter = formatter.format(bloc.counter.toInt());
             }));
   }
 
   @override
   Widget build(BuildContext context) {
-double width = MediaQuery.of(context).size.width;
+    double width = MediaQuery.of(context).size.width;
 
     return new InkWell(
         onTap: () {
@@ -67,7 +67,7 @@ double width = MediaQuery.of(context).size.width;
                       widget.description, widget.categorie)));
         },
         child: Card(
-          elevation: 3,
+            elevation: 3,
             color: widget.categorie.color,
             child: new Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -83,26 +83,34 @@ double width = MediaQuery.of(context).size.width;
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: <Widget>[
-                   Container(
-                     width:width/3*2,
-                     child:AutoSizeText(
+                    Container(
+                      width: width / 3 * 2,
+                      child: AutoSizeText(
                         widget.title,
-                      textAlign: TextAlign.center,
-                        style: TextStyle(fontSize: 20.0,color:  widget.categorie.colorLogo,fontWeight: FontWeight.bold),
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                            fontSize: 20.0,
+                            color: widget.categorie.colorLogo,
+                            fontWeight: FontWeight.bold),
                         minFontSize: 10.0,
                         stepGranularity: 10.0,
                         maxLines: 3,
-                      ),),
-                       Container(width:width/3*2,
-                     child:AutoSizeText(
-                       counter,
-                        
+                      ),
+                    ),
+                    Container(
+                      width: width / 3 * 2,
+                      child: AutoSizeText(
+                        counter,
                         textAlign: TextAlign.end,
-                        style: TextStyle(fontSize: 30.0,color: Colors.white,fontFamily: "Calibre-Semibold"),
+                        style: TextStyle(
+                            fontSize: 30.0,
+                            color: Colors.white,
+                            fontFamily: "Calibre-Semibold"),
                         minFontSize: 7.0,
                         stepGranularity: 10.0,
                         maxLines: 1,
-                      ),),
+                      ),
+                    ),
                   ],
                 )
               ],

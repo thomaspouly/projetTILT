@@ -9,18 +9,17 @@ class ClassementBloc {
   var currentItemSelected;
   int taille;
 
-  ClassementBloc({this.currentItemSelected,this.currentItemSelected2,this.taille});
+  ClassementBloc(
+      {this.currentItemSelected, this.currentItemSelected2, this.taille});
 
   Future<String> _loadCountryAsset() async {
-    if(currentItemSelected2 == "2017") {
+    if (currentItemSelected2 == "2017") {
       return await _repository.loadJsonFile('assets/country2017.json');
-    } else if(currentItemSelected2 == "2016") {
+    } else if (currentItemSelected2 == "2016") {
       return await _repository.loadJsonFile('assets/country2016.json');
-    }
-    else if(currentItemSelected2 == "2015") {
+    } else if (currentItemSelected2 == "2015") {
       return await _repository.loadJsonFile('assets/country2015.json');
-    }
-    else if(currentItemSelected2 == "2014") {
+    } else if (currentItemSelected2 == "2014") {
       return await _repository.loadJsonFile('assets/country2014.json');
     } else {
       return await _repository.loadJsonFile('assets/country2017.json');
@@ -31,7 +30,7 @@ class ClassementBloc {
     String jsonString = await _loadCountryAsset();
     List<dynamic> jsonResponse = json.decode(jsonString);
     List<Country> countries = new List();
-    for(int i = 0; i < jsonResponse.length;i++) {
+    for (int i = 0; i < jsonResponse.length; i++) {
       Country country = Country.fromJson(jsonResponse[i]);
       countries.add(country);
     }
