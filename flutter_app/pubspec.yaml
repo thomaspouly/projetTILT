@@ -36,6 +36,8 @@ dependencies:
   flutter_sparkline: ^0.1.0
   page_transition: '^1.0.9'
   #lottie_flutter: ^0.2.0
+  auto_size_text: ^1.1.2
+  intl: ">=0.14.0"
   flutter_statusbarcolor: ^0.2.0
   splashscreen: ^1.2.0
   csv: ^4.0.3
@@ -72,6 +74,11 @@ flutter:
     - country2014.json
     - trophy.svg
   #  - images/a_dot_ham.jpeg
+
+  fonts:
+    - family: Calibre-Semibold
+      fonts:
+        - asset: assets/font/Calibre Semibold.otf
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.io/assets-and-images/#resolution-aware.

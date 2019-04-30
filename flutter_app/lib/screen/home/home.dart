@@ -1,9 +1,18 @@
+import 'dart:async';
+import 'dart:io';
+import 'dart:math';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+
 import 'package:flutter/rendering.dart';
 import 'package:flutter_app/bloc/register_bloc.dart';
+import 'package:flutter_app/models/Tile.dart';
 import 'package:flutter_app/screen/customs/fab.dart';
 import 'package:flutter_app/screen/customs/staggeredView.dart';
+
+import 'package:flutter_app/provider/login_bloc_provider.dart';
 import 'package:flutter_app/screen/login/login.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:flutter_statusbarcolor/flutter_statusbarcolor.dart';
@@ -16,10 +25,7 @@ class HomePage extends StatefulWidget {
   @override
   State<StatefulWidget> createState() => new _HomePageState();
 
-  static RegisterBloc ofRegi(BuildContext context) {
-    return (context.inheritFromWidgetOfExactType(BlocProvider) as BlocProvider)
-        .registerBloc;
-  }
+
 }
 
 Future<String> getImage(String uid) async {
@@ -30,70 +36,55 @@ Future<String> getImage(String uid) async {
 
     return url;
   } catch (e) {
-    print(e.toString());
+   // print(e.toString());
   }
 }
 
 class _HomePageState extends State<HomePage> {
+  List<Tile> tiles = Tile().listTile();
+  List<StaggeredView> tileGrid;
+  Timer timer;
+  @override
+  void initState() {
+    super.initState();
+
+    timer = Timer.periodic(
+        Duration(milliseconds: 100),
+        (Timer t) => setState(() {
+              for (int i = 0; i < tiles.length; i++) {
+                tiles[i].increase();
+           
+               
+              }
+            }));
+
+
+  }
+
   ScrollController _hideButtonController = new ScrollController();
 
   double opacity = 1;
 
-  RegisterBloc _bloc;
-
   @override
   Widget build(BuildContext context) {
-   // _bloc = BlocProvider.ofRegister(context);
-    List<Widget> _tiles = new List<Widget>();
+    tileGrid = new List<StaggeredView>();
     List<StaggeredTile> _staggeredTiles = List<StaggeredTile>();
-    int tileLength = 50;
 
-    for (int i = 0; i < tileLength; i++) {
-      StaggeredView s = StaggeredView(Colors.lightGreen[400], Icons.nature,
-          "Arbres coupés", "2 000 000", i.toString());
-      _tiles.add(s);
+    List<Tile> tiles = Tile().listTile();
+
+    for (int i = 0; i < tiles.length; i++) {
+          StaggeredView s=StaggeredView(tiles[i].icon,tiles[i].name, tiles[i].counter,tiles[i].increment, tiles[i].id,tiles[i].description,tiles[i].categorie);
+         
+      tileGrid.add(s);
+         _staggeredTiles.add(StaggeredTile.count(4, 1.5));
     }
 
-    _staggeredTiles.add(StaggeredTile.count(2, 2));
-    _staggeredTiles.add(StaggeredTile.count(2, 1));
-    _staggeredTiles.add(StaggeredTile.count(2, 1));
-    _staggeredTiles.add(StaggeredTile.count(4, 1));
-    _staggeredTiles.add(StaggeredTile.count(2, 1));
-    _staggeredTiles.add(StaggeredTile.count(2, 1));
-    _staggeredTiles.add(StaggeredTile.count(4, 2));
-    _staggeredTiles.add(StaggeredTile.count(2, 1));
-    _staggeredTiles.add(StaggeredTile.count(2, 1));
-    _staggeredTiles.add(StaggeredTile.count(2, 2));
-    _staggeredTiles.add(StaggeredTile.count(2, 2));
-    _staggeredTiles.add(StaggeredTile.count(2, 1));
-    _staggeredTiles.add(StaggeredTile.count(2, 1));
-    _staggeredTiles.add(StaggeredTile.count(2, 2));
-    _staggeredTiles.add(StaggeredTile.count(2, 1));
-    _staggeredTiles.add(StaggeredTile.count(2, 1));
-    _staggeredTiles.add(StaggeredTile.count(4, 1));
-    _staggeredTiles.add(StaggeredTile.count(2, 1));
-    _staggeredTiles.add(StaggeredTile.count(2, 1));
-    _staggeredTiles.add(StaggeredTile.count(4, 2));
-    _staggeredTiles.add(StaggeredTile.count(2, 1));
-    _staggeredTiles.add(StaggeredTile.count(2, 1));
-    _staggeredTiles.add(StaggeredTile.count(2, 2));
-    _staggeredTiles.add(StaggeredTile.count(2, 2));
-    _staggeredTiles.add(StaggeredTile.count(2, 1));
-    _staggeredTiles.add(StaggeredTile.count(2, 1));
-    _staggeredTiles.add(StaggeredTile.count(2, 2));
-    _staggeredTiles.add(StaggeredTile.count(2, 1));
-    _staggeredTiles.add(StaggeredTile.count(2, 1));
-    _staggeredTiles.add(StaggeredTile.count(4, 1));
-    _staggeredTiles.add(StaggeredTile.count(2, 1));
-    _staggeredTiles.add(StaggeredTile.count(2, 1));
-    _staggeredTiles.add(StaggeredTile.count(4, 2));
-    _staggeredTiles.add(StaggeredTile.count(2, 1));
-    _staggeredTiles.add(StaggeredTile.count(2, 1));
-    _staggeredTiles.add(StaggeredTile.count(2, 2));
-    _staggeredTiles.add(StaggeredTile.count(2, 2));
-    _staggeredTiles.add(StaggeredTile.count(2, 1));
-    _staggeredTiles.add(StaggeredTile.count(2, 1));
-
+ /*
+  _staggeredTiles.add(StaggeredTile.count(4, 1));
+  _staggeredTiles.add(StaggeredTile.count(4, 1));
+  _staggeredTiles.add(StaggeredTile.count(4, 1));
+  _staggeredTiles.add(StaggeredTile.count(4, 1));
+*/
     FlutterStatusbarcolor.setStatusBarColor(Colors.grey[200]);
     FlutterStatusbarcolor.setStatusBarWhiteForeground(false);
     return new SafeArea(
@@ -113,12 +104,13 @@ class _HomePageState extends State<HomePage> {
                   background: Container(
                       padding: EdgeInsets.only(top: 5, bottom: 5),
                       child: Center(
-                        child:Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
+                        child: Row(
+                         // crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: <Widget>[
-                            _buildDropDownButton1(),
+                           
                             _buildImage(),
-                            _buildDropDownButton2(),
+                             _buildDropDownButton(),
                           ],
                         ),
                       )),
@@ -126,7 +118,7 @@ class _HomePageState extends State<HomePage> {
               ),
               SliverToBoxAdapter(
                 child: _buildStaggredView(
-                    _hideButtonController, _staggeredTiles, _tiles),
+                    _hideButtonController, _staggeredTiles, tileGrid),
               ),
             ],
           )),
@@ -149,10 +141,7 @@ class _HomePageState extends State<HomePage> {
 
   Widget _buildFab(BuildContext context) {
     return FloatingActionButton(
-      onPressed: () {
-        print(widget.uid);
-        getImage(widget.uid);
-      },
+      onPressed: () async {},
       child: Icon(Icons.nature),
       elevation: 3.0,
     );
@@ -225,79 +214,45 @@ class _HomePageState extends State<HomePage> {
               ));
   }
 
+  Color color = Colors.white;
+
+  String dropdownValue1 = 'Catégories';
+  DropdownButton _buildDropDownButton() {
+    return DropdownButton<String>(
+      value: dropdownValue1,
+      onChanged: (String newValue) {
+        setState(() {
+          dropdownValue1 = newValue;
+        });
+      },
 
 
-Color color = Colors.white;
 
-String dropdownValue1 = 'Catégories';
-DropdownButton _buildDropDownButton1() {
-  return  DropdownButton<String>(
-    value: dropdownValue1,
-    onChanged: (String newValue) {
-     setState(() {
-       
-     dropdownValue1=newValue;
+      items: <String>[
+       'Catégories', 'Faune','Flore','Réchauffement','Pollution','Energies','Déchets'
+      ].map<DropdownMenuItem<String>>((String value) {
+        return DropdownMenuItem<String>(
+          value: value,
+          child: Text(
+            value,
+          style: TextStyle(fontSize: 18),
+          ),
+        );
+      }).toList(),
+    );
+  }
 
-     });
-     
-    },
-    items: <String>[
-  'Catégories',
-  'Réchauffement',
-  'Eau',
-  'Electricité',
-  'Pétrole'
-]
-        .map<DropdownMenuItem<String>>((String value) {
-      return DropdownMenuItem<String>(
-        value: value,
-        
-       child: Text(value,style: TextStyle(fontSize: 15),),
-      );
-    }).toList(),
-  );
+
+  Widget _buildStaggredView(ScrollController controller,
+      List<StaggeredTile> staggeredTiles, List<Widget> tiles) {
+    return StaggeredGridView.count(
+      crossAxisCount: 4,
+      shrinkWrap: true,
+      staggeredTiles: staggeredTiles,
+      children: tiles,
+      controller: controller,
+      mainAxisSpacing: 4.0,
+      crossAxisSpacing: 4.0,
+    );
+  }
 }
-
-
-String dropdownValue2 = 'Aujourd\'hui';
-DropdownButton _buildDropDownButton2() {
-  return DropdownButton<String>(
-    value: dropdownValue2,
-    onChanged: (String newValue) {
-      setState(() {
-        dropdownValue2=newValue;
-      });
-    },
-    items: <String>[
-  'Aujourd\'hui',
-  'Cette semaine',
-  'Ce mois-ci',
-  'Cette année',
-  'Depuis 2000'
-]
-        .map<DropdownMenuItem<String>>((String value) {
-      return DropdownMenuItem<String>(
-        value: value,
-        child: Text(value,style: TextStyle(fontSize: 15),),
-        
-      );
-    }).toList(),
-   
-  );
-}
-
-Widget _buildStaggredView(ScrollController controller,
-    List<StaggeredTile> staggeredTiles, List<Widget> tiles) {
-  return StaggeredGridView.count(
-    crossAxisCount: 4,
-    shrinkWrap: true,
-    staggeredTiles: staggeredTiles,
-    children: tiles,
-    controller: controller,
-    mainAxisSpacing: 4.0,
-    crossAxisSpacing: 4.0,
-  );
-}
-
-}
-

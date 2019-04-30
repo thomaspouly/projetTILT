@@ -1,57 +1,111 @@
-
-
+import 'dart:async';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_app/screen/home/tuile.dart';
+import 'package:flutter_app/bloc/counter_bloc.dart';
+import 'package:flutter_app/models/Categorie.dart';
+import 'package:flutter_app/screen/home/tilesDetail.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:auto_size_text/auto_size_text.dart';
+import 'package:intl/intl.dart';
 
 import 'package:page_transition/page_transition.dart';
-class StaggeredView extends StatelessWidget {
-  const StaggeredView(
-      this.backgroundColor, this.iconData, this.title, this.value,this.id);
-  final Color backgroundColor;
+
+class StaggeredView extends StatefulWidget {
   final IconData iconData;
   final String title;
-  final String value;
-  final String id;
+  final double value;
+  final double increment;
+  final int id;
+  final String description;
+  final Categorie categorie;
+
+  StaggeredView(this.iconData, this.title, this.value, this.increment, this.id,
+      this.description, this.categorie);
+
+  @override
+  State<StatefulWidget> createState() => new _StaggeredViewState();
+}
+
+class _StaggeredViewState extends State<StaggeredView> {
+  String counter;
+  CounterBloc bloc = new CounterBloc();
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    Timer timer;
+
+    bloc.setCounter(widget.value, widget.increment);
+
+counter=bloc.counter.toStringAsFixed(0);
+    timer = Timer.periodic(
+        Duration(milliseconds: 100),
+        (Timer t) => setState(() {
+              bloc.increase();
+              
+
+final formatter = new NumberFormat("###,###,###,###,###,###,###,###");
+counter=formatter.format(bloc.counter.toInt());
+            }));
+  }
 
   @override
   Widget build(BuildContext context) {
+double width = MediaQuery.of(context).size.width;
+
     return new InkWell(
-      onTap: (){
-        print(id);
+        onTap: () {
+          print(widget.id);
 
-                    Navigator.push(context, PageTransition(duration:Duration(milliseconds: 500),type: PageTransitionType.rotate, child:     TuilePage(idCard: id,color: backgroundColor,title: title,value: value,iconData: iconData,)
-              ));
-              
-
-      },
-      
-       child:Card(
-        color: backgroundColor,
-        child: new Stack(children: <Widget>[
-         Positioned(
-           child:Hero(tag:"icon_$id", child: Icon(
-            iconData,
-            color: Colors.black,
-            size: 60,
-          )),),
-          Positioned(
-            left: 50,
-           child:Hero(tag:"title_$id", child: Text(
-              title,
-              style: TextStyle(fontSize: 30, color: Colors.white),
-            ),),),
-        
-          Positioned(
-            top:30,
-            left:60,
-            child:Hero(tag:"value_$id",    child:  Text(
-            value,
-            style: TextStyle(
-                fontSize: 30, color: Colors.white, fontWeight: FontWeight.bold),
-          ))),
-        ])));
+          Navigator.push(
+              context,
+              PageTransition(
+                  duration: Duration(milliseconds: 500),
+                  type: PageTransitionType.rotate,
+                  child: TileDetail(widget.id, widget.iconData, widget.title,
+                      widget.description, widget.categorie)));
+        },
+        child: Card(
+          elevation: 3,
+            color: widget.categorie.color,
+            child: new Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: <Widget>[
+                Hero(
+                    tag: "icon_${widget.id}",
+                    child: Icon(
+                      widget.iconData,
+                      color: widget.categorie.colorLogo,
+                      size: 60,
+                    )),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: <Widget>[
+                   Container(
+                     width:width/3*2,
+                     child:AutoSizeText(
+                        widget.title,
+                      textAlign: TextAlign.center,
+                        style: TextStyle(fontSize: 20.0,color:  widget.categorie.colorLogo,fontWeight: FontWeight.bold),
+                        minFontSize: 10.0,
+                        stepGranularity: 10.0,
+                        maxLines: 3,
+                      ),),
+                       Container(width:width/3*2,
+                     child:AutoSizeText(
+                       counter,
+                        
+                        textAlign: TextAlign.end,
+                        style: TextStyle(fontSize: 30.0,color: Colors.white,fontFamily: "Calibre-Semibold"),
+                        minFontSize: 7.0,
+                        stepGranularity: 10.0,
+                        maxLines: 1,
+                      ),),
+                  ],
+                )
+              ],
+            )));
   }
 }
