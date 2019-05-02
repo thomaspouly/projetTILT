@@ -33,6 +33,11 @@ class Repository {
       _firestoreProvider.enterDataFromFormTree(
           valueWater, valueElectricity, waste, don, bulk, bio, car, bike, bus);
 
+  Future<String> enterNote(String note) =>
+    _firestoreProvider.enterNote(note);
+
   Future<String> loadJsonFile(String file) =>
       rootBundleProvider.loadJsonFile(file);
+
+  Future<String> getNote() => _firestoreProvider.getNote();
 }

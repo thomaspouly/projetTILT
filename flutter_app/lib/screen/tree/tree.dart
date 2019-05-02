@@ -1,7 +1,27 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/provider/BlocProvider.dart';
 import 'package:flutter_app/screen/tree/form.dart';
 import 'package:flutter_sparkline/flutter_sparkline.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:fluttie/fluttie.dart';
+
+final String sproutName = 'assets/sprout.svg';
+final String treeName = 'assets/tree.svg';
+
+final Widget sproutWidget = new SvgPicture.asset(
+  sproutName,
+  semanticsLabel: 'Acme Logo',
+  width: 100,
+  height: 100,
+  color: Colors.green[300],
+);
+final Widget treeWidget = new SvgPicture.asset(
+  treeName,
+  semanticsLabel: 'Acme Logo',
+  width: 100,
+  height: 100,
+  color: Colors.green[300],
+);
 
 class TreePage extends StatefulWidget {
   String uid;
@@ -63,13 +83,40 @@ class _TreePageState extends State<TreePage> {
     return FluttieAnimation(tree);
   }
 
+  Widget treeView() {}
+
   @override
   Widget build(BuildContext context) {
-    Widget content =
-        ready ? buildStarContent(context) : Center(
-                child:   CircularProgressIndicator()
-                
-              );
+    final bloc = BlocProvider.ofFormTree(context);
+
+
+    Widget content = ready
+        ? buildStarContent(context)
+        : Center(child: CircularProgressIndicator());
+
+    Widget treeView() {
+      if(bloc.getNote() != null) {
+        bloc.getNote().then((note) {
+          print("NOTE ======>" + note.toString());
+          if (int.parse(note) == 5) {
+            return sproutWidget;
+          } else if (int.parse(note) > 5 && int.parse(note) <= 6) {
+            return sproutWidget;
+          } else if (int.parse(note) > 6 && int.parse(note) <= 7) {
+            return sproutWidget;
+          } else if (int.parse(note) > 7 && int.parse(note) <= 8) {
+            return treeWidget;
+          } else if (int.parse(note) > 8 && int.parse(note) <= 9) {
+            return treeWidget;
+          } else if (int.parse(note) > 9 && int.parse(note) <= 10) {
+            return treeWidget;
+          }
+        });
+      }
+      else {
+        return content;
+      }
+    }
 
     return new SafeArea(
       child: new Scaffold(
@@ -87,7 +134,7 @@ class _TreePageState extends State<TreePage> {
               padding: EdgeInsets.only(bottom: 50),
               width: 300,
               height: 400,
-              child: content,
+              child: treeView(),
             )),
             Align(
               alignment: Alignment.bottomCenter,

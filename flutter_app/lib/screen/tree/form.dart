@@ -14,6 +14,8 @@ class MyFormTreePage extends StatefulWidget {
 class _MyFormTreePageState extends State<MyFormTreePage> {
   double padding = 10;
 
+  int note = 1;
+
   int _radioValueWaste,
       _radioValueDon,
       _radioValueBulk,
@@ -477,7 +479,8 @@ class _MyFormTreePageState extends State<MyFormTreePage> {
                         child: AutoSizeText("Submit",minFontSize: 10,),
                         color: Colors.blue,
                         onPressed: () {
-                          bloc.enterDataFormForm(
+                          note = 1;
+                          /*bloc.enterDataFormForm(
                               int.parse(waterFieldController.text),
                               int.parse(electricityFieldController.text),
                               textWaste,
@@ -486,7 +489,38 @@ class _MyFormTreePageState extends State<MyFormTreePage> {
                               textBio,
                               textCar,
                               textBike,
-                              textBus);
+                              textBus);*/
+
+                          if(_radioValueWaste.toString() == "0") {
+                            note++;
+                          }
+                          if(_radioValueDon.toString() == "0") {
+                            note++;
+                          }
+                          if(_radioValueBulk.toString() == "0") {
+                            note++;
+                          }
+                          if(_radioValueBio.toString() == "0") {
+                            note++;
+                          }
+                          if(_radioValueCar.toString() == "1" || _radioValueCar.toString() == "2") {
+                            note++;
+                          }
+                          if(_radioValueBike.toString() == "0") {
+                            note++;
+                          }
+                          if(_radioValueBus.toString() == "0") {
+                            note++;
+                          }
+                          if(int.parse(waterFieldController.text) <= 123456789) {
+                            note++;
+                          }
+                          if(int.parse(electricityFieldController.text) <= 123456789) {
+                            note++;
+                          }
+
+                          bloc.enterNote(note.toString());
+                          Navigator.of(context).pop();
                         },
                       ),
                       new MaterialButton(

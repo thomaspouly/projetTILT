@@ -5,12 +5,6 @@ import 'package:flutter_app/services/Repository.dart';
 
 class ClassementBloc {
   final _repository = new Repository();
-  var currentItemSelected2;
-  var currentItemSelected;
-  int taille;
-
-  ClassementBloc(
-      {this.currentItemSelected, this.currentItemSelected2, this.taille});
 
   Future<String> _loadCountryAsset(String annee) async {
     if (annee == "2017") {

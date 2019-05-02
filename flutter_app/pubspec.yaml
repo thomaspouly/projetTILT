@@ -78,6 +78,8 @@ flutter:
     - assets/animations/growing.json
     - assets/animations/lego.json
     - assets/animations/pot.json
+    - tree.svg
+    - sprout.svg
   #  - images/a_dot_ham.jpeg
 
   fonts:

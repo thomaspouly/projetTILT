@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_app/models/DataTreeForm.dart';
+import 'package:flutter_app/models/NoteTreeForm.dart';
 import 'package:flutter_app/models/User.dart';
 import 'package:flutter_app/provider/AuthProvider.dart';
 import 'package:flutter_app/provider/StorageProvider.dart';
@@ -31,6 +32,7 @@ class FirestoreProvider {
           reference: null, treeNumber: treeNumber, email: email, name: name);
 
       _firestore.collection('user').document(userId).setData(user.toJson());
+      _firestore.collection('data').document(userId).setData({"note": 5});
       return userId;
     });
   }
@@ -60,6 +62,36 @@ class FirestoreProvider {
     auth.currentUser().then((userID) {
       _firestore.collection('data').document(userID).setData(data.toJson());
       return userID;
+    });
+  }
+
+  Future<String> enterNote(String note) {
+    auth.currentUser().then((userID) {
+      _firestore.collection('data').document(userID).get().then((noteInDb) {
+        if (noteInDb.data != null) {
+          String noteFinal =
+              (double.parse(noteInDb.data['note']) / 2 + double.parse(note) / 2)
+                  .toString();
+          _firestore
+              .collection('data')
+              .document(userID)
+              .updateData({"note": noteFinal});
+        } else {
+          _firestore
+              .collection('data')
+              .document(userID)
+              .setData({"note": note});
+        }
+      });
+      return userID;
+    });
+  }
+
+  Future<String> getNote() {
+    auth.currentUser().then((userID) {
+      _firestore.collection('data').document(userID).get().then((noteInDb) {
+        return noteInDb.data['note'];
+      });
     });
   }
 }

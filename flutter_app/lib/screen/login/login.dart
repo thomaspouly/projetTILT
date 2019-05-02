@@ -254,11 +254,11 @@ class _MyLoginPageState extends State<MyLoginPage> {
           ),
         ));
 
-    double padding = 10;
+    double padding = 20;
 
     return SafeArea(
       child: Scaffold(
-resizeToAvoidBottomPadding: false,
+        resizeToAvoidBottomPadding: false,
         body: Container(
             padding: EdgeInsets.only(left: padding, right: padding),
             child: Stack(

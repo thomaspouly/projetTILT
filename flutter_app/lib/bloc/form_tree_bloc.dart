@@ -21,4 +21,13 @@ class FormTreeBloc {
     return _repository.enterDataFormForm(
         valueWater, valueElectricity, waste, don, bulk, bio, car, bike, bus);
   }
+
+
+  Future<String> enterNote(String note) {
+    return _repository.enterNote(note);
+  }
+
+  Future<String> getNote() {
+    return _repository.getNote();
+  }
 }
