@@ -2,16 +2,12 @@ import 'dart:async';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:flutter_app/models/Tile.dart';
 import 'package:flutter_app/provider/BlocProvider.dart';
-import 'package:flutter_app/screen/classement/classement.dart';
 import 'package:flutter_app/screen/customs/Countries.dart';
 import 'package:flutter_app/screen/customs/fab.dart';
-import 'package:flutter_app/screen/customs/staggeredView.dart';
 import 'package:flutter_app/screen/home/home.dart';
 import 'package:flutter_app/screen/login/login.dart';
 import 'package:flutter_app/screen/tree/tree.dart';
-import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:flutter_statusbarcolor/flutter_statusbarcolor.dart';
 
 class MyClassementPage extends StatefulWidget {
@@ -48,31 +44,31 @@ class _MyClassementPageState extends State<MyClassementPage> {
     Widget getLoadedRankingCountry() {
       if (_currentItemSelected2 == "2017") {
         return new FutureBuilder(
-            future: bloc.loadCountries(),
+            future: bloc.loadCountries(_currentItemSelected2),
             builder: (BuildContext context, AsyncSnapshot snapshot) {
               return Countries(snapshot.data, taille,_hideButtonController ).build(context);
             });
       } else if (_currentItemSelected2 == "2016") {
         return new FutureBuilder(
-            future: bloc.loadCountries(),
+            future: bloc.loadCountries(_currentItemSelected2),
             builder: (BuildContext context, AsyncSnapshot snapshot) {
               return Countries(snapshot.data, taille,_hideButtonController ).build(context);
             });
       } else if (_currentItemSelected2 == "2015") {
         return new FutureBuilder(
-            future: bloc.loadCountries(),
+            future: bloc.loadCountries(_currentItemSelected2),
             builder: (BuildContext context, AsyncSnapshot snapshot) {
               return Countries(snapshot.data, taille,_hideButtonController ).build(context);
             });
       } else if (_currentItemSelected2 == "2014") {
         return new FutureBuilder(
-            future: bloc.loadCountries(),
+            future: bloc.loadCountries(_currentItemSelected2),
             builder: (BuildContext context, AsyncSnapshot snapshot) {
               return Countries(snapshot.data, taille,_hideButtonController ).build(context);
             });
       } else {
         return new FutureBuilder(
-            future: bloc.loadCountries(),
+            future: bloc.loadCountries(_currentItemSelected2),
             builder: (BuildContext context, AsyncSnapshot snapshot) {
               return Countries(snapshot.data, taille,_hideButtonController ).build(context);
             });
