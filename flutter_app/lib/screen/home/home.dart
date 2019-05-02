@@ -1,4 +1,3 @@
-
 import 'dart:async';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
@@ -100,63 +99,100 @@ class _HomePageState extends State<HomePage> {
       return new FutureBuilder(
           future: bloc.loadCountries(_currentYearItemSelected),
           builder: (BuildContext context, AsyncSnapshot snapshot) {
-            return Countries(snapshot.data, taille, _hideButtonController)
-                .build(context);
+            if (snapshot.data == null) {
+              return Center(
+                child: Text(
+                  "\n\n\nChargement...",
+                  style: TextStyle(fontSize: 30),
+                ),
+              );
+            } else {
+              return Countries(snapshot.data, taille, _hideButtonController)
+                  .build(context);
+            }
           });
     } else if (_currentYearItemSelected == "2016") {
       return new FutureBuilder(
           future: bloc.loadCountries(_currentYearItemSelected),
           builder: (BuildContext context, AsyncSnapshot snapshot) {
-            return Countries(snapshot.data, taille, _hideButtonController)
-                .build(context);
+            if (snapshot.data == null) {
+              return Center(
+                child: Text(
+                  "\n\n\nChargement...",
+                  style: TextStyle(fontSize: 30),
+                ),
+              );
+            } else {
+              return Countries(snapshot.data, taille, _hideButtonController)
+                  .build(context);
+            }
           });
     } else if (_currentYearItemSelected == "2015") {
       return new FutureBuilder(
           future: bloc.loadCountries(_currentYearItemSelected),
           builder: (BuildContext context, AsyncSnapshot snapshot) {
-            return Countries(snapshot.data, taille, _hideButtonController)
-                .build(context);
+            if (snapshot.data == null) {
+              return Center(
+                child: Text(
+                  "\n\n\nChargement...",
+                  style: TextStyle(fontSize: 30),
+                ),
+              );
+            } else {
+              return Countries(snapshot.data, taille, _hideButtonController)
+                  .build(context);
+            }
           });
     } else if (_currentYearItemSelected == "2014") {
       return new FutureBuilder(
           future: bloc.loadCountries(_currentYearItemSelected),
           builder: (BuildContext context, AsyncSnapshot snapshot) {
-            return Countries(snapshot.data, taille, _hideButtonController)
-                .build(context);
+            if (snapshot.data == null) {
+              return Center(
+                child: Text(
+                  "\n\n\nChargement...",
+                  style: TextStyle(fontSize: 30),
+                ),
+              );
+            } else {
+              return Countries(snapshot.data, taille, _hideButtonController)
+                  .build(context);
+            }
           });
     } else {
       return new FutureBuilder(
           future: bloc.loadCountries(_currentYearItemSelected),
           builder: (BuildContext context, AsyncSnapshot snapshot) {
-            return Countries(snapshot.data, taille, _hideButtonController)
-                .build(context);
+            if (snapshot.data == null) {
+              return Center(
+                child: Text(
+                  "\n\n\nChargement...",
+                  style: TextStyle(fontSize: 30),
+                ),
+              );
+            } else {
+              return Countries(snapshot.data, taille, _hideButtonController)
+                  .build(context);
+            }
           });
     }
   }
 
   Widget _buildBottomBar() {
     return FABBottomAppBar(
-     
       color: Colors.grey,
       selectedColor: Colors.green,
       notchedShape: CircularNotchedRectangle(),
       onTabSelected: (index) {
-        if(index==1){
-        setState(() {
-        
+        if (index == 1) {
+          setState(() {
             classement = true;
-         
-        });
-        }else{
-         setState(() {
-        
+          });
+        } else {
+          setState(() {
             classement = false;
-          
-          
-        });
+          });
         }
-
-
       },
       items: [
         FABBottomAppBarItem(
@@ -267,7 +303,6 @@ class _HomePageState extends State<HomePage> {
                             height: 70,
                             width: 70,
                             decoration: new BoxDecoration(
-
                                 shape: BoxShape.circle,
                                 image: new DecorationImage(
                                   fit: BoxFit.fill,
@@ -384,7 +419,10 @@ class _HomePageState extends State<HomePage> {
         return Row(
           // crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: <Widget>[Hero(tag:'image',child:_buildImage()), _buildDropDownButton()],
+          children: <Widget>[
+            Hero(tag: 'image', child: _buildImage()),
+            _buildDropDownButton()
+          ],
         );
         break;
       case true:
@@ -393,7 +431,7 @@ class _HomePageState extends State<HomePage> {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: <Widget>[
             _buildDropDownButton1(),
-            Hero(tag:'image',child:_buildImage()),
+            Hero(tag: 'image', child: _buildImage()),
             _buildDropDownButton2()
           ],
         );

@@ -430,7 +430,7 @@ class _RegisterPageState extends State<RegisterPage> {
           _email, _password, _name, _treeNumber, _image);
       if (id.isNotEmpty) {
        // sleep(Duration(seconds: 1));
-        Navigator.push(
+        Navigator.pushReplacement(
           context,
           MaterialPageRoute(
               builder: (context) => HomePage(

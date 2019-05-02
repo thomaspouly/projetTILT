@@ -13,7 +13,7 @@ class Categorie {
       case Names.faune:
         color = Colors.orange;
         colorLogo = Colors.orange[900];
-        conseils = "blabla faune";
+        conseils = "-Protéger la vie sylvestre.\n-Ne pas appuyer la capture d'animaux.\n-S'engager dans la préservation de l'habitat naturel des animaux.\n-Se manifester contre la déforestation.\n-Essayer de réduire son empreinte carbone.\n-Ne pas laisser les lumières allumées.\n-Faire du volontariat.\n-Éduquer les nouvelles générations.\n-Favoriser les circuits courts pour se nourrir.\n-Acheter sa nourriture de manière consciente.\n-Ne pas jeter sa poubelle dans la nature.\n-N'acheter pas d'animaux.";
         break;
       case Names.flore:
         color = Colors.green;

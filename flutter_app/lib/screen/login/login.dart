@@ -121,7 +121,7 @@ class _MyLoginPageState extends State<MyLoginPage> {
                   .submit(emailFieldController.text, passFieldController.text)
                   .then((userId) {
                // sleep(Duration(seconds: 1));
-                Navigator.push(
+                Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(
                       builder: (context) => HomePage(

@@ -29,6 +29,16 @@ class StaggeredView extends StatefulWidget {
 class _StaggeredViewState extends State<StaggeredView> {
   String counter;
   CounterBloc bloc = new CounterBloc();
+  bool end=false;
+
+
+  @override
+   void setState(fn) {
+    if(mounted){
+      super.setState(fn);
+    }
+  }
+
 
   @override
   void initState() {
@@ -38,6 +48,8 @@ class _StaggeredViewState extends State<StaggeredView> {
     bloc.setCounter(widget.value, widget.increment);
 
   counter = bloc.counter.toStringAsFixed(0);
+
+  if(end==false){
     Timer.periodic(
         Duration(milliseconds: 100),
         (Timer t) => setState(() {
@@ -48,9 +60,15 @@ class _StaggeredViewState extends State<StaggeredView> {
               counter = formatter.format(bloc.counter.toInt());
             }));
   }
+    
+  }
 
   @override
   Widget build(BuildContext context) {
+
+
+
+
     double widthScreen = MediaQuery.of(context).size.width;
 
     return new InkWell(
@@ -61,7 +79,7 @@ class _StaggeredViewState extends State<StaggeredView> {
               context,
               PageTransition(
                   duration: Duration(milliseconds: 500),
-                  type: PageTransitionType.rotate,
+                  type: null,
                   child: TileDetail(widget.id, widget.iconData, widget.title,
                       widget.description, widget.categorie)));
         },
