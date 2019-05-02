@@ -98,35 +98,35 @@ class _HomePageState extends State<HomePage> {
   Widget getLoadedRankingCountry(var bloc) {
     if (_currentItemSelected2 == "2017") {
       return new FutureBuilder(
-          future: bloc.loadCountries(),
+          future: bloc.loadCountries(_currentItemSelected2),
           builder: (BuildContext context, AsyncSnapshot snapshot) {
             return Countries(snapshot.data, taille, _hideButtonController)
                 .build(context);
           });
     } else if (_currentItemSelected2 == "2016") {
       return new FutureBuilder(
-          future: bloc.loadCountries(),
+          future: bloc.loadCountries(_currentItemSelected2),
           builder: (BuildContext context, AsyncSnapshot snapshot) {
             return Countries(snapshot.data, taille, _hideButtonController)
                 .build(context);
           });
     } else if (_currentItemSelected2 == "2015") {
       return new FutureBuilder(
-          future: bloc.loadCountries(),
+          future: bloc.loadCountries(_currentItemSelected2),
           builder: (BuildContext context, AsyncSnapshot snapshot) {
             return Countries(snapshot.data, taille, _hideButtonController)
                 .build(context);
           });
     } else if (_currentItemSelected2 == "2014") {
       return new FutureBuilder(
-          future: bloc.loadCountries(),
+          future: bloc.loadCountries(_currentItemSelected2),
           builder: (BuildContext context, AsyncSnapshot snapshot) {
             return Countries(snapshot.data, taille, _hideButtonController)
                 .build(context);
           });
     } else {
       return new FutureBuilder(
-          future: bloc.loadCountries(),
+          future: bloc.loadCountries(_currentItemSelected2),
           builder: (BuildContext context, AsyncSnapshot snapshot) {
             return Countries(snapshot.data, taille, _hideButtonController)
                 .build(context);
