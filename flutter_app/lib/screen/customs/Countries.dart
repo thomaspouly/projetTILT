@@ -55,7 +55,6 @@ class Countries extends StatelessWidget {
         ),
       );
     }
-
       else if (index == 1) {
         return Card(
           color: Colors.green[600],
@@ -83,9 +82,7 @@ class Countries extends StatelessWidget {
             ),
           ),
         );
-
     }
-
     else if (index == 2) {
       return Card(
         color: Colors.green[600],
@@ -113,7 +110,6 @@ class Countries extends StatelessWidget {
           ),
         ),
       );
-
 
 
 

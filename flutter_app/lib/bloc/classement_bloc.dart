@@ -5,7 +5,7 @@ import 'package:flutter_app/services/Repository.dart';
 
 class ClassementBloc {
   final _repository = new Repository();
-  var currentItemSelected2 = "2017";
+  var currentItemSelected2;
   var currentItemSelected;
   int taille;
 
