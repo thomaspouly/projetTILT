@@ -33,7 +33,6 @@ class MyApp extends StatelessWidget {
                   TextStyle(fontSize: 20, color: Colors.grey, wordSpacing: 3),
             ),
             image: Image.asset(assetName),
-            backgroundColor: Color.fromRGBO(210, 251, 209, 1),
             styleTextUnderTheLoader: new TextStyle(),
             photoSize: 100.0,
             loaderColor: Colors.greenAccent),

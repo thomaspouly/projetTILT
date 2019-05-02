@@ -51,7 +51,7 @@ class _StaggeredViewState extends State<StaggeredView> {
 
   if(end==false){
     Timer.periodic(
-        Duration(milliseconds: 100),
+        Duration(milliseconds: 200),
         (Timer t) => setState(() {
               bloc.increase();
 

@@ -10,6 +10,6 @@ class CounterBloc {
   }
 
   increase() {
-    counter=counter+ (increment/10);
+    counter=counter+ (increment/5);
   }
 }

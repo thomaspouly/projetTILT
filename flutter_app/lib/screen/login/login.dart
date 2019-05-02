@@ -17,7 +17,7 @@ TextStyle style = TextStyle(fontFamily: 'Montserrat', fontSize: 20.0);
 
 final String assetName = 'assets/earth.svg';
 
-final Widget svg = new SvgPicture.asset(assetName, semanticsLabel: 'Acme Logo',width: 150,height:150);
+final Widget svg = new SvgPicture.asset(assetName, semanticsLabel: 'Acme Logo',width: 100,height:100,color: Colors.green[300],);
 
 AuthProvider authProvider;
 FirestoreProvider firestoreProvider;
@@ -258,16 +258,16 @@ class _MyLoginPageState extends State<MyLoginPage> {
 
     return SafeArea(
       child: Scaffold(
-        backgroundColor: Color.fromRGBO(210, 251, 209, 1),
+resizeToAvoidBottomPadding: false,
         body: Container(
             padding: EdgeInsets.only(left: padding, right: padding),
             child: Stack(
               children: <Widget>[
                Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
-                   Container(height:150,width:150,child:svg),
+                   Container(height:100,width:100,child:svg),
                     emailField,
                     Column(
                       children: <Widget>[

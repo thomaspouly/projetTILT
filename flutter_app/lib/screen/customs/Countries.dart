@@ -6,6 +6,9 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 final String assetName = 'assets/trophy.svg';
 
+final Widget cupRank = new SvgPicture.asset(assetName,
+    semanticsLabel: 'Acme Logo', color: Colors.green[400]);
+
 final Widget cupRank1 = new SvgPicture.asset(assetName,
     semanticsLabel: 'Acme Logo', color: Colors.amber);
 
@@ -125,10 +128,13 @@ class Countries extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
+
+
               AutoSizeText(
                 countries[index].rank.toString(),
                 style: TextStyle(fontSize: 20,color: Colors.green[900]),
               ),
+              cupRank,
             Container(
                width: MediaQuery.of(context).size.width/2,
                child: AutoSizeText(

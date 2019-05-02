@@ -66,7 +66,10 @@ class _TreePageState extends State<TreePage> {
   @override
   Widget build(BuildContext context) {
     Widget content =
-        ready ? buildStarContent(context) : Text("Loading animation...");
+        ready ? buildStarContent(context) : Center(
+                child:   CircularProgressIndicator()
+                
+              );
 
     return new SafeArea(
       child: new Scaffold(

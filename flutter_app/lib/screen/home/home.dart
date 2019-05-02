@@ -105,6 +105,7 @@ class _HomePageState extends State<HomePage> {
                   "\n\n\nChargement...",
                   style: TextStyle(fontSize: 30),
                 ),
+                
               );
             } else {
               return Countries(snapshot.data, taille, _hideButtonController)
@@ -289,14 +290,16 @@ class _HomePageState extends State<HomePage> {
                     (BuildContext context, AsyncSnapshot<String> snapshot) {
                   switch (snapshot.connectionState) {
                     case ConnectionState.none:
-                      return Text('Press button to start.');
+                        return CircularProgressIndicator();
                     case ConnectionState.active:
-                      return Text('Active...');
+                        return CircularProgressIndicator();
 
                     case ConnectionState.waiting:
-                      return Text('Awaiting result...');
+                         return CircularProgressIndicator();
 
                     case ConnectionState.done:
+                
+                    
                       return new FlatButton(
                         onPressed: () {},
                         child: new Container(
