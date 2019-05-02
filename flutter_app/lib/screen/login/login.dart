@@ -254,7 +254,7 @@ class _MyLoginPageState extends State<MyLoginPage> {
           ),
         ));
 
-    double padding = 20;
+    double padding = 10;
 
     return SafeArea(
       child: Scaffold(
@@ -263,10 +263,11 @@ class _MyLoginPageState extends State<MyLoginPage> {
             padding: EdgeInsets.only(left: padding, right: padding),
             child: Stack(
               children: <Widget>[
-                ListView(
-                  
+               Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
-                    Container(height:150,width:150,child:svg),
+                   Container(height:150,width:150,child:svg),
                     emailField,
                     Column(
                       children: <Widget>[
@@ -293,7 +294,7 @@ class _MyLoginPageState extends State<MyLoginPage> {
                       ],
                     ),
                   ],
-                ),
+                  ),
                 new Positioned(
                   child: new Align(
                     alignment: FractionalOffset.bottomCenter,
@@ -306,4 +307,5 @@ class _MyLoginPageState extends State<MyLoginPage> {
       ),
     );
   }
+
 }

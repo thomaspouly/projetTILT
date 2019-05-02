@@ -96,37 +96,37 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget getLoadedRankingCountry(var bloc) {
-    if (_currentItemSelected2 == "2017") {
+    if (_currentYearItemSelected == "2017") {
       return new FutureBuilder(
-          future: bloc.loadCountries(_currentItemSelected2),
+          future: bloc.loadCountries(_currentYearItemSelected),
           builder: (BuildContext context, AsyncSnapshot snapshot) {
             return Countries(snapshot.data, taille, _hideButtonController)
                 .build(context);
           });
-    } else if (_currentItemSelected2 == "2016") {
+    } else if (_currentYearItemSelected == "2016") {
       return new FutureBuilder(
-          future: bloc.loadCountries(_currentItemSelected2),
+          future: bloc.loadCountries(_currentYearItemSelected),
           builder: (BuildContext context, AsyncSnapshot snapshot) {
             return Countries(snapshot.data, taille, _hideButtonController)
                 .build(context);
           });
-    } else if (_currentItemSelected2 == "2015") {
+    } else if (_currentYearItemSelected == "2015") {
       return new FutureBuilder(
-          future: bloc.loadCountries(_currentItemSelected2),
+          future: bloc.loadCountries(_currentYearItemSelected),
           builder: (BuildContext context, AsyncSnapshot snapshot) {
             return Countries(snapshot.data, taille, _hideButtonController)
                 .build(context);
           });
-    } else if (_currentItemSelected2 == "2014") {
+    } else if (_currentYearItemSelected == "2014") {
       return new FutureBuilder(
-          future: bloc.loadCountries(_currentItemSelected2),
+          future: bloc.loadCountries(_currentYearItemSelected),
           builder: (BuildContext context, AsyncSnapshot snapshot) {
             return Countries(snapshot.data, taille, _hideButtonController)
                 .build(context);
           });
     } else {
       return new FutureBuilder(
-          future: bloc.loadCountries(_currentItemSelected2),
+          future: bloc.loadCountries(_currentYearItemSelected),
           builder: (BuildContext context, AsyncSnapshot snapshot) {
             return Countries(snapshot.data, taille, _hideButtonController)
                 .build(context);
@@ -268,14 +268,6 @@ class _HomePageState extends State<HomePage> {
                             width: 70,
                             decoration: new BoxDecoration(
 
-                                /*boxShadow: [
-                                  new BoxShadow(
-                                    color: Colors.black,
-                                    spreadRadius: 0,
-                                    offset: new Offset(0.0, 00.0),
-                                  blurRadius: 15.0,
-                                  )
-                                ],*/
                                 shape: BoxShape.circle,
                                 image: new DecorationImage(
                                   fit: BoxFit.fill,
@@ -289,14 +281,14 @@ class _HomePageState extends State<HomePage> {
 
   Color color = Colors.white;
 
-  String dropdownValue1 = 'Catégories';
+  String _dropdownValue = 'Catégories';
 
   DropdownButton _buildDropDownButton() {
     return DropdownButton<String>(
-      value: dropdownValue1,
+      value: _dropdownValue,
       onChanged: (String newValue) {
         setState(() {
-          dropdownValue1 = newValue;
+          _dropdownValue = newValue;
         });
       },
       items: <String>[
@@ -332,20 +324,20 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  String _currentItemSelected1 = 'Top 40';
+  String _currentTopItemSelected = 'Top 40';
 
-  var _currentItemSelected2 = '2017';
+  var _currentYearItemSelected = '2017';
   int taille = 40;
 
   Widget _buildDropDownButton1() {
     return Container(
       child: DropdownButton<String>(
-        value: _currentItemSelected1,
+        value: _currentTopItemSelected,
         onChanged: (String newValue) {
           setState(() {
-            _currentItemSelected1 = newValue;
+            _currentTopItemSelected = newValue;
             taille <= 40
-                ? taille = int.parse(_currentItemSelected1.split(' ')[1])
+                ? taille = int.parse(_currentTopItemSelected.split(' ')[1])
                 : taille = 40;
           });
         },
@@ -366,10 +358,10 @@ class _HomePageState extends State<HomePage> {
   Widget _buildDropDownButton2() {
     return Container(
       child: DropdownButton<String>(
-        value: _currentItemSelected2,
+        value: _currentYearItemSelected,
         onChanged: (String newValue) {
           setState(() {
-            _currentItemSelected2 = newValue;
+            _currentYearItemSelected = newValue;
           });
         },
         items: <String>['Cet année', '2018', '2017', '2016', '2015']
