@@ -28,17 +28,17 @@ class Categorie {
       case Names.pollution:
         color = Colors.brown;
         colorLogo = Colors.brown[900];
-        conseils = "blabla rechauffement";
+        conseils = "-Ne laissez pas vos télévisions en veille.\n-Evitez de laisser vos multiprises allumés.\n-Evitez d'utiliser la voiture, préféré les transports en commun.\n-Faites des dons aux associations qui propose des services contre le réchauffement.";
         break;
       case Names.energie:
         color = Colors.yellow;
         colorLogo = Colors.yellow[900];
-        conseils = "blabla energies";
+        conseils = "-Utilisez des énergies renouvelables.\n-Ne consommez pas plus que nécéssaire.\n-Guidez vos enfants pour qu'eux fasse aussi attention.";
         break;
       case Names.dechet:
         color = Colors.red;
         colorLogo = Colors.red[900];
-        conseils = "blabla dechets";
+        conseils = "-Triez bien vos déchets.\n-Apprenez à vos enfants le trie des déchets.";
         break;
     }
   }

@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/provider/BlocProvider.dart';
 import 'package:flutter_app/screen/customs/TextFieldCustom.dart';
@@ -183,8 +184,9 @@ class _MyFormTreePageState extends State<MyFormTreePage> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: <Widget>[
-                      new Text(
+                      new AutoSizeText(
                         'Trie dechets',
+                        minFontSize: 6,
                         style: new TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 16.0,
@@ -192,8 +194,9 @@ class _MyFormTreePageState extends State<MyFormTreePage> {
                       ),
                       new Expanded(
                         child: new RadioListTile(
-                          title: Text(
+                          title: AutoSizeText(
                             'Oui',
+                            minFontSize: 6,
                             style: TextStyle(fontSize: fontSize),
                           ),
                           value: 0,
@@ -203,8 +206,9 @@ class _MyFormTreePageState extends State<MyFormTreePage> {
                       ),
                       new Expanded(
                         child: new RadioListTile(
-                          title: Text(
+                          title: AutoSizeText(
                             'Non',
+                            minFontSize: 6,
                             style: TextStyle(fontSize: fontSize),
                           ),
                           value: 1,
@@ -218,8 +222,9 @@ class _MyFormTreePageState extends State<MyFormTreePage> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: <Widget>[
-                      new Text(
+                      new AutoSizeText(
                         'Don association',
+                        minFontSize: 6,
                         style: new TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 16.0,
@@ -227,8 +232,9 @@ class _MyFormTreePageState extends State<MyFormTreePage> {
                       ),
                       new Expanded(
                         child: new RadioListTile(
-                          title: Text(
+                          title: AutoSizeText(
                             'Oui',
+                            minFontSize: 6,
                             style: TextStyle(fontSize: fontSize),
                           ),
                           value: 0,
@@ -238,8 +244,9 @@ class _MyFormTreePageState extends State<MyFormTreePage> {
                       ),
                       new Expanded(
                         child: new RadioListTile(
-                          title: Text(
+                          title: AutoSizeText(
                             'Non',
+                            minFontSize: 6,
                             style: TextStyle(fontSize: fontSize),
                           ),
                           value: 1,
@@ -253,8 +260,9 @@ class _MyFormTreePageState extends State<MyFormTreePage> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: <Widget>[
-                      new Text(
+                      new AutoSizeText(
                         'Achat produit en vrac',
+                        minFontSize: 6,
                         style: new TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 16.0,
@@ -262,8 +270,9 @@ class _MyFormTreePageState extends State<MyFormTreePage> {
                       ),
                       new Expanded(
                         child: new RadioListTile(
-                          title: Text(
+                          title: AutoSizeText(
                             'Oui',
+                            minFontSize: 6,
                             style: TextStyle(fontSize: fontSize),
                           ),
                           value: 0,
@@ -273,8 +282,9 @@ class _MyFormTreePageState extends State<MyFormTreePage> {
                       ),
                       new Expanded(
                         child: new RadioListTile(
-                          title: Text(
+                          title: AutoSizeText(
                             'Non',
+                            minFontSize: 6,
                             style: TextStyle(fontSize: fontSize),
                           ),
                           value: 1,
@@ -288,8 +298,9 @@ class _MyFormTreePageState extends State<MyFormTreePage> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: <Widget>[
-                      new Text(
+                      new AutoSizeText(
                         'Achat produit bio',
+                        minFontSize: 6,
                         style: new TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 16.0,
@@ -297,8 +308,9 @@ class _MyFormTreePageState extends State<MyFormTreePage> {
                       ),
                       new Expanded(
                         child: new RadioListTile(
-                          title: Text(
+                          title: AutoSizeText(
                             'Oui',
+                            minFontSize: 6,
                             style: TextStyle(fontSize: fontSize),
                           ),
                           value: 0,
@@ -308,8 +320,9 @@ class _MyFormTreePageState extends State<MyFormTreePage> {
                       ),
                       new Expanded(
                         child: new RadioListTile(
-                          title: Text(
+                          title: AutoSizeText(
                             'Non',
+                            minFontSize: 6,
                             style: TextStyle(fontSize: fontSize),
                           ),
                           value: 1,
@@ -334,8 +347,9 @@ class _MyFormTreePageState extends State<MyFormTreePage> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: <Widget>[
-                      new Text(
+                      new AutoSizeText(
                         'Voiture',
+                        minFontSize: 6,
                         style: new TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 16.0,
@@ -343,8 +357,9 @@ class _MyFormTreePageState extends State<MyFormTreePage> {
                       ),
                       new Expanded(
                         child: new RadioListTile(
-                          title: Text(
+                          title: AutoSizeText(
                             'Régulièrement',
+                            minFontSize: 6,
                             style: TextStyle(fontSize: 12),
                           ),
                           value: 0,
@@ -354,8 +369,9 @@ class _MyFormTreePageState extends State<MyFormTreePage> {
                       ),
                       new Expanded(
                         child: new RadioListTile(
-                          title: Text(
+                          title: AutoSizeText(
                             'Occasionnel',
+                            minFontSize: 6,
                             style: TextStyle(fontSize: 12),
                           ),
                           value: 1,
@@ -365,8 +381,9 @@ class _MyFormTreePageState extends State<MyFormTreePage> {
                       ),
                       new Expanded(
                         child: new RadioListTile(
-                          title: Text(
+                          title: AutoSizeText(
                             'Jamais',
+                            minFontSize: 6,
                             style: TextStyle(fontSize: 12),
                           ),
                           value: 2,
@@ -380,8 +397,9 @@ class _MyFormTreePageState extends State<MyFormTreePage> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: <Widget>[
-                      new Text(
+                      new AutoSizeText(
                         'Vélo',
+                        minFontSize: 6,
                         style: new TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 16.0,
@@ -389,8 +407,9 @@ class _MyFormTreePageState extends State<MyFormTreePage> {
                       ),
                       new Expanded(
                         child: new RadioListTile(
-                          title: Text(
+                          title: AutoSizeText(
                             'Oui',
+                            minFontSize: 6,
                             style: TextStyle(fontSize: fontSize),
                           ),
                           value: 0,
@@ -400,8 +419,9 @@ class _MyFormTreePageState extends State<MyFormTreePage> {
                       ),
                       new Expanded(
                         child: new RadioListTile(
-                          title: Text(
+                          title: AutoSizeText(
                             'Non',
+                            minFontSize: 6,
                             style: TextStyle(fontSize: fontSize),
                           ),
                           value: 1,
@@ -415,8 +435,9 @@ class _MyFormTreePageState extends State<MyFormTreePage> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: <Widget>[
-                      new Text(
+                      new AutoSizeText(
                         'Bus',
+                        minFontSize: 6,
                         style: new TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 16.0,
@@ -424,8 +445,9 @@ class _MyFormTreePageState extends State<MyFormTreePage> {
                       ),
                       new Expanded(
                         child: new RadioListTile(
-                          title: Text(
+                          title: AutoSizeText(
                             'Oui',
+                            minFontSize: 6,
                             style: TextStyle(fontSize: fontSize),
                           ),
                           value: 0,
@@ -435,8 +457,9 @@ class _MyFormTreePageState extends State<MyFormTreePage> {
                       ),
                       new Expanded(
                         child: new RadioListTile(
-                          title: Text(
+                          title: AutoSizeText(
                             'Non',
+                            minFontSize: 6,
                             style: TextStyle(fontSize: fontSize),
                           ),
                           value: 1,
@@ -451,7 +474,7 @@ class _MyFormTreePageState extends State<MyFormTreePage> {
                     children: <Widget>[
                       //bloc.enterDataFormForm(waterFieldController.text, valueElectricity, waste, don, bulk, bio, car, bike, bus)
                       new MaterialButton(
-                        child: Text("Submit"),
+                        child: AutoSizeText("Submit",minFontSize: 10,),
                         color: Colors.blue,
                         onPressed: () {
                           bloc.enterDataFormForm(
