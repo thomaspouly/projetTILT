@@ -13,14 +13,13 @@ import 'package:page_transition/page_transition.dart';
 class StaggeredView extends StatefulWidget {
   final IconData iconData;
   final String title;
-  final double value;
-  final double increment;
   final int id;
   final String description;
   final Categorie categorie;
-
-  StaggeredView(this.iconData, this.title, this.value, this.increment, this.id,
-      this.description, this.categorie);
+ final DateTime date;
+ final CounterBloc bloc;
+  StaggeredView(this.iconData, this.title,  this.id,
+      this.description, this.categorie,this.date,this.bloc);
 
   @override
   State<StatefulWidget> createState() => new _StaggeredViewState();
@@ -28,9 +27,7 @@ class StaggeredView extends StatefulWidget {
 
 class _StaggeredViewState extends State<StaggeredView> {
   String counter;
-  CounterBloc bloc = new CounterBloc();
-  bool end=false;
-
+ 
 
   @override
    void setState(fn) {
@@ -44,32 +41,28 @@ class _StaggeredViewState extends State<StaggeredView> {
   void initState() {
     // TODO: implement initState
     super.initState();
-
-    bloc.setCounter(widget.value, widget.increment);
-
-  counter = bloc.counter.toStringAsFixed(0);
-
-  if(end==false){
-    Timer.periodic(
-        Duration(milliseconds: 200),
-        (Timer t) => setState(() {
-              bloc.increase();
-
-              final formatter =
+ final formatter =
                   new NumberFormat("###,###,###,###,###,###,###,###");
-              counter = formatter.format(bloc.counter.toInt());
+  
+ widget.bloc.actualise(widget.date);
+
+  counter = formatter.format( widget.bloc.counter.toInt());
+    Timer.periodic(
+        Duration(seconds: 1),
+        (Timer t) => setState(() {
+      
+ widget.bloc.actualise(widget.date);
+             
+              counter = formatter.format( widget.bloc.counter.toInt());
             }));
-  }
+  
     
   }
 
   @override
   Widget build(BuildContext context) {
+   double widthScreen = MediaQuery.of(context).size.width;
 
-
-
-
-    double widthScreen = MediaQuery.of(context).size.width;
 
     return new InkWell(
         onTap: () {
@@ -93,7 +86,7 @@ class _StaggeredViewState extends State<StaggeredView> {
                 Hero(
                     tag: "icon_${widget.id}",
                     child: Icon(
-                      widget.iconData,
+                      widget.categorie.logo,
                       color: widget.categorie.colorLogo,
                       size: 60,
                     )),
@@ -118,7 +111,7 @@ class _StaggeredViewState extends State<StaggeredView> {
                     Container(
                       width: widthScreen / 3 * 2,
                       child: AutoSizeText(
-                        counter,
+                       counter,
                         textAlign: TextAlign.end,
                         style: TextStyle(
                             fontSize: widthScreen / 10,
