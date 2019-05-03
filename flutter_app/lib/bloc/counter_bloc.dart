@@ -1,15 +1,23 @@
-import 'package:flutter/material.dart';
 
 class CounterBloc {
-  double counter;
+  double counter=0;
   double increment;
 
-  setCounter(double value, double incr) {
-    counter = value;
+  setCounter(double incr) {
+    
     increment = incr;
   }
 
   increase() {
-    counter=counter+ (increment/5);
+    counter+=increment;
   }
+
+actualise(DateTime date){
+ DateTime now = DateTime.now();
+
+ int difference = now.difference(date).inSeconds;
+ counter=increment*difference;
+
+}
+
 }
