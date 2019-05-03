@@ -4,12 +4,14 @@ import 'package:flutter_app/bloc/counter_bloc.dart';
 import 'package:flutter_app/bloc/form_tree_bloc.dart';
 import 'package:flutter_app/bloc/login_bloc.dart';
 import 'package:flutter_app/bloc/register_bloc.dart';
+import 'package:flutter_app/bloc/tree_bloc.dart';
 
 class BlocProvider extends InheritedWidget {
   final loginBloc = LoginBloc();
   final registerBloc = RegisterBloc();
   final classementBloc = ClassementBloc();
   final formBloc = FormTreeBloc();
+  final treeBloc = TreeBloc();
   final counterWidget = CounterBloc();
 
   BlocProvider({Key key, Widget child}) : super(key: key, child: child);
@@ -39,5 +41,10 @@ class BlocProvider extends InheritedWidget {
   static FormTreeBloc ofFormTree(BuildContext context) {
     return (context.inheritFromWidgetOfExactType(BlocProvider) as BlocProvider)
         .formBloc;
+  }
+
+  static TreeBloc ofTree(BuildContext context) {
+    return (context.inheritFromWidgetOfExactType(BlocProvider) as BlocProvider)
+        .treeBloc;
   }
 }

@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_app/models/DataTreeForm.dart';
+import 'package:flutter_app/models/NoteForm.dart';
 import 'package:flutter_app/models/NoteTreeForm.dart';
 import 'package:flutter_app/models/User.dart';
 import 'package:flutter_app/provider/AuthProvider.dart';
@@ -87,11 +88,14 @@ class FirestoreProvider {
     });
   }
 
-  Future<String> getNote() {
+  Future<String> getNote() async{
+    Future<String> resu;
     auth.currentUser().then((userID) {
       _firestore.collection('data').document(userID).get().then((noteInDb) {
-        return noteInDb.data['note'];
+        NoteForm note = new NoteForm(value:noteInDb.data['note']);
+        resu = Future.value(note.value);
       });
     });
+    return resu;
   }
 }

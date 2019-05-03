@@ -1,4 +1,7 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_app/models/NoteForm.dart';
+import 'package:flutter_app/provider/AuthProvider.dart';
 import 'package:flutter_app/provider/BlocProvider.dart';
 import 'package:flutter_app/screen/tree/form.dart';
 import 'package:flutter_sparkline/flutter_sparkline.dart';
@@ -11,16 +14,17 @@ final String treeName = 'assets/tree.svg';
 final Widget sproutWidget = new SvgPicture.asset(
   sproutName,
   semanticsLabel: 'Acme Logo',
-  width: 100,
-  height: 100,
-  color: Colors.green[300],
+  width: 300,
+  height: 400,
+  color : Colors.green[300],
 );
+
 final Widget treeWidget = new SvgPicture.asset(
   treeName,
   semanticsLabel: 'Acme Logo',
-  width: 100,
-  height: 100,
-  color: Colors.green[300],
+  width: 300,
+  height: 400,
+  color : Colors.green[300],
 );
 
 class TreePage extends StatefulWidget {
@@ -83,39 +87,75 @@ class _TreePageState extends State<TreePage> {
     return FluttieAnimation(tree);
   }
 
-  Widget treeView() {}
-
   @override
   Widget build(BuildContext context) {
-    final bloc = BlocProvider.ofFormTree(context);
-
+    final bloc = BlocProvider.ofTree(context);
 
     Widget content = ready
         ? buildStarContent(context)
         : Center(child: CircularProgressIndicator());
 
     Widget treeView() {
-      if(bloc.getNote() != null) {
-        bloc.getNote().then((note) {
-          print("NOTE ======>" + note.toString());
-          if (int.parse(note) == 5) {
-            return sproutWidget;
-          } else if (int.parse(note) > 5 && int.parse(note) <= 6) {
-            return sproutWidget;
-          } else if (int.parse(note) > 6 && int.parse(note) <= 7) {
-            return sproutWidget;
-          } else if (int.parse(note) > 7 && int.parse(note) <= 8) {
-            return treeWidget;
-          } else if (int.parse(note) > 8 && int.parse(note) <= 9) {
-            return treeWidget;
-          } else if (int.parse(note) > 9 && int.parse(note) <= 10) {
-            return treeWidget;
+      AuthProvider auth = new AuthProvider();
+      Widget widget = sproutWidget;
+      auth.currentUser().then((userID) {
+        Firestore.instance
+            .collection('data')
+            .document(userID)
+            .get()
+            .then((noteInDb) {
+          NoteForm note = new NoteForm(value: noteInDb.data['note']);
+          print("NOTE ===> " + note.value);
+          if (int.parse(note.value) == 5) {
+            widget = sproutWidget;
+          } else if (int.parse(note.value) > 5 && int.parse(note.value) <= 6) {
+            widget = sproutWidget;
+          } else if (int.parse(note.value) > 6 && int.parse(note.value) <= 7) {
+            widget = sproutWidget;
+          } else if (int.parse(note.value) > 7 && int.parse(note.value) <= 8) {
+            widget = treeWidget;
+          } else if (int.parse(note.value) > 8 && int.parse(note.value) <= 9) {
+            widget = treeWidget;
+          } else if (int.parse(note.value) > 9 && int.parse(note.value) <= 10) {
+            widget = treeWidget;
           }
         });
-      }
-      else {
-        return content;
-      }
+      });
+      return widget;
+
+      // TODO : demander a Maxime pourquoi ça fonctionne pas
+
+      /*return new FutureBuilder(
+          future: bloc.getNote(),
+          builder: (BuildContext context, AsyncSnapshot snapshot) {
+            print("SNAPSHOT DATA ===> " + snapshot.data.toString());
+            switch(snapshot.connectionState) {
+              case ConnectionState.none:
+                return Text('Press button to start.');
+              case ConnectionState.active:
+              case ConnectionState.waiting:
+                return Text('Awaiting result...');
+              case ConnectionState.done:
+                if (int.parse(snapshot.data) == 5) {
+                  return sproutWidget;
+                } else if (int.parse(snapshot.data) > 5 &&
+                    int.parse(snapshot.data) <= 6) {
+                  return sproutWidget;
+                } else if (int.parse(snapshot.data) > 6 &&
+                    int.parse(snapshot.data) <= 7) {
+                  return sproutWidget;
+                } else if (int.parse(snapshot.data) > 7 &&
+                    int.parse(snapshot.data) <= 8) {
+                  return treeWidget;
+                } else if (int.parse(snapshot.data) > 8 &&
+                    int.parse(snapshot.data) <= 9) {
+                  return treeWidget;
+                } else if (int.parse(snapshot.data) > 9 &&
+                    int.parse(snapshot.data) <= 10) {
+                  return treeWidget;
+                }
+            }
+          });*/
     }
 
     return new SafeArea(
