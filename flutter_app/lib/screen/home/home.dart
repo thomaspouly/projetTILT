@@ -1,8 +1,12 @@
 import 'dart:async';
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter_app/bloc/counter_bloc.dart';
+import 'package:flutter_app/models/Categorie.dart';
 import 'package:flutter_app/models/Tile.dart';
+import 'package:flutter_app/models/TileHelper.dart';
 import 'package:flutter_app/provider/BlocProvider.dart';
 import 'package:flutter_app/screen/customs/Countries.dart';
 import 'package:flutter_app/screen/customs/fab.dart';
@@ -33,36 +37,81 @@ Future<String> getImage(String uid) async {
 }
 
 class _HomePageState extends State<HomePage> {
-  List<Tile> tiles = Tile().listTile();
-  List<StaggeredView> tileGrid;
-  List<StaggeredTile> _staggeredTiles;
+  List<Tile> tiles = TileHelper().listTile();
+  List<StaggeredView> tileGrid = new List<StaggeredView>();
+  List<StaggeredTile> _staggeredTiles = List<StaggeredTile>();
   bool classement = false;
 
   ScrollController _hideButtonController = new ScrollController();
 
   double opacity = 1;
 
+  String _dropdownCategoryValue = 'Catégories';
+  String _dropdownDurationValue = 'Maintenant';
+
+  bool b = true;
+  DateTime date = DateTime.now();
+
+  loadingTiles(DateTime d) {
+    tileGrid = new List<StaggeredView>();
+    _staggeredTiles = List<StaggeredTile>();
+    for (int i = 0; i < tiles.length; i++) {
+      CounterBloc bloc = new CounterBloc();
+      bloc.setCounter(tiles[i].increment);
+      StaggeredView s = StaggeredView(tiles[i].icon, tiles[i].name, tiles[i].id,
+          tiles[i].description, tiles[i].categorie, d, bloc);
+
+      switch (_dropdownCategoryValue) {
+        case 'Faune':
+          if (s.categorie.name == Names.faune) {
+            tileGrid.add(s);
+            _staggeredTiles.add(StaggeredTile.count(4, 1.5));
+          }
+          break;
+        case 'Flore':
+          if (s.categorie.name == Names.flore) {
+            tileGrid.add(s);
+            _staggeredTiles.add(StaggeredTile.count(4, 1.5));
+          }
+          break;
+        case 'Réchauffement':
+          if (s.categorie.name == Names.rechauffement) {
+            tileGrid.add(s);
+            _staggeredTiles.add(StaggeredTile.count(4, 1.5));
+          }
+          break;
+
+        case 'Pollution':
+          if (s.categorie.name == Names.pollution) {
+            tileGrid.add(s);
+            _staggeredTiles.add(StaggeredTile.count(4, 1.5));
+          }
+          break;
+        case 'Energies':
+          if (s.categorie.name == Names.energie) {
+            tileGrid.add(s);
+            _staggeredTiles.add(StaggeredTile.count(4, 1.5));
+          }
+          break;
+        case 'Déchets':
+          if (s.categorie.name == Names.dechet) {
+            tileGrid.add(s);
+            _staggeredTiles.add(StaggeredTile.count(4, 1.5));
+          }
+          break;
+
+        default:
+          tileGrid.add(s);
+          _staggeredTiles.add(StaggeredTile.count(4, 1.5));
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final bloc = BlocProvider.ofClassement(context);
-    tileGrid = new List<StaggeredView>();
-    _staggeredTiles = List<StaggeredTile>();
 
-    List<Tile> tiles = Tile().listTile();
-
-    for (int i = 0; i < tiles.length; i++) {
-      StaggeredView s = StaggeredView(
-          tiles[i].icon,
-          tiles[i].name,
-          tiles[i].counter,
-          tiles[i].increment,
-          tiles[i].id,
-          tiles[i].description,
-          tiles[i].categorie);
-
-      tileGrid.add(s);
-      _staggeredTiles.add(StaggeredTile.count(4, 1.5));
-    }
+    loadingTiles(date);
 
     FlutterStatusbarcolor.setStatusBarColor(Colors.grey[200]);
     FlutterStatusbarcolor.setStatusBarWhiteForeground(false);
@@ -79,7 +128,7 @@ class _HomePageState extends State<HomePage> {
                 leading: Container(),
                 backgroundColor: Colors.white,
                 floating: true,
-                expandedHeight: 100,
+                expandedHeight: MediaQuery.of(context).size.height/7,
                 flexibleSpace: FlexibleSpaceBar(
                   background: Container(
                       padding: EdgeInsets.only(top: 5, bottom: 5),
@@ -105,7 +154,6 @@ class _HomePageState extends State<HomePage> {
                   "\n\n\nChargement...",
                   style: TextStyle(fontSize: 30),
                 ),
-                
               );
             } else {
               return Countries(snapshot.data, taille, _hideButtonController)
@@ -181,6 +229,7 @@ class _HomePageState extends State<HomePage> {
 
   Widget _buildBottomBar() {
     return FABBottomAppBar(
+      height: MediaQuery.of(context).size.height/15,
       color: Colors.grey,
       selectedColor: Colors.green,
       notchedShape: CircularNotchedRectangle(),
@@ -197,8 +246,10 @@ class _HomePageState extends State<HomePage> {
       },
       items: [
         FABBottomAppBarItem(
-          iconData: Icons.my_location,
+          iconData: Icons.poll,
           text: 'Statistiques',
+          
+          
         ),
         FABBottomAppBarItem(
             iconData: Icons.format_list_numbered, text: 'Classements'),
@@ -221,7 +272,6 @@ class _HomePageState extends State<HomePage> {
           showDialog(
             context: context,
             builder: (BuildContext context) {
-              // return object of type Dialog
               return AlertDialog(
                 title:
                     new Text("Veuillez vous connecter pour acceder à l'arbre"),
@@ -236,7 +286,6 @@ class _HomePageState extends State<HomePage> {
                   child: Text("Connexion"),
                 ),
                 actions: <Widget>[
-                  // usually buttons at the bottom of the dialog
                   new FlatButton(
                     child: new Text("Close"),
                     onPressed: () {
@@ -251,14 +300,13 @@ class _HomePageState extends State<HomePage> {
       },
       child: Icon(Icons.nature),
       elevation: 3.0,
+      
     );
   }
 
   Widget _buildImage() {
-//String url="https://firebasestorage.googleapis.com/v0/b/projet-tilt.appspot.com/o/image%2FKfjswgQ5socC1St0vO2xvS6HjE23?alt=media&token=9d4badbb-d893-496b-a620-338a3cdbf68f";
     Future<String> url = getImage(widget.uid);
     return new Container(
-        //  margin: EdgeInsets.only(bottom: 15),
         child: widget.uid == null
             ? new FlatButton(
                 onPressed: () {
@@ -268,13 +316,16 @@ class _HomePageState extends State<HomePage> {
                   );
                 },
                 child: new Container(
-                    height: 75,
-                    width: 75,
+                    height: MediaQuery.of(context).size.height/9,
+                    width: MediaQuery.of(context).size.height/9,
                     child: Center(
-                      child: Text(
+                      child: AutoSizeText(
+                      
                         "Connexion",
+                        maxLines: 1,
                         style: TextStyle(
-                            fontSize: 14,
+                          fontSize: 200,
+                          
                             color: Colors.blue[200],
                             fontWeight: FontWeight.bold),
                       ),
@@ -290,21 +341,19 @@ class _HomePageState extends State<HomePage> {
                     (BuildContext context, AsyncSnapshot<String> snapshot) {
                   switch (snapshot.connectionState) {
                     case ConnectionState.none:
-                        return CircularProgressIndicator();
+                      return CircularProgressIndicator();
                     case ConnectionState.active:
-                        return CircularProgressIndicator();
+                      return CircularProgressIndicator();
 
                     case ConnectionState.waiting:
-                         return CircularProgressIndicator();
+                      return CircularProgressIndicator();
 
                     case ConnectionState.done:
-                
-                    
                       return new FlatButton(
                         onPressed: () {},
                         child: new Container(
-                            height: 70,
-                            width: 70,
+                            height:MediaQuery.of(context).size.height/9,
+                            width: MediaQuery.of(context).size.height/9,
                             decoration: new BoxDecoration(
                                 shape: BoxShape.circle,
                                 image: new DecorationImage(
@@ -315,38 +364,6 @@ class _HomePageState extends State<HomePage> {
                   }
                 },
               ));
-  }
-
-  Color color = Colors.white;
-
-  String _dropdownValue = 'Catégories';
-
-  DropdownButton _buildDropDownButton() {
-    return DropdownButton<String>(
-      value: _dropdownValue,
-      onChanged: (String newValue) {
-        setState(() {
-          _dropdownValue = newValue;
-        });
-      },
-      items: <String>[
-        'Catégories',
-        'Faune',
-        'Flore',
-        'Réchauffement',
-        'Pollution',
-        'Energies',
-        'Déchets'
-      ].map<DropdownMenuItem<String>>((String value) {
-        return DropdownMenuItem<String>(
-          value: value,
-          child: Text(
-            value,
-            style: TextStyle(fontSize: 18),
-          ),
-        );
-      }).toList(),
-    );
   }
 
   Widget _buildStaggredView(ScrollController controller,
@@ -367,7 +384,85 @@ class _HomePageState extends State<HomePage> {
   var _currentYearItemSelected = '2017';
   int taille = 40;
 
-  Widget _buildDropDownButton1() {
+  Color color = Colors.white;
+
+  DropdownButton _buildDropDownStatCategory() {
+    return DropdownButton<String>(
+      value: _dropdownCategoryValue,
+      onChanged: (String newValue) {
+        setState(() {
+          _dropdownCategoryValue = newValue;
+
+        });
+      },
+      items: <String>[
+        'Catégories',
+        'Faune',
+        'Flore',
+        'Réchauffement',
+        'Pollution',
+        'Energies',
+        'Déchets'
+      ].map<DropdownMenuItem<String>>((String value) {
+        return DropdownMenuItem<String>(
+          value: value,
+          child: Text(
+            value,
+            style: TextStyle(fontSize:  MediaQuery.of(context).size.height/40),
+          ),
+        );
+      }).toList(),
+    );
+  }
+
+  DropdownButton _buildDropDownStatDuration() {
+    return DropdownButton<String>(
+      value: _dropdownDurationValue,
+      onChanged: (String newValue) {
+        setState(() {
+          _dropdownDurationValue = newValue;
+          b = false;
+
+          switch (_dropdownDurationValue) {
+            case 'Aujourd\'hui':
+              date = DateTime.now();
+              date = DateTime(date.year, date.month, date.day, 0, 0, 0, 0, 0);
+              break;
+            case 'Ce mois-ci':
+              date = DateTime.now();
+              date = DateTime(date.year, date.month, 1, 0, 0, 0, 0, 0);
+              break;
+            case 'Cette année':
+              date = DateTime.now();
+              date = DateTime(date.year, 1, 1, 0, 0, 0, 0, 0);
+              break;
+            case 'Depuis 2000':
+              date = DateTime(2000, 1, 1);
+              break;
+            default:
+              date = DateTime.now();
+          }
+        });
+      },
+      items: <String>[
+        'Maintenant',
+        'Aujourd\'hui',
+        'Ce mois-ci',
+        'Cette année',
+        'Depuis 2000',
+      ].map<DropdownMenuItem<String>>((String value) {
+        return DropdownMenuItem<String>(
+          value: value,
+          child: Text(
+            value,
+            style: TextStyle(fontSize: MediaQuery.of(context).size.height/40),
+          ),
+        );
+      }).toList(),
+    );
+  }
+
+  Widget _buildDropDownRankingTop() {
     return Container(
       child: DropdownButton<String>(
         value: _currentTopItemSelected,
@@ -385,7 +480,7 @@ class _HomePageState extends State<HomePage> {
             value: value,
             child: Text(
               value,
-              style: TextStyle(fontSize: 18),
+              style: TextStyle(fontSize: MediaQuery.of(context).size.height/40),
             ),
           );
         }).toList(),
@@ -393,7 +488,7 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Widget _buildDropDownButton2() {
+  Widget _buildDropDownRankingYear() {
     return Container(
       child: DropdownButton<String>(
         value: _currentYearItemSelected,
@@ -408,7 +503,7 @@ class _HomePageState extends State<HomePage> {
             value: value,
             child: Text(
               value,
-              style: TextStyle(fontSize: 18),
+              style: TextStyle(fontSize: MediaQuery.of(context).size.height/40),
             ),
           );
         }).toList(),
@@ -423,8 +518,9 @@ class _HomePageState extends State<HomePage> {
           // crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: <Widget>[
-            Hero(tag: 'image', child: _buildImage()),
-            _buildDropDownButton()
+            _buildDropDownStatCategory(),
+           Align(child:_buildImage(),alignment: Alignment.center,),
+            _buildDropDownStatDuration(),
           ],
         );
         break;
@@ -433,9 +529,9 @@ class _HomePageState extends State<HomePage> {
           // crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: <Widget>[
-            _buildDropDownButton1(),
-            Hero(tag: 'image', child: _buildImage()),
-            _buildDropDownButton2()
+            _buildDropDownRankingTop(),
+          Align(child:_buildImage(),alignment: Alignment.center,),
+            _buildDropDownRankingYear()
           ],
         );
         break;

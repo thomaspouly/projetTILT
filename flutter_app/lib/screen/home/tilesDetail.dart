@@ -33,7 +33,7 @@ class _TileDetailState extends State<TileDetail> {
             ),
             backgroundColor: widget.categorie.color,
             floating: true,
-            expandedHeight: 120,
+            expandedHeight: MediaQuery.of(context).size.height/6,
             flexibleSpace: FlexibleSpaceBar(
                 background: Stack(
               children: <Widget>[
@@ -44,7 +44,7 @@ class _TileDetailState extends State<TileDetail> {
                     child: Align(
                       alignment: Alignment.center,
                       child: Icon(
-                        widget.iconData,
+                        widget.categorie.logo,
                         color: widget.categorie.colorLogo,
                         size: 100,
                       ),
@@ -55,68 +55,79 @@ class _TileDetailState extends State<TileDetail> {
             )),
           ),
           SliverToBoxAdapter(
-            child: Container(
-              height: 200,
-              child: Card(
-                child: Column(children: <Widget>[
-                  Text("Description:\n",
-                      style: TextStyle(
-                          color: widget.textColor,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 25)),
-                  AutoSizeText(
-                    widget.description,
-                    style: TextStyle(color: widget.textColor),
-                  ),
-                ]),
-                color: Colors.red,
-              ),
-            ),
-          ),
-          SliverToBoxAdapter(
-            child: Container(
-              height: 200,
-              child: Card(
-                child: Column(children: <Widget>[
-                  Text("Tendance:",
-                      style: TextStyle(
-                          color: widget.textColor,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 25)),
-                  Container(
-                    margin: EdgeInsets.all(20),
-                    child: Sparkline(
-                      data: widget.data,
-                      pointSize: 8,
-                      lineColor: Colors.blue,
-                      pointColor: Colors.blue[700],
-                      pointsMode: PointsMode.all,
+          child:  Column(
+                //mainAxisSize: MainAxisSize.max,
+            children: <Widget>[
+              Container(
+                 width:MediaQuery.of(context).size.width,
+                height: MediaQuery.of(context).size.height/3,
+                child: Card(
+                  child: Column(children: <Widget>[
+                    AutoSizeText("Description:\n",
+                    maxFontSize: 50,
+                        style: TextStyle(
+                            color: widget.textColor,
+                            fontWeight: FontWeight.bold,
+                            fontSize:30)),
+                    Expanded(
+                      child: AutoSizeText(
+                        widget.description,
+                         
+                        style: TextStyle(color: widget.textColor, fontSize:30),
+                      ),
                     ),
-                  ),
-                ]),
-                color: Colors.yellow[600],
+                  ]),
+                  color: Colors.red,
+                ),
               ),
-            ),
-          ),
-          SliverToBoxAdapter(
-            child: Container(
-              height: 200,
-              child: Card(
-                child: Column(children: <Widget>[
-                  Text("Conseils:\n",
-                      style: TextStyle(
-                          color: widget.textColor,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 25)),
-                  Text(
-                    widget.categorie.conseils,
-                    style: TextStyle(color: widget.textColor),
-                  )
-                ]),
-                color: Colors.green,
+              Container(
+                 width:MediaQuery.of(context).size.width,
+                height: MediaQuery.of(context).size.height/3,
+                child: Card(
+                  child: Column(children: <Widget>[
+                    Text("Tendance:",
+                        style: TextStyle(
+                            color: widget.textColor,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 30)),
+                    Container(
+                      margin: EdgeInsets.all(20),
+                     
+                      child: Sparkline(fallbackHeight: 100,
+                        data: widget.data,
+                        pointSize: 8,
+                        lineColor: Colors.blue,
+                        pointColor: Colors.blue[700],
+                        pointsMode: PointsMode.all,
+                      ),
+                    ),
+                  ]),
+                  color: Colors.yellow[600],
+                ),
               ),
-            ),
-          ),
+              Container(
+                width:MediaQuery.of(context).size.width,
+                height: MediaQuery.of(context).size.height/3,
+                child: Card(
+                  child: Column(children: <Widget>[
+                    AutoSizeText("Conseils:\n",
+                        style: TextStyle(
+                            color: widget.textColor,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 30)),
+                    Expanded(
+                        child:  Align(alignment: Alignment.centerLeft,child:AutoSizeText(
+                          
+                      widget.categorie.conseils,
+                      style: TextStyle(color: widget.textColor,
+                            fontSize: 30),
+                    ))),
+                  ]),
+                  color: Colors.green,
+                ),
+              ),
+            ],
+          ))
         ],
       )),
     );
