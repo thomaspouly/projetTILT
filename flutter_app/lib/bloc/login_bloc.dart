@@ -3,8 +3,6 @@ import 'package:flutter_app/services/Repository.dart';
 
 class LoginBloc {
   final _repository = Repository();
-  String _email;
-  String _password;
 
   Future<String> submit(String email, String password) {
     if (validateFields(email, password)) {

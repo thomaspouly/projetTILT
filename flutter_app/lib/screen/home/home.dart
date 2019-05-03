@@ -12,6 +12,7 @@ import 'package:flutter_app/screen/customs/Countries.dart';
 import 'package:flutter_app/screen/customs/fab.dart';
 import 'package:flutter_app/screen/customs/staggeredView.dart';
 import 'package:flutter_app/screen/login/login.dart';
+import 'package:flutter_app/screen/profil/profil.dart';
 import 'package:flutter_app/screen/tree/tree.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:flutter_statusbarcolor/flutter_statusbarcolor.dart';
@@ -109,7 +110,7 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    final bloc = BlocProvider.ofClassement(context);
+    final bloc = BlocProvider.ofRanking(context);
 
     loadingTiles(date);
 
@@ -350,7 +351,12 @@ class _HomePageState extends State<HomePage> {
 
                     case ConnectionState.done:
                       return new FlatButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => MyProfilPage(uid: widget.uid,)),
+                          );
+                        },
                         child: new Container(
                             height:MediaQuery.of(context).size.height/9,
                             width: MediaQuery.of(context).size.height/9,

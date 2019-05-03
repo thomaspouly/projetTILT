@@ -14,7 +14,7 @@ class FirestoreProvider {
   StorageProvider storage = StorageProvider();
 
   Future<User> getUserById(String id) {
-    _firestore.collection('users').document('${id}').get().then((result) {
+    return _firestore.collection('users').document('${id}').get().then((result) {
       User u = new User(
           email: result.data['email'],
           name: result.data['name'],
@@ -22,7 +22,6 @@ class FirestoreProvider {
           reference: null);
       return u;
     });
-    return null;
   }
 
   Future<String> registerUser(
@@ -89,13 +88,11 @@ class FirestoreProvider {
   }
 
   Future<String> getNote() async{
-    Future<String> resu;
     auth.currentUser().then((userID) {
       _firestore.collection('data').document(userID).get().then((noteInDb) {
         NoteForm note = new NoteForm(value:noteInDb.data['note']);
-        resu = Future.value(note.value);
+        return note.value;
       });
     });
-    return resu;
   }
 }

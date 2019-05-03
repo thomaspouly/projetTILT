@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:flutter_app/models/User.dart';
 import 'package:flutter_app/provider/AuthProvider.dart';
 import 'package:flutter_app/provider/FirestoreProvider.dart';
 import 'package:flutter_app/provider/RootBundleProvider.dart';
@@ -40,4 +41,9 @@ class Repository {
       rootBundleProvider.loadJsonFile(file);
 
   Future<String> getNote() => _firestoreProvider.getNote();
+
+  Future<User> getUserById(String id) async{
+    return _firestoreProvider.getUserById(id);
+  }
+
 }
