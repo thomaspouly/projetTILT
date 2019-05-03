@@ -268,10 +268,10 @@ class _MyLoginPageState extends State<MyLoginPage> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
                    Container(height:100,width:100,child:svg),
-                    emailField,
+                   Container(width:MediaQuery.of(context).size.width,child:emailField),
                     Column(
                       children: <Widget>[
-                        passwordField,
+                        Container(width:MediaQuery.of(context).size.width,child:passwordField),
                         Row(children: <Widget>[
                           Expanded(
                               child: Align(
@@ -283,7 +283,7 @@ class _MyLoginPageState extends State<MyLoginPage> {
                     ),
                     Column(
                       children: <Widget>[
-                        loginButon,
+                        Container(width:MediaQuery.of(context).size.width,child:loginButon),
                         Row(children: <Widget>[
                           Expanded(
                               child: Align(

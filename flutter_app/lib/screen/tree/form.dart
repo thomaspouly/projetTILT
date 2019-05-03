@@ -163,12 +163,14 @@ class _MyFormTreePageState extends State<MyFormTreePage> {
                     title: "Consommation d'eau en m²",
                     controller: waterFieldController,
                     icon: Icon(Icons.opacity),
+                    type: TextInputType.number,
                     hide: false,
                   ),
                   TextFieldCustom(
                     title: "Consommation d'éléctricité en kW/h",
                     controller: electricityFieldController,
                     icon: Icon(Icons.offline_bolt),
+                    type: TextInputType.number,
                     hide: false,
                   ),
                   new Container(

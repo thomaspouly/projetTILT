@@ -24,7 +24,7 @@ class MyApp extends StatelessWidget {
           fontFamily: 'Calibre-Semibold'
         ),
         home: new SplashScreen(
-            seconds: 2,
+            seconds: 5,
             navigateAfterSeconds: new MyLoginPage(),
             title: new Text(
               'Bienvenue sur EarthState',

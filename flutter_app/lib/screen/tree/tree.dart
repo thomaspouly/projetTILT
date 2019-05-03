@@ -121,7 +121,7 @@ class _TreePageState extends State<TreePage> {
           }
         });
       });
-      return widget;
+      return content;
 
       // TODO : demander a Maxime pourquoi ça fonctionne pas
 
