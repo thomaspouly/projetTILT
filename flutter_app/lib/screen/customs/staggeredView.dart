@@ -116,7 +116,8 @@ class _StaggeredViewState extends State<StaggeredView> {
                         style: TextStyle(
                             fontSize: widthScreen / 10,
                             color: Colors.white,
-                            fontFamily: "Calibre-Semibold"),
+                            fontWeight: FontWeight.bold,
+                            fontFamily: "Monofonto-Regular"),
                         minFontSize: 7.0,
                         stepGranularity: 10.0,
                         maxLines: 1,
