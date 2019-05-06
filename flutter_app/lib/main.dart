@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/provider/BlocProvider.dart';
 import 'package:flutter_app/screen/home/home.dart';
 import 'package:flutter_app/screen/login/login.dart';
+import 'package:flutter_app/screen/tree/form.dart';
 import 'package:flutter_app/screen/tree/tree.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:splashscreen/splashscreen.dart';
@@ -25,7 +26,7 @@ class MyApp extends StatelessWidget {
         ),
         home: new SplashScreen(
             seconds: 5,
-            navigateAfterSeconds: new MyLoginPage(),
+            navigateAfterSeconds: new HomePage(),
             title: new Text(
               'Bienvenue sur EarthState',
               textAlign: TextAlign.center,

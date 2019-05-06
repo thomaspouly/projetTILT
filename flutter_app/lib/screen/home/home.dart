@@ -129,7 +129,7 @@ class _HomePageState extends State<HomePage> {
                 leading: Container(),
                 backgroundColor: Colors.white,
                 floating: true,
-                expandedHeight: MediaQuery.of(context).size.height/7,
+                expandedHeight: MediaQuery.of(context).size.height / 7,
                 flexibleSpace: FlexibleSpaceBar(
                   background: Container(
                       padding: EdgeInsets.only(top: 5, bottom: 5),
@@ -230,7 +230,7 @@ class _HomePageState extends State<HomePage> {
 
   Widget _buildBottomBar() {
     return FABBottomAppBar(
-      height: MediaQuery.of(context).size.height/15,
+      height: MediaQuery.of(context).size.height / 15,
       color: Colors.grey,
       selectedColor: Colors.green,
       notchedShape: CircularNotchedRectangle(),
@@ -249,8 +249,6 @@ class _HomePageState extends State<HomePage> {
         FABBottomAppBarItem(
           iconData: Icons.poll,
           text: 'Statistiques',
-          
-          
         ),
         FABBottomAppBarItem(
             iconData: Icons.format_list_numbered, text: 'Classements'),
@@ -301,7 +299,6 @@ class _HomePageState extends State<HomePage> {
       },
       child: Icon(Icons.nature),
       elevation: 3.0,
-      
     );
   }
 
@@ -317,16 +314,14 @@ class _HomePageState extends State<HomePage> {
                   );
                 },
                 child: new Container(
-                    height: MediaQuery.of(context).size.height/9,
-                    width: MediaQuery.of(context).size.height/9,
+                    height: MediaQuery.of(context).size.height / 9,
+                    width: MediaQuery.of(context).size.height / 9,
                     child: Center(
                       child: AutoSizeText(
-                      
                         "Connexion",
                         maxLines: 1,
                         style: TextStyle(
-                          fontSize: 200,
-                          
+                            fontSize: 200,
                             color: Colors.blue[200],
                             fontWeight: FontWeight.bold),
                       ),
@@ -354,12 +349,15 @@ class _HomePageState extends State<HomePage> {
                         onPressed: () {
                           Navigator.push(
                             context,
-                            MaterialPageRoute(builder: (context) => MyProfilPage(uid: widget.uid,)),
+                            MaterialPageRoute(
+                                builder: (context) => MyProfilPage(
+                                      uid: widget.uid,
+                                    )),
                           );
                         },
                         child: new Container(
-                            height:MediaQuery.of(context).size.height/9,
-                            width: MediaQuery.of(context).size.height/9,
+                            height: MediaQuery.of(context).size.height / 9,
+                            width: MediaQuery.of(context).size.height / 9,
                             decoration: new BoxDecoration(
                                 shape: BoxShape.circle,
                                 image: new DecorationImage(
@@ -398,7 +396,6 @@ class _HomePageState extends State<HomePage> {
       onChanged: (String newValue) {
         setState(() {
           _dropdownCategoryValue = newValue;
-
         });
       },
       items: <String>[
@@ -414,7 +411,7 @@ class _HomePageState extends State<HomePage> {
           value: value,
           child: Text(
             value,
-            style: TextStyle(fontSize:  MediaQuery.of(context).size.height/40),
+            style: TextStyle(fontSize: MediaQuery.of(context).size.height / 40),
           ),
         );
       }).toList(),
@@ -461,7 +458,7 @@ class _HomePageState extends State<HomePage> {
           value: value,
           child: Text(
             value,
-            style: TextStyle(fontSize: MediaQuery.of(context).size.height/40),
+            style: TextStyle(fontSize: MediaQuery.of(context).size.height / 40),
           ),
         );
       }).toList(),
@@ -486,7 +483,8 @@ class _HomePageState extends State<HomePage> {
             value: value,
             child: Text(
               value,
-              style: TextStyle(fontSize: MediaQuery.of(context).size.height/40),
+              style:
+                  TextStyle(fontSize: MediaQuery.of(context).size.height / 40),
             ),
           );
         }).toList(),
@@ -509,7 +507,8 @@ class _HomePageState extends State<HomePage> {
             value: value,
             child: Text(
               value,
-              style: TextStyle(fontSize: MediaQuery.of(context).size.height/40),
+              style:
+                  TextStyle(fontSize: MediaQuery.of(context).size.height / 40),
             ),
           );
         }).toList(),
@@ -525,19 +524,36 @@ class _HomePageState extends State<HomePage> {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: <Widget>[
             _buildDropDownStatCategory(),
-           Align(child:_buildImage(),alignment: Alignment.center,),
+            Align(
+              child: _buildImage(),
+              alignment: Alignment.center,
+            ),
             _buildDropDownStatDuration(),
           ],
         );
         break;
       case true:
-        return Row(
-          // crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        return Column(
           children: <Widget>[
-            _buildDropDownRankingTop(),
-          Align(child:_buildImage(),alignment: Alignment.center,),
-            _buildDropDownRankingYear()
+            Row(
+              // crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: <Widget>[
+                _buildDropDownRankingTop(),
+                Align(
+                  child: _buildImage(),
+                  alignment: Alignment.center,
+                ),
+                _buildDropDownRankingYear()
+              ],
+            ),
+            Align(
+              alignment: Alignment.centerRight,
+              child: AutoSizeText(
+                "Tonnes métriques de dioxyde de carbone",
+                minFontSize: 10,
+              ),
+            ),
           ],
         );
         break;

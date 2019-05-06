@@ -258,7 +258,7 @@ class _MyLoginPageState extends State<MyLoginPage> {
 
     return SafeArea(
       child: Scaffold(
-        resizeToAvoidBottomPadding: false,
+        //resizeToAvoidBottomPadding: false,
         body: Container(
             padding: EdgeInsets.only(left: padding, right: padding),
             child: Stack(

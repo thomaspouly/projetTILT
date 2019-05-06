@@ -384,7 +384,7 @@ class _MyFormTreePageState extends State<MyFormTreePage> {
                       Container(
                           width: widthContainerText,
                           child: new AutoSizeText(
-                            'Voiture',
+                            'Utilisation voiture',
                             minFontSize: 6,
                             style: new TextStyle(
                               fontWeight: FontWeight.bold,

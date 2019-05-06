@@ -80,6 +80,7 @@ flutter:
     - assets/animations/pot.json
     - assets/tree.svg
     - assets/sprout.svg
+    - delete.svg
   #  - images/a_dot_ham.jpeg
 
   fonts:

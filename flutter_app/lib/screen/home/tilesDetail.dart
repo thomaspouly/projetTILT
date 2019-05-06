@@ -72,8 +72,8 @@ class _TileDetailState extends State<TileDetail> {
                     Expanded(
                       child: AutoSizeText(
                         widget.description,
-                         
-                        style: TextStyle(color: widget.textColor, fontSize:30),
+
+                        style: TextStyle(color: widget.textColor, fontSize:MediaQuery.of(context).size.height/40),
                       ),
                     ),
                   ]),
@@ -96,13 +96,13 @@ class _TileDetailState extends State<TileDetail> {
                       child: Sparkline(fallbackHeight: 100,
                         data: widget.data,
                         pointSize: 8,
-                        lineColor: Colors.blue,
-                        pointColor: Colors.blue[700],
+                        lineColor: Colors.orange,
+                        pointColor: Colors.orange[700],
                         pointsMode: PointsMode.all,
                       ),
                     ),
                   ]),
-                  color: Colors.yellow[600],
+                  color: Colors.blue,
                 ),
               ),
               Container(

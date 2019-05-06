@@ -98,7 +98,7 @@ class _StaggeredViewState extends State<StaggeredView> {
                       width: widthScreen / 3 * 2,
                       child: AutoSizeText(
                         widget.title,
-                        textAlign: TextAlign.center,
+                        textAlign: TextAlign.left,
                         style: TextStyle(
                             fontSize: widthScreen/17,
                             color: widget.categorie.colorLogo,
@@ -112,7 +112,7 @@ class _StaggeredViewState extends State<StaggeredView> {
                       width: widthScreen / 3 * 2,
                       child: AutoSizeText(
                        counter,
-                        textAlign: TextAlign.end,
+                        textAlign: TextAlign.left,
                         style: TextStyle(
                             fontSize: widthScreen / 10,
                             color: Colors.white,

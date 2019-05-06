@@ -15,7 +15,7 @@ class TileHelper {
           counter: 0,
           increment: 0.25,
           description:
-              "Chaque année 8 000 tonnes d'ailerons de requins sont prélevés, soit 8 000 000 kg d'ailerons par an soit environ 1 kg d'ailerons tourtes les quatre secondes (compteur), une habitude qui contribue au massacre des requins."),
+              "Chaque année 8 000 tonnes d'ailerons de requins sont prélevés, une habitude qui contribue au massacre des requins."),
      Tile(
           id: 2,
           name: "Le prélèvement végétal de l'humanité(kg)",
