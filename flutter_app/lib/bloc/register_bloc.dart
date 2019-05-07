@@ -4,8 +4,6 @@ import 'package:flutter_app/services/Repository.dart';
 
 class RegisterBloc {
   final _repository = Repository();
-  String _email;
-  String _password;
 
   Future<String> registerUser(
       String email, String password, String name, int treeNumber, File image) {

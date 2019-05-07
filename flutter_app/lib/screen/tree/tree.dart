@@ -96,7 +96,7 @@ class _TreePageState extends State<TreePage> {
         : Center(child: CircularProgressIndicator());
 
     Widget treeView() {
-      AuthProvider auth = new AuthProvider();
+      /*AuthProvider auth = new AuthProvider();
       Widget widget = sproutWidget;
       auth.currentUser().then((userID) {
         Firestore.instance
@@ -122,10 +122,11 @@ class _TreePageState extends State<TreePage> {
         });
       });
       return content;
+    }*/
 
       // TODO : demander a Maxime pourquoi ça fonctionne pas
 
-      /*return new FutureBuilder(
+      return FutureBuilder(
           future: bloc.getNote(),
           builder: (BuildContext context, AsyncSnapshot snapshot) {
             print("SNAPSHOT DATA ===> " + snapshot.data.toString());
@@ -155,7 +156,7 @@ class _TreePageState extends State<TreePage> {
                   return treeWidget;
                 }
             }
-          });*/
+          });
     }
 
     return new SafeArea(

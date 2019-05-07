@@ -3,16 +3,18 @@ import 'package:flutter_app/bloc/classement_bloc.dart';
 import 'package:flutter_app/bloc/counter_bloc.dart';
 import 'package:flutter_app/bloc/form_tree_bloc.dart';
 import 'package:flutter_app/bloc/login_bloc.dart';
+import 'package:flutter_app/bloc/profil_bloc.dart';
 import 'package:flutter_app/bloc/register_bloc.dart';
 import 'package:flutter_app/bloc/tree_bloc.dart';
 
 class BlocProvider extends InheritedWidget {
   final loginBloc = LoginBloc();
   final registerBloc = RegisterBloc();
-  final classementBloc = ClassementBloc();
+  final rankingBloc = ClassementBloc();
   final formBloc = FormTreeBloc();
   final treeBloc = TreeBloc();
   final counterWidget = CounterBloc();
+  final profilBloc = ProfilBloc();
 
   BlocProvider({Key key, Widget child}) : super(key: key, child: child);
 
@@ -33,9 +35,9 @@ class BlocProvider extends InheritedWidget {
         .registerBloc;
   }
 
-  static ClassementBloc ofClassement(BuildContext context) {
+  static ClassementBloc ofRanking(BuildContext context) {
     return (context.inheritFromWidgetOfExactType(BlocProvider) as BlocProvider)
-        .classementBloc;
+        .rankingBloc;
   }
 
   static FormTreeBloc ofFormTree(BuildContext context) {
@@ -46,5 +48,10 @@ class BlocProvider extends InheritedWidget {
   static TreeBloc ofTree(BuildContext context) {
     return (context.inheritFromWidgetOfExactType(BlocProvider) as BlocProvider)
         .treeBloc;
+  }
+
+  static ProfilBloc ofProfil(BuildContext context) {
+    return (context.inheritFromWidgetOfExactType(BlocProvider) as BlocProvider)
+        .profilBloc;
   }
 }
