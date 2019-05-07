@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:flutter_app/models/Association.dart';
 import 'package:flutter_app/models/User.dart';
 import 'package:flutter_app/provider/AuthProvider.dart';
 import 'package:flutter_app/provider/FirestoreProvider.dart';
@@ -44,6 +45,10 @@ class Repository {
 
   Future<User> getUserById(String id) async{
     return _firestoreProvider.getUserById(id);
+  }
+
+  Future<List<Association>> getAssociations(int departement) {
+    return _firestoreProvider.getAssociations(departement);
   }
 
 }

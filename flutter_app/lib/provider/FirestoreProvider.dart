@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter_app/models/Association.dart';
 import 'package:flutter_app/models/DataTreeForm.dart';
 import 'package:flutter_app/models/NoteForm.dart';
 import 'package:flutter_app/models/NoteTreeForm.dart';
@@ -14,7 +15,11 @@ class FirestoreProvider {
   StorageProvider storage = StorageProvider();
 
   Future<User> getUserById(String id) {
-    return _firestore.collection('users').document('${id}').get().then((result) {
+    return _firestore
+        .collection('users')
+        .document('${id}')
+        .get()
+        .then((result) {
       User u = new User(
           email: result.data['email'],
           name: result.data['name'],
@@ -87,11 +92,31 @@ class FirestoreProvider {
     });
   }
 
-  Future<String> getNote() async{
+  Future<String> getNote() async {
     auth.currentUser().then((userID) {
       _firestore.collection('data').document(userID).get().then((noteInDb) {
-        NoteForm note = new NoteForm(value:noteInDb.data['note']);
+        NoteForm note = new NoteForm(value: noteInDb.data['note']);
         return note.value;
+      });
+    });
+  }
+
+  Future<List<Association>> getAssociations(int departement) {
+    return auth.currentUser().then((userID) {
+      _firestore.collection('association').getDocuments().then((associations) {
+        List<Association> associationsList = new List();
+        for (int i = 0; i < associations.documents.length; i++) {
+          print(associations.documents.elementAt(i)['department']);
+          if (associations.documents.elementAt(i)['department'] ==
+              departement) {
+            Association association = new Association(
+                department: associations.documents.elementAt(i)['department'],
+                association:
+                    associations.documents.elementAt(i)['associations']);
+            associationsList.add(association);
+          }
+        }
+        return associationsList;
       });
     });
   }

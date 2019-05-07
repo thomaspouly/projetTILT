@@ -2,11 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/provider/BlocProvider.dart';
 import 'package:flutter_app/screen/home/home.dart';
 import 'package:flutter_app/screen/login/login.dart';
+import 'package:flutter_app/screen/partenaire/partenaire.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:splashscreen/splashscreen.dart';
 
 final String assetName = 'assets/earth.png';
+
 
 void main() => SharedPreferences.getInstance().then((prefs) {
       var id = prefs.getString('id');
@@ -58,6 +60,10 @@ void main() => SharedPreferences.getInstance().then((prefs) {
                   ),
                 )));
     });
+
+/*void main() {
+  runApp(MyApp());
+}*/
 
 final Widget svg = new SvgPicture.asset(assetName, semanticsLabel: 'Acme Logo');
 

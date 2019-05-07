@@ -3,6 +3,7 @@ import 'package:flutter_app/bloc/classement_bloc.dart';
 import 'package:flutter_app/bloc/counter_bloc.dart';
 import 'package:flutter_app/bloc/form_tree_bloc.dart';
 import 'package:flutter_app/bloc/login_bloc.dart';
+import 'package:flutter_app/bloc/partenaire_bloc.dart';
 import 'package:flutter_app/bloc/profil_bloc.dart';
 import 'package:flutter_app/bloc/register_bloc.dart';
 import 'package:flutter_app/bloc/tree_bloc.dart';
@@ -15,6 +16,7 @@ class BlocProvider extends InheritedWidget {
   final treeBloc = TreeBloc();
   final counterWidget = CounterBloc();
   final profilBloc = ProfilBloc();
+  final partenaireBloc = PartenaireBloc();
 
   BlocProvider({Key key, Widget child}) : super(key: key, child: child);
 
@@ -53,5 +55,10 @@ class BlocProvider extends InheritedWidget {
   static ProfilBloc ofProfil(BuildContext context) {
     return (context.inheritFromWidgetOfExactType(BlocProvider) as BlocProvider)
         .profilBloc;
+  }
+
+  static PartenaireBloc ofPartenaire(BuildContext context) {
+    return (context.inheritFromWidgetOfExactType(BlocProvider) as BlocProvider)
+        .partenaireBloc;
   }
 }
