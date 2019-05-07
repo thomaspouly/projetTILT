@@ -1,6 +1,6 @@
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_app/bloc/classement_bloc.dart';
 import 'package:flutter_app/models/Country.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -33,10 +33,10 @@ final Widget cupRank3 = new SvgPicture.asset(
 
 class Countries extends StatelessWidget {
   List<Country> countries = new List();
-  int taille;
+  int length;
   ScrollController controller;
 
-  Countries(this.countries, this.taille, this.controller);
+  Countries(this.countries, this.length, this.controller);
 
   Widget _buildProductItem(BuildContext context, int index) {
     if (index == 0) {
@@ -165,7 +165,7 @@ class Countries extends StatelessWidget {
     return ListView.builder(
       shrinkWrap: true,
       itemBuilder: _buildProductItem,
-      itemCount: taille,
+      itemCount: length,
       controller: controller,
     );
   }

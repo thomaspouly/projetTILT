@@ -47,6 +47,7 @@ class _StaggeredViewState extends State<StaggeredView> {
  widget.bloc.actualise(widget.date);
 
   counter = formatter.format( widget.bloc.counter.toInt());
+  counter = counter.replaceAll(",", ".");
     Timer.periodic(
         Duration(seconds: 1),
         (Timer t) => setState(() {
@@ -54,6 +55,7 @@ class _StaggeredViewState extends State<StaggeredView> {
  widget.bloc.actualise(widget.date);
              
               counter = formatter.format( widget.bloc.counter.toInt());
+ counter = counter.replaceAll(",", ".");
             }));
   
     
@@ -112,7 +114,7 @@ class _StaggeredViewState extends State<StaggeredView> {
                       width: widthScreen / 3 * 2,
                       child: AutoSizeText(
                        counter,
-                        textAlign: TextAlign.left,
+                        textAlign: TextAlign.end,
                         style: TextStyle(
                             fontSize: widthScreen / 10,
                             color: Colors.white,

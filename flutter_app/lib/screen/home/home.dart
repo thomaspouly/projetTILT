@@ -16,6 +16,7 @@ import 'package:flutter_app/screen/profil/profil.dart';
 import 'package:flutter_app/screen/tree/tree.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:flutter_statusbarcolor/flutter_statusbarcolor.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class HomePage extends StatefulWidget {
   String uid;
@@ -108,10 +109,15 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
+  void _recupID() async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  prefs.setString("id", widget.uid);
+  }
+
   @override
   Widget build(BuildContext context) {
     final bloc = BlocProvider.ofRanking(context);
-
+    _recupID();
     loadingTiles(date);
 
     FlutterStatusbarcolor.setStatusBarColor(Colors.grey[200]);

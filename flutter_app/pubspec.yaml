@@ -43,6 +43,7 @@ dependencies:
   csv: ^4.0.3
   fluttie: ^0.3.2
   multi_page_form: ^1.0.4
+  shared_preferences: ^0.5.2
 
 
 dev_dependencies:

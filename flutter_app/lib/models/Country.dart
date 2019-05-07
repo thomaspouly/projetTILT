@@ -11,4 +11,10 @@ class Country {
         name: parsedJson['name'],
         value: parsedJson['value']);
   }
+
+  Map<String, dynamic> toJson() => {
+    'rank': rank,
+    'name': name,
+    'value': value,
+  };
 }

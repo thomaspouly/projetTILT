@@ -2,14 +2,62 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/provider/BlocProvider.dart';
 import 'package:flutter_app/screen/home/home.dart';
 import 'package:flutter_app/screen/login/login.dart';
-import 'package:flutter_app/screen/tree/form.dart';
-import 'package:flutter_app/screen/tree/tree.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:splashscreen/splashscreen.dart';
 
-void main() => runApp(new MyApp());
-
 final String assetName = 'assets/earth.png';
+
+void main() => SharedPreferences.getInstance().then((prefs) {
+      var id = prefs.getString('id');
+      print(id);
+      runApp(MaterialApp(
+          home: id == null
+              ? new BlocProvider(
+                  child: MaterialApp(
+                    title: 'Flutter Demo',
+                    theme: ThemeData(
+                        primarySwatch: Colors.green,
+                        fontFamily: 'Calibre-Semibold'),
+                    home: new SplashScreen(
+                        seconds: 5,
+                        navigateAfterSeconds: new MyLoginPage(),
+                        title: new Text(
+                          'Bienvenue sur EarthState',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                              fontSize: 20, color: Colors.grey, wordSpacing: 3),
+                        ),
+                        image: Image.asset(assetName),
+                        styleTextUnderTheLoader: new TextStyle(),
+                        photoSize: 100.0,
+                        loaderColor: Colors.greenAccent),
+                  ),
+                )
+              : new BlocProvider(
+                  child: MaterialApp(
+                    title: 'Flutter Demo',
+                    theme: ThemeData(
+                        primarySwatch: Colors.green,
+                        fontFamily: 'Calibre-Semibold'),
+                    home: new SplashScreen(
+                        seconds: 5,
+                        navigateAfterSeconds: new HomePage(
+                          uid: id,
+                        ),
+                        title: new Text(
+                          'Bienvenue sur EarthState',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                              fontSize: 20, color: Colors.grey, wordSpacing: 3),
+                        ),
+                        image: Image.asset(assetName),
+                        styleTextUnderTheLoader: new TextStyle(),
+                        photoSize: 100.0,
+                        loaderColor: Colors.greenAccent),
+                  ),
+                )));
+    });
 
 final Widget svg = new SvgPicture.asset(assetName, semanticsLabel: 'Acme Logo');
 
@@ -21,12 +69,10 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         title: 'Flutter Demo',
         theme: ThemeData(
-          primarySwatch: Colors.green,
-          fontFamily: 'Calibre-Semibold'
-        ),
+            primarySwatch: Colors.green, fontFamily: 'Calibre-Semibold'),
         home: new SplashScreen(
             seconds: 5,
-            navigateAfterSeconds: new HomePage(),
+            navigateAfterSeconds: new MyLoginPage(),
             title: new Text(
               'Bienvenue sur EarthState',
               textAlign: TextAlign.center,
