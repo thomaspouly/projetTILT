@@ -1,5 +1,7 @@
 import 'dart:io';
 
+import 'package:auto_size_text/auto_size_text.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/bloc/login_bloc.dart';
 import 'package:flutter_app/provider/AuthProvider.dart';
@@ -10,6 +12,7 @@ import 'package:flutter_app/screen/home/home.dart';
 import 'package:flutter_app/screen/register/register.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_statusbarcolor/flutter_statusbarcolor.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 // INITIALISATION
 
@@ -17,7 +20,13 @@ TextStyle style = TextStyle(fontFamily: 'Montserrat', fontSize: 20.0);
 
 final String assetName = 'assets/earth.svg';
 
-final Widget svg = new SvgPicture.asset(assetName, semanticsLabel: 'Acme Logo',width: 100,height:100,color: Colors.green[300],);
+final Widget svg = new SvgPicture.asset(
+  assetName,
+  semanticsLabel: 'Acme Logo',
+  width: 100,
+  height: 100,
+  color: Colors.green[300],
+);
 
 AuthProvider authProvider;
 FirestoreProvider firestoreProvider;
@@ -83,6 +92,8 @@ class _MyLoginPageState extends State<MyLoginPage> {
     super.dispose();
   }
 
+  bool _value1 = false;
+
   @override
   Widget build(BuildContext context) {
     final bloc = BlocProvider.ofLogin(context);
@@ -113,46 +124,58 @@ class _MyLoginPageState extends State<MyLoginPage> {
         padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
         onPressed: () {
           if (emailFieldController.text.contains(" ")) {
-              setState(() {
-                widget.emailError = "Un email ne contient pas d'espace";
-              });
-            } else {
-          if (bloc
-                  .submit(emailFieldController.text, passFieldController.text)
-                  .then((userId) {
-               // sleep(Duration(seconds: 1));
-                Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => HomePage(
-                            uid: userId,
-                          )),
-                );
-              }).catchError((error){
-                print(error);
-              }) !=
-              null) {
+            setState(() {
+              widget.emailError = "Un email ne contient pas d'espace";
+            });
           } else {
-            if (emailFieldController.text.isEmpty) {
-              setState(() {
-                widget.emailError = "Veuillez remplir tous les champs";
-              });
-            } else if (passFieldController.text.isEmpty) {
-              setState(() {
-                widget.passwordError = "Veuillez remplir tous les champs";
-              });
-            } else if (!RegExp(
-                    r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$')
-                .hasMatch(emailFieldController.text)) {
-              setState(() {
-                widget.emailError = "Email incorrecte";
-              });
-            } else if (passFieldController.text.length < 6) {
-              setState(() {
-                widget.passwordError = "Password trop court";
-              });
+            if (bloc
+                    .submit(emailFieldController.text, passFieldController.text)
+                    .then((userId) {
+                  if (_value1) {
+                    SharedPreferences.getInstance().then((prefs) {
+                      prefs.setString('id', userId);
+                      Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                              builder: (BuildContext ctx) => HomePage(
+                                    uid: userId,
+                                  )));
+                    });
+                  } else {
+                    // sleep(Duration(seconds: 1));
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => HomePage(
+                                uid: userId,
+                              )),
+                    );
+                  }
+                }).catchError((error) {
+                  print(error);
+                }) !=
+                null) {
+            } else {
+              if (emailFieldController.text.isEmpty) {
+                setState(() {
+                  widget.emailError = "Veuillez remplir tous les champs";
+                });
+              } else if (passFieldController.text.isEmpty) {
+                setState(() {
+                  widget.passwordError = "Veuillez remplir tous les champs";
+                });
+              } else if (!RegExp(
+                      r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$')
+                  .hasMatch(emailFieldController.text)) {
+                setState(() {
+                  widget.emailError = "Email incorrecte";
+                });
+              } else if (passFieldController.text.length < 6) {
+                setState(() {
+                  widget.passwordError = "Password trop court";
+                });
+              }
             }
-          }
           }
         },
         child: Text("Login",
@@ -258,24 +281,24 @@ class _MyLoginPageState extends State<MyLoginPage> {
 
     return SafeArea(
       child: Scaffold(
-        resizeToAvoidBottomPadding: false,
+        //resizeToAvoidBottomPadding: false,
         body: Container(
             padding: EdgeInsets.only(left: padding, right: padding),
             child: Stack(
               children: <Widget>[
-               Column(
+                Column(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
-                   Container(height:100,width:100,child:svg),
-                   Container(width:MediaQuery.of(context).size.width,child:emailField),
+                    Container(height: 100, width: 100, child: svg),
+                    Container(width: 300, child: emailField),
                     Column(
                       children: <Widget>[
-                        Container(width:MediaQuery.of(context).size.width,child:passwordField),
+                        Container(width: 300, child: passwordField),
                         Row(children: <Widget>[
                           Expanded(
                               child: Align(
-                            alignment: Alignment.topRight,
+                            alignment: Alignment.center,
                             child: _forgot,
                           )),
                         ]),
@@ -283,29 +306,46 @@ class _MyLoginPageState extends State<MyLoginPage> {
                     ),
                     Column(
                       children: <Widget>[
-                        Container(width:MediaQuery.of(context).size.width,child:loginButon),
+                        Container(width: 150, child: loginButon),
+                        Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: <Widget>[
+                              Checkbox(
+                                value: _value1,
+                                onChanged: (bool value) {
+                                  setState(() {
+                                    _value1 = value;
+                                  });
+                                },
+                                activeColor: Colors.green,
+                              ),
+                              Container(
+                                  margin: EdgeInsets.only(top: 5),
+                                  child: AutoSizeText(
+                                    "Se souvenir de moi",
+                                    minFontSize: 10,
+                                  )),
+                            ]),
                         Row(children: <Widget>[
                           Expanded(
                               child: Align(
-                            alignment: Alignment.centerRight,
+                            alignment: Alignment.center,
                             child: _register,
                           )),
                         ]),
                       ],
                     ),
                   ],
-                  ),
+                ),
                 new Positioned(
                   child: new Align(
                     alignment: FractionalOffset.bottomCenter,
                     child: _continue,
                   ),
                 ),
-              
               ],
             )),
       ),
     );
   }
-
 }

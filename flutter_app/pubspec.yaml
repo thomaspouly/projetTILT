@@ -28,7 +28,7 @@ dependencies:
   cloud_firestore: ^0.9.13+1
   image_picker: ^0.5.3+1
   firebase_storage: ^2.1.0+1
-  flutter_svg: ^0.13.0+1
+  flutter_svg: ^0.12.4+1
   image_crop: ^0.2.0
   image_cropper: ^1.0.1
   path_provider: ^0.5.0+1
@@ -44,6 +44,7 @@ dependencies:
   fluttie: ^0.3.2
   multi_page_form: ^1.0.4
   flip_card: ^0.2.1
+  shared_preferences: ^0.5.2
 
 
 dev_dependencies:
@@ -81,6 +82,7 @@ flutter:
     - assets/animations/pot.json
     - assets/tree.svg
     - assets/sprout.svg
+    - delete.svg
   #  - images/a_dot_ham.jpeg
 
   fonts:

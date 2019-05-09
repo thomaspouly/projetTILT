@@ -55,149 +55,149 @@ class _StaggeredViewState extends State<StaggeredView>
     counter = counter.replaceAll(",", ".");
     Timer.periodic(
         Duration(seconds: 1),
-        (Timer t) => setState(() {
-              widget.bloc.actualise(widget.date);
+            (Timer t) => setState(() {
+          widget.bloc.actualise(widget.date);
 
-              counter = formatter.format(widget.bloc.counter.toInt());
-              counter = counter.replaceAll(",", ".");
-            }));
+          counter = formatter.format(widget.bloc.counter.toInt());
+          counter = counter.replaceAll(",", ".");
+        }));
   }
 
   Widget back(bool b) {
     switch (b) {
       case false:
-         return Card(
-          color: widget.categorie.color,
-          child:  Stack(
-              
-              children: <Widget>[ Column(children: <Widget>[
-            Stack(
-              
-              children: <Widget>[
- Align(alignment: Alignment.bottomCenter,child:Opacity(child:Icon(widget.categorie.logo,color: widget.categorie.colorLogo,size: widthScreen/3,),opacity: 0.5,)) ,
-                Container(
-                    
-                  padding: EdgeInsets.only(left: widthScreen/20,right:  widthScreen/20),
-                  child: Column(children: <Widget>[
-                    AutoSizeText(
-                
-                      counter,
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                          fontSize: widthScreen / 10,
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                          fontFamily: "Monofonto-Regular"),
-                      maxLines: 1,
-                       
+        return Card(
+            color: widget.categorie.color,
+            child:  Stack(
 
-                    ),
-                   Text(
-                     
-                      widget.description,
-                      style: TextStyle(
-                          color: widget.categorie.colorLogo, fontSize: widthScreen/28),
-                         overflow: TextOverflow.ellipsis ,
-                         maxLines: 4,
+                children: <Widget>[ Column(children: <Widget>[
+                  Stack(
 
-                    ) 
-                  
-                  ]),
-                ),
-              ],
-            ),
+                    children: <Widget>[
+                      Align(alignment: Alignment.bottomCenter,child:Opacity(child:Icon(widget.categorie.logo,color: widget.categorie.colorLogo,size: widthScreen/3,),opacity: 0.5,)) ,
+                      Container(
 
-            
-           
-          ]),
-          Align(
-                child: FlatButton(
-                  child: Icon(
-                    Icons.arrow_drop_down,
-                    color: Colors.white,
-                    size: widthScreen / 20,
+                        padding: EdgeInsets.only(left: widthScreen/20,right:  widthScreen/20),
+                        child: Column(children: <Widget>[
+                          AutoSizeText(
+
+                            counter,
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                                fontSize: widthScreen / 10,
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                                fontFamily: "Monofonto-Regular"),
+                            maxLines: 1,
+
+
+                          ),
+                          Text(
+
+                            widget.description,
+                            style: TextStyle(
+                                color: widget.categorie.colorLogo, fontSize: widthScreen/28),
+                            overflow: TextOverflow.ellipsis ,
+                            maxLines: 4,
+
+                          )
+
+                        ]),
+                      ),
+                    ],
                   ),
-                  onPressed: () {
-                    setState(() {
-                      developemment = true;
-                      widget.notifyParent(widget.tileId, false);
-                    });
-                  },
-                ),
-                alignment: Alignment.bottomRight), 
-          ])
-          
+
+
+
+                ]),
+                Align(
+                    child: FlatButton(
+                      child: Icon(
+                        Icons.arrow_drop_down,
+                        color: Colors.white,
+                        size: widthScreen / 20,
+                      ),
+                      onPressed: () {
+                        setState(() {
+                          developemment = true;
+                          widget.notifyParent(widget.tileId, false);
+                        });
+                      },
+                    ),
+                    alignment: Alignment.bottomRight),
+                ])
+
         );
         break;
       case true:
         return Card(
-          color: widget.categorie.color,
-          child:  Stack(
-              
-              children: <Widget>[ Column(children: <Widget>[
-            Stack(
-              
-              children: <Widget>[
- Align(alignment: Alignment.bottomCenter,child:Opacity(child:Icon(widget.categorie.logo,color: widget.categorie.colorLogo,size: widthScreen/3,),opacity: 0.5,)) ,
-                Container(
-                    
-                  padding: EdgeInsets.only(left: widthScreen/20,right:  widthScreen/20),
-                  child: Column(children: <Widget>[
-                    Text(
-                      counter,
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                          fontSize: widthScreen / 10,
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                          fontFamily: "Monofonto-Regular"),
-                      maxLines: 1,
-                    ),
-                    Text(
-                      widget.description,
-                      style: TextStyle(
-                          color: widget.categorie.colorLogo, fontSize: widthScreen/28),
-                    ),
-                  ]),
-                ),
-              ],
-            ),
+            color: widget.categorie.color,
+            child:  Stack(
 
-             Container(
-              
-                  padding: EdgeInsets.only(left: widthScreen/20,right:  widthScreen/20,top:widthScreen/15),
-                  child: Column(children: <Widget>[
-                    Text("Conseils:\n",
-                style: TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
-                    fontSize: widthScreen/22)),
-            AutoSizeText(
-              widget.categorie.conseils,
-              style: TextStyle(color: widget.categorie.colorLogo, fontSize: widthScreen/28),
-            ),
-                  ]),
-                ),
-          
-           
-          ]),
-          Align(
-                child: FlatButton(
-                  child: Icon(
-                    Icons.arrow_drop_up,
-                    color: Colors.white,
-                    size: widthScreen / 20,
+                children: <Widget>[ Column(children: <Widget>[
+                  Stack(
+
+                    children: <Widget>[
+                      Align(alignment: Alignment.bottomCenter,child:Opacity(child:Icon(widget.categorie.logo,color: widget.categorie.colorLogo,size: widthScreen/3,),opacity: 0.5,)) ,
+                      Container(
+
+                        padding: EdgeInsets.only(left: widthScreen/20,right:  widthScreen/20),
+                        child: Column(children: <Widget>[
+                          Text(
+                            counter,
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                                fontSize: widthScreen / 10,
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                                fontFamily: "Monofonto-Regular"),
+                            maxLines: 1,
+                          ),
+                          Text(
+                            widget.description,
+                            style: TextStyle(
+                                color: widget.categorie.colorLogo, fontSize: widthScreen/28),
+                          ),
+                        ]),
+                      ),
+                    ],
                   ),
-                  onPressed: () {
-                    setState(() {
-                      developemment = false;
-                      widget.notifyParent(widget.tileId, true);
-                    });
-                  },
-                ),
-                alignment: Alignment.bottomRight), 
-          ])
-          
+
+                  Container(
+
+                    padding: EdgeInsets.only(left: widthScreen/20,right:  widthScreen/20,top:widthScreen/15),
+                    child: Column(children: <Widget>[
+                      Text("Conseils:\n",
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                              fontSize: widthScreen/22)),
+                      AutoSizeText(
+                        widget.categorie.conseils,
+                        style: TextStyle(color: widget.categorie.colorLogo, fontSize: widthScreen/28),
+                      ),
+                    ]),
+                  ),
+
+
+                ]),
+                Align(
+                    child: FlatButton(
+                      child: Icon(
+                        Icons.arrow_drop_up,
+                        color: Colors.white,
+                        size: widthScreen / 20,
+                      ),
+                      onPressed: () {
+                        setState(() {
+                          developemment = false;
+                          widget.notifyParent(widget.tileId, true);
+                        });
+                      },
+                    ),
+                    alignment: Alignment.bottomRight),
+                ])
+
         );
         break;
     }
@@ -244,7 +244,7 @@ class _StaggeredViewState extends State<StaggeredView>
                             ),
                             Container(
                               width: widthScreen / 3 * 2,
-                              child: Text(
+                              child: AutoSizeText(
                                 counter,
                                 textAlign: TextAlign.end,
                                 style: TextStyle(

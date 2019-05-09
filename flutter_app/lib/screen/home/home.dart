@@ -16,6 +16,7 @@ import 'package:flutter_app/screen/profil/profil.dart';
 import 'package:flutter_app/screen/tree/tree.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:flutter_statusbarcolor/flutter_statusbarcolor.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class HomePage extends StatefulWidget {
   String uid;
@@ -128,10 +129,15 @@ if(ids.contains(i)){
     }
   }
 
+  void _recupID() async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  prefs.setString("id", widget.uid);
+  }
+
   @override
   Widget build(BuildContext context) {
     final bloc = BlocProvider.ofRanking(context);
-
+    _recupID();
     loadingTiles(date);
 
     FlutterStatusbarcolor.setStatusBarColor(Colors.grey[200]);
@@ -149,7 +155,7 @@ if(ids.contains(i)){
                 leading: Container(),
                 backgroundColor: Colors.white,
                 floating: true,
-                expandedHeight: MediaQuery.of(context).size.height/7,
+                expandedHeight: MediaQuery.of(context).size.height / 7,
                 flexibleSpace: FlexibleSpaceBar(
                   background: Container(
                       padding: EdgeInsets.only(top: 5, bottom: 5),
@@ -250,7 +256,7 @@ if(ids.contains(i)){
 
   Widget _buildBottomBar() {
     return FABBottomAppBar(
-      height: MediaQuery.of(context).size.height/10,
+      height: 80,
       color: Colors.grey,
       selectedColor: Colors.green,
       notchedShape: CircularNotchedRectangle(),
@@ -269,8 +275,6 @@ if(ids.contains(i)){
         FABBottomAppBarItem(
           iconData: Icons.poll,
           text: 'Statistiques',
-          
-          
         ),
         FABBottomAppBarItem(
             iconData: Icons.format_list_numbered, text: 'Classements',),
@@ -323,7 +327,6 @@ if(ids.contains(i)){
       },
       child: Icon(Icons.nature),
       elevation: 3.0,
-      
     );
   }
 
@@ -339,16 +342,14 @@ if(ids.contains(i)){
                   );
                 },
                 child: new Container(
-                    height: MediaQuery.of(context).size.height/9,
-                    width: MediaQuery.of(context).size.height/9,
+                    height: MediaQuery.of(context).size.height / 9,
+                    width: MediaQuery.of(context).size.height / 9,
                     child: Center(
                       child: AutoSizeText(
-                      
                         "Connexion",
                         maxLines: 1,
                         style: TextStyle(
-                          fontSize: 200,
-                          
+                            fontSize: 200,
                             color: Colors.blue[200],
                             fontWeight: FontWeight.bold),
                       ),
@@ -374,14 +375,26 @@ if(ids.contains(i)){
                     case ConnectionState.done:
                       return new FlatButton(
                         onPressed: () {
-                          Navigator.push(
+                          /*Navigator.push(
                             context,
-                            MaterialPageRoute(builder: (context) => MyProfilPage(uid: widget.uid,)),
-                          );
+                            MaterialPageRoute(
+                                builder: (context) => MyProfilPage(
+                                      uid: widget.uid,
+                                    )),
+                          );*/
+                          SharedPreferences.getInstance().then((prefs) {
+                            prefs.remove("id");
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => MyLoginPage(
+                                  )),
+                            );
+                          });
                         },
                         child: new Container(
-                            height:MediaQuery.of(context).size.height/9,
-                            width: MediaQuery.of(context).size.height/9,
+                            height: MediaQuery.of(context).size.height / 9,
+                            width: MediaQuery.of(context).size.height / 9,
                             decoration: new BoxDecoration(
                                 shape: BoxShape.circle,
                                 image: new DecorationImage(
@@ -421,7 +434,6 @@ if(ids.contains(i)){
       onChanged: (String newValue) {
         setState(() {
           _dropdownCategoryValue = newValue;
-
         });
       },
       items: <String>[
@@ -437,7 +449,7 @@ if(ids.contains(i)){
           value: value,
           child: Text(
             value,
-            style: TextStyle(fontSize:  MediaQuery.of(context).size.height/40),
+            style: TextStyle(fontSize: MediaQuery.of(context).size.height / 40),
           ),
         );
       }).toList(),
@@ -484,7 +496,7 @@ if(ids.contains(i)){
           value: value,
           child: Text(
             value,
-            style: TextStyle(fontSize: MediaQuery.of(context).size.height/40),
+            style: TextStyle(fontSize: MediaQuery.of(context).size.height / 40),
           ),
         );
       }).toList(),
@@ -509,7 +521,8 @@ if(ids.contains(i)){
             value: value,
             child: Text(
               value,
-              style: TextStyle(fontSize: MediaQuery.of(context).size.height/40),
+              style:
+                  TextStyle(fontSize: MediaQuery.of(context).size.height / 40),
             ),
           );
         }).toList(),
@@ -532,7 +545,8 @@ if(ids.contains(i)){
             value: value,
             child: Text(
               value,
-              style: TextStyle(fontSize: MediaQuery.of(context).size.height/40),
+              style:
+                  TextStyle(fontSize: MediaQuery.of(context).size.height / 40),
             ),
           );
         }).toList(),
@@ -548,19 +562,36 @@ if(ids.contains(i)){
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: <Widget>[
             _buildDropDownStatCategory(),
-           Align(child:_buildImage(),alignment: Alignment.center,),
+            Align(
+              child: _buildImage(),
+              alignment: Alignment.center,
+            ),
             _buildDropDownStatDuration(),
           ],
         );
         break;
       case true:
-        return Row(
-          // crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        return Column(
           children: <Widget>[
-            _buildDropDownRankingTop(),
-          Align(child:_buildImage(),alignment: Alignment.center,),
-            _buildDropDownRankingYear()
+            Row(
+              // crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: <Widget>[
+                _buildDropDownRankingTop(),
+                Align(
+                  child: _buildImage(),
+                  alignment: Alignment.center,
+                ),
+                _buildDropDownRankingYear()
+              ],
+            ),
+            Align(
+              alignment: Alignment.centerRight,
+              child: AutoSizeText(
+                "Tonnes métriques de dioxyde de carbone",
+                minFontSize: 10,
+              ),
+            ),
           ],
         );
         break;
