@@ -40,7 +40,6 @@ Future<String> getImage(String uid) async {
 
 class _HomePageState extends State<HomePage> {
   var heightScreen;
-  GlobalKey<ScaffoldState> _scaffoldKey;
   List<Tile> tiles = TileHelper().listTile();
   List<StaggeredView> tileGrid = new List<StaggeredView>();
   List<StaggeredTile> _staggeredTiles = List<StaggeredTile>();
@@ -145,7 +144,6 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    _scaffoldKey = new GlobalKey<ScaffoldState>();
     final bloc = BlocProvider.ofRanking(context);
     _recupID();
     heightScreen = MediaQuery.of(context).size.height;
