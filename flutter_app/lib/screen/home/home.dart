@@ -353,13 +353,22 @@ class _HomePageState extends State<HomePage> {
                     case ConnectionState.done:
                       return new FlatButton(
                         onPressed: () {
-                          Navigator.push(
+                          /*Navigator.push(
                             context,
                             MaterialPageRoute(
                                 builder: (context) => MyProfilPage(
                                       uid: widget.uid,
                                     )),
-                          );
+                          );*/
+                          SharedPreferences.getInstance().then((prefs) {
+                            prefs.remove("id");
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => MyLoginPage(
+                                  )),
+                            );
+                          });
                         },
                         child: new Container(
                             height: MediaQuery.of(context).size.height / 9,

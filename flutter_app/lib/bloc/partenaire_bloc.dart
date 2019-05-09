@@ -8,7 +8,7 @@ class PartenaireBloc {
   final _repository = new Repository();
 
 
-  Future<List<Association>> loadAssociations(int departement) async {
+  Future<List<Association>> loadAssociations(String departement) async {
     return _repository.getAssociations(departement);
   }
 }

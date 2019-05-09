@@ -70,7 +70,7 @@ class _PartenairePageState extends State<PartenairePage> {
     final bloc = BlocProvider.ofPartenaire(context);
     int taille = 2;
 
-    Widget getAssociations(int departement) {
+    Widget getAssociations(String departement) {
       //TODO : Bug de FutureBuilder encore voir avec Maxime
       if(departementFieldController.text != null) {
         return new FutureBuilder(
@@ -116,7 +116,7 @@ class _PartenairePageState extends State<PartenairePage> {
                 type: TextInputType.number,
               ),
             ),
-            //getAssociations(int.parse(departementFieldController.text)),
+            getAssociations(departementFieldController.text),
           ],
         ),
       ),

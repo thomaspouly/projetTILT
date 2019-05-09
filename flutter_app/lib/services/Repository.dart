@@ -47,7 +47,7 @@ class Repository {
     return _firestoreProvider.getUserById(id);
   }
 
-  Future<List<Association>> getAssociations(int departement) {
+  Future<List<Association>> getAssociations(String departement) {
     return _firestoreProvider.getAssociations(departement);
   }
 
