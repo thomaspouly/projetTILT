@@ -13,6 +13,7 @@ import 'package:flutter_app/screen/register/register.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_statusbarcolor/flutter_statusbarcolor.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flare_flutter/flare_actor.dart';
 
 // INITIALISATION
 
@@ -49,6 +50,7 @@ class MyLoginPage extends StatefulWidget {
   String emailError;
   String passwordError;
   final Widget child;
+
 
   @override
   _MyLoginPageState createState() => _MyLoginPageState();
@@ -290,8 +292,14 @@ class _MyLoginPageState extends State<MyLoginPage> {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
-                    Container(height: 100, width: 100, child: svg),
-                    Container(width: 300, child: emailField),
+
+                   Container(height:500,width:300,
+                   child:svg
+                   ),
+
+
+
+                   Container(width:MediaQuery.of(context).size.width,child:emailField),
                     Column(
                       children: <Widget>[
                         Container(width: 300, child: passwordField),

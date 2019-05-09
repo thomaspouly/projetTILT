@@ -76,7 +76,7 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
             primarySwatch: Colors.green, fontFamily: 'Calibre-Semibold'),
         home: new SplashScreen(
-            seconds: 5,
+            seconds: 3,
             navigateAfterSeconds: new MyLoginPage(),
             title: new Text(
               'Bienvenue sur EarthState',

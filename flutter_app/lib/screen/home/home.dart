@@ -39,6 +39,8 @@ Future<String> getImage(String uid) async {
 }
 
 class _HomePageState extends State<HomePage> {
+  var heightScreen;
+  GlobalKey<ScaffoldState> _scaffoldKey;
   List<Tile> tiles = TileHelper().listTile();
   List<StaggeredView> tileGrid = new List<StaggeredView>();
   List<StaggeredTile> _staggeredTiles = List<StaggeredTile>();
@@ -53,19 +55,18 @@ class _HomePageState extends State<HomePage> {
 
   bool b = true;
   DateTime date = DateTime.now();
-double heightTiles;
-List<int> ids=new List<int>();
+  double heightTiles;
+  List<int> ids = new List<int>();
 
- setHeightTiles(int i,bool retirer){
-  setState(() {
-if(retirer==true){
-  ids.remove(i);
-}else{
-  ids.add(i);
-}
-
-  });
-}
+  setHeightTiles(int i, bool retirer) {
+    setState(() {
+      if (retirer == true) {
+        ids.remove(i);
+      } else {
+        ids.add(i);
+      }
+    });
+  }
 
   loadingTiles(DateTime dateLoading) {
     tileGrid = new List<StaggeredView>();
@@ -73,20 +74,28 @@ if(retirer==true){
     for (int i = 0; i < tiles.length; i++) {
       CounterBloc bloc = new CounterBloc();
       bloc.setCounter(tiles[i].increment);
-if(ids.contains(i)){
-  heightTiles=4.5;
-}else{
-  heightTiles=1.5;
-}
+      if (ids.contains(i)) {
+        heightTiles = 4.5;
+      } else {
+        heightTiles = 1.5;
+      }
 
-      StaggeredView s = StaggeredView(tiles[i].icon, tiles[i].name, tiles[i].id,
-          tiles[i].description, tiles[i].categorie, dateLoading, bloc,this.setHeightTiles,i);
+      StaggeredView s = StaggeredView(
+          tiles[i].icon,
+          tiles[i].name,
+          tiles[i].id,
+          tiles[i].description,
+          tiles[i].categorie,
+          dateLoading,
+          bloc,
+          this.setHeightTiles,
+          i);
 
       switch (_dropdownCategoryValue) {
         case 'Faune':
           if (s.categorie.name == Names.faune) {
             tileGrid.add(s);
-            _staggeredTiles.add(StaggeredTile.count(4,heightTiles));
+            _staggeredTiles.add(StaggeredTile.count(4, heightTiles));
           }
           break;
         case 'Flore':
@@ -123,8 +132,8 @@ if(ids.contains(i)){
 
         default:
           tileGrid.add(s);
-          
-          _staggeredTiles.add(StaggeredTile.count(4,heightTiles));
+
+          _staggeredTiles.add(StaggeredTile.count(4, heightTiles));
       }
     }
   }
@@ -136,8 +145,10 @@ if(ids.contains(i)){
 
   @override
   Widget build(BuildContext context) {
+    _scaffoldKey = new GlobalKey<ScaffoldState>();
     final bloc = BlocProvider.ofRanking(context);
     _recupID();
+    heightScreen = MediaQuery.of(context).size.height;
     loadingTiles(date);
 
     FlutterStatusbarcolor.setStatusBarColor(Colors.grey[200]);
@@ -145,17 +156,20 @@ if(ids.contains(i)){
 
     return new SafeArea(
       child: new Scaffold(
+      
+         // key: _scaffoldKey,
           bottomNavigationBar: _buildBottomBar(),
           floatingActionButtonLocation:
               FloatingActionButtonLocation.centerDocked,
           floatingActionButton: _buildFab(context),
+          drawer: _buildDrawer(),
           body: CustomScrollView(
             slivers: <Widget>[
               SliverAppBar(
                 leading: Container(),
                 backgroundColor: Colors.white,
                 floating: true,
-                expandedHeight: MediaQuery.of(context).size.height / 7,
+                expandedHeight: heightScreen / 7,
                 flexibleSpace: FlexibleSpaceBar(
                   background: Container(
                       padding: EdgeInsets.only(top: 5, bottom: 5),
@@ -277,7 +291,9 @@ if(ids.contains(i)){
           text: 'Statistiques',
         ),
         FABBottomAppBarItem(
-            iconData: Icons.format_list_numbered, text: 'Classements',),
+          iconData: Icons.format_list_numbered,
+          text: 'Classements',
+        ),
       ],
     );
   }
@@ -294,8 +310,6 @@ if(ids.contains(i)){
                     )),
           );
         } else {
-
-          
           showDialog(
             context: context,
             builder: (BuildContext context) {
@@ -342,8 +356,8 @@ if(ids.contains(i)){
                   );
                 },
                 child: new Container(
-                    height: MediaQuery.of(context).size.height / 9,
-                    width: MediaQuery.of(context).size.height / 9,
+                    height: heightScreen / 9,
+                    width: heightScreen / 9,
                     child: Center(
                       child: AutoSizeText(
                         "Connexion",
@@ -393,8 +407,8 @@ if(ids.contains(i)){
                           });
                         },
                         child: new Container(
-                            height: MediaQuery.of(context).size.height / 9,
-                            width: MediaQuery.of(context).size.height / 9,
+                            height: heightScreen / 9,
+                            width: heightScreen / 9,
                             decoration: new BoxDecoration(
                                 shape: BoxShape.circle,
                                 image: new DecorationImage(
@@ -418,7 +432,6 @@ if(ids.contains(i)){
       mainAxisSpacing: 4.0,
       crossAxisSpacing: 4.0,
     );
-    
   }
 
   String _currentTopItemSelected = 'Top 40';
@@ -449,7 +462,7 @@ if(ids.contains(i)){
           value: value,
           child: Text(
             value,
-            style: TextStyle(fontSize: MediaQuery.of(context).size.height / 40),
+            style: TextStyle(fontSize: heightScreen / 40),
           ),
         );
       }).toList(),
@@ -496,7 +509,7 @@ if(ids.contains(i)){
           value: value,
           child: Text(
             value,
-            style: TextStyle(fontSize: MediaQuery.of(context).size.height / 40),
+            style: TextStyle(fontSize: heightScreen / 40),
           ),
         );
       }).toList(),
@@ -521,8 +534,7 @@ if(ids.contains(i)){
             value: value,
             child: Text(
               value,
-              style:
-                  TextStyle(fontSize: MediaQuery.of(context).size.height / 40),
+              style: TextStyle(fontSize: heightScreen / 40),
             ),
           );
         }).toList(),
@@ -545,8 +557,7 @@ if(ids.contains(i)){
             value: value,
             child: Text(
               value,
-              style:
-                  TextStyle(fontSize: MediaQuery.of(context).size.height / 40),
+              style: TextStyle(fontSize: heightScreen / 40),
             ),
           );
         }).toList(),
@@ -554,46 +565,166 @@ if(ids.contains(i)){
     );
   }
 
+  Widget _buildDrawer() {
+   var sizeIconTiles=heightScreen/40;
+      var sizeTextTiles=heightScreen/50;
+        return new Drawer(
+        child: ListView(
+      padding: EdgeInsets.zero,
+      children: <Widget>[
+      UserAccountsDrawerHeader(
+  accountName: Text("Ashish Rawat"),
+  accountEmail: Text("ashishrawat2911@gmail.com"),
+  currentAccountPicture: CircleAvatar(
+    backgroundColor:
+        Theme.of(context).platform == TargetPlatform.iOS
+            ? Colors.blue
+            : Colors.white,
+    child: Text(
+      "A",
+      style: TextStyle(fontSize: 40.0),
+    ),
+  ),
+),
+        ListTile(
+          title: Text('Partenaires',style: TextStyle(fontSize: sizeTextTiles),),
+          leading: Icon(Icons.perm_contact_calendar,size: sizeIconTiles,),
+          onTap: () {
+
+          },
+        ),
+        ListTile(
+          title: Text('Faire un don',style: TextStyle(fontSize: sizeTextTiles)),
+          leading: Icon(Icons.monetization_on,size: sizeIconTiles,),
+          onTap: () {
+
+          },
+        ),
+         ListTile(
+          title: Text('Mode nuit',style: TextStyle(fontSize: sizeTextTiles)),
+          leading: Icon(Icons.brightness_2,size: sizeIconTiles,),
+          onTap: () {
+
+          },
+        ),
+         ListTile(
+          title: Text('Paramètres',style: TextStyle(fontSize: sizeTextTiles)),
+          leading: Icon(Icons.settings,size: sizeIconTiles,),
+          onTap: () {
+
+          },
+        ),
+         ListTile(
+          title: Text('Deconnexion',style: TextStyle(fontSize: sizeTextTiles)),
+          leading: Icon(Icons.power_settings_new,size: sizeIconTiles,),
+          onTap: () {
+
+          },
+        ),
+
+
+
+      ],
+    ));
+  }
+
   Widget bar(bool b) {
     switch (b) {
       case false:
-        return Row(
-          // crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+       /* return Stack(
           children: <Widget>[
-            _buildDropDownStatCategory(),
-            Align(
-              child: _buildImage(),
-              alignment: Alignment.center,
+            FlatButton(
+              onPressed: () {
+                _scaffoldKey.currentState.openDrawer();
+              },
+              child: Container(
+                child: Icon(Icons.menu, size: heightScreen / 30),
+                padding: EdgeInsets.only(top:heightScreen/50,left: heightScreen/100),
+              ),
             ),
-            _buildDropDownStatDuration(),
-          ],
-        );
-        break;
-      case true:
-        return Column(
-          children: <Widget>[
             Row(
               // crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: <Widget>[
-                _buildDropDownRankingTop(),
+                Padding(
+                  child: _buildDropDownStatCategory(),
+                  padding: EdgeInsets.only(top: heightScreen / 20),
+                ),
                 Align(
                   child: _buildImage(),
                   alignment: Alignment.center,
                 ),
-                _buildDropDownRankingYear()
+                Padding(
+                  child: _buildDropDownStatDuration(),
+                  padding: EdgeInsets.only(top: heightScreen / 20),
+                ),
               ],
-            ),
-            Align(
-              alignment: Alignment.centerRight,
-              child: AutoSizeText(
-                "Tonnes métriques de dioxyde de carbone",
-                minFontSize: 10,
+            )
+          ],
+        );*/
+  return new  Row(
+              // crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: <Widget>[
+                _buildDropDownStatCategory(),
+                 
+                Align(
+                  child: _buildImage(),
+                  alignment: Alignment.center,
+                ),
+                _buildDropDownStatDuration(),
+               
+              ],
+            );
+        break;
+      case true:
+
+        return new  Row(
+              // crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: <Widget>[
+                _buildDropDownRankingTop(),
+                 
+                Align(
+                  child: _buildImage(),
+                  alignment: Alignment.center,
+                ),
+                _buildDropDownRankingYear(),
+               
+              ],
+            );
+        /*return Stack(
+          children: <Widget>[
+            FlatButton(
+              onPressed: () {
+                _scaffoldKey.currentState.openDrawer();
+              },
+              child: Container(
+                child: Icon(Icons.menu, size: heightScreen / 30),
+                padding: EdgeInsets.only(top:heightScreen/50,left: heightScreen/100)
               ),
             ),
+            Row(
+              // crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: <Widget>[
+                Padding(
+                  child: _buildDropDownRankingTop(),
+                  padding: EdgeInsets.only(top: heightScreen / 20),
+                ),
+                Align(
+                  child: _buildImage(),
+                  alignment: Alignment.center,
+                ),
+                Padding(
+                  child: _buildDropDownRankingYear(),
+                  padding: EdgeInsets.only(top: heightScreen / 20),
+                ),
+              ],
+            )
           ],
         );
+*/
         break;
     }
   }
