@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/provider/BlocProvider.dart';
 import 'package:flutter_app/screen/home/home.dart';
 import 'package:flutter_app/screen/login/login.dart';
+import 'package:flutter_app/screen/partenaire/partenaire.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:splashscreen/splashscreen.dart';
@@ -9,7 +10,7 @@ import 'package:splashscreen/splashscreen.dart';
 final String assetName = 'assets/earth.png';
 
 
-void main() => SharedPreferences.getInstance().then((prefs) {
+/*void main() => SharedPreferences.getInstance().then((prefs) {
       var id = prefs.getString('id');
       print("ID user connecté "  + id);
       runApp(MaterialApp(
@@ -58,11 +59,11 @@ void main() => SharedPreferences.getInstance().then((prefs) {
                         loaderColor: Colors.greenAccent),
                   ),
                 )));
-    });
+    });*/
 
-/*void main() {
+void main() {
   runApp(MyApp());
-}*/
+}
 
 final Widget svg = new SvgPicture.asset(assetName, semanticsLabel: 'Acme Logo');
 
@@ -77,7 +78,7 @@ class MyApp extends StatelessWidget {
             primarySwatch: Colors.green, fontFamily: 'Calibre-Semibold'),
         home: new SplashScreen(
             seconds: 5,
-            navigateAfterSeconds: new MyLoginPage(),
+            navigateAfterSeconds: new PartenairePage(),
             title: new Text(
               'Bienvenue sur EarthState',
               textAlign: TextAlign.center,

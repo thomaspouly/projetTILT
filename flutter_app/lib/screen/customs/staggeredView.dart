@@ -1,15 +1,10 @@
 import 'dart:async';
-import 'dart:io';
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_app/bloc/counter_bloc.dart';
 import 'package:flutter_app/models/Categorie.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:intl/intl.dart';
-import 'package:flutter_app/screen/home/home.dart';
 import 'package:flip_card/flip_card.dart';
-import 'package:page_transition/page_transition.dart';
 
 class StaggeredView extends StatefulWidget {
   final IconData iconData;

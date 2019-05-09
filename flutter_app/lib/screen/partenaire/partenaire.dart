@@ -70,27 +70,22 @@ class _PartenairePageState extends State<PartenairePage> {
     final bloc = BlocProvider.ofPartenaire(context);
     int taille = 2;
 
-    Widget getAssociations(String departement) {
+    Widget getAssociations() {
       //TODO : Bug de FutureBuilder encore voir avec Maxime
-      if(departementFieldController.text != null) {
-        return new FutureBuilder(
-            future: bloc.loadAssociations(departement),
-            builder: (BuildContext context, AsyncSnapshot snapshot) {
-              if (snapshot.data == null) {
-                return Center(
-                  child: Text(
-                    "\n\n\nChargement...",
-                    style: TextStyle(fontSize: 30),
-                  ),
-                );
-              } else {
-                return Associations(snapshot.data, taille)
-                    .build(context);
-              }
-            });
-      } else{
-        departementFieldController.text = "0";
-      }
+      return new FutureBuilder(
+          future: bloc.loadAssociations(),
+          builder: (BuildContext context, AsyncSnapshot snapshot) {
+            if (snapshot.data == null) {
+              return Center(
+                child: Text(
+                  "\n\n\nChargement...",
+                  style: TextStyle(fontSize: 30),
+                ),
+              );
+            } else {
+              return Associations(snapshot.data, taille).build(context);
+            }
+          });
     }
 
     return new SafeArea(
@@ -106,17 +101,7 @@ class _PartenairePageState extends State<PartenairePage> {
         ),
         body: Column(
           children: <Widget>[
-            Container(
-              padding: EdgeInsets.all(50),
-              child: TextFieldCustom(
-                controller: departementFieldController,
-                title: "Entrez votre numèro de département",
-                icon: Icon(Icons.email),
-                hide: false,
-                type: TextInputType.number,
-              ),
-            ),
-            getAssociations(departementFieldController.text),
+            getAssociations(),
           ],
         ),
       ),

@@ -101,23 +101,20 @@ class FirestoreProvider {
     });
   }
 
-  Future<List<Association>> getAssociations(String departement) {
-    return auth.currentUser().then((userID) {
-      _firestore.collection('association').getDocuments().then((associations) {
-        List<Association> associationsList = new List();
-        for (int i = 0; i < associations.documents.length; i++) {
-          print(associations.documents.elementAt(i)['department']);
-          if (associations.documents.elementAt(i)['department'] ==
-              int.parse(departement)) {
-            Association association = new Association(
-                department: associations.documents.elementAt(i)['department'],
-                association:
-                    associations.documents.elementAt(i)['associations']);
-            associationsList.add(association);
-          }
-        }
-        return associationsList;
-      });
+  Future<List<Association>> getAssociations() {
+    return _firestore
+        .collection('association')
+        .getDocuments()
+        .then((associations) {
+      List<Association> associationsList = new List();
+      for (int i = 0; i < associations.documents.length; i++) {
+        Association association = new Association(
+            department: associations.documents.elementAt(i)['department'],
+            association: associations.documents.elementAt(i)['association'],
+            link: associations.documents.elementAt(i)['link']);
+        associationsList.add(association);
+      }
+      return associationsList;
     });
   }
 }
