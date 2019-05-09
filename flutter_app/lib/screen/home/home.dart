@@ -52,58 +52,78 @@ class _HomePageState extends State<HomePage> {
 
   bool b = true;
   DateTime date = DateTime.now();
+double heightTiles;
+List<int> ids=new List<int>();
 
-  loadingTiles(DateTime d) {
+ setHeightTiles(int i,bool retirer){
+  setState(() {
+if(retirer==true){
+  ids.remove(i);
+}else{
+  ids.add(i);
+}
+
+  });
+}
+
+  loadingTiles(DateTime dateLoading) {
     tileGrid = new List<StaggeredView>();
     _staggeredTiles = List<StaggeredTile>();
     for (int i = 0; i < tiles.length; i++) {
       CounterBloc bloc = new CounterBloc();
       bloc.setCounter(tiles[i].increment);
+if(ids.contains(i)){
+  heightTiles=4.5;
+}else{
+  heightTiles=1.5;
+}
+
       StaggeredView s = StaggeredView(tiles[i].icon, tiles[i].name, tiles[i].id,
-          tiles[i].description, tiles[i].categorie, d, bloc);
+          tiles[i].description, tiles[i].categorie, dateLoading, bloc,this.setHeightTiles,i);
 
       switch (_dropdownCategoryValue) {
         case 'Faune':
           if (s.categorie.name == Names.faune) {
             tileGrid.add(s);
-            _staggeredTiles.add(StaggeredTile.count(4, 1.5));
+            _staggeredTiles.add(StaggeredTile.count(4,heightTiles));
           }
           break;
         case 'Flore':
           if (s.categorie.name == Names.flore) {
             tileGrid.add(s);
-            _staggeredTiles.add(StaggeredTile.count(4, 1.5));
+            _staggeredTiles.add(StaggeredTile.count(4, heightTiles));
           }
           break;
         case 'Réchauffement':
           if (s.categorie.name == Names.rechauffement) {
             tileGrid.add(s);
-            _staggeredTiles.add(StaggeredTile.count(4, 1.5));
+            _staggeredTiles.add(StaggeredTile.count(4, heightTiles));
           }
           break;
 
         case 'Pollution':
           if (s.categorie.name == Names.pollution) {
             tileGrid.add(s);
-            _staggeredTiles.add(StaggeredTile.count(4, 1.5));
+            _staggeredTiles.add(StaggeredTile.count(4, heightTiles));
           }
           break;
         case 'Energies':
           if (s.categorie.name == Names.energie) {
             tileGrid.add(s);
-            _staggeredTiles.add(StaggeredTile.count(4, 1.5));
+            _staggeredTiles.add(StaggeredTile.count(4, heightTiles));
           }
           break;
         case 'Déchets':
           if (s.categorie.name == Names.dechet) {
             tileGrid.add(s);
-            _staggeredTiles.add(StaggeredTile.count(4, 1.5));
+            _staggeredTiles.add(StaggeredTile.count(4, heightTiles));
           }
           break;
 
         default:
           tileGrid.add(s);
-          _staggeredTiles.add(StaggeredTile.count(4, 1.5));
+          
+          _staggeredTiles.add(StaggeredTile.count(4,heightTiles));
       }
     }
   }
@@ -230,7 +250,7 @@ class _HomePageState extends State<HomePage> {
 
   Widget _buildBottomBar() {
     return FABBottomAppBar(
-      height: MediaQuery.of(context).size.height/15,
+      height: MediaQuery.of(context).size.height/10,
       color: Colors.grey,
       selectedColor: Colors.green,
       notchedShape: CircularNotchedRectangle(),
@@ -253,7 +273,7 @@ class _HomePageState extends State<HomePage> {
           
         ),
         FABBottomAppBarItem(
-            iconData: Icons.format_list_numbered, text: 'Classements'),
+            iconData: Icons.format_list_numbered, text: 'Classements',),
       ],
     );
   }
@@ -270,6 +290,8 @@ class _HomePageState extends State<HomePage> {
                     )),
           );
         } else {
+
+          
           showDialog(
             context: context,
             builder: (BuildContext context) {
@@ -383,6 +405,7 @@ class _HomePageState extends State<HomePage> {
       mainAxisSpacing: 4.0,
       crossAxisSpacing: 4.0,
     );
+    
   }
 
   String _currentTopItemSelected = 'Top 40';
