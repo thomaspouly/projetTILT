@@ -1,7 +1,5 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/models/NoteForm.dart';
-import 'package:flutter_app/provider/AuthProvider.dart';
 import 'package:flutter_app/provider/BlocProvider.dart';
 import 'package:flutter_app/screen/tree/form.dart';
 import 'package:flutter_sparkline/flutter_sparkline.dart';
@@ -89,72 +87,49 @@ class _TreePageState extends State<TreePage> {
 
   @override
   Widget build(BuildContext context) {
-    final bloc = BlocProvider.ofTree(context);
+    final bloc = BlocProvider.ofFormTree(context);
 
     Widget content = ready
         ? buildStarContent(context)
         : Center(child: CircularProgressIndicator());
 
     Widget treeView() {
-      /*AuthProvider auth = new AuthProvider();
-      Widget widget = sproutWidget;
-      auth.currentUser().then((userID) {
-        Firestore.instance
-            .collection('data')
-            .document(userID)
-            .get()
-            .then((noteInDb) {
-          NoteForm note = new NoteForm(value: noteInDb.data['note']);
-          print("NOTE ===> " + note.value);
-          if (int.parse(note.value) == 5) {
-            widget = sproutWidget;
-          } else if (int.parse(note.value) > 5 && int.parse(note.value) <= 6) {
-            widget = sproutWidget;
-          } else if (int.parse(note.value) > 6 && int.parse(note.value) <= 7) {
-            widget = sproutWidget;
-          } else if (int.parse(note.value) > 7 && int.parse(note.value) <= 8) {
-            widget = treeWidget;
-          } else if (int.parse(note.value) > 8 && int.parse(note.value) <= 9) {
-            widget = treeWidget;
-          } else if (int.parse(note.value) > 9 && int.parse(note.value) <= 10) {
-            widget = treeWidget;
-          }
-        });
-      });
-      return content;
-    }*/
 
       // TODO : demander a Maxime pourquoi ça fonctionne pas
-
-      return FutureBuilder(
+      return new FutureBuilder(
           future: bloc.getNote(),
-          builder: (BuildContext context, AsyncSnapshot snapshot) {
-            print("SNAPSHOT DATA ===> " + snapshot.data.toString());
-            switch(snapshot.connectionState) {
-              case ConnectionState.none:
-                return Text('Press button to start.');
+          builder: (context, AsyncSnapshot<NoteForm> snapshot) {
+            switch (snapshot.connectionState) {
               case ConnectionState.active:
+                return Text("Active .....");
+                break;
               case ConnectionState.waiting:
-                return Text('Awaiting result...');
+                return Text("Chargement .....");
+                break;
               case ConnectionState.done:
-                if (int.parse(snapshot.data) == 5) {
+                if (double.parse(snapshot.data.note) == 5) {
                   return sproutWidget;
-                } else if (int.parse(snapshot.data) > 5 &&
-                    int.parse(snapshot.data) <= 6) {
+                } else if (double.parse(snapshot.data.note) > 5 &&
+                    double.parse(snapshot.data.note) <= 6) {
                   return sproutWidget;
-                } else if (int.parse(snapshot.data) > 6 &&
-                    int.parse(snapshot.data) <= 7) {
+                } else if (double.parse(snapshot.data.note) > 6 &&
+                    double.parse(snapshot.data.note) <= 7) {
                   return sproutWidget;
-                } else if (int.parse(snapshot.data) > 7 &&
-                    int.parse(snapshot.data) <= 8) {
+                } else if (double.parse(snapshot.data.note) > 7 &&
+                    double.parse(snapshot.data.note) <= 8) {
                   return treeWidget;
-                } else if (int.parse(snapshot.data) > 8 &&
-                    int.parse(snapshot.data) <= 9) {
+                } else if (double.parse(snapshot.data.note) > 8 &&
+                    double.parse(snapshot.data.note) <= 9) {
                   return treeWidget;
-                } else if (int.parse(snapshot.data) > 9 &&
-                    int.parse(snapshot.data) <= 10) {
+                } else if (double.parse(snapshot.data.note) > 9 &&
+                    double.parse(snapshot.data.note) <= 10) {
                   return treeWidget;
                 }
+                return Text("Salut");
+                break;
+              case ConnectionState.none:
+                return Text("None .....");
+                break;
             }
           });
     }

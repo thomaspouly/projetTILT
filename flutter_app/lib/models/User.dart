@@ -6,13 +6,13 @@ class User {
   final DocumentReference reference;
   int treeNumber;
 
-  User({this.email, name, this.treeNumber, this.reference});
+  User({this.email, this.name, this.treeNumber, this.reference});
 
   User.fromMap(Map<String, dynamic> map, {this.reference})
-      : assert(map['id'] != null),
+      : assert(map['email'] != null),
         assert(map['name'] != null),
         assert(map['treeNumber'] != null),
-        email = map['id'],
+        email = map['email'],
         name = map['name'],
         treeNumber = map['treeNumber'];
 
@@ -27,4 +27,6 @@ class User {
 
   @override
   String toString() => "User<$email:$name:$treeNumber>";
+
+
 }

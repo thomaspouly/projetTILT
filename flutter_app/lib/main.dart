@@ -3,6 +3,8 @@ import 'package:flutter_app/provider/BlocProvider.dart';
 import 'package:flutter_app/screen/home/home.dart';
 import 'package:flutter_app/screen/login/login.dart';
 import 'package:flutter_app/screen/partenaire/partenaire.dart';
+import 'package:flutter_app/screen/profil/profil.dart';
+import 'package:flutter_app/screen/tree/tree.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:splashscreen/splashscreen.dart';

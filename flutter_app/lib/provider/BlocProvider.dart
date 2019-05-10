@@ -14,7 +14,6 @@ class BlocProvider extends InheritedWidget {
   final registerBloc = RegisterBloc();
   final rankingBloc = ClassementBloc();
   final formBloc = FormTreeBloc();
-  final treeBloc = TreeBloc();
   final counterWidget = CounterBloc();
   final profilBloc = ProfilBloc();
   final partenaireBloc = PartenaireBloc();
@@ -55,11 +54,6 @@ class BlocProvider extends InheritedWidget {
   static FormTreeBloc ofFormTree(BuildContext context) {
     return (context.inheritFromWidgetOfExactType(BlocProvider) as BlocProvider)
         .formBloc;
-  }
-
-  static TreeBloc ofTree(BuildContext context) {
-    return (context.inheritFromWidgetOfExactType(BlocProvider) as BlocProvider)
-        .treeBloc;
   }
 
   static ProfilBloc ofProfil(BuildContext context) {

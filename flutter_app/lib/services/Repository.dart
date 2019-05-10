@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:flutter_app/models/Association.dart';
+import 'package:flutter_app/models/NoteForm.dart';
 import 'package:flutter_app/models/User.dart';
 import 'package:flutter_app/provider/AuthProvider.dart';
 import 'package:flutter_app/provider/FirestoreProvider.dart';
@@ -41,9 +42,11 @@ class Repository {
   Future<String> loadJsonFile(String file) =>
       rootBundleProvider.loadJsonFile(file);
 
-  Future<String> getNote() => _firestoreProvider.getNote();
+  Future<NoteForm> getNote() {
+    return _firestoreProvider.getNote();
+  }
 
-  Future<User> getUserById(String id) async{
+  Future<User> getUserById(String id) {
     return _firestoreProvider.getUserById(id);
   }
 

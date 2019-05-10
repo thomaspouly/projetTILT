@@ -82,101 +82,66 @@ class _MyProfilPageState extends State<MyProfilPage> {
     final bloc = BlocProvider.ofProfil(context);
     FlutterStatusbarcolor.setStatusBarColor(Color.fromRGBO(210, 251, 209, 1));
     FlutterStatusbarcolor.setStatusBarWhiteForeground(false);
-
     double padding = 50;
 
-    Widget _buildTextEmailFields() {
-      // TODO : VOIR AVEC MAXIME POURQUOI IL MARCHE PAS CE PUTAIN DE FUTURE BUILDER DE MERDE
-
-      return FutureBuilder(
+    Widget _buildTextFields() {
+      return new FutureBuilder(
           future: bloc.getUserById(widget.uid),
           builder: (context, AsyncSnapshot<User> snapshot) {
-            print("SNAPSHOT ===> " + snapshot.data.toString());
-            if (snapshot.hasData) {
-              return new Container(
-                padding: EdgeInsets.only(left: padding, right: padding),
-                child: new Container(
-                  margin: EdgeInsets.only(top: 10, bottom: 10),
-                  child: new TextFieldCustom(
-                    icon: Icon(Icons.email),
-                    editable: false,
-                    title: snapshot.data.email,
-                    hide: false,
-                  ),
-                ),
-              );
+            switch (snapshot.connectionState) {
+              case ConnectionState.active:
+                return Text("Active .....");
+                break;
+              case ConnectionState.waiting:
+                return Text("Chargement .....");
+                break;
+              case ConnectionState.done:
+                  return Column(
+                    children: <Widget>[
+                      Container(
+                        padding: EdgeInsets.only(left: padding, right: padding),
+                        child: Container(
+                          margin: EdgeInsets.only(top: 10, bottom: 10),
+                          child: new TextFieldCustom(
+                            icon: Icon(Icons.email),
+                            editable: false,
+                            title:snapshot.data.email,
+                            hide: false,
+                          ),
+                        ),
+                      ),
+                     Container(
+                      padding: EdgeInsets.only(left: padding, right: padding),
+                      child: Container(
+                        margin: EdgeInsets.only(top: 10, bottom: 10),
+                        child: new TextFieldCustom(
+                          icon: Icon(Icons.person_outline),
+                          editable: false,
+                          title: snapshot.data.name,
+                          hide: false,
+                        ),
+                      ),
+                    ),
+                    Container(
+                      padding: EdgeInsets.only(left: padding, right: padding),
+                      child: Container(
+                        margin: EdgeInsets.only(top: 10, bottom: 10),
+                        child: new TextFieldCustom(
+                          icon: Icon(Icons.nature),
+                          editable: false,
+                          title: snapshot.data.treeNumber.toString(),
+                          hide: false,
+                        ),
+                      ),
+                    ),
+                    ],
+                  );
+                break;
+              case ConnectionState.none:
+                return Text("None .....");
+                break;
             }
           });
-    }
-
-    Widget _buildTextNameFields() {
-      /*return new FutureBuilder(
-          future: bloc.getUserById(widget.uid),
-          builder: (BuildContext context, AsyncSnapshot snapshot) {
-            print("SNAPSHOT ====>" + snapshot.data.toString());
-            if (snapshot.data == null) {
-              return Center(
-                child: Text(
-                  "\n\n\nChargement...",
-                  style: TextStyle(fontSize: 30),
-                ),
-              );
-            } else {
-              return new Container(
-                padding: EdgeInsets.only(left :padding,right:padding),
-                child: new Container(
-                  margin: EdgeInsets.only(top: 10, bottom: 10),
-                  child: new TextFieldCustom(
-                    icon: Icon(Icons.nature),
-                    editable: false,
-                    title: snapshot.data['name'],
-                    hide: false,
-                  ),
-                ),
-              );
-            }
-          });*/
-      return Center(
-        child: Text(
-          "\n\n\nChargement...",
-          style: TextStyle(fontSize: 30),
-        ),
-      );
-    }
-
-    Widget _buildTextTreeFields() {
-      /*return new FutureBuilder(
-          future: bloc.getUserById(widget.uid),
-          builder: (BuildContext context, AsyncSnapshot snapshot) {
-            print("SNAPSHOT ====>" + snapshot.data.toString());
-            if (snapshot.data == null) {
-              return Center(
-                child: Text(
-                  "\n\n\nChargement...",
-                  style: TextStyle(fontSize: 30),
-                ),
-              );
-            } else {
-              return new Container(
-                padding: EdgeInsets.only(left :padding,right:padding),
-                child: new Container(
-                  margin: EdgeInsets.only(top: 10, bottom: 10),
-                  child: new TextFieldCustom(
-                    icon: Icon(Icons.nature),
-                    editable: false,
-                    title: snapshot.data['treeNumber'],
-                    hide: false,
-                  ),
-                ),
-              );
-            }
-          });*/
-      return Center(
-        child: Text(
-          "\n\n\nChargement...",
-          style: TextStyle(fontSize: 30),
-        ),
-      );
     }
 
     final modify = Material(
@@ -205,9 +170,7 @@ class _MyProfilPageState extends State<MyProfilPage> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
                     _buildImage(),
-                    _buildTextNameFields(),
-                    _buildTextEmailFields(),
-                    _buildTextTreeFields(),
+                    _buildTextFields(),
                     modify,
                   ]),
             ],

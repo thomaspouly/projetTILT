@@ -1,21 +1,24 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class NoteForm {
-  String value;
+  String note;
   final DocumentReference reference;
 
-  NoteForm(
-      {this.value,
-        this.reference});
+  NoteForm({this.note,this.reference});
 
   NoteForm.fromMap(Map<String, dynamic> map, {this.reference})
-      : assert(map['value'] != null),
-        value = map['value'];
+      : assert(map['note'] != null),
+        note = map['note'];
 
   NoteForm.fromSnapshot(DocumentSnapshot snapshot)
       : this.fromMap(snapshot.data, reference: snapshot.reference);
 
   Map<String, dynamic> toJson() => {
-    'value': value,
+    'note': note,
   };
+
+  @override
+  String toString() => "NoteForm<$note>";
+
+
 }
