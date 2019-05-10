@@ -10,4 +10,8 @@ class ProfilBloc {
     return _repository.getUserById(id);
   }
 
+  Future<User> modifyUser(String id,String email, String name, int treeNumber) {
+    return _repository.modifyUser(id, email, name, treeNumber);
+  }
+
 }

@@ -46,6 +46,10 @@ class Repository {
     return _firestoreProvider.getNote();
   }
 
+  Future<User> modifyUser(String id,String email, String name, int treeNumber) {
+    return _firestoreProvider.modifyUser(id, email, name, treeNumber);
+  }
+
   Future<User> getUserById(String id) {
     return _firestoreProvider.getUserById(id);
   }

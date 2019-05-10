@@ -27,6 +27,16 @@ class FirestoreProvider {
     });
   }
 
+  Future<User> modifyUser(String id,String email, String name, int treeNumber) {
+    return auth.currentUser().then((userID) {
+      print("USER ===>" + userID);
+      User user = new User(email: email,name: name,treeNumber:treeNumber);
+      print("USER REEL ===> " + user.toString());
+      _firestore.collection('user').document(userID).updateData(user.toJson());
+      return user;
+    });
+  }
+
   Future<String> registerUser(
       String email, String password, String name, int treeNumber, File image) {
     return auth.registerUser(email, password).then((userId) {
