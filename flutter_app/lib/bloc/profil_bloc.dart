@@ -6,7 +6,7 @@ import 'package:flutter_app/services/Repository.dart';
 class ProfilBloc {
   final _repository = Repository();
 
-  Future<User> getUserById(String id) async{
+  Future<User> getUserById(String id) {
     return _repository.getUserById(id);
   }
 

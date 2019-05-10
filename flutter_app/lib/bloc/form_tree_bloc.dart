@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:flutter_app/models/NoteForm.dart';
 import 'package:flutter_app/services/Repository.dart';
 
 class FormTreeBloc {
@@ -27,7 +28,7 @@ class FormTreeBloc {
     return _repository.enterNote(note);
   }
 
-  Future<String> getNote() {
+  Future<NoteForm> getNote() {
     return _repository.getNote();
   }
 }
