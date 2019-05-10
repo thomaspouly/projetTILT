@@ -14,7 +14,7 @@ final Widget sproutWidget = new SvgPicture.asset(
   semanticsLabel: 'Acme Logo',
   width: 300,
   height: 400,
-  color : Colors.green[300],
+  color: Colors.green[300],
 );
 
 final Widget treeWidget = new SvgPicture.asset(
@@ -22,7 +22,7 @@ final Widget treeWidget = new SvgPicture.asset(
   semanticsLabel: 'Acme Logo',
   width: 300,
   height: 400,
-  color : Colors.green[300],
+  color: Colors.green[300],
 );
 
 class TreePage extends StatefulWidget {
@@ -94,7 +94,6 @@ class _TreePageState extends State<TreePage> {
         : Center(child: CircularProgressIndicator());
 
     Widget treeView() {
-
       // TODO : demander a Maxime pourquoi ça fonctionne pas
       return new FutureBuilder(
           future: bloc.getNote(),
@@ -107,7 +106,10 @@ class _TreePageState extends State<TreePage> {
                 return Text("Chargement .....");
                 break;
               case ConnectionState.done:
-                if (double.parse(snapshot.data.note) == 5) {
+                if (double.parse(snapshot.data.note) < 5) {
+                  return sproutWidget;
+                }
+                else if (double.parse(snapshot.data.note) == 5) {
                   return sproutWidget;
                 } else if (double.parse(snapshot.data.note) > 5 &&
                     double.parse(snapshot.data.note) <= 6) {
@@ -125,7 +127,6 @@ class _TreePageState extends State<TreePage> {
                     double.parse(snapshot.data.note) <= 10) {
                   return treeWidget;
                 }
-                return Text("Salut");
                 break;
               case ConnectionState.none:
                 return Text("None .....");
