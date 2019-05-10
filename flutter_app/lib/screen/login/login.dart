@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -293,13 +292,14 @@ class _MyLoginPageState extends State<MyLoginPage> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
 
-                   Container(height:500,width:300,
-                   child:svg
+                   Container(height:500,width:600,
+                   //child:svg
+                   child: FlareActor("assets/flare/Earth.flr", alignment:Alignment.center, fit:BoxFit.contain, animation:"Preview2"),
                    ),
 
 
 
-                   Container(width:MediaQuery.of(context).size.width,child:emailField),
+                   Container(width: 300,child:emailField),
                     Column(
                       children: <Widget>[
                         Container(width: 300, child: passwordField),

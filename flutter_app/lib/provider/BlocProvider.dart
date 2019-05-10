@@ -7,7 +7,6 @@ import 'package:flutter_app/bloc/partenaire_bloc.dart';
 import 'package:flutter_app/bloc/profil_bloc.dart';
 import 'package:flutter_app/bloc/register_bloc.dart';
 import 'package:flutter_app/bloc/theme_bloc.dart';
-import 'package:flutter_app/bloc/tree_bloc.dart';
 
 class BlocProvider extends InheritedWidget {
   final loginBloc = LoginBloc();

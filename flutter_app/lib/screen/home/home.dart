@@ -5,13 +5,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_app/bloc/counter_bloc.dart';
 import 'package:flutter_app/models/Categorie.dart';
+import 'package:flutter_app/models/NoteForm.dart';
 import 'package:flutter_app/models/Tile.dart';
 import 'package:flutter_app/models/TileHelper.dart';
+import 'package:flutter_app/models/User.dart';
 import 'package:flutter_app/provider/BlocProvider.dart';
 import 'package:flutter_app/screen/customs/Countries.dart';
 import 'package:flutter_app/screen/customs/fab.dart';
 import 'package:flutter_app/screen/customs/staggeredView.dart';
 import 'package:flutter_app/screen/login/login.dart';
+import 'package:flutter_app/screen/partenaire/partenaire.dart';
 import 'package:flutter_app/screen/profil/profil.dart';
 import 'package:flutter_app/screen/tree/tree.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
@@ -148,19 +151,17 @@ class _HomePageState extends State<HomePage> {
     _recupID();
     heightScreen = MediaQuery.of(context).size.height;
     loadingTiles(date);
-
     FlutterStatusbarcolor.setStatusBarColor(Colors.grey[200]);
     FlutterStatusbarcolor.setStatusBarWhiteForeground(false);
 
     return new SafeArea(
       child: new Scaffold(
       
-         // key: _scaffoldKey,
           bottomNavigationBar: _buildBottomBar(),
           floatingActionButtonLocation:
               FloatingActionButtonLocation.centerDocked,
           floatingActionButton: _buildFab(context),
-          drawer: _buildDrawer(),
+         drawer: _buildDrawer(widget.uid),
           body: CustomScrollView(
             slivers: <Widget>[
               SliverAppBar(
@@ -563,7 +564,9 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Widget _buildDrawer() {
+  Widget _buildDrawer(String uid) {
+    final blocProfil = BlocProvider.ofProfil(context);
+     final blocTree = BlocProvider.ofFormTree(context);
    var sizeIconTiles=heightScreen/40;
       var sizeTextTiles=heightScreen/50;
         return new Drawer(
@@ -571,24 +574,60 @@ class _HomePageState extends State<HomePage> {
       padding: EdgeInsets.zero,
       children: <Widget>[
       UserAccountsDrawerHeader(
-  accountName: Text("Ashish Rawat"),
-  accountEmail: Text("ashishrawat2911@gmail.com"),
+  accountName: FutureBuilder(
+          future: blocProfil.getUserById(uid),
+          builder: (context, AsyncSnapshot<User> snapshot) {
+            switch (snapshot.connectionState) {
+           
+              case ConnectionState.done:
+                  return Text(snapshot.data.name,style: TextStyle(fontSize: heightScreen/40));
+                break;
+             default:
+                return CircularProgressIndicator();
+                break;
+            }
+          }),
+  
+
+
   currentAccountPicture: CircleAvatar(
     backgroundColor:
         Theme.of(context).platform == TargetPlatform.iOS
             ? Colors.blue
             : Colors.white,
-    child: Text(
-      "A",
-      style: TextStyle(fontSize: 40.0),
-    ),
+    child: FutureBuilder(
+          future: blocTree.getNote(),
+          builder: (context, AsyncSnapshot<NoteForm> snapshot) {
+            double note=double.parse(snapshot.data.note);
+            switch (snapshot.connectionState) {
+              
+              case ConnectionState.done:
+           
+                return Text(note.toStringAsFixed(1)+"/10",style: TextStyle(fontSize: heightScreen/50),);
+                break;
+
+                default:
+               return CircularProgressIndicator();
+                break;
+             
+            }
+          })
+
+
+
   ),
 ),
         ListTile(
           title: Text('Partenaires',style: TextStyle(fontSize: sizeTextTiles),),
           leading: Icon(Icons.perm_contact_calendar,size: sizeIconTiles,),
           onTap: () {
-
+Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => PartenairePage(
+                                      uid: widget.uid,
+                                    )),
+                          );
           },
         ),
         ListTile(
@@ -629,37 +668,7 @@ class _HomePageState extends State<HomePage> {
   Widget bar(bool b) {
     switch (b) {
       case false:
-       /* return Stack(
-          children: <Widget>[
-            FlatButton(
-              onPressed: () {
-                _scaffoldKey.currentState.openDrawer();
-              },
-              child: Container(
-                child: Icon(Icons.menu, size: heightScreen / 30),
-                padding: EdgeInsets.only(top:heightScreen/50,left: heightScreen/100),
-              ),
-            ),
-            Row(
-              // crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: <Widget>[
-                Padding(
-                  child: _buildDropDownStatCategory(),
-                  padding: EdgeInsets.only(top: heightScreen / 20),
-                ),
-                Align(
-                  child: _buildImage(),
-                  alignment: Alignment.center,
-                ),
-                Padding(
-                  child: _buildDropDownStatDuration(),
-                  padding: EdgeInsets.only(top: heightScreen / 20),
-                ),
-              ],
-            )
-          ],
-        );*/
+     
   return new  Row(
               // crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -691,38 +700,7 @@ class _HomePageState extends State<HomePage> {
                
               ],
             );
-        /*return Stack(
-          children: <Widget>[
-            FlatButton(
-              onPressed: () {
-                _scaffoldKey.currentState.openDrawer();
-              },
-              child: Container(
-                child: Icon(Icons.menu, size: heightScreen / 30),
-                padding: EdgeInsets.only(top:heightScreen/50,left: heightScreen/100)
-              ),
-            ),
-            Row(
-              // crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: <Widget>[
-                Padding(
-                  child: _buildDropDownRankingTop(),
-                  padding: EdgeInsets.only(top: heightScreen / 20),
-                ),
-                Align(
-                  child: _buildImage(),
-                  alignment: Alignment.center,
-                ),
-                Padding(
-                  child: _buildDropDownRankingYear(),
-                  padding: EdgeInsets.only(top: heightScreen / 20),
-                ),
-              ],
-            )
-          ],
-        );
-*/
+       
         break;
     }
   }

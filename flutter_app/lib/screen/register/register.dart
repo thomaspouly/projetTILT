@@ -178,8 +178,11 @@ class _RegisterPageState extends State<RegisterPage> {
       body: new Container(
         padding: EdgeInsets.only(right: 15, left: 15),
         child: SafeArea(
-          child: new ListView(
+          child: new Column(
+             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
+
               new Center(
                 child: Container(
                   margin: EdgeInsets.only(bottom: 15, top: 15),
@@ -198,13 +201,12 @@ class _RegisterPageState extends State<RegisterPage> {
   }
 
   Widget _buildImage() {
-    return new Row(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: <Widget>[
-          new Container(
+    return  new Container(
             margin: EdgeInsets.only(bottom: 15),
             child: _image == null
-                ? new Column(children: <Widget>[
+                ? new Column(
+                    
+                  children: <Widget>[
                     new FlatButton(
                       onPressed: _showDialog,
                       child: new Container(
@@ -231,15 +233,17 @@ class _RegisterPageState extends State<RegisterPage> {
                               image: Image.file(_image).image,
                             ))),
                   ),
-          ),
-        ]);
+    );
+      
   }
 
   Widget _buildTextFields() {
     return new Container(
       child: new Column(
+           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: <Widget>[
           new Container(
+            width: 300,
               margin: EdgeInsets.only(bottom: 30),
               child: new TextFieldCustom(
                   controller: _nameFilter,
@@ -248,6 +252,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   hide: false,
                   textError: widget.nameError)),
           new Container(
+            width: 300,
               margin: EdgeInsets.only(top: 10, bottom: 30),
               child: new TextFieldCustom(
                 controller: _emailFilter,
@@ -257,6 +262,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 textError: widget.emailError,
               )),
           new Container(
+            width: 300,
               margin: EdgeInsets.only(top: 10, bottom: 30),
               child: new TextFieldCustom(
                 controller: _passwordFilter,
@@ -339,12 +345,14 @@ class _RegisterPageState extends State<RegisterPage> {
   Widget _buildButtons() {
     return new Container(
       child: new Column(
+        
         children: <Widget>[
           Text(
             _textError,
             style: TextStyle(fontSize: 12, color: Colors.red),
           ),
           Row(
+             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
               Checkbox(
                 value: _booleanCheckBox,
@@ -429,7 +437,7 @@ class _RegisterPageState extends State<RegisterPage> {
       String id = await _bloc.registerUser(
           _email, _password, _name, _treeNumber, _image);
       if (id.isNotEmpty) {
-       // sleep(Duration(seconds: 1));
+       sleep(Duration(seconds: 2));
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(
