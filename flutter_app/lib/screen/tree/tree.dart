@@ -1,3 +1,4 @@
+import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/models/NoteForm.dart';
 import 'package:flutter_app/provider/BlocProvider.dart';
@@ -37,62 +38,12 @@ class TreePage extends StatefulWidget {
 }
 
 class _TreePageState extends State<TreePage> {
-  FluttieAnimationController tree;
-  bool ready = false;
-
-  @override
-  initState() {
-    super.initState();
-
-    /// Load and prepare our animations after this widget has been added
-    prepareAnimation();
-  }
-
-  // async because the plugin will have to do some background-work
-  prepareAnimation() async {
-    // Checks if the platform we're running on is supported by the animation plugin
-    bool canBeUsed = await Fluttie.isAvailable();
-    if (!canBeUsed) {
-      print("Animations are not supported on this platform");
-      return;
-    }
-
-    var instance = Fluttie();
-
-    // Load our first composition for the emoji animation
-    var emojiComposition =
-        await instance.loadAnimationFromAsset("assets/animations/pot.json");
-    // And prepare its animation, which should loop infinitely and take 2s per
-    // iteration. Instead of RepeatMode.START_OVER, we could have choosen
-    // REVERSE, which would play the animation in reverse on every second iteration.
-    tree = await instance.prepareAnimation(emojiComposition,
-        duration: const Duration(seconds: 10),
-        repeatCount: const RepeatCount.infinite(),
-        repeatMode: RepeatMode.START_OVER);
-
-    // Loading animations may take quite some time. We should check that the
-    // widget is still used before updating it, it might have been removed while
-    // we were loading our animations!
-    if (mounted) {
-      setState(() {
-        ready = true; // The animations have been loaded, we're ready
-        tree.start(); //start our looped emoji animation
-      });
-    }
-  }
-
-  Widget buildStarContent(BuildContext context) {
-    return FluttieAnimation(tree);
-  }
+  var heightScreen;
 
   @override
   Widget build(BuildContext context) {
     final bloc = BlocProvider.ofFormTree(context);
-
-    Widget content = ready
-        ? buildStarContent(context)
-        : Center(child: CircularProgressIndicator());
-
+    heightScreen = MediaQuery.of(context).size.height;
     Widget treeView() {
       // TODO : demander a Maxime pourquoi ça fonctionne pas
       return new FutureBuilder(
@@ -108,28 +59,16 @@ class _TreePageState extends State<TreePage> {
               case ConnectionState.done:
                 if (double.parse(snapshot.data.note) < 5) {
                   return sproutWidget;
-                }
-                else if (double.parse(snapshot.data.note) == 5) {
-                  return sproutWidget;
-                } else if (double.parse(snapshot.data.note) > 5 &&
-                    double.parse(snapshot.data.note) <= 6) {
-                  return sproutWidget;
-                } else if (double.parse(snapshot.data.note) > 6 &&
-                    double.parse(snapshot.data.note) <= 7) {
-                  return sproutWidget;
-                } else if (double.parse(snapshot.data.note) > 7 &&
-                    double.parse(snapshot.data.note) <= 8) {
-                  return treeWidget;
-                } else if (double.parse(snapshot.data.note) > 8 &&
-                    double.parse(snapshot.data.note) <= 9) {
-                  return treeWidget;
-                } else if (double.parse(snapshot.data.note) > 9 &&
-                    double.parse(snapshot.data.note) <= 10) {
-                  return treeWidget;
+                } else if (double.parse(snapshot.data.note) == 5) {
+                  return Container(
+                    child: FlareActor("assets/flare/Tree.flr",
+                        alignment: Alignment.center,
+                        fit: BoxFit.fitHeight,
+                        animation: "Preview2"),
+                  );
                 }
                 break;
-              case ConnectionState.none:
-                return Text("None .....");
+              case ConnectionState.none :
                 break;
             }
           });
@@ -139,18 +78,22 @@ class _TreePageState extends State<TreePage> {
       child: new Scaffold(
         backgroundColor: Colors.cyan[200],
         appBar: AppBar(
-          backgroundColor: Colors.cyan[200],
-          elevation: 0,
+          backgroundColor: Colors.green[600],
+          elevation: 3,
           centerTitle: true,
           title: Text("Votre arbre"),
         ),
         body: Stack(
           children: <Widget>[
+            FlareActor("assets/flare/paysage.flr",
+                alignment: Alignment.center,
+                fit: BoxFit.fill,
+                animation: "Preview2"),
             Center(
                 child: Container(
-              padding: EdgeInsets.only(bottom: 50),
-              width: 300,
-              height: 400,
+              padding: EdgeInsets.only(top: 0),
+              width: heightScreen / 2,
+              height: heightScreen / 2,
               child: treeView(),
             )),
             Align(

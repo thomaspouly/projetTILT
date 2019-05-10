@@ -43,9 +43,9 @@ class FirestoreProvider {
       storage.setImage(userId, image);
       User user = new User(
           reference: null, treeNumber: treeNumber, email: email, name: name);
-
+      NoteForm note = new NoteForm(note:"5");
       _firestore.collection('user').document(userId).setData(user.toJson());
-      _firestore.collection('data').document(userId).setData({"note": 5});
+      _firestore.collection('data').document(userId).setData(note.toJson());
       return userId;
     });
   }

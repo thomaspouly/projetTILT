@@ -44,6 +44,8 @@ dependencies:
   fluttie: ^0.3.2
   multi_page_form: ^1.0.4
   flip_card: ^0.2.1
+  rxdart: ^0.18.1
+  flare_flutter: ^1.5.0
   shared_preferences: ^0.5.2
 
 
@@ -66,7 +68,8 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
     - assets/earth.svg
-    - assets/earth.png
+    - delete.svg
+    - assets/images/earth.png
     - avatar.png
     - assets/cup.png
     - test.csv
@@ -76,13 +79,14 @@ flutter:
     - country2015.json
     - country2014.json
     - trophy.svg
-    - assets/animations/plant.json
-    - assets/animations/growing.json
-    - assets/animations/lego.json
-    - assets/animations/pot.json
     - assets/tree.svg
     - assets/sprout.svg
-    - delete.svg
+    - assets/flare/HeavyBombardment.flr
+    - assets/flare/Earth.flr
+    - assets/flare/House.flr
+    - assets/flare/Tree.flr
+    - assets/flare/paysage.flr
+    
   #  - images/a_dot_ham.jpeg
 
   fonts:
