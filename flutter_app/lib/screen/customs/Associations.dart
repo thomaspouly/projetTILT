@@ -6,7 +6,6 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 final String assetName = 'assets/delete.svg';
 
-
 final Widget cupRank1 = new SvgPicture.asset(
   assetName,
   semanticsLabel: 'Acme Logo',
@@ -38,32 +37,37 @@ class Associations extends StatelessWidget {
   Associations(this.associations, this.length);
 
   Widget _buildProductItem(BuildContext context, int index) {
-      return Card(
-        color: Colors.green[400],
-        child: Container(
-          height: 50,
-          padding: EdgeInsets.only(right: 10, left: 10, bottom: 10, top: 10),
-          margin: EdgeInsets.all(10),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              AutoSizeText(
-                associations[index].department.toString(),
-                style: TextStyle(fontSize: 20, color: Colors.green[900]),
+    return Card(
+      color: Colors.green[400],
+      child: Container(
+        height: 50,
+        padding: EdgeInsets.only(right: 10, left: 10, bottom: 10, top: 10),
+        margin: EdgeInsets.all(10),
+        child:
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget>[
+            AutoSizeText(
+              associations[index].department.toString(),
+              style: TextStyle(fontSize: 15, color: Colors.green[900]),
+            ),
+            Container(
+              width: 50,
+              height: 50,
+              color: Colors.green[400],
+            ),
+            Container(
+              width: MediaQuery.of(context).size.width / 2,
+              child: AutoSizeText(
+                associations[index].association,
+                minFontSize: 10,
+                style: TextStyle(fontSize: 25),
               ),
-              Container(width: 50, height: 50, color: Colors.green[400],),
-              Container(
-                width: MediaQuery.of(context).size.width / 2,
-                child: AutoSizeText(
-                  associations[index].association,
-                  minFontSize: 10,
-                  style: TextStyle(fontSize: 25),
-                ),
-              ),
-            ],
-          ),
+            ),
+          ],
         ),
-      );
+      ),
+    );
   }
 
   @override
