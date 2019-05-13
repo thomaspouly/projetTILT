@@ -3,8 +3,8 @@ import 'package:flutter_app/bloc/classement_bloc.dart';
 import 'package:flutter_app/bloc/counter_bloc.dart';
 import 'package:flutter_app/bloc/form_tree_bloc.dart';
 import 'package:flutter_app/bloc/login_bloc.dart';
-import 'package:flutter_app/bloc/partenaire_bloc.dart';
-import 'package:flutter_app/bloc/profil_bloc.dart';
+import 'package:flutter_app/bloc/partner_bloc.dart';
+import 'package:flutter_app/bloc/profile_bloc.dart';
 import 'package:flutter_app/bloc/register_bloc.dart';
 import 'package:flutter_app/bloc/theme_bloc.dart';
 
@@ -14,8 +14,8 @@ class BlocProvider extends InheritedWidget {
   final rankingBloc = ClassementBloc();
   final formBloc = FormTreeBloc();
   final counterWidget = CounterBloc();
-  final profilBloc = ProfilBloc();
-  final partenaireBloc = PartenaireBloc();
+  final profileBloc = ProfileBloc();
+  final partnerBloc = PartnerBloc();
   final themeBloc= ThemeBloc();
 
   BlocProvider({Key key, Widget child}) : super(key: key, child: child);
@@ -26,9 +26,6 @@ class BlocProvider extends InheritedWidget {
     return (context.inheritFromWidgetOfExactType(BlocProvider) as BlocProvider)
         .themeBloc;
   }
-
-
-
 
   static CounterBloc ofCounter(BuildContext context) {
     return (context.inheritFromWidgetOfExactType(BlocProvider) as BlocProvider)
@@ -55,13 +52,13 @@ class BlocProvider extends InheritedWidget {
         .formBloc;
   }
 
-  static ProfilBloc ofProfil(BuildContext context) {
+  static ProfileBloc ofProfil(BuildContext context) {
     return (context.inheritFromWidgetOfExactType(BlocProvider) as BlocProvider)
-        .profilBloc;
+        .profileBloc;
   }
 
-  static PartenaireBloc ofPartenaire(BuildContext context) {
+  static PartnerBloc ofPartenaire(BuildContext context) {
     return (context.inheritFromWidgetOfExactType(BlocProvider) as BlocProvider)
-        .partenaireBloc;
+        .partnerBloc;
   }
 }

@@ -57,40 +57,18 @@ class _TreePageState extends State<TreePage> {
                 return Text("Chargement .....");
                 break;
               case ConnectionState.done:
-                /*
-                if (double.parse(snapshot.data.note) == 5) {
+                if (double.parse(snapshot.data.note) < 5) {
                   return sproutWidget;
-                } else if (double.parse(snapshot.data.note) > 5 &&
-                    double.parse(snapshot.data.note) <= 6) {
-                  return sproutWidget;
-                } else if (double.parse(snapshot.data.note) > 6 &&
-                    double.parse(snapshot.data.note) <= 7) {
-                  return sproutWidget;
-                } else if (double.parse(snapshot.data.note) > 7 &&
-                    double.parse(snapshot.data.note) <= 8) {
-                  return treeWidget;
-                } else if (double.parse(snapshot.data.note) > 8 &&
-                    double.parse(snapshot.data.note) <= 9) {
-                  return treeWidget;
-                } else if (double.parse(snapshot.data.note) > 9 &&
-                    double.parse(snapshot.data.note) <= 10) {
-                  return treeWidget;
-                }*/
-                return Container(
-                  
-child:FlareActor("assets/flare/Tree.flr",
-                      alignment: Alignment.center,
-                      fit: BoxFit.fitHeight,
-                      animation: "Preview2"),
-                      
-                /*
-                  width: heightScreen / 2,
-                  height: heightScreen / 2,*/
-                );
-
+                } else if (double.parse(snapshot.data.note) == 5) {
+                  return Container(
+                    child: FlareActor("assets/flare/Tree.flr",
+                        alignment: Alignment.center,
+                        fit: BoxFit.fitHeight,
+                        animation: "Preview2"),
+                  );
+                }
                 break;
-              case ConnectionState.none:
-                return Text("None .....");
+              case ConnectionState.none :
                 break;
             }
           });
@@ -99,7 +77,6 @@ child:FlareActor("assets/flare/Tree.flr",
     return new SafeArea(
       child: new Scaffold(
         backgroundColor: Colors.cyan[200],
-      
         appBar: AppBar(
           backgroundColor: Colors.green[600],
           elevation: 3,
@@ -108,15 +85,15 @@ child:FlareActor("assets/flare/Tree.flr",
         ),
         body: Stack(
           children: <Widget>[
-             FlareActor("assets/flare/paysage.flr",
-                      alignment: Alignment.center,
-                      fit: BoxFit.fill,
-                      animation: "Preview2"), 
+            FlareActor("assets/flare/paysage.flr",
+                alignment: Alignment.center,
+                fit: BoxFit.fill,
+                animation: "Preview2"),
             Center(
                 child: Container(
               padding: EdgeInsets.only(top: 0),
-              width: heightScreen/2,
-              height: heightScreen/2,
+              width: heightScreen / 2,
+              height: heightScreen / 2,
               child: treeView(),
             )),
             Align(

@@ -84,80 +84,84 @@ class _MyProfilPageState extends State<MyProfilPage> {
     FlutterStatusbarcolor.setStatusBarWhiteForeground(false);
     double padding = 50;
 
+    TextEditingController emailController = TextEditingController();
+    TextEditingController nameController = TextEditingController();
+    TextEditingController treeController = TextEditingController();
+
     Widget _buildTextFields() {
       return new FutureBuilder(
           future: bloc.getUserById(widget.uid),
           builder: (context, AsyncSnapshot<User> snapshot) {
-            switch (snapshot.connectionState) {
-              case ConnectionState.active:
-                return Text("Active .....");
-                break;
-              case ConnectionState.waiting:
-                return Text("Chargement .....");
-                break;
-              case ConnectionState.done:
-                  return Column(
-                    children: <Widget>[
-                      Container(
-                        padding: EdgeInsets.only(left: padding, right: padding),
-                        child: Container(
-                          margin: EdgeInsets.only(top: 10, bottom: 10),
-                          child: new TextFieldCustom(
-                            icon: Icon(Icons.email),
-                            editable: false,
-                            title:snapshot.data.email,
-                            hide: false,
-                          ),
-                        ),
-                      ),
-                     Container(
-                      padding: EdgeInsets.only(left: padding, right: padding),
-                      child: Container(
-                        margin: EdgeInsets.only(top: 10, bottom: 10),
-                        child: new TextFieldCustom(
-                          icon: Icon(Icons.person_outline),
-                          editable: false,
-                          title: snapshot.data.name,
-                          hide: false,
-                        ),
-                      ),
+            if (snapshot.hasData) {
+              var email = new TextFieldCustom(
+                icon: Icon(Icons.email),
+                title: snapshot.data.email,
+                hide: false,
+                controller: emailController,
+              );
+              var name = new TextFieldCustom(
+                icon: Icon(Icons.person_outline),
+                title: snapshot.data.name,
+                hide: false,
+                controller: nameController,
+              );
+              var tree = new TextFieldCustom(
+                icon: Icon(Icons.nature),
+                title: snapshot.data.treeNumber.toString(),
+                hide: false,
+                editable: false,
+                controller: treeController,
+              );
+              return Column(
+                children: <Widget>[
+                  Container(
+                    margin: EdgeInsets.only(top: 10, bottom: 10),
+                    padding: EdgeInsets.only(left: padding, right: padding),
+                    child: email,
+                  ),
+                  Container(
+                    margin: EdgeInsets.only(top: 10, bottom: 10),
+                    padding: EdgeInsets.only(left: padding, right: padding),
+                    child: name,
+                  ),
+                  Container(
+                    margin: EdgeInsets.only(top: 10, bottom: 100),
+                    padding: EdgeInsets.only(left: padding, right: padding),
+                    child: tree,
+                  ),
+                  Material(
+                    elevation: 5.0,
+                    color: Color.fromRGBO(32, 168, 30, 1),
+                    borderRadius: BorderRadius.circular(5),
+                    child: MaterialButton(
+                      onPressed: () {
+                        if (email.controller.text.isEmpty) {
+                          bloc.modifyUser(widget.uid, email.title,
+                              name.controller.text, int.parse(tree.title));
+                        } else if (name.controller.text.isEmpty) {
+                          bloc.modifyUser(widget.uid, email.controller.text,
+                              name.title, int.parse(tree.title));
+                        } else {
+                          bloc.modifyUser(widget.uid, email.controller.text,
+                              name.controller.text, int.parse(tree.title));
+                        }
+                      },
+                      minWidth: MediaQuery.of(context).size.width,
+                      padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
+                      child: Text("Enregistrer les modifications",
+                          textAlign: TextAlign.center,
+                          style: style.copyWith(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold)),
                     ),
-                    Container(
-                      padding: EdgeInsets.only(left: padding, right: padding),
-                      child: Container(
-                        margin: EdgeInsets.only(top: 10, bottom: 10),
-                        child: new TextFieldCustom(
-                          icon: Icon(Icons.nature),
-                          editable: false,
-                          title: snapshot.data.treeNumber.toString(),
-                          hide: false,
-                        ),
-                      ),
-                    ),
-                    ],
-                  );
-                break;
-              case ConnectionState.none:
-                return Text("None .....");
-                break;
+                  ),
+                ],
+              );
+            } else {
+              return Text("Chargement");
             }
           });
     }
-
-    final modify = Material(
-      elevation: 5.0,
-      color: Color.fromRGBO(32, 168, 30, 1),
-      borderRadius: BorderRadius.circular(5),
-      child: MaterialButton(
-        onPressed: null,
-        minWidth: MediaQuery.of(context).size.width,
-        padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-        child: Text("Modifier",
-            textAlign: TextAlign.center,
-            style: style.copyWith(
-                color: Colors.white, fontWeight: FontWeight.bold)),
-      ),
-    );
 
     return SafeArea(
       child: Scaffold(
@@ -171,7 +175,6 @@ class _MyProfilPageState extends State<MyProfilPage> {
                   children: <Widget>[
                     _buildImage(),
                     _buildTextFields(),
-                    modify,
                   ]),
             ],
           ),
