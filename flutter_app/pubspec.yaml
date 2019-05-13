@@ -48,6 +48,7 @@ dependencies:
   flare_flutter: ^1.5.0
   shared_preferences: ^0.5.2
   bottom_navy_bar: ^4.0.0
+  webview_flutter: ^0.3.6
 
 
 dev_dependencies:
@@ -86,6 +87,9 @@ flutter:
     - assets/flare/Earth.flr
     - assets/flare/House.flr
     - assets/flare/Tree.flr
+    - assets/flare/tree1.flr
+    - assets/flare/tree2.flr
+    - assets/flare/tree3.flr
     - assets/flare/paysage.flr
     
   #  - images/a_dot_ham.jpeg

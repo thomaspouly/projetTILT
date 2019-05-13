@@ -58,4 +58,8 @@ class Repository {
     return _firestoreProvider.getAssociations();
   }
 
+  Future<void> logout() {
+    return authProvider.logout();
+  }
+
 }

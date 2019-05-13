@@ -2,24 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/provider/BlocProvider.dart';
 import 'package:flutter_app/screen/home/home.dart';
 import 'package:flutter_app/screen/login/login.dart';
-import 'package:flutter_app/screen/login/login.dart';
-import 'package:flutter_app/screen/partenaire/partenaire.dart';
-import 'package:flutter_app/screen/profil/profil.dart';
-import 'package:flutter_app/screen/tree/tree.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:splashscreen/splashscreen.dart';
 
 final String assetName = 'assets/images/earth.png';
 
-void main() {
+/*void main() {
  runApp(MyApp());
 
-}
-/*
+}*/
 void main() => SharedPreferences.getInstance().then((prefs) {
       var id = prefs.getString('id');
-      //print("ID user connecté "  + id.toString());
+      print("ID user connecté "  + id.toString());
       runApp(MaterialApp(
           home: id == null
               ? new BlocProvider(
@@ -72,7 +67,7 @@ void main() => SharedPreferences.getInstance().then((prefs) {
                   ),
                 )));
     });
-*/
+
 final Widget svg = new SvgPicture.asset(assetName, semanticsLabel: 'Acme Logo');
 
 class MyApp extends StatelessWidget {

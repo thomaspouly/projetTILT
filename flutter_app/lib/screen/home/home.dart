@@ -161,9 +161,7 @@ class _HomePageState extends State<HomePage> {
     return new SafeArea(
       child: new Scaffold(
           extendBody: true,
-
           //    key:_scaffoldKey,
-
           bottomNavigationBar: _buildBottomBar(),
           floatingActionButtonLocation:
               FloatingActionButtonLocation.centerDocked,
@@ -411,6 +409,7 @@ class _HomePageState extends State<HomePage> {
 
   Widget _buildImage() {
     Future<String> url = getImage(widget.uid);
+    final blocHome = BlocProvider.ofHome(context);
     return new Container(
         child: widget.uid == null
             ? new FlatButton(
@@ -461,15 +460,12 @@ class _HomePageState extends State<HomePage> {
                                       uid: widget.uid,
                                     )),
                           );
-                          /*SharedPreferences.getInstance().then((prefs) {
-                            prefs.remove("id");
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => MyLoginPage(
-                                  )),
-                            );
-                          });*/
+                          blocHome.logout();
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => MyLoginPage()),
+                          );
                         },
                         child: new Container(
                             height: heightScreen / 9,
@@ -857,6 +853,121 @@ class _HomePageState extends State<HomePage> {
         ],
       ));
     }
+=======
+  Widget _buildDrawer(String uid) {
+    final blocProfil = BlocProvider.ofProfil(context);
+    final blocTree = BlocProvider.ofFormTree(context);
+    final blocHome = BlocProvider.ofHome(context);
+    var sizeIconTiles = heightScreen / 40;
+    var sizeTextTiles = heightScreen / 50;
+    return new BlocProvider(
+      child: new Drawer(
+        child: ListView(
+          padding: EdgeInsets.zero,
+          children: <Widget>[
+            UserAccountsDrawerHeader(
+              accountName: FutureBuilder(
+                  future: blocProfil.getUserById(uid),
+                  builder: (context, AsyncSnapshot<User> snapshot) {
+                    switch (snapshot.connectionState) {
+                      case ConnectionState.done:
+                        return Text(snapshot.data.name,
+                            style: TextStyle(fontSize: heightScreen / 40));
+                        break;
+                      default:
+                        return CircularProgressIndicator();
+                        break;
+                    }
+                  }),
+              currentAccountPicture: CircleAvatar(
+                  backgroundColor:
+                      Theme.of(context).platform == TargetPlatform.iOS
+                          ? Colors.blue
+                          : Colors.white,
+                  child: FutureBuilder(
+                      future: blocTree.getNote(),
+                      builder: (context, AsyncSnapshot<NoteForm> snapshot) {
+                        double note = double.parse(snapshot.data.note);
+                        switch (snapshot.connectionState) {
+                          case ConnectionState.done:
+                            return Text(
+                              note.toStringAsFixed(1) + "/10",
+                              style: TextStyle(fontSize: heightScreen / 50),
+                            );
+                            break;
+
+                          default:
+                            return CircularProgressIndicator();
+                            break;
+                        }
+                      })),
+            ),
+            ListTile(
+              title: Text(
+                'Partenaires',
+                style: TextStyle(fontSize: sizeTextTiles),
+              ),
+              leading: Icon(
+                Icons.perm_contact_calendar,
+                size: sizeIconTiles,
+              ),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => PartenairePage(
+                            uid: widget.uid,
+                          )),
+                );
+              },
+            ),
+            ListTile(
+              title: Text('Faire un don',
+                  style: TextStyle(fontSize: sizeTextTiles)),
+              leading: Icon(
+                Icons.monetization_on,
+                size: sizeIconTiles,
+              ),
+              onTap: () {},
+            ),
+            ListTile(
+              title:
+                  Text('Mode nuit', style: TextStyle(fontSize: sizeTextTiles)),
+              leading: Icon(
+                Icons.brightness_2,
+                size: sizeIconTiles,
+              ),
+              onTap: () {},
+            ),
+            ListTile(
+              title:
+                  Text('Paramètres', style: TextStyle(fontSize: sizeTextTiles)),
+              leading: Icon(
+                Icons.settings,
+                size: sizeIconTiles,
+              ),
+              onTap: () {},
+            ),
+            ListTile(
+              title: Text('Deconnexion',
+                  style: TextStyle(fontSize: sizeTextTiles)),
+              leading: Icon(
+                Icons.power_settings_new,
+                size: sizeIconTiles,
+              ),
+              onTap: () {
+                blocHome.logout();
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => MyLoginPage()),
+                );
+              },
+            ),
+          ],
+        ),
+      ),
+    );
+>>>>>>> feature/partner_page
   }
 */
   Widget bar(bool b) {

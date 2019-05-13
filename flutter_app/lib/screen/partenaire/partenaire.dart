@@ -97,7 +97,7 @@ class _PartenairePageState extends State<PartenairePage> {
           centerTitle: true,
           title: Text("Nos partenaires",
               style: TextStyle(
-                  color: Colors.red, fontFamily: "Monofonto-Regular")),
+                  color: Colors.orange, fontFamily: "Monofonto-Regular")),
         ),
         body: Column(
           children: <Widget>[
