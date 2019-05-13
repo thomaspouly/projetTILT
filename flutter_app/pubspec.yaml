@@ -86,6 +86,9 @@ flutter:
     - assets/flare/Earth.flr
     - assets/flare/House.flr
     - assets/flare/Tree.flr
+    - assets/flare/tree1.flr
+    - assets/flare/tree2.flr
+    - assets/flare/tree3.flr
     - assets/flare/paysage.flr
     
   #  - images/a_dot_ham.jpeg

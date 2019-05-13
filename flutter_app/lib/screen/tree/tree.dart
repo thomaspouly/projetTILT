@@ -61,6 +61,45 @@ class _TreePageState extends State<TreePage> {
                   return sproutWidget;
                 } else if (double.parse(snapshot.data.note) == 5) {
                   return Container(
+                    child: FlareActor("assets/flare/tree3.flr",
+                        alignment: Alignment.center,
+                        fit: BoxFit.fitHeight,
+                        animation: "Preview2"),
+                  );
+                } else if(double.parse(snapshot.data.note) > 5 && double.parse(snapshot.data.note) <= 6) {
+                  return Container(
+                    child: FlareActor("assets/flare/tree3.flr",
+                        alignment: Alignment.center,
+                        fit: BoxFit.fitHeight,
+                        animation: "Preview2"),
+                  );
+                }
+                else if(double.parse(snapshot.data.note) > 6 && double.parse(snapshot.data.note) <= 7) {
+                  return Container(
+                    child: FlareActor("assets/flare/tree2.flr",
+                        alignment: Alignment.center,
+                        fit: BoxFit.fitHeight,
+                        animation: "Preview2"),
+                  );
+                }
+                else if(double.parse(snapshot.data.note) > 7 && double.parse(snapshot.data.note) <= 8) {
+                  return Container(
+                    child: FlareActor("assets/flare/tree2.flr",
+                        alignment: Alignment.center,
+                        fit: BoxFit.fitHeight,
+                        animation: "Preview2"),
+                  );
+                }
+                else if(double.parse(snapshot.data.note) > 8 && double.parse(snapshot.data.note) <= 9) {
+                  return Container(
+                    child: FlareActor("assets/flare/tree1.flr",
+                        alignment: Alignment.center,
+                        fit: BoxFit.fitHeight,
+                        animation: "Preview2"),
+                  );
+                }
+                else if(double.parse(snapshot.data.note) > 9 && double.parse(snapshot.data.note) <= 10) {
+                  return Container(
                     child: FlareActor("assets/flare/Tree.flr",
                         alignment: Alignment.center,
                         fit: BoxFit.fitHeight,

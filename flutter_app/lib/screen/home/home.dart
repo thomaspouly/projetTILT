@@ -344,6 +344,7 @@ class _HomePageState extends State<HomePage> {
 
   Widget _buildImage() {
     Future<String> url = getImage(widget.uid);
+    final blocHome = BlocProvider.ofHome(context);
     return new Container(
         child: widget.uid == null
             ? new FlatButton(
@@ -394,15 +395,12 @@ class _HomePageState extends State<HomePage> {
                                       uid: widget.uid,
                                     )),
                           );
-                          /*SharedPreferences.getInstance().then((prefs) {
-                            prefs.remove("id");
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => MyLoginPage(
-                                  )),
-                            );
-                          });*/
+                          blocHome.logout();
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => MyLoginPage()),
+                          );
                         },
                         child: new Container(
                             height: heightScreen / 9,
@@ -566,6 +564,7 @@ class _HomePageState extends State<HomePage> {
   Widget _buildDrawer(String uid) {
     final blocProfil = BlocProvider.ofProfil(context);
     final blocTree = BlocProvider.ofFormTree(context);
+    final blocHome = BlocProvider.ofHome(context);
     var sizeIconTiles = heightScreen / 40;
     var sizeTextTiles = heightScreen / 50;
     return new BlocProvider(
@@ -663,7 +662,13 @@ class _HomePageState extends State<HomePage> {
                 Icons.power_settings_new,
                 size: sizeIconTiles,
               ),
-              onTap: () {},
+              onTap: () {
+                blocHome.logout();
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => MyLoginPage()),
+                );
+              },
             ),
           ],
         ),
