@@ -62,4 +62,8 @@ class Repository {
     return authProvider.logout();
   }
 
+  Future<void> login(String userId) {
+    return authProvider.login(userId);
+  }
+
 }

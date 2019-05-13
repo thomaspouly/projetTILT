@@ -50,7 +50,6 @@ class MyLoginPage extends StatefulWidget {
   String passwordError;
   final Widget child;
 
-
   @override
   _MyLoginPageState createState() => _MyLoginPageState();
 }
@@ -93,7 +92,7 @@ class _MyLoginPageState extends State<MyLoginPage> {
     super.dispose();
   }
 
-  bool _valueCheckBO = false;
+  bool _valueCheckBox = false;
 
   @override
   Widget build(BuildContext context) {
@@ -132,17 +131,14 @@ class _MyLoginPageState extends State<MyLoginPage> {
             if (bloc
                     .submit(emailFieldController.text, passFieldController.text)
                     .then((userId) {
-                  if (_valueCheckBO) {
-                    SharedPreferences.getInstance().then((prefs) {
-                      prefs.setString('id', userId);
-                      print("SharedPreferences = " + prefs.getKeys().toString());
-                      Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(
-                              builder: (BuildContext ctx) => HomePage(
-                                    uid: userId,
-                                  )));
-                    });
+                  if (_valueCheckBox) {
+                    bloc.login(userId);
+                    Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                            builder: (BuildContext ctx) => HomePage(
+                                  uid: userId,
+                                )));
                   } else {
                     // sleep(Duration(seconds: 1));
                     Navigator.pushReplacement(
@@ -287,22 +283,27 @@ class _MyLoginPageState extends State<MyLoginPage> {
         body: Container(
             padding: EdgeInsets.only(left: padding, right: padding),
             child: Stack(
-              
               children: <Widget>[
-               Align(child:  Container(height:500,width:600,
-                   //child:svg
-                   child: FlareActor("assets/flare/Earth.flr", alignment:Alignment.center, fit:BoxFit.contain, animation:"Preview2"),
-                   ),alignment: Alignment.topCenter,),
+                Align(
+                  child: Container(
+                    height: 500, width: 600,
+                    //child:svg
+                    child: FlareActor("assets/flare/Earth.flr",
+                        alignment: Alignment.center,
+                        fit: BoxFit.contain,
+                        animation: "Preview2"),
+                  ),
+                  alignment: Alignment.topCenter,
+                ),
                 Column(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
-
-                  Container(width: 200,height: 200,),
-
-
-
-                   Container(width: 300,child:emailField),
+                    Container(
+                      width: 200,
+                      height: 200,
+                    ),
+                    Container(width: 300, child: emailField),
                     Column(
                       children: <Widget>[
                         Container(width: 300, child: passwordField),
@@ -322,10 +323,10 @@ class _MyLoginPageState extends State<MyLoginPage> {
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: <Widget>[
                               Checkbox(
-                                value: _valueCheckBO,
+                                value: _valueCheckBox,
                                 onChanged: (bool value) {
                                   setState(() {
-                                    _valueCheckBO = value;
+                                    _valueCheckBox = value;
                                   });
                                 },
                                 activeColor: Colors.green,

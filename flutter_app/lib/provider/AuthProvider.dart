@@ -37,4 +37,11 @@ class AuthProvider {
       return firebase.signOut();
     });
   }
+
+  Future<void> login(String userId) {
+    SharedPreferences.getInstance().then((prefs) {
+      prefs.setString('id', userId);
+      print("SharedPreferences = " + prefs.getKeys().toString());
+    });
+  }
 }

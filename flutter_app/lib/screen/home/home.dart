@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
@@ -280,6 +281,7 @@ class _HomePageState extends State<HomePage> {
         children: <Widget>[
           IconButton(
             onPressed: () {
+              //sleep(Duration(seconds : 3));
               _settingModalBottomSheet(context, widget.uid);
             },
             icon: Icon(Icons.menu),
@@ -460,12 +462,12 @@ class _HomePageState extends State<HomePage> {
                                       uid: widget.uid,
                                     )),
                           );
-                          blocHome.logout();
+                          /*blocHome.logout();
                           Navigator.push(
                             context,
                             MaterialPageRoute(
                                 builder: (context) => MyLoginPage()),
-                          );
+                          );*/
                         },
                         child: new Container(
                             height: heightScreen / 9,
@@ -631,6 +633,7 @@ class _HomePageState extends State<HomePage> {
     } else {
       final blocProfil = BlocProvider.ofProfil(context);
       final blocTree = BlocProvider.ofFormTree(context);
+      final blocHome = BlocProvider.ofHome(context);
       var sizeIconTiles = heightScreen / 40;
       var sizeTextTiles = heightScreen / 50;
       showModalBottomSheet(
@@ -663,16 +666,18 @@ class _HomePageState extends State<HomePage> {
                             future: blocTree.getNote(),
                             builder:
                                 (context, AsyncSnapshot<NoteForm> snapshot) {
-                              double note = double.parse(snapshot.data.note);
                               switch (snapshot.connectionState) {
                                 case ConnectionState.done:
+                                  double note = double.parse(snapshot.data.note);
                                   return Text(
                                     note.toStringAsFixed(1) + "/10",
                                     style:
                                         TextStyle(fontSize: heightScreen / 50),
                                   );
                                   break;
-
+                                case ConnectionState.waiting:
+                                  return CircularProgressIndicator();
+                                  break;
                                 default:
                                   return CircularProgressIndicator();
                                   break;
@@ -700,15 +705,6 @@ class _HomePageState extends State<HomePage> {
                     },
                   ),
                   ListTile(
-                    title: Text('Faire un don',
-                        style: TextStyle(fontSize: sizeTextTiles)),
-                    leading: Icon(
-                      Icons.monetization_on,
-                      size: sizeIconTiles,
-                    ),
-                    onTap: () {},
-                  ),
-                  ListTile(
                     title: Text('Mode nuit',
                         style: TextStyle(fontSize: sizeTextTiles)),
                     leading: Icon(
@@ -733,7 +729,14 @@ class _HomePageState extends State<HomePage> {
                       Icons.power_settings_new,
                       size: sizeIconTiles,
                     ),
-                    onTap: () {},
+                    onTap: () {
+                      blocHome.logout();
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => MyLoginPage()),
+                      );
+                    },
                   )
                 ],
               ),
