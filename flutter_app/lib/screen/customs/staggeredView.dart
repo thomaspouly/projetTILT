@@ -25,8 +25,8 @@ class StaggeredView extends StatefulWidget {
 
 class _StaggeredViewState extends State<StaggeredView>
     with SingleTickerProviderStateMixin {
-  String counter;
-
+  String counterFront;
+String counterBack;
   double widthScreen;
 
   @override
@@ -42,21 +42,57 @@ class _StaggeredViewState extends State<StaggeredView>
     // TODO: implement initState
     super.initState();
 
-    final formatter = new NumberFormat("###,###,###,###,###,###,###,###");
+    
 
     widget.bloc.actualise(widget.date);
-
-    counter = formatter.format(widget.bloc.counter.toInt());
-    counter = counter.replaceAll(",", ".");
+counterFront=buildCounterFront(widget.bloc.counter.toInt());
+counterBack=buildCounterBack(widget.bloc.counter.toInt());
     Timer.periodic(
         Duration(seconds: 1),
             (Timer t) => setState(() {
           widget.bloc.actualise(widget.date);
-
-          counter = formatter.format(widget.bloc.counter.toInt());
-          counter = counter.replaceAll(",", ".");
+counterFront=buildCounterFront(widget.bloc.counter.toInt());
+counterBack=buildCounterBack(widget.bloc.counter.toInt());
         }));
   }
+
+String buildCounterFront(int number){
+  final formatter = new NumberFormat("###,###,###,###,###,###,###,###");
+String res=formatter.format(number);
+return res.replaceAll(",", ".");
+}
+
+String buildCounterBack(int number){
+  String res;
+if(1000000000>number && number>999999){
+  res=(number/1000000).toStringAsFixed(0)+" millions";
+}else if(1000000000000>number && number>999999999){
+  res=(number/1000000000).toStringAsFixed(0)+" milliards";
+}
+
+else if(1000000000000000>number && number>999999999999){
+  res=(number/1000000000000).toStringAsFixed(0)+" billions";
+}else if(1000000000000000000>number && number>999999999999999){
+  res=(number/1000000000000000).toStringAsFixed(0)+" billiards";
+}else if(number>999999999999999999){
+  res=(number/1000000000000000000).toStringAsFixed(0)+" trillions";
+}
+
+/*else if(number>999999999999999999999){
+  res=(number/1000000).toStringAsFixed(0)+" trilliards";
+}else if(number>999999){
+  res=(number/1000000).toStringAsFixed(0)+" quadrillions";
+}
+*/
+
+
+else{
+  res=buildCounterFront(number);
+}
+
+return res;
+}
+
 
   Widget back(bool b) {
     switch (b) {
@@ -76,7 +112,7 @@ class _StaggeredViewState extends State<StaggeredView>
                         child: Column(children: <Widget>[
                           AutoSizeText(
 
-                            counter,
+                            counterBack,
                             textAlign: TextAlign.center,
                             style: TextStyle(
                                 fontSize: widthScreen / 10,
@@ -91,7 +127,7 @@ class _StaggeredViewState extends State<StaggeredView>
 
                             widget.description,
                             style: TextStyle(
-                                color: widget.categorie.colorLogo, fontSize: widthScreen/28),
+                                color:widget.categorie.colorText, fontSize: widthScreen/28),
                             overflow: TextOverflow.ellipsis ,
                             maxLines: 4,
 
@@ -139,7 +175,7 @@ class _StaggeredViewState extends State<StaggeredView>
                         padding: EdgeInsets.only(left: widthScreen/20,right:  widthScreen/20),
                         child: Column(children: <Widget>[
                           Text(
-                            counter,
+                            counterBack,
                             textAlign: TextAlign.center,
                             style: TextStyle(
                                 fontSize: widthScreen / 10,
@@ -151,7 +187,7 @@ class _StaggeredViewState extends State<StaggeredView>
                           Text(
                             widget.description,
                             style: TextStyle(
-                                color: widget.categorie.colorLogo, fontSize: widthScreen/28),
+                                color:widget.categorie.colorText, fontSize: widthScreen/28),
                           ),
                         ]),
                       ),
@@ -169,7 +205,7 @@ class _StaggeredViewState extends State<StaggeredView>
                               fontSize: widthScreen/22)),
                       AutoSizeText(
                         widget.categorie.conseils,
-                        style: TextStyle(color: widget.categorie.colorLogo, fontSize: widthScreen/28),
+                        style: TextStyle(color: widget.categorie.colorText, fontSize: widthScreen/28),
                       ),
                     ]),
                   ),
@@ -216,9 +252,10 @@ class _StaggeredViewState extends State<StaggeredView>
                             tag: "icon_${widget.id}",
                             child: Icon(
                               widget.categorie.logo,
-                              color: widget.categorie.colorLogo,
+                              color: widget.categorie.colorText,
                               size: widthScreen/7,
                             )),
+                            
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -230,7 +267,7 @@ class _StaggeredViewState extends State<StaggeredView>
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
                                     fontSize: widthScreen / 17,
-                                    color: widget.categorie.colorLogo,
+                                    color: widget.categorie.colorText,
                                     fontWeight: FontWeight.bold),
                                 minFontSize: 10.0,
                                 stepGranularity: 10.0,
@@ -240,7 +277,7 @@ class _StaggeredViewState extends State<StaggeredView>
                             Container(
                               width: widthScreen / 3 * 2,
                               child: AutoSizeText(
-                                counter,
+                                counterFront,
                                 textAlign: TextAlign.end,
                                 style: TextStyle(
                                     fontSize: widthScreen / 10,

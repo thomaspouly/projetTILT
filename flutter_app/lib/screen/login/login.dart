@@ -286,16 +286,18 @@ class _MyLoginPageState extends State<MyLoginPage> {
         body: Container(
             padding: EdgeInsets.only(left: padding, right: padding),
             child: Stack(
+              
               children: <Widget>[
+               Align(child:  Container(height:500,width:600,
+                   //child:svg
+                   child: FlareActor("assets/flare/Earth.flr", alignment:Alignment.center, fit:BoxFit.contain, animation:"Preview2"),
+                   ),alignment: Alignment.topCenter,),
                 Column(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
 
-                   Container(height:500,width:600,
-                   //child:svg
-                   child: FlareActor("assets/flare/Earth.flr", alignment:Alignment.center, fit:BoxFit.contain, animation:"Preview2"),
-                   ),
+                  Container(width: 200,height: 200,),
 
 
 
