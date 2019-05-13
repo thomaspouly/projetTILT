@@ -14,7 +14,7 @@ final String assetName = 'assets/images/earth.png';
 }*/
 void main() => SharedPreferences.getInstance().then((prefs) {
       var id = prefs.getString('id');
-      print("ID user connecté "  + id.toString());
+      //print("ID user connecté "  + id.toString());
       runApp(MaterialApp(
           home: id == null
               ? new BlocProvider(

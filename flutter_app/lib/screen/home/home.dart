@@ -149,6 +149,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   int _index = 1;
+
   @override
   Widget build(BuildContext context) {
     final bloc = BlocProvider.ofRanking(context);
@@ -668,7 +669,8 @@ class _HomePageState extends State<HomePage> {
                                 (context, AsyncSnapshot<NoteForm> snapshot) {
                               switch (snapshot.connectionState) {
                                 case ConnectionState.done:
-                                  double note = double.parse(snapshot.data.note);
+                                  double note =
+                                      double.parse(snapshot.data.note);
                                   return Text(
                                     note.toStringAsFixed(1) + "/10",
                                     style:
@@ -730,11 +732,13 @@ class _HomePageState extends State<HomePage> {
                       size: sizeIconTiles,
                     ),
                     onTap: () {
-                      blocHome.logout();
+                      //blocHome.logout();
+                      SharedPreferences.getInstance().then((prefs) {
+                        prefs.clear();
+                      });
                       Navigator.push(
                         context,
-                        MaterialPageRoute(
-                            builder: (context) => MyLoginPage()),
+                        MaterialPageRoute(builder: (context) => MyLoginPage()),
                       );
                     },
                   )

@@ -8,7 +8,7 @@ class AuthProvider {
     FirebaseUser user;
     user = await firebase.signInWithEmailAndPassword(
         email: email, password: password);
-    print("Signed in : " + user.uid);
+    print("Signed in : " + user.uid + " et email : " + user.email);
     return user.uid;
   }
 
@@ -30,10 +30,7 @@ class AuthProvider {
 
   Future<void> logout() {
     return SharedPreferences.getInstance().then((prefs) {
-      print("SharedPreferences ====>" + prefs.getKeys().toString());
-      print("ID AVANT DECO ====>" + prefs.get('id').toString());
       prefs.clear();
-      print("ID DECO ====>" + prefs.get('id').toString());
       return firebase.signOut();
     });
   }
@@ -41,7 +38,6 @@ class AuthProvider {
   Future<void> login(String userId) {
     SharedPreferences.getInstance().then((prefs) {
       prefs.setString('id', userId);
-      print("SharedPreferences = " + prefs.getKeys().toString());
     });
   }
 }
