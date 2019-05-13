@@ -117,7 +117,7 @@ class FirestoreProvider {
       List<Association> associationsList = new List();
       for (int i = 0; i < associations.documents.length; i++) {
         Association association = new Association(
-            department: associations.documents.elementAt(i)['department'],
+            presentation: associations.documents.elementAt(i)['presentation'],
             association: associations.documents.elementAt(i)['association'],
             link: associations.documents.elementAt(i)['link']);
         associationsList.add(association);

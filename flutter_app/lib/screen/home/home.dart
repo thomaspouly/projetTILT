@@ -141,8 +141,8 @@ class _HomePageState extends State<HomePage> {
   }
 
   void _recupID() async {
-  SharedPreferences prefs = await SharedPreferences.getInstance();
-  prefs.setString("id", widget.uid);
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString("id", widget.uid);
   }
 
   @override
@@ -156,12 +156,11 @@ class _HomePageState extends State<HomePage> {
 
     return new SafeArea(
       child: new Scaffold(
-      
           bottomNavigationBar: _buildBottomBar(),
           floatingActionButtonLocation:
               FloatingActionButtonLocation.centerDocked,
           floatingActionButton: _buildFab(context),
-         drawer: _buildDrawer(widget.uid),
+          drawer: _buildDrawer(widget.uid),
           body: CustomScrollView(
             slivers: <Widget>[
               SliverAppBar(
@@ -566,141 +565,142 @@ class _HomePageState extends State<HomePage> {
 
   Widget _buildDrawer(String uid) {
     final blocProfil = BlocProvider.ofProfil(context);
-     final blocTree = BlocProvider.ofFormTree(context);
-   var sizeIconTiles=heightScreen/40;
-      var sizeTextTiles=heightScreen/50;
-        return new Drawer(
+    final blocTree = BlocProvider.ofFormTree(context);
+    var sizeIconTiles = heightScreen / 40;
+    var sizeTextTiles = heightScreen / 50;
+    return new BlocProvider(
+      child: new Drawer(
         child: ListView(
-      padding: EdgeInsets.zero,
-      children: <Widget>[
-      UserAccountsDrawerHeader(
-  accountName: FutureBuilder(
-          future: blocProfil.getUserById(uid),
-          builder: (context, AsyncSnapshot<User> snapshot) {
-            switch (snapshot.connectionState) {
-           
-              case ConnectionState.done:
-                  return Text(snapshot.data.name,style: TextStyle(fontSize: heightScreen/40));
-                break;
-             default:
-                return CircularProgressIndicator();
-                break;
-            }
-          }),
-  
+          padding: EdgeInsets.zero,
+          children: <Widget>[
+            UserAccountsDrawerHeader(
+              accountName: FutureBuilder(
+                  future: blocProfil.getUserById(uid),
+                  builder: (context, AsyncSnapshot<User> snapshot) {
+                    switch (snapshot.connectionState) {
+                      case ConnectionState.done:
+                        return Text(snapshot.data.name,
+                            style: TextStyle(fontSize: heightScreen / 40));
+                        break;
+                      default:
+                        return CircularProgressIndicator();
+                        break;
+                    }
+                  }),
+              currentAccountPicture: CircleAvatar(
+                  backgroundColor:
+                      Theme.of(context).platform == TargetPlatform.iOS
+                          ? Colors.blue
+                          : Colors.white,
+                  child: FutureBuilder(
+                      future: blocTree.getNote(),
+                      builder: (context, AsyncSnapshot<NoteForm> snapshot) {
+                        double note = double.parse(snapshot.data.note);
+                        switch (snapshot.connectionState) {
+                          case ConnectionState.done:
+                            return Text(
+                              note.toStringAsFixed(1) + "/10",
+                              style: TextStyle(fontSize: heightScreen / 50),
+                            );
+                            break;
 
-
-  currentAccountPicture: CircleAvatar(
-    backgroundColor:
-        Theme.of(context).platform == TargetPlatform.iOS
-            ? Colors.blue
-            : Colors.white,
-    child: FutureBuilder(
-          future: blocTree.getNote(),
-          builder: (context, AsyncSnapshot<NoteForm> snapshot) {
-            double note=double.parse(snapshot.data.note);
-            switch (snapshot.connectionState) {
-              
-              case ConnectionState.done:
-           
-                return Text(note.toStringAsFixed(1)+"/10",style: TextStyle(fontSize: heightScreen/50),);
-                break;
-
-                default:
-               return CircularProgressIndicator();
-                break;
-             
-            }
-          })
-
-
-
-  ),
-),
-        ListTile(
-          title: Text('Partenaires',style: TextStyle(fontSize: sizeTextTiles),),
-          leading: Icon(Icons.perm_contact_calendar,size: sizeIconTiles,),
-          onTap: () {
-Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => PartenairePage(
-                                      uid: widget.uid,
-                                    )),
-                          );
-          },
+                          default:
+                            return CircularProgressIndicator();
+                            break;
+                        }
+                      })),
+            ),
+            ListTile(
+              title: Text(
+                'Partenaires',
+                style: TextStyle(fontSize: sizeTextTiles),
+              ),
+              leading: Icon(
+                Icons.perm_contact_calendar,
+                size: sizeIconTiles,
+              ),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => PartenairePage(
+                            uid: widget.uid,
+                          )),
+                );
+              },
+            ),
+            ListTile(
+              title: Text('Faire un don',
+                  style: TextStyle(fontSize: sizeTextTiles)),
+              leading: Icon(
+                Icons.monetization_on,
+                size: sizeIconTiles,
+              ),
+              onTap: () {},
+            ),
+            ListTile(
+              title:
+                  Text('Mode nuit', style: TextStyle(fontSize: sizeTextTiles)),
+              leading: Icon(
+                Icons.brightness_2,
+                size: sizeIconTiles,
+              ),
+              onTap: () {},
+            ),
+            ListTile(
+              title:
+                  Text('Paramètres', style: TextStyle(fontSize: sizeTextTiles)),
+              leading: Icon(
+                Icons.settings,
+                size: sizeIconTiles,
+              ),
+              onTap: () {},
+            ),
+            ListTile(
+              title: Text('Deconnexion',
+                  style: TextStyle(fontSize: sizeTextTiles)),
+              leading: Icon(
+                Icons.power_settings_new,
+                size: sizeIconTiles,
+              ),
+              onTap: () {},
+            ),
+          ],
         ),
-        ListTile(
-          title: Text('Faire un don',style: TextStyle(fontSize: sizeTextTiles)),
-          leading: Icon(Icons.monetization_on,size: sizeIconTiles,),
-          onTap: () {
-
-          },
-        ),
-         ListTile(
-          title: Text('Mode nuit',style: TextStyle(fontSize: sizeTextTiles)),
-          leading: Icon(Icons.brightness_2,size: sizeIconTiles,),
-          onTap: () {
-
-          },
-        ),
-         ListTile(
-          title: Text('Paramètres',style: TextStyle(fontSize: sizeTextTiles)),
-          leading: Icon(Icons.settings,size: sizeIconTiles,),
-          onTap: () {
-
-          },
-        ),
-         ListTile(
-          title: Text('Deconnexion',style: TextStyle(fontSize: sizeTextTiles)),
-          leading: Icon(Icons.power_settings_new,size: sizeIconTiles,),
-          onTap: () {
-
-          },
-        ),
-
-
-
-      ],
-    ));
+      ),
+    );
   }
 
   Widget bar(bool b) {
     switch (b) {
       case false:
-     
-  return new  Row(
-              // crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: <Widget>[
-                _buildDropDownStatCategory(),
-                 
-                Align(
-                  child: _buildImage(),
-                  alignment: Alignment.center,
-                ),
-                _buildDropDownStatDuration(),
-               
-              ],
-            );
+        return new Row(
+          // crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: <Widget>[
+            _buildDropDownStatCategory(),
+            Align(
+              child: _buildImage(),
+              alignment: Alignment.center,
+            ),
+            _buildDropDownStatDuration(),
+          ],
+        );
         break;
       case true:
+        return new Row(
+          // crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: <Widget>[
+            _buildDropDownRankingTop(),
+            Align(
+              child: _buildImage(),
+              alignment: Alignment.center,
+            ),
+            _buildDropDownRankingYear(),
+          ],
+        );
 
-        return new  Row(
-              // crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: <Widget>[
-                _buildDropDownRankingTop(),
-                 
-                Align(
-                  child: _buildImage(),
-                  alignment: Alignment.center,
-                ),
-                _buildDropDownRankingYear(),
-               
-              ],
-            );
-       
         break;
     }
   }

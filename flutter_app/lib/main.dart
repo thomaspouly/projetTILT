@@ -12,11 +12,10 @@ import 'package:splashscreen/splashscreen.dart';
 
 final String assetName = 'assets/images/earth.png';
 
-void main() {
+/*void main() {
  runApp(MyApp());
 
-}
-/*
+}*/
 void main() => SharedPreferences.getInstance().then((prefs) {
       var id = prefs.getString('id');
       //print("ID user connecté "  + id.toString());
@@ -72,7 +71,7 @@ void main() => SharedPreferences.getInstance().then((prefs) {
                   ),
                 )));
     });
-*/
+
 final Widget svg = new SvgPicture.asset(assetName, semanticsLabel: 'Acme Logo');
 
 class MyApp extends StatelessWidget {
