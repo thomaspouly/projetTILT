@@ -649,6 +649,7 @@ class _HomePageState extends State<HomePage> {
                         builder: (context, AsyncSnapshot<User> snapshot) {
                           switch (snapshot.connectionState) {
                             case ConnectionState.done:
+                              print("SNAPSHOT ====>" + snapshot.data.toString());
                               return Text(snapshot.data.name,
                                   style:
                                       TextStyle(fontSize: heightScreen / 40));

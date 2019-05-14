@@ -8,7 +8,7 @@ class AuthProvider {
     FirebaseUser user;
     user = await firebase.signInWithEmailAndPassword(
         email: email, password: password);
-    print("Signed in : " + user.uid + " et email : " + user.email);
+    print("Signed in : " + user.uid);
     return user.uid;
   }
 
@@ -36,7 +36,7 @@ class AuthProvider {
   }
 
   Future<void> login(String userId) {
-    SharedPreferences.getInstance().then((prefs) {
+    return SharedPreferences.getInstance().then((prefs) {
       prefs.setString('id', userId);
     });
   }

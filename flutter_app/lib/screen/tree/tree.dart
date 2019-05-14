@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/models/NoteForm.dart';
@@ -8,24 +9,25 @@ import 'package:flutter_app/screen/tree/form.dart';
 import 'package:flutter_sparkline/flutter_sparkline.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:fluttie/fluttie.dart';
+import 'package:cloud_functions/cloud_functions.dart';
 
 final String sproutName = 'assets/sprout.svg';
-final String treeName = 'assets/tree.svg';
+final String appleName = 'assets/apple.svg';
 
 final Widget sproutWidget = new SvgPicture.asset(
   sproutName,
   semanticsLabel: 'Acme Logo',
   width: 300,
   height: 400,
-  color: Colors.green[300],
+  color: Colors.green[900],
 );
 
-final Widget treeWidget = new SvgPicture.asset(
-  treeName,
+final Widget appleWidget = new SvgPicture.asset(
+  appleName,
   semanticsLabel: 'Acme Logo',
-  width: 300,
-  height: 400,
-  color: Colors.green[300],
+  width: 50,
+  height: 50,
+  color: Colors.red[600],
 );
 
 class TreePage extends StatefulWidget {
@@ -135,20 +137,25 @@ class _TreePageState extends State<TreePage> {
                 future: bloc.getUserById(widget.uid),
                 builder: (context, AsyncSnapshot<User> snapshot) {
                   if (snapshot.hasData) {
-                    return Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: <Widget>[
-                        Icon(
-                          Icons.nature,
-                          color: Colors.red,
-                          size: 25.0,
-                        ),
-                        Text(
-                          snapshot.data.nbPomme.toString(),
-                          style: TextStyle(fontSize: 25),
-                        ),
-                      ],
-                    );
+                    return Container(
+                        color: Colors.white12,
+                        width: 120,
+                        height: 60,
+                        margin: EdgeInsets.only(
+                            left: MediaQuery.of(context).size.width / 1.25),
+                        child: Row(
+                          children: <Widget>[
+                            Container(width: 50, height: 50,child: appleWidget),
+                            Container(
+                              padding: EdgeInsets.only(top: 15),
+                              child: AutoSizeText(
+                                snapshot.data.nbPomme.toString(),
+                                style: TextStyle(fontSize: 35),
+                                minFontSize: 12,
+                              ),
+                            ),
+                          ],
+                        ));
                   } else {
                     return Text("Chargement");
                   }

@@ -31,10 +31,8 @@ class FirestoreProvider {
   Future<User> modifyUser(
       String id, String email, String name, int treeNumber, int nbPomme) {
     return auth.currentUser().then((userID) {
-      print("USER ===>" + userID);
       User user = new User(
           email: email, name: name, treeNumber: treeNumber, nbPomme: nbPomme);
-      print("USER REEL ===> " + user.toString());
       _firestore.collection('user').document(userID).updateData(user.toJson());
       return user;
     });
