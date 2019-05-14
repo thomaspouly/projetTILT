@@ -18,19 +18,22 @@ class FirestoreProvider {
         .document(id)
         .get()
         .then((documentSnapshot) {
-     User u = new User(
+      User u = new User(
           email: documentSnapshot.data['email'],
           name: documentSnapshot.data['name'],
           treeNumber: documentSnapshot.data['treeNumber'],
+          nbPomme: documentSnapshot.data['nbPomme'],
           reference: null);
-     return u;
+      return u;
     });
   }
 
-  Future<User> modifyUser(String id,String email, String name, int treeNumber) {
+  Future<User> modifyUser(
+      String id, String email, String name, int treeNumber, int nbPomme) {
     return auth.currentUser().then((userID) {
       print("USER ===>" + userID);
-      User user = new User(email: email,name: name,treeNumber:treeNumber);
+      User user = new User(
+          email: email, name: name, treeNumber: treeNumber, nbPomme: nbPomme);
       print("USER REEL ===> " + user.toString());
       _firestore.collection('user').document(userID).updateData(user.toJson());
       return user;
@@ -42,8 +45,12 @@ class FirestoreProvider {
     return auth.registerUser(email, password).then((userId) {
       storage.setImage(userId, image);
       User user = new User(
-          reference: null, treeNumber: treeNumber, email: email, name: name);
-      NoteForm note = new NoteForm(note:"5");
+          reference: null,
+          treeNumber: treeNumber,
+          email: email,
+          name: name,
+          nbPomme: 0);
+      NoteForm note = new NoteForm(note: "5");
       _firestore.collection('user').document(userId).setData(user.toJson());
       _firestore.collection('data').document(userId).setData(note.toJson());
       return userId;
@@ -102,8 +109,12 @@ class FirestoreProvider {
 
   Future<NoteForm> getNote() {
     return auth.currentUser().then((userID) {
-      return _firestore.collection('data').document(userID).get().then((noteInDb) {
-        NoteForm note = NoteForm(note :noteInDb.data['note']);
+      return _firestore
+          .collection('data')
+          .document(userID)
+          .get()
+          .then((noteInDb) {
+        NoteForm note = NoteForm(note: noteInDb.data['note']);
         return note;
       });
     });

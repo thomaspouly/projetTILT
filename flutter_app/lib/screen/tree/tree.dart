@@ -1,7 +1,9 @@
 import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/models/NoteForm.dart';
+import 'package:flutter_app/models/User.dart';
 import 'package:flutter_app/provider/BlocProvider.dart';
+import 'package:flutter_app/screen/customs/TextFieldCustom.dart';
 import 'package:flutter_app/screen/tree/form.dart';
 import 'package:flutter_sparkline/flutter_sparkline.dart';
 import 'package:flutter_svg/svg.dart';
@@ -66,39 +68,40 @@ class _TreePageState extends State<TreePage> {
                         fit: BoxFit.fitHeight,
                         animation: "Preview2"),
                   );
-                } else if(double.parse(snapshot.data.note) > 5 && double.parse(snapshot.data.note) <= 6) {
+                } else if (double.parse(snapshot.data.note) > 5 &&
+                    double.parse(snapshot.data.note) <= 6) {
                   return Container(
                     child: FlareActor("assets/flare/tree3.flr",
                         alignment: Alignment.center,
                         fit: BoxFit.fitHeight,
                         animation: "Preview2"),
                   );
-                }
-                else if(double.parse(snapshot.data.note) > 6 && double.parse(snapshot.data.note) <= 7) {
+                } else if (double.parse(snapshot.data.note) > 6 &&
+                    double.parse(snapshot.data.note) <= 7) {
                   return Container(
                     child: FlareActor("assets/flare/tree2.flr",
                         alignment: Alignment.center,
                         fit: BoxFit.fitHeight,
                         animation: "Preview2"),
                   );
-                }
-                else if(double.parse(snapshot.data.note) > 7 && double.parse(snapshot.data.note) <= 8) {
+                } else if (double.parse(snapshot.data.note) > 7 &&
+                    double.parse(snapshot.data.note) <= 8) {
                   return Container(
                     child: FlareActor("assets/flare/tree2.flr",
                         alignment: Alignment.center,
                         fit: BoxFit.fitHeight,
                         animation: "Preview2"),
                   );
-                }
-                else if(double.parse(snapshot.data.note) > 8 && double.parse(snapshot.data.note) <= 9) {
+                } else if (double.parse(snapshot.data.note) > 8 &&
+                    double.parse(snapshot.data.note) <= 9) {
                   return Container(
                     child: FlareActor("assets/flare/tree1.flr",
                         alignment: Alignment.center,
                         fit: BoxFit.fitHeight,
                         animation: "Preview2"),
                   );
-                }
-                else if(double.parse(snapshot.data.note) > 9 && double.parse(snapshot.data.note) <= 10) {
+                } else if (double.parse(snapshot.data.note) > 9 &&
+                    double.parse(snapshot.data.note) <= 10) {
                   return Container(
                     child: FlareActor("assets/flare/Tree.flr",
                         alignment: Alignment.center,
@@ -107,7 +110,7 @@ class _TreePageState extends State<TreePage> {
                   );
                 }
                 break;
-              case ConnectionState.none :
+              case ConnectionState.none:
                 break;
             }
           });
@@ -128,6 +131,28 @@ class _TreePageState extends State<TreePage> {
                 alignment: Alignment.center,
                 fit: BoxFit.fill,
                 animation: "Preview2"),
+            new FutureBuilder(
+                future: bloc.getUserById(widget.uid),
+                builder: (context, AsyncSnapshot<User> snapshot) {
+                  if (snapshot.hasData) {
+                    return Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: <Widget>[
+                        Icon(
+                          Icons.nature,
+                          color: Colors.red,
+                          size: 25.0,
+                        ),
+                        Text(
+                          snapshot.data.nbPomme.toString(),
+                          style: TextStyle(fontSize: 25),
+                        ),
+                      ],
+                    );
+                  } else {
+                    return Text("Chargement");
+                  }
+                }),
             Center(
                 child: Container(
               padding: EdgeInsets.only(top: 0),

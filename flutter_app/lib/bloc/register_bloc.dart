@@ -11,7 +11,7 @@ class RegisterBloc {
         name.isNotEmpty &&
         treeNumber > -1 &&
         image != null) {
-      return _repository.registerUser(email, password, name, treeNumber, image);
+      return _repository.registerUser(email, password, name, treeNumber,image);
     } else {
       return null;
     }

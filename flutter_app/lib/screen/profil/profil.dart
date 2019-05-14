@@ -87,6 +87,7 @@ class _MyProfilPageState extends State<MyProfilPage> {
     TextEditingController emailController = TextEditingController();
     TextEditingController nameController = TextEditingController();
     TextEditingController treeController = TextEditingController();
+    TextEditingController pommeController = TextEditingController();
 
     Widget _buildTextFields() {
       return new FutureBuilder(
@@ -112,6 +113,13 @@ class _MyProfilPageState extends State<MyProfilPage> {
                 editable: false,
                 controller: treeController,
               );
+              var pomme = new TextFieldCustom(
+                icon: Icon(Icons.nature),
+                title: snapshot.data.nbPomme.toString(),
+                hide: false,
+                editable: false,
+                controller: pommeController,
+              );
               return Column(
                 children: <Widget>[
                   Container(
@@ -129,6 +137,11 @@ class _MyProfilPageState extends State<MyProfilPage> {
                     padding: EdgeInsets.only(left: padding, right: padding),
                     child: tree,
                   ),
+                  Container(
+                    margin: EdgeInsets.only(top: 10, bottom: 10),
+                    padding: EdgeInsets.only(left: padding, right: padding),
+                    child: pomme,
+                  ),
                   Material(
                     elevation: 5.0,
                     color: Color.fromRGBO(32, 168, 30, 1),
@@ -137,13 +150,13 @@ class _MyProfilPageState extends State<MyProfilPage> {
                       onPressed: () {
                         if (email.controller.text.isEmpty) {
                           bloc.modifyUser(widget.uid, email.title,
-                              name.controller.text, int.parse(tree.title));
+                              name.controller.text, int.parse(tree.title),int.parse(pomme.controller.text));
                         } else if (name.controller.text.isEmpty) {
                           bloc.modifyUser(widget.uid, email.controller.text,
-                              name.title, int.parse(tree.title));
+                              name.title, int.parse(tree.title),int.parse(pomme.controller.text));
                         } else {
                           bloc.modifyUser(widget.uid, email.controller.text,
-                              name.controller.text, int.parse(tree.title));
+                              name.controller.text, int.parse(tree.title),int.parse(pomme.controller.text));
                         }
                       },
                       minWidth: MediaQuery.of(context).size.width,
