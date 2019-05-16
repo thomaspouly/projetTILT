@@ -19,16 +19,19 @@ class Associations extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
        
+       
             Container(
               width: MediaQuery.of(context).size.width / 2,
               child: AutoSizeText(
                 associations[index].association,
-                minFontSize: 10,
+              
                 style: TextStyle(fontSize: 25,color: Theme.of(context).primaryColorDark),
               ),
             ),
             AutoSizeText(
+              
               associations[index].presentation,
+              maxLines: 1,
               style: TextStyle(fontSize: 15, color: Theme.of(context).primaryColorLight),
             ),
             FlatButton(
@@ -43,6 +46,7 @@ class Associations extends StatelessWidget {
               },
               child: AutoSizeText(
                 associations[index].link,
+                   maxLines: 1,
                 style: TextStyle(fontSize: 15, color: Theme.of(context).primaryColorLight),
               ),
             ),

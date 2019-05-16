@@ -91,8 +91,8 @@ setState(() {
     print("Theme: " + nightMode.toString());
 
     heightScreen = MediaQuery.of(context).size.height;
-    var sizeIconTiles = heightScreen / 40;
-    var sizeTextTiles = heightScreen / 50;
+    double sizeIconTiles = 30;
+    double sizeTextTiles = 15;
 
     return SafeArea(
       child: Scaffold(
