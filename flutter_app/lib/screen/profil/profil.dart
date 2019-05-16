@@ -111,6 +111,7 @@ class _MyProfilPageState extends State<MyProfilPage> {
                 title: "Email",
                 hide: false,
                 controller: emailController,
+                editable: false,
               );
               var name = new TextFieldCustom(
                 icon: Icon(Icons.person_outline),
@@ -151,7 +152,7 @@ class _MyProfilPageState extends State<MyProfilPage> {
                         if (email.controller.text.isEmpty) {
                           bloc.modifyUser(
                               widget.uid,
-                              email.title,
+                              email.controller.text,
                               name.controller.text,
                               snapshot.data.treeNumber,
                               int.parse(pomme.controller.text));
