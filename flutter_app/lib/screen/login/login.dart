@@ -93,10 +93,11 @@ class _MyLoginPageState extends State<MyLoginPage> {
     super.dispose();
   }
 
-  bool _value1 = false;
+  bool souvenir = false;
 
   @override
   Widget build(BuildContext context) {
+ 
     final bloc = BlocProvider.ofLogin(context);
     FlutterStatusbarcolor.setStatusBarColor(Color.fromRGBO(210, 251, 209, 1));
     FlutterStatusbarcolor.setStatusBarWhiteForeground(false);
@@ -132,8 +133,11 @@ class _MyLoginPageState extends State<MyLoginPage> {
             if (bloc
                     .submit(emailFieldController.text, passFieldController.text)
                     .then((userId) {
-                  if (_value1) {
+                  if (souvenir==true) {
                     SharedPreferences.getInstance().then((prefs) {
+
+                      print("ID PREFS LOGIn: "  + prefs.getString('id').toString());
+
                       prefs.setString('id', userId);
                       Navigator.pushReplacement(
                           context,
@@ -143,7 +147,6 @@ class _MyLoginPageState extends State<MyLoginPage> {
                                   )));
                     });
                   } else {
-                    // sleep(Duration(seconds: 1));
                     Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(
@@ -321,10 +324,10 @@ class _MyLoginPageState extends State<MyLoginPage> {
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: <Widget>[
                               Checkbox(
-                                value: _value1,
+                                value: souvenir,
                                 onChanged: (bool value) {
                                   setState(() {
-                                    _value1 = value;
+                                    souvenir = value;
                                   });
                                 },
                                 activeColor: Colors.green,

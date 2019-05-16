@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
@@ -6,21 +7,24 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter_app/bloc/counter_bloc.dart';
 import 'package:flutter_app/models/Categorie.dart';
 import 'package:flutter_app/models/NoteForm.dart';
+import 'package:flutter_app/models/Post.dart';
 import 'package:flutter_app/models/Tile.dart';
 import 'package:flutter_app/models/TileHelper.dart';
 import 'package:flutter_app/models/User.dart';
 import 'package:flutter_app/provider/BlocProvider.dart';
 import 'package:flutter_app/screen/customs/Countries.dart';
-import 'package:flutter_app/screen/customs/fab.dart';
 import 'package:flutter_app/screen/customs/staggeredView.dart';
+import 'package:flutter_app/screen/home/settings.dart';
 import 'package:flutter_app/screen/login/login.dart';
 import 'package:flutter_app/screen/partenaire/partenaire.dart';
 import 'package:flutter_app/screen/profil/profil.dart';
+import 'package:flutter_app/screen/profil/profil.dart' as prefix0;
 import 'package:flutter_app/screen/tree/tree.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:flutter_statusbarcolor/flutter_statusbarcolor.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:bottom_navy_bar/bottom_navy_bar.dart';
+
+import 'package:http/http.dart' as http;
 
 class HomePage extends StatefulWidget {
   String uid;
@@ -61,6 +65,22 @@ class _HomePageState extends State<HomePage> {
   DateTime date = DateTime.now();
   double heightTiles;
   List<int> ids = new List<int>();
+
+
+  
+
+  Future<String> fetchPost() async {
+    final response =
+        await http.get('https://jsonplaceholder.typicode.com/posts/1');
+
+    if (response.statusCode == 200) {
+      // If server returns an OK response, parse the JSON
+      return Post.fromJson(json.decode(response.body)).body;
+    } else {
+      // If that response was not OK, throw an error.
+      throw Exception('Failed to load post');
+    }
+  }
 
   setHeightTiles(int i, bool retirer) {
     setState(() {
@@ -142,16 +162,13 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
-  void _recupID() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setString("id", widget.uid);
-  }
+ 
 
   int _index = 1;
   @override
   Widget build(BuildContext context) {
     final bloc = BlocProvider.ofRanking(context);
-    _recupID();
+    
     heightScreen = MediaQuery.of(context).size.height;
     loadingTiles(date);
 
@@ -172,8 +189,9 @@ class _HomePageState extends State<HomePage> {
             slivers: <Widget>[
               SliverAppBar(
                 leading: Container(),
-                backgroundColor: Colors.white,
-                floating: true,
+
+                backgroundColor: Colors.white.withOpacity(0),
+                floating: false,
                 expandedHeight: heightScreen / 7,
                 flexibleSpace: FlexibleSpaceBar(
                   background: Container(
@@ -286,86 +304,46 @@ class _HomePageState extends State<HomePage> {
             },
             icon: Icon(Icons.menu),
           ),
-          Container(
-            height: 0,
-            width: 0,
-          ),
-          Container(
-            height: 0,
-            width: 0,
-          ),
-          Container(
-            height: 0,
-            width: 0,
-          ),
-          Container(
-            height: 0,
-            width: 0,
-          ),
-          Container(
-            height: 0,
-            width: 0,
-          ),
-          IconButton(
-            onPressed: () {
-              setState(() {
-                classement = false;
-              });
-            },
-            icon: Icon(Icons.poll),
-          ),
-          IconButton(
-            onPressed: () {
-              setState(() {
-                classement = true;
-              });
-            },
-            icon: Icon(Icons.format_list_numbered),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              IconButton(
+                onPressed: () {
+                  if(classement){
+                  setState(() {
+                    classement = false;
+                  });
+                  }
+                },
+                icon: Icon(Icons.poll),
+              ),
+              IconButton(
+                onPressed: () {
+                   if(!classement){
+                  setState(() {
+                    classement = true;
+                  });
+                   }
+                },
+                icon: Icon(Icons.format_list_numbered),
+              ),
+            ],
           ),
         ],
       ),
-      /*height: 80,
-      color: Colors.grey,
-      selectedColor: Colors.green,
-      notchedShape: CircularNotchedRectangle(),
-      
-      onTabSelected: (index) {
-        if (index == 0) {
-         _scaffoldKey.currentState.openDrawer();
-        } else if (index == 2){
-          setState(() {
-            classement = false;
-          });
-        }else if (index == 3){
-          setState(() {
-            classement = true;
-          });
-        }
-      },
-      items: [
-     FABBottomAppBarItem(
-          iconData: Icons.menu,
-          text: '',
-        ),
-        FABBottomAppBarItem(
-          iconData: null,
-          text: '',
-        ),
-        FABBottomAppBarItem(
-          iconData: Icons.poll,
-          text: 'Statistiques',
-        ),
-        FABBottomAppBarItem(
-          iconData: Icons.format_list_numbered,
-          text: 'Classements',
-        ),
-      ],*/
     );
   }
 
   Widget _buildFab(BuildContext context) {
     return FloatingActionButton(
       onPressed: () {
+   fetchPost().then((onValue) {
+            print(onValue);
+          });
+
+
+
         if (widget.uid != null) {
           Navigator.push(
             context,
@@ -375,6 +353,7 @@ class _HomePageState extends State<HomePage> {
                     )),
           );
         } else {
+       
           showDialog(
             context: context,
             builder: (BuildContext context) {
@@ -411,34 +390,7 @@ class _HomePageState extends State<HomePage> {
 
   Widget _buildImage() {
     Future<String> url = getImage(widget.uid);
-    return new Container(
-        child: widget.uid == null
-            ? new FlatButton(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => MyLoginPage()),
-                  );
-                },
-                child: new Container(
-                    height: heightScreen / 9,
-                    width: heightScreen / 9,
-                    child: Center(
-                      child: AutoSizeText(
-                        "Connexion",
-                        maxLines: 1,
-                        style: TextStyle(
-                            fontSize: 200,
-                            color: Colors.blue[200],
-                            fontWeight: FontWeight.bold),
-                      ),
-                    ),
-                    decoration: new BoxDecoration(
-                        shape: BoxShape.circle, color: Colors.blue)),
-              )
-
-            ///////////////
-            : new FutureBuilder<String>(
+    return  new FutureBuilder<String>(
                 future: url,
                 builder:
                     (BuildContext context, AsyncSnapshot<String> snapshot) {
@@ -452,38 +404,16 @@ class _HomePageState extends State<HomePage> {
                       return CircularProgressIndicator();
 
                     case ConnectionState.done:
-                      return new FlatButton(
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => MyProfilPage(
-                                      uid: widget.uid,
-                                    )),
-                          );
-                          /*SharedPreferences.getInstance().then((prefs) {
-                            prefs.remove("id");
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => MyLoginPage(
-                                  )),
-                            );
-                          });*/
-                        },
-                        child: new Container(
-                            height: heightScreen / 9,
-                            width: heightScreen / 9,
-                            decoration: new BoxDecoration(
-                                shape: BoxShape.circle,
-                                image: new DecorationImage(
-                                  fit: BoxFit.fill,
-                                  image: NetworkImage(snapshot.data),
-                                ))),
+                      return new CircleAvatar(
+                          backgroundImage:NetworkImage(snapshot.data) ,
+                          radius: heightScreen/25,
+                            
+                            
+                          
                       );
                   }
                 },
-              ));
+              );
   }
 
   Widget _buildStaggredView(ScrollController controller,
@@ -632,48 +562,79 @@ class _HomePageState extends State<HomePage> {
 
   void _settingModalBottomSheet(context, uid) {
     if (uid == null) {
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: new Text("Veuillez vous connecter"),
+            content: RaisedButton(
+              color: Colors.green,
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => MyLoginPage()),
+                );
+              },
+              child: Text("Connexion"),
+            ),
+            actions: <Widget>[
+              new FlatButton(
+                child: new Text("Close"),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
+          );
+        },
+      );
     } else {
       final blocProfil = BlocProvider.ofProfil(context);
       final blocTree = BlocProvider.ofFormTree(context);
       var sizeIconTiles = heightScreen / 40;
       var sizeTextTiles = heightScreen / 50;
+
+    
       showModalBottomSheet(
           context: context,
           builder: (BuildContext bc) {
             return Container(
               child: new Wrap(
                 children: <Widget>[
-                  UserAccountsDrawerHeader(
-                    accountName: FutureBuilder(
+
+
+                  Container(padding: EdgeInsets.all( heightScreen / 50),child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,children: <Widget>[
+                  Row(children: <Widget>[
+                 Container(margin: EdgeInsets.only(right:heightScreen / 60),child:_buildImage() ,)   ,
+                    FutureBuilder(
                         future: blocProfil.getUserById(uid),
                         builder: (context, AsyncSnapshot<User> snapshot) {
                           switch (snapshot.connectionState) {
                             case ConnectionState.done:
                               return Text(snapshot.data.name,
                                   style:
-                                      TextStyle(fontSize: heightScreen / 40));
+                                      TextStyle(fontSize: heightScreen / 50));
                               break;
                             default:
                               return CircularProgressIndicator();
                               break;
                           }
-                        }),
-                    currentAccountPicture: CircleAvatar(
-                        backgroundColor:
-                            Theme.of(context).platform == TargetPlatform.iOS
-                                ? Colors.blue
-                                : Colors.white,
-                        child: FutureBuilder(
+                        })
+                  ],),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                   
+                      FutureBuilder(
                             future: blocTree.getNote(),
                             builder:
                                 (context, AsyncSnapshot<NoteForm> snapshot) {
-                              double note = double.parse(snapshot.data.note);
                               switch (snapshot.connectionState) {
                                 case ConnectionState.done:
                                   return Text(
-                                    note.toStringAsFixed(1) + "/10",
+                                    "Note: "+double.parse(snapshot.data.note).toStringAsFixed(0) + "/10",
                                     style:
-                                        TextStyle(fontSize: heightScreen / 50),
+                                        TextStyle(fontSize: heightScreen / 60),
                                   );
                                   break;
 
@@ -681,16 +642,54 @@ class _HomePageState extends State<HomePage> {
                                   return CircularProgressIndicator();
                                   break;
                               }
-                            })),
-                    accountEmail: null,
+                            }),
+                                FutureBuilder(
+                        future: blocProfil.getUserById(uid),
+                        builder: (context, AsyncSnapshot<User> snapshot) {
+                          switch (snapshot.connectionState) {
+                            case ConnectionState.done:
+                              return Text("Pommes: "+snapshot.data.name,
+                                  style:
+                                      TextStyle(fontSize: heightScreen / 60));
+                              break;
+                            default:
+                              return CircularProgressIndicator();
+                              break;
+                          }
+                        })
+                    ],
+                  )
+                  ],),color: Theme.of(context).primaryColor,),
+              
+             
+
+                 ListTile(
+                    title: Text(
+                      'Modifier le profil',
+                      style: TextStyle(fontSize: sizeTextTiles),
+                    ),
+                    leading: Icon(
+                      Icons.perm_contact_calendar,
+                      size: sizeIconTiles,
+                    ),
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => MyProfilPage(
+                                  uid: widget.uid,
+                                )),
+                      );
+                    },
                   ),
+                
                   ListTile(
                     title: Text(
                       'Partenaires',
                       style: TextStyle(fontSize: sizeTextTiles),
                     ),
                     leading: Icon(
-                      Icons.perm_contact_calendar,
+                      Icons.center_focus_strong,
                       size: sizeIconTiles,
                     ),
                     onTap: () {
@@ -712,15 +711,7 @@ class _HomePageState extends State<HomePage> {
                     ),
                     onTap: () {},
                   ),
-                  ListTile(
-                    title: Text('Mode nuit',
-                        style: TextStyle(fontSize: sizeTextTiles)),
-                    leading: Icon(
-                      Icons.brightness_2,
-                      size: sizeIconTiles,
-                    ),
-                    onTap: () {},
-                  ),
+               
                   ListTile(
                     title: Text('Paramètres',
                         style: TextStyle(fontSize: sizeTextTiles)),
@@ -728,137 +719,33 @@ class _HomePageState extends State<HomePage> {
                       Icons.settings,
                       size: sizeIconTiles,
                     ),
-                    onTap: () {},
+                    onTap: () {
+                     Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => Settings(
+                                uid:  widget.uid,
+                                )),
+                      );
+                    },
                   ),
-                  ListTile(
-                    title: Text('Deconnexion',
-                        style: TextStyle(fontSize: sizeTextTiles)),
-                    leading: Icon(
-                      Icons.power_settings_new,
-                      size: sizeIconTiles,
-                    ),
-                    onTap: () {},
-                  )
+           
                 ],
               ),
-            );
+              decoration: BoxDecoration(
+                color: Theme.of(context).canvasColor,
+                borderRadius: BorderRadius.only(
+                  topLeft: const Radius.circular(10),
+                  topRight: const Radius.circular(10),
+                ),
+              ),
+              );
+             
+            
           });
     }
   }
 
-/*
-  Widget _buildBottomSheet(String uid) {
-    if (uid == null) {
-    } else {
-      final blocProfil = BlocProvider.ofProfil(context);
-      final blocTree = BlocProvider.ofFormTree(context);
-      var sizeIconTiles = heightScreen / 40;
-      var sizeTextTiles = heightScreen / 50;
-      return new BottomSheet(
-
-
-          builder: ListView(
-        padding: EdgeInsets.zero,
-        children: <Widget>[
-          UserAccountsDrawerHeader(
-            accountName: FutureBuilder(
-                future: blocProfil.getUserById(uid),
-                builder: (context, AsyncSnapshot<User> snapshot) {
-                  switch (snapshot.connectionState) {
-                    case ConnectionState.done:
-                      return Text(snapshot.data.name,
-                          style: TextStyle(fontSize: heightScreen / 40));
-                      break;
-                    default:
-                      return CircularProgressIndicator();
-                      break;
-                  }
-                }),
-            currentAccountPicture: CircleAvatar(
-                backgroundColor:
-                    Theme.of(context).platform == TargetPlatform.iOS
-                        ? Colors.blue
-                        : Colors.white,
-                child: FutureBuilder(
-                    future: blocTree.getNote(),
-                    builder: (context, AsyncSnapshot<NoteForm> snapshot) {
-                      double note = double.parse(snapshot.data.note);
-                      switch (snapshot.connectionState) {
-                        case ConnectionState.done:
-                          return Text(
-                            note.toStringAsFixed(1) + "/10",
-                            style: TextStyle(fontSize: heightScreen / 50),
-                          );
-                          break;
-
-                        default:
-                          return CircularProgressIndicator();
-                          break;
-                      }
-                    })),
-          ),
-          ListTile(
-            title: Text(
-              'Partenaires',
-              style: TextStyle(fontSize: sizeTextTiles),
-            ),
-            leading: Icon(
-              Icons.perm_contact_calendar,
-              size: sizeIconTiles,
-            ),
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => PartenairePage(
-                          uid: widget.uid,
-                        )),
-              );
-            },
-          ),
-          ListTile(
-            title:
-                Text('Faire un don', style: TextStyle(fontSize: sizeTextTiles)),
-            leading: Icon(
-              Icons.monetization_on,
-              size: sizeIconTiles,
-            ),
-            onTap: () {},
-          ),
-          ListTile(
-            title: Text('Mode nuit', style: TextStyle(fontSize: sizeTextTiles)),
-            leading: Icon(
-              Icons.brightness_2,
-              size: sizeIconTiles,
-            ),
-            onTap: () {},
-          ),
-          ListTile(
-            title:
-                Text('Paramètres', style: TextStyle(fontSize: sizeTextTiles)),
-            leading: Icon(
-              Icons.settings,
-              size: sizeIconTiles,
-            ),
-            onTap: () {},
-          ),
-          Container(
-            height: heightScreen / 10 * 6,
-          ),
-          ListTile(
-            title:
-                Text('Deconnexion', style: TextStyle(fontSize: sizeTextTiles)),
-            leading: Icon(
-              Icons.power_settings_new,
-              size: sizeIconTiles,
-            ),
-            onTap: () {},
-          )
-        ],
-      ));
-    }
-  }
-*/
   Widget bar(bool b) {
     switch (b) {
       case false:
@@ -867,10 +754,7 @@ class _HomePageState extends State<HomePage> {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: <Widget>[
             _buildDropDownStatCategory(),
-            Align(
-              child: _buildImage(),
-              alignment: Alignment.center,
-            ),
+        
             _buildDropDownStatDuration(),
           ],
         );
@@ -881,10 +765,7 @@ class _HomePageState extends State<HomePage> {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: <Widget>[
             _buildDropDownRankingTop(),
-            Align(
-              child: _buildImage(),
-              alignment: Alignment.center,
-            ),
+         
             _buildDropDownRankingYear(),
           ],
         );

@@ -131,7 +131,7 @@ class _MyProfilPageState extends State<MyProfilPage> {
                   ),
                   Material(
                     elevation: 5.0,
-                    color: Color.fromRGBO(32, 168, 30, 1),
+                    color: Theme.of(context).primaryColor,
                     borderRadius: BorderRadius.circular(5),
                     child: MaterialButton(
                       onPressed: () {
@@ -165,6 +165,9 @@ class _MyProfilPageState extends State<MyProfilPage> {
 
     return SafeArea(
       child: Scaffold(
+        appBar: AppBar(
+          title: Text("Profil"),
+        ),
         body: Container(
           padding: EdgeInsets.only(left: padding, right: padding),
           child: Stack(

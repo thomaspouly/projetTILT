@@ -38,7 +38,7 @@ class Associations extends StatelessWidget {
 
   Widget _buildProductItem(BuildContext context, int index) {
     return Card(
-      color: Colors.green[400],
+      color:Theme.of(context).primaryColor,
       child: Container(
         height: 50,
         padding: EdgeInsets.only(right: 10, left: 10, bottom: 10, top: 10),
@@ -51,11 +51,7 @@ class Associations extends StatelessWidget {
               associations[index].department.toString(),
               style: TextStyle(fontSize: 15, color: Colors.green[900]),
             ),
-            Container(
-              width: 50,
-              height: 50,
-              color: Colors.green[400],
-            ),
+         
             Container(
               width: MediaQuery.of(context).size.width / 2,
               child: AutoSizeText(

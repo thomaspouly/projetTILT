@@ -40,7 +40,7 @@ class Countries extends StatelessWidget {
   Widget _buildProductItem(BuildContext context, int index) {
     if (index == 0) {
       return Card(
-        color: Colors.green[600],
+        color: Theme.of(context).primaryColorDark,
         child: Container(
           padding: EdgeInsets.only(right: 10, left: 10, bottom: 10, top: 10),
           margin: EdgeInsets.all(10),
@@ -49,7 +49,7 @@ class Countries extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
               Text((index + 1).toString(),
-                  style: TextStyle(fontSize: 20, color: Colors.green[300])),
+                  style: TextStyle(fontSize: 20, color: Theme.of(context).primaryColorLight)),
               Container(width: 50, height: 50, child: cupRank1),
               Container(
                 width: MediaQuery.of(context).size.width / 2,
@@ -69,7 +69,7 @@ class Countries extends StatelessWidget {
       );
     } else if (index == 1) {
       return Card(
-        color: Colors.green[600],
+        color: Theme.of(context).primaryColorDark,
         child: Container(
           padding: EdgeInsets.only(right: 10, left: 10, bottom: 10, top: 10),
           margin: EdgeInsets.all(10),
@@ -78,7 +78,7 @@ class Countries extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
               Text((index + 1).toString(),
-                  style: TextStyle(fontSize: 20, color: Colors.green[300])),
+                  style: TextStyle(fontSize: 20, color: Theme.of(context).primaryColorLight)),
               Container(width: 50, height: 50, child: cupRank2),
               Container(
                 width: MediaQuery.of(context).size.width / 2,
@@ -98,7 +98,7 @@ class Countries extends StatelessWidget {
       );
     } else if (index == 2) {
       return Card(
-        color: Colors.green[600],
+        color:Theme.of(context).primaryColorDark,
         child: Container(
           padding: EdgeInsets.only(right: 10, left: 10, bottom: 10, top: 10),
           margin: EdgeInsets.all(10),
@@ -107,7 +107,7 @@ class Countries extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
               Text((index + 1).toString(),
-                  style: TextStyle(fontSize: 20, color: Colors.green[300])),
+                  style: TextStyle(fontSize: 20, color: Theme.of(context).primaryColorLight,)),
               Container(width: 50, height: 50, child: cupRank3),
               Container(
                 width: MediaQuery.of(context).size.width / 2,
@@ -127,7 +127,7 @@ class Countries extends StatelessWidget {
       );
     } else {
       return Card(
-        color: Colors.green[400],
+        color:Theme.of(context).primaryColor,
         child: Container(
           height: 50,
           padding: EdgeInsets.only(right: 10, left: 10, bottom: 10, top: 10),
@@ -137,9 +137,9 @@ class Countries extends StatelessWidget {
             children: <Widget>[
               AutoSizeText(
                 countries[index].rank.toString(),
-                style: TextStyle(fontSize: 20, color: Colors.green[900]),
+                style: TextStyle(fontSize: 20, color: Theme.of(context).primaryColorDark,),
               ),
-              Container(width: 50, height: 50, color: Colors.green[400],),
+              Container(width: 50, height: 50, color: Theme.of(context).primaryColor,),
               Container(
                 width: MediaQuery.of(context).size.width / 2,
                 child: AutoSizeText(
