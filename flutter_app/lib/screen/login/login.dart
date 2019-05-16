@@ -18,14 +18,6 @@ TextStyle style = TextStyle(fontFamily: 'Montserrat', fontSize: 20.0);
 
 final String assetName = 'assets/earth.svg';
 
-final Widget svg = new SvgPicture.asset(
-  assetName,
-  semanticsLabel: 'Acme Logo',
-  width: 100,
-  height: 100,
-  color: Colors.green[300],
-);
-
 AuthProvider authProvider;
 FirestoreProvider firestoreProvider;
 
@@ -94,6 +86,13 @@ class _MyLoginPageState extends State<MyLoginPage> {
 
   @override
   Widget build(BuildContext context) {
+    final Widget svg = new SvgPicture.asset(
+      assetName,
+      semanticsLabel: 'Acme Logo',
+      width: 100,
+      height: 100,
+      color: Theme.of(context).primaryColorDark,
+    );
     final bloc = BlocProvider.ofLogin(context);
     FlutterStatusbarcolor.setStatusBarColor(Color.fromRGBO(210, 251, 209, 1));
     FlutterStatusbarcolor.setStatusBarWhiteForeground(false);
@@ -286,27 +285,29 @@ class _MyLoginPageState extends State<MyLoginPage> {
         //resizeToAvoidBottomPadding: false,
         body: Container(
             padding: EdgeInsets.only(left: padding, right: padding),
-            child: Stack(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
-                Align(
-                  child: Container(
-                    height: 500, width: 600,
-                    //child:svg
-                    child: FlareActor("assets/flare/Earth.flr",
+                Column(
+                  children: <Widget>[
+                    Container(
+                      height: 150,
+                      width: 150,
+                      child: svg,
+                      /* child: FlareActor("assets/flare/Earth.flr",
                         alignment: Alignment.center,
                         fit: BoxFit.contain,
-                        animation: "Preview2"),
-                  ),
-                  alignment: Alignment.topCenter,
+                        animation: ""),
+                        */
+                    ),
+                  ],
                 ),
                 Column(
+
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
-                    Container(
-                      width: 200,
-                      height: 200,
-                    ),
                     Container(width: 300, child: emailField),
                     Column(
                       children: <Widget>[
@@ -321,6 +322,8 @@ class _MyLoginPageState extends State<MyLoginPage> {
                       ],
                     ),
                     Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: <Widget>[
                         Container(width: 150, child: loginButon),
                         Row(
@@ -342,22 +345,17 @@ class _MyLoginPageState extends State<MyLoginPage> {
                                     minFontSize: 10,
                                   )),
                             ]),
-                        Row(children: <Widget>[
-                          Expanded(
-                              child: Align(
-                            alignment: Alignment.center,
-                            child: _register,
-                          )),
-                        ]),
+                        Align(
+                          alignment: Alignment.center,
+                          child: _register,
+                        ),
+                        Align(
+                          alignment: FractionalOffset.center,
+                          child: _continue,
+                        ),
                       ],
-                    ),
+                    )
                   ],
-                ),
-                new Positioned(
-                  child: new Align(
-                    alignment: FractionalOffset.bottomCenter,
-                    child: _continue,
-                  ),
                 ),
               ],
             )),

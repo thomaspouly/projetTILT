@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/models/User.dart';
 import 'package:flutter_app/provider/AuthProvider.dart';
@@ -110,7 +111,7 @@ class _MyProfilPageState extends State<MyProfilPage> {
                 icon: Icon(Icons.email),
                 title: "Email",
                 hide: false,
-                colors: Colors.grey[200],
+                colors:Theme.of(context).primaryColor,
                 controller: emailController,
                 editable: false,
               );
@@ -124,7 +125,7 @@ class _MyProfilPageState extends State<MyProfilPage> {
                 icon: Icon(Icons.nature),
                 title: "Nombre de pomme",
                 hide: false,
-                colors: Colors.grey[200],
+                colors: Theme.of(context).primaryColor,
                 editable: false,
                 controller: pommeController,
               );
@@ -132,24 +133,26 @@ class _MyProfilPageState extends State<MyProfilPage> {
                 children: <Widget>[
                   Container(
                     margin: EdgeInsets.only(top: 10, bottom: 10),
-                    padding: EdgeInsets.only(left: padding, right: padding),
                     child: name,
                   ),
                   Container(
                     margin: EdgeInsets.only(top: 10, bottom: 10),
-                    padding: EdgeInsets.only(left: padding, right: padding),
                     child: email,
                   ),
                   Container(
                     margin: EdgeInsets.only(top: 10, bottom: 100),
-                    padding: EdgeInsets.only(left: padding, right: padding),
                     child: pomme,
                   ),
-                  Material(
+              Container(
+                margin:  EdgeInsets.only(left:  MediaQuery.of(context).size.width/7,right: MediaQuery.of(context).size.width/7 ),
+                child:  Material(
+                    
                     elevation: 5.0,
+                   
                     color: Theme.of(context).primaryColor,
                     borderRadius: BorderRadius.circular(5),
                     child: MaterialButton(
+                      
                       onPressed: () {
                         if (email.controller.text.isEmpty) {
                           bloc.modifyUser(
@@ -177,14 +180,17 @@ class _MyProfilPageState extends State<MyProfilPage> {
                         Navigator.of(context).pop();
                       },
                       minWidth: MediaQuery.of(context).size.width,
-                      padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-                      child: Text("Enregistrer les modifications",
+                   
+                      child: AutoSizeText("Enregistrer",
+                      maxLines: 1,
                           textAlign: TextAlign.center,
                           style: style.copyWith(
                               color: Colors.white,
                               fontWeight: FontWeight.bold)),
                     ),
                   ),
+              )
+                 
                 ],
               );
             } else {

@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_app/bloc/counter_bloc.dart';
@@ -557,9 +558,8 @@ class _HomePageState extends State<HomePage> {
     } else {
       final blocProfil = BlocProvider.ofProfil(context);
       final blocTree = BlocProvider.ofFormTree(context);
-      final blocHome = BlocProvider.ofHome(context);
-      var sizeIconTiles = heightScreen / 40;
-      var sizeTextTiles = heightScreen / 50;
+      double sizeIconTiles = 30;
+      double sizeTextTiles = 15;
 
       showModalBottomSheet(
           context: context,
@@ -575,7 +575,7 @@ class _HomePageState extends State<HomePage> {
                         Row(
                           children: <Widget>[
                             Container(
-                              margin: EdgeInsets.only(right: heightScreen / 60),
+                              margin: EdgeInsets.only(right: heightScreen/40),
                               child: _buildImage(),
                             ),
                             FutureBuilder(
@@ -588,7 +588,7 @@ class _HomePageState extends State<HomePage> {
                                           snapshot.data.toString());
                                       return Text(snapshot.data.name,
                                           style: TextStyle(
-                                              fontSize: heightScreen / 50));
+                                              fontSize: 20));
                                       break;
                                     default:
                                       return CircularProgressIndicator();
@@ -614,7 +614,7 @@ class _HomePageState extends State<HomePage> {
                                                 .toStringAsFixed(0) +
                                             "/10",
                                         style: TextStyle(
-                                            fontSize: heightScreen / 60),
+                                            fontSize: 15),
                                       );
                                       break;
                                     case ConnectionState.waiting:
@@ -635,7 +635,7 @@ class _HomePageState extends State<HomePage> {
                                           "Pommes: " +
                                               snapshot.data.nbPomme.toString(),
                                           style: TextStyle(
-                                              fontSize: heightScreen / 60));
+                                              fontSize: 15));
                                       break;
                                     default:
                                       return CircularProgressIndicator();
@@ -725,6 +725,14 @@ class _HomePageState extends State<HomePage> {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: <Widget>[
             _buildDropDownStatCategory(),
+               Container( 
+                    height: heightScreen/10, width: heightScreen/10,
+                    //child:svg
+                    child: FlareActor("assets/flare/Earth2.flr",
+                        alignment: Alignment.center,
+                        fit: BoxFit.cover,
+                        animation: "Preview2"),
+                  ),
             _buildDropDownStatDuration(),
           ],
         );
@@ -735,6 +743,15 @@ class _HomePageState extends State<HomePage> {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: <Widget>[
             _buildDropDownRankingTop(),
+           Container( 
+                    height: heightScreen/10, width: heightScreen/10,
+                    //child:svg
+                    child: FlareActor("assets/flare/Earth2.flr",
+                        alignment: Alignment.center,
+                        fit: BoxFit.cover,
+                        animation: "Preview2"),
+                  ),
+            
             _buildDropDownRankingYear(),
           ],
         );
