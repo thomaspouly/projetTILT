@@ -46,11 +46,7 @@ class Associations extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
-            AutoSizeText(
-              associations[index].department.toString(),
-              style: TextStyle(fontSize: 15, color: Colors.green[900]),
-            ),
-         
+       
             Container(
               width: MediaQuery.of(context).size.width / 2,
               child: AutoSizeText(
@@ -61,7 +57,7 @@ class Associations extends StatelessWidget {
             ),
             AutoSizeText(
               associations[index].presentation,
-              style: TextStyle(fontSize: 15, color: Colors.green[900]),
+              style: TextStyle(fontSize: 15, color: Theme.of(context).primaryColorDark),
             ),
             FlatButton(
               onPressed: () {
@@ -75,7 +71,7 @@ class Associations extends StatelessWidget {
               },
               child: AutoSizeText(
                 associations[index].link,
-                style: TextStyle(fontSize: 15, color: Colors.green[900]),
+                style: TextStyle(fontSize: 15, color: Theme.of(context).primaryColorDark),
               ),
             ),
           ],

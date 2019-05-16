@@ -92,12 +92,8 @@ class _MyLoginPageState extends State<MyLoginPage> {
     passFieldController.dispose();
     super.dispose();
   }
-
-<<<<<<< HEAD
   bool souvenir = false;
-=======
-  bool _valueCheckBO = false;
->>>>>>> develop
+
 
   @override
   Widget build(BuildContext context) {
@@ -137,11 +133,9 @@ class _MyLoginPageState extends State<MyLoginPage> {
             if (bloc
                     .submit(emailFieldController.text, passFieldController.text)
                     .then((userId) {
-<<<<<<< HEAD
+
                   if (souvenir==true) {
-=======
-                  if (_valueCheckBO) {
->>>>>>> develop
+
                     SharedPreferences.getInstance().then((prefs) {
 
                       print("ID PREFS LOGIn: "  + prefs.getString('id').toString());
@@ -333,17 +327,12 @@ class _MyLoginPageState extends State<MyLoginPage> {
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: <Widget>[
                               Checkbox(
-<<<<<<< HEAD
+
                                 value: souvenir,
                                 onChanged: (bool value) {
                                   setState(() {
                                     souvenir = value;
-=======
-                                value: _valueCheckBO,
-                                onChanged: (bool value) {
-                                  setState(() {
-                                    _valueCheckBO = value;
->>>>>>> develop
+                              
                                   });
                                 },
                                 activeColor: Colors.green,
