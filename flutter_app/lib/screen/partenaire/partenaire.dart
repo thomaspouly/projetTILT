@@ -90,14 +90,11 @@ class _PartenairePageState extends State<PartenairePage> {
 
     return new SafeArea(
       child: new Scaffold(
-        backgroundColor: Color.fromRGBO(210, 251, 209, 1),
         appBar: AppBar(
-          backgroundColor: Color.fromRGBO(210, 251, 209, 1),
+         backgroundColor: Theme.of(context).primaryColorDark,
           elevation: 0,
-          centerTitle: true,
           title: Text("Nos partenaires",
-              style: TextStyle(
-                  color: Colors.red, fontFamily: "Monofonto-Regular")),
+             ),
         ),
         body: Column(
           children: <Widget>[

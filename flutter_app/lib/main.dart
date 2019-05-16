@@ -3,31 +3,52 @@ import 'package:flutter_app/provider/BlocProvider.dart';
 import 'package:flutter_app/screen/home/home.dart';
 import 'package:flutter_app/screen/login/login.dart';
 import 'package:flutter_app/screen/login/login.dart';
-import 'package:flutter_app/screen/partenaire/partenaire.dart';
-import 'package:flutter_app/screen/profil/profil.dart';
-import 'package:flutter_app/screen/tree/tree.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:splashscreen/splashscreen.dart';
+import 'package:dynamic_theme/dynamic_theme.dart';
 
 final String assetName = 'assets/images/earth.png';
 
 void main() {
- runApp(MyApp());
-
-}
-/*
-void main() => SharedPreferences.getInstance().then((prefs) {
+SharedPreferences.getInstance().then((prefs) {
       var id = prefs.getString('id');
-      //print("ID user connecté "  + id.toString());
+bool nightMode=prefs.getBool("nightMode");
+   print("ID : "  + prefs.getString('id').toString());
+       print("THEME: "  + prefs.getString("theme"));
+       print("Night: "  + prefs.getBool("nightMode").toString());
+
+      Brightness b;
+if(nightMode==false || nightMode==null){
+b=Brightness.light;
+}else{
+b=Brightness.dark;
+}
       runApp(MaterialApp(
+        
           home: id == null
               ? new BlocProvider(
-                  child: MaterialApp(
+                child: DynamicTheme(
+     defaultBrightness: b,
+      data: (brightness){
+
+
+switch (prefs.getString("theme")){
+      
+  case "Bleu":
+           return ThemeData(primarySwatch: Colors.blue,brightness:brightness);
+        break;
+         case "Rouge":
+          return  ThemeData(primarySwatch: Colors.red,brightness:brightness);
+        break;
+         default:
+       return    ThemeData(primarySwatch: Colors.green,brightness:brightness);
+      break;
+    }
+      },
+      themedWidgetBuilder: (context, theme) {
+                return new MaterialApp(
                     title: 'Flutter Demo',
-                    theme: ThemeData(
-                        primarySwatch: Colors.green,
-                        fontFamily: 'Calibre-Semibold'),
+                    theme: theme,
                     home: new SplashScreen(
                         seconds: 5,
                         navigateAfterSeconds: new MyLoginPage(),
@@ -46,16 +67,34 @@ void main() => SharedPreferences.getInstance().then((prefs) {
                         styleTextUnderTheLoader: new TextStyle(),
                         photoSize: 100.0,
                         loaderColor: Colors.blue),
-                  ),
-                )
+                  );
+      }))
               : new BlocProvider(
-                  child: MaterialApp(
+                child: DynamicTheme(
+      defaultBrightness: b,
+      data: (brightness){
+
+
+switch (prefs.getString("theme")){
+      
+  case "Bleu":
+           return ThemeData(primarySwatch: Colors.blue,brightness:brightness);
+        break;
+         case "Rouge":
+          return  ThemeData(primarySwatch: Colors.red,brightness:brightness);
+        break;
+         default:
+       return    ThemeData(primarySwatch: Colors.green,brightness:brightness);
+      break;
+    }
+      },
+      themedWidgetBuilder: (context, theme) {
+                  return new MaterialApp(
                     title: 'Flutter Demo',
-                    theme: ThemeData(
-                        primarySwatch: Colors.green,
-                        fontFamily: 'Calibre-Semibold'),
+                    theme: theme,
                     home: new SplashScreen(
                         seconds: 5,
+                        
                         navigateAfterSeconds: new HomePage(
                           uid: id,
                         ),
@@ -69,38 +108,7 @@ void main() => SharedPreferences.getInstance().then((prefs) {
                         styleTextUnderTheLoader: new TextStyle(),
                         photoSize: 100.0,
                         loaderColor: Colors.greenAccent),
-                  ),
-                )));
-    });
-*/
-final Widget svg = new SvgPicture.asset(assetName, semanticsLabel: 'Acme Logo');
-
-class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
-  @override
-  Widget build(BuildContext context) {
-    return new BlocProvider(
-      child: MaterialApp(
-        title: 'Flutter Demo',
-        theme: ThemeData(
-            primarySwatch: Colors.green, fontFamily: 'Calibre-Semibold'),
-        home: new SplashScreen(
-            seconds: 5,
-            navigateAfterSeconds: new MyLoginPage(),
-            title: new Text(
-              'EarthState',
-              textAlign: TextAlign.center,
-              style:
-                  TextStyle(fontSize: 40, color: Colors.green, wordSpacing: 3),
-            ),
-            image: Image.asset(
-              "assets/images/earth.png",
-              width: 3000,
-            ),
-            styleTextUnderTheLoader: new TextStyle(),
-            photoSize: 100.0,
-            loaderColor: Colors.blue),
-      ),
-    );
-  }
+                  );
+      }),),
+       ));}) ;
 }

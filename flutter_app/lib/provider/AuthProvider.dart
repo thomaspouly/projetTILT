@@ -5,10 +5,13 @@ class AuthProvider {
 
   Future<String> authenticateUser(String email, String password) async {
     FirebaseUser user;
-    user = await firebase.signInWithEmailAndPassword(
-        email: email, password: password);
-    print("Signed in : " + user.uid);
-    return user.uid;
+   
+      user = await firebase.signInWithEmailAndPassword(
+          email: email, password: password);
+
+      print("Signed in : " + user.uid);
+      return user.uid;
+  
   }
 
   Future<String> currentUser() {

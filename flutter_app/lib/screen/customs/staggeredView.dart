@@ -143,11 +143,8 @@ return res;
                 ]),
                 Align(
                     child: FlatButton(
-                      child: Icon(
-                        Icons.arrow_drop_down,
-                        color: Colors.white,
-                        size: widthScreen / 20,
-                      ),
+                      child: Text("Voir plus",style: TextStyle(fontSize:widthScreen / 40 ,color: Colors.white),),
+                      
                       onPressed: () {
                         setState(() {
                           developemment = true;
@@ -214,11 +211,8 @@ return res;
                 ]),
                 Align(
                     child: FlatButton(
-                      child: Icon(
-                        Icons.arrow_drop_up,
-                        color: Colors.white,
-                        size: widthScreen / 20,
-                      ),
+                      child: Text("Voir moins",style: TextStyle(fontSize:widthScreen / 40 ,color: Colors.white),),
+                      
                       onPressed: () {
                         setState(() {
                           developemment = false;

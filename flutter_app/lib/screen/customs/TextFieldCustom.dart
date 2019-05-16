@@ -28,7 +28,7 @@ class TextFieldCustom extends StatelessWidget {
         labelText: title,
         border: OutlineInputBorder(),
         prefixIcon: icon,
-        fillColor: Colors.grey[300],
+        fillColor: Theme.of(context).primaryColorLight,
         filled: true,
         errorText: textError,
       ),
