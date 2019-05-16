@@ -29,21 +29,21 @@ final Widget treeWidget = new SvgPicture.asset(
   color: Colors.green[300],
 );
 
-class PartenairePage extends StatefulWidget {
+class PartnerPage extends StatefulWidget {
   String uid;
 
-  PartenairePage({this.uid});
+  PartnerPage({this.uid});
 
   @override
   State<StatefulWidget> createState() {
-    return new _PartenairePageState();
+    return new _PartnerPageState();
   }
 }
 
-class _PartenairePageState extends State<PartenairePage> {
+class _PartnerPageState extends State<PartnerPage> {
   final departementFieldController = TextEditingController();
 
-  _PartenairePageState() {
+  _PartnerPageState() {
     departementFieldController.addListener(_departementListen);
   }
 

@@ -1,13 +1,11 @@
 import 'dart:async';
 import 'dart:convert';
-import 'package:auto_size_text/auto_size_text.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_app/bloc/counter_bloc.dart';
 import 'package:flutter_app/models/Categorie.dart';
 import 'package:flutter_app/models/NoteForm.dart';
-import 'package:flutter_app/models/Post.dart';
 import 'package:flutter_app/models/Tile.dart';
 import 'package:flutter_app/models/TileHelper.dart';
 import 'package:flutter_app/models/User.dart';
@@ -16,13 +14,11 @@ import 'package:flutter_app/screen/customs/Countries.dart';
 import 'package:flutter_app/screen/customs/staggeredView.dart';
 import 'package:flutter_app/screen/home/settings.dart';
 import 'package:flutter_app/screen/login/login.dart';
-import 'package:flutter_app/screen/partenaire/partenaire.dart';
+import 'package:flutter_app/screen/partner/partner.dart';
 import 'package:flutter_app/screen/profil/profil.dart';
-import 'package:flutter_app/screen/profil/profil.dart' as prefix0;
 import 'package:flutter_app/screen/tree/tree.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:flutter_statusbarcolor/flutter_statusbarcolor.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:http/http.dart' as http;
 
@@ -65,22 +61,6 @@ class _HomePageState extends State<HomePage> {
   DateTime date = DateTime.now();
   double heightTiles;
   List<int> ids = new List<int>();
-
-
-  
-
-  Future<String> fetchPost() async {
-    final response =
-        await http.get('https://jsonplaceholder.typicode.com/posts/1');
-
-    if (response.statusCode == 200) {
-      // If server returns an OK response, parse the JSON
-      return Post.fromJson(json.decode(response.body)).body;
-    } else {
-      // If that response was not OK, throw an error.
-      throw Exception('Failed to load post');
-    }
-  }
 
   setHeightTiles(int i, bool retirer) {
     setState(() {
@@ -162,13 +142,12 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
- 
-
   int _index = 1;
+
   @override
   Widget build(BuildContext context) {
     final bloc = BlocProvider.ofRanking(context);
-    
+
     heightScreen = MediaQuery.of(context).size.height;
     loadingTiles(date);
 
@@ -187,7 +166,6 @@ class _HomePageState extends State<HomePage> {
             slivers: <Widget>[
               SliverAppBar(
                 leading: Container(),
-
                 backgroundColor: Colors.white.withOpacity(0),
                 floating: false,
                 expandedHeight: heightScreen / 7,
@@ -298,6 +276,7 @@ class _HomePageState extends State<HomePage> {
         children: <Widget>[
           IconButton(
             onPressed: () {
+              //sleep(Duration(seconds : 3));
               _settingModalBottomSheet(context, widget.uid);
             },
             icon: Icon(Icons.menu),
@@ -308,21 +287,21 @@ class _HomePageState extends State<HomePage> {
             children: <Widget>[
               IconButton(
                 onPressed: () {
-                  if(classement){
-                  setState(() {
-                    classement = false;
-                  });
+                  if (classement) {
+                    setState(() {
+                      classement = false;
+                    });
                   }
                 },
                 icon: Icon(Icons.poll),
               ),
               IconButton(
                 onPressed: () {
-                   if(!classement){
-                  setState(() {
-                    classement = true;
-                  });
-                   }
+                  if (!classement) {
+                    setState(() {
+                      classement = true;
+                    });
+                  }
                 },
                 icon: Icon(Icons.format_list_numbered),
               ),
@@ -336,12 +315,6 @@ class _HomePageState extends State<HomePage> {
   Widget _buildFab(BuildContext context) {
     return FloatingActionButton(
       onPressed: () {
-   fetchPost().then((onValue) {
-            print(onValue);
-          });
-
-
-
         if (widget.uid != null) {
           Navigator.push(
             context,
@@ -351,7 +324,6 @@ class _HomePageState extends State<HomePage> {
                     )),
           );
         } else {
-       
           showDialog(
             context: context,
             builder: (BuildContext context) {
@@ -388,30 +360,26 @@ class _HomePageState extends State<HomePage> {
 
   Widget _buildImage() {
     Future<String> url = getImage(widget.uid);
-    return  new FutureBuilder<String>(
-                future: url,
-                builder:
-                    (BuildContext context, AsyncSnapshot<String> snapshot) {
-                  switch (snapshot.connectionState) {
-                    case ConnectionState.none:
-                      return CircularProgressIndicator();
-                    case ConnectionState.active:
-                      return CircularProgressIndicator();
+    return new FutureBuilder<String>(
+      future: url,
+      builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
+        switch (snapshot.connectionState) {
+          case ConnectionState.none:
+            return CircularProgressIndicator();
+          case ConnectionState.active:
+            return CircularProgressIndicator();
 
-                    case ConnectionState.waiting:
-                      return CircularProgressIndicator();
+          case ConnectionState.waiting:
+            return CircularProgressIndicator();
 
-                    case ConnectionState.done:
-                      return new CircleAvatar(
-                          backgroundImage:NetworkImage(snapshot.data) ,
-                          radius: heightScreen/25,
-                            
-                            
-                          
-                      );
-                  }
-                },
-              );
+          case ConnectionState.done:
+            return new CircleAvatar(
+              backgroundImage: NetworkImage(snapshot.data),
+              radius: heightScreen / 25,
+            );
+        }
+      },
+    );
   }
 
   Widget _buildStaggredView(ScrollController controller,
@@ -589,79 +557,98 @@ class _HomePageState extends State<HomePage> {
     } else {
       final blocProfil = BlocProvider.ofProfil(context);
       final blocTree = BlocProvider.ofFormTree(context);
+      final blocHome = BlocProvider.ofHome(context);
       var sizeIconTiles = heightScreen / 40;
       var sizeTextTiles = heightScreen / 50;
 
-    
       showModalBottomSheet(
           context: context,
           builder: (BuildContext bc) {
             return Container(
               child: new Wrap(
                 children: <Widget>[
-
-
-                  Container(padding: EdgeInsets.all( heightScreen / 50),child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,children: <Widget>[
-                  Row(children: <Widget>[
-                 Container(margin: EdgeInsets.only(right:heightScreen / 60),child:_buildImage() ,)   ,
-                    FutureBuilder(
-                        future: blocProfil.getUserById(uid),
-                        builder: (context, AsyncSnapshot<User> snapshot) {
-                          switch (snapshot.connectionState) {
-                            case ConnectionState.done:
-                              return Text(snapshot.data.name,
-                                  style:
-                                      TextStyle(fontSize: heightScreen / 50));
-                              break;
-                            default:
-                              return CircularProgressIndicator();
-                              break;
-                          }
-                        })
-                  ],),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                   
-                      FutureBuilder(
-                            future: blocTree.getNote(),
-                            builder:
-                                (context, AsyncSnapshot<NoteForm> snapshot) {
-                              switch (snapshot.connectionState) {
-                                case ConnectionState.done:
-                                  return Text(
-                                    "Note: "+double.parse(snapshot.data.note).toStringAsFixed(0) + "/10",
-                                    style:
-                                        TextStyle(fontSize: heightScreen / 60),
-                                  );
-                                  break;
-
-                                default:
-                                  return CircularProgressIndicator();
-                                  break;
-                              }
-                            }),
-                                FutureBuilder(
-                        future: blocProfil.getUserById(uid),
-                        builder: (context, AsyncSnapshot<User> snapshot) {
-                          switch (snapshot.connectionState) {
-                            case ConnectionState.done:
-                              return Text("Pommes: "+snapshot.data.name,
-                                  style:
-                                      TextStyle(fontSize: heightScreen / 60));
-                              break;
-                            default:
-                              return CircularProgressIndicator();
-                              break;
-                          }
-                        })
-                    ],
-                  )
-                  ],),color: Theme.of(context).primaryColor,),
-              
-             
-
-                 ListTile(
+                  Container(
+                    padding: EdgeInsets.all(heightScreen / 50),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        Row(
+                          children: <Widget>[
+                            Container(
+                              margin: EdgeInsets.only(right: heightScreen / 60),
+                              child: _buildImage(),
+                            ),
+                            FutureBuilder(
+                                future: blocProfil.getUserById(uid),
+                                builder:
+                                    (context, AsyncSnapshot<User> snapshot) {
+                                  switch (snapshot.connectionState) {
+                                    case ConnectionState.done:
+                                      print("SNAPSHOT ====>" +
+                                          snapshot.data.toString());
+                                      return Text(snapshot.data.name,
+                                          style: TextStyle(
+                                              fontSize: heightScreen / 50));
+                                      break;
+                                    default:
+                                      return CircularProgressIndicator();
+                                      break;
+                                  }
+                                })
+                          ],
+                        ),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            FutureBuilder(
+                                future: blocTree.getNote(),
+                                builder: (context,
+                                    AsyncSnapshot<NoteForm> snapshot) {
+                                  switch (snapshot.connectionState) {
+                                    case ConnectionState.done:
+                                      double note =
+                                          double.parse(snapshot.data.note);
+                                      return Text(
+                                        "Note: " +
+                                            double.parse(snapshot.data.note)
+                                                .toStringAsFixed(0) +
+                                            "/10",
+                                        style: TextStyle(
+                                            fontSize: heightScreen / 60),
+                                      );
+                                      break;
+                                    case ConnectionState.waiting:
+                                      return CircularProgressIndicator();
+                                      break;
+                                    default:
+                                      return CircularProgressIndicator();
+                                      break;
+                                  }
+                                }),
+                            FutureBuilder(
+                                future: blocProfil.getUserById(uid),
+                                builder:
+                                    (context, AsyncSnapshot<User> snapshot) {
+                                  switch (snapshot.connectionState) {
+                                    case ConnectionState.done:
+                                      return Text(
+                                          "Pommes: " +
+                                              snapshot.data.nbPomme.toString(),
+                                          style: TextStyle(
+                                              fontSize: heightScreen / 60));
+                                      break;
+                                    default:
+                                      return CircularProgressIndicator();
+                                      break;
+                                  }
+                                })
+                          ],
+                        )
+                      ],
+                    ),
+                    color: Theme.of(context).primaryColor,
+                  ),
+                  ListTile(
                     title: Text(
                       'Modifier le profil',
                       style: TextStyle(fontSize: sizeTextTiles),
@@ -680,7 +667,6 @@ class _HomePageState extends State<HomePage> {
                       );
                     },
                   ),
-                
                   ListTile(
                     title: Text(
                       'Partenaires',
@@ -694,22 +680,12 @@ class _HomePageState extends State<HomePage> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => PartenairePage(
+                            builder: (context) => PartnerPage(
                                   uid: widget.uid,
                                 )),
                       );
                     },
                   ),
-                  ListTile(
-                    title: Text('Faire un don',
-                        style: TextStyle(fontSize: sizeTextTiles)),
-                    leading: Icon(
-                      Icons.monetization_on,
-                      size: sizeIconTiles,
-                    ),
-                    onTap: () {},
-                  ),
-               
                   ListTile(
                     title: Text('Paramètres',
                         style: TextStyle(fontSize: sizeTextTiles)),
@@ -718,16 +694,15 @@ class _HomePageState extends State<HomePage> {
                       size: sizeIconTiles,
                     ),
                     onTap: () {
-                     Navigator.push(
+                      Navigator.push(
                         context,
                         MaterialPageRoute(
                             builder: (context) => Settings(
-                                uid:  widget.uid,
+                                  uid: widget.uid,
                                 )),
                       );
                     },
                   ),
-           
                 ],
               ),
               decoration: BoxDecoration(
@@ -737,9 +712,7 @@ class _HomePageState extends State<HomePage> {
                   topRight: const Radius.circular(10),
                 ),
               ),
-              );
-             
-            
+            );
           });
     }
   }
@@ -752,7 +725,6 @@ class _HomePageState extends State<HomePage> {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: <Widget>[
             _buildDropDownStatCategory(),
-        
             _buildDropDownStatDuration(),
           ],
         );
@@ -763,7 +735,6 @@ class _HomePageState extends State<HomePage> {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: <Widget>[
             _buildDropDownRankingTop(),
-         
             _buildDropDownRankingYear(),
           ],
         );

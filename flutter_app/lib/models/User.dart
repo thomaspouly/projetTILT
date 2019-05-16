@@ -5,15 +5,18 @@ class User {
   String name;
   final DocumentReference reference;
   int treeNumber;
+  int nbPomme;
 
-  User({this.email, this.name, this.treeNumber, this.reference});
+  User({this.email, this.name, this.treeNumber,this.nbPomme, this.reference});
 
   User.fromMap(Map<String, dynamic> map, {this.reference})
       : assert(map['email'] != null),
         assert(map['name'] != null),
+        assert(map['nbPomme'] != null),
         assert(map['treeNumber'] != null),
         email = map['email'],
         name = map['name'],
+        nbPomme = map['nbPomme'],
         treeNumber = map['treeNumber'];
 
   User.fromSnapshot(DocumentSnapshot snapshot)
@@ -23,10 +26,11 @@ class User {
         'email': email,
         'name': name,
         'treeNumber': treeNumber,
+        'nbPomme': nbPomme,
       };
 
   @override
-  String toString() => "User<$email:$name:$treeNumber>";
+  String toString() => "User<$email:$name:$treeNumber:$nbPomme>";
 
 
 }

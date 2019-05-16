@@ -1,6 +1,4 @@
-import 'dart:io';
 import 'package:auto_size_text/auto_size_text.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/bloc/login_bloc.dart';
 import 'package:flutter_app/provider/AuthProvider.dart';
@@ -50,7 +48,6 @@ class MyLoginPage extends StatefulWidget {
   String passwordError;
   final Widget child;
 
-
   @override
   _MyLoginPageState createState() => _MyLoginPageState();
 }
@@ -92,12 +89,11 @@ class _MyLoginPageState extends State<MyLoginPage> {
     passFieldController.dispose();
     super.dispose();
   }
-  bool souvenir = false;
 
+  bool souvenir = false;
 
   @override
   Widget build(BuildContext context) {
- 
     final bloc = BlocProvider.ofLogin(context);
     FlutterStatusbarcolor.setStatusBarColor(Color.fromRGBO(210, 251, 209, 1));
     FlutterStatusbarcolor.setStatusBarWhiteForeground(false);
@@ -133,15 +129,14 @@ class _MyLoginPageState extends State<MyLoginPage> {
             if (bloc
                     .submit(emailFieldController.text, passFieldController.text)
                     .then((userId) {
-
-                  if (souvenir==true) {
-
+                  if (souvenir == true) {
                     SharedPreferences.getInstance().then((prefs) {
-
-                      print("ID PREFS LOGIn: "  + prefs.getString('id').toString());
+                      print("ID PREFS LOGIn: " +
+                          prefs.getString('id').toString());
 
                       prefs.setString('id', userId);
-                      print("SharedPreferences = " + prefs.getKeys().toString());
+                      print(
+                          "SharedPreferences = " + prefs.getKeys().toString());
                       Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(
@@ -292,22 +287,27 @@ class _MyLoginPageState extends State<MyLoginPage> {
         body: Container(
             padding: EdgeInsets.only(left: padding, right: padding),
             child: Stack(
-              
               children: <Widget>[
-               Align(child:  Container(height:500,width:600,
-                   //child:svg
-                   child: FlareActor("assets/flare/Earth.flr", alignment:Alignment.center, fit:BoxFit.contain, animation:"Preview2"),
-                   ),alignment: Alignment.topCenter,),
+                Align(
+                  child: Container(
+                    height: 500, width: 600,
+                    //child:svg
+                    child: FlareActor("assets/flare/Earth.flr",
+                        alignment: Alignment.center,
+                        fit: BoxFit.contain,
+                        animation: "Preview2"),
+                  ),
+                  alignment: Alignment.topCenter,
+                ),
                 Column(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
-
-                  Container(width: 200,height: 200,),
-
-
-
-                   Container(width: 300,child:emailField),
+                    Container(
+                      width: 200,
+                      height: 200,
+                    ),
+                    Container(width: 300, child: emailField),
                     Column(
                       children: <Widget>[
                         Container(width: 300, child: passwordField),
@@ -327,12 +327,10 @@ class _MyLoginPageState extends State<MyLoginPage> {
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: <Widget>[
                               Checkbox(
-
                                 value: souvenir,
                                 onChanged: (bool value) {
                                   setState(() {
                                     souvenir = value;
-                              
                                   });
                                 },
                                 activeColor: Colors.green,

@@ -1,29 +1,25 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/models/NoteForm.dart';
+import 'package:flutter_app/models/User.dart';
 import 'package:flutter_app/provider/BlocProvider.dart';
+import 'package:flutter_app/screen/customs/TextFieldCustom.dart';
 import 'package:flutter_app/screen/tree/form.dart';
 import 'package:flutter_sparkline/flutter_sparkline.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:fluttie/fluttie.dart';
+import 'package:cloud_functions/cloud_functions.dart';
 
 final String sproutName = 'assets/sprout.svg';
-final String treeName = 'assets/tree.svg';
+final String appleName = 'assets/apple.svg';
 
 final Widget sproutWidget = new SvgPicture.asset(
   sproutName,
   semanticsLabel: 'Acme Logo',
   width: 300,
   height: 400,
-  color: Colors.green[300],
-);
-
-final Widget treeWidget = new SvgPicture.asset(
-  treeName,
-  semanticsLabel: 'Acme Logo',
-  width: 300,
-  height: 400,
-  color: Colors.green[300],
+  color: Colors.green[900],
 );
 
 class TreePage extends StatefulWidget {
@@ -44,6 +40,15 @@ class _TreePageState extends State<TreePage> {
   Widget build(BuildContext context) {
     final bloc = BlocProvider.ofFormTree(context);
     heightScreen = MediaQuery.of(context).size.height;
+
+    final Widget appleWidget = new SvgPicture.asset(
+      appleName,
+      semanticsLabel: 'Acme Logo',
+      width: 50,
+      height: 50,
+      color: Theme.of(context).primaryColor,
+    );
+
     Widget treeView() {
       // TODO : demander a Maxime pourquoi ça fonctionne pas
       return new FutureBuilder(
@@ -66,39 +71,40 @@ class _TreePageState extends State<TreePage> {
                         fit: BoxFit.fitHeight,
                         animation: "Preview2"),
                   );
-                } else if(double.parse(snapshot.data.note) > 5 && double.parse(snapshot.data.note) <= 6) {
+                } else if (double.parse(snapshot.data.note) > 5 &&
+                    double.parse(snapshot.data.note) <= 6) {
                   return Container(
                     child: FlareActor("assets/flare/tree3.flr",
                         alignment: Alignment.center,
                         fit: BoxFit.fitHeight,
                         animation: "Preview2"),
                   );
-                }
-                else if(double.parse(snapshot.data.note) > 6 && double.parse(snapshot.data.note) <= 7) {
+                } else if (double.parse(snapshot.data.note) > 6 &&
+                    double.parse(snapshot.data.note) <= 7) {
                   return Container(
                     child: FlareActor("assets/flare/tree2.flr",
                         alignment: Alignment.center,
                         fit: BoxFit.fitHeight,
                         animation: "Preview2"),
                   );
-                }
-                else if(double.parse(snapshot.data.note) > 7 && double.parse(snapshot.data.note) <= 8) {
+                } else if (double.parse(snapshot.data.note) > 7 &&
+                    double.parse(snapshot.data.note) <= 8) {
                   return Container(
                     child: FlareActor("assets/flare/tree2.flr",
                         alignment: Alignment.center,
                         fit: BoxFit.fitHeight,
                         animation: "Preview2"),
                   );
-                }
-                else if(double.parse(snapshot.data.note) > 8 && double.parse(snapshot.data.note) <= 9) {
+                } else if (double.parse(snapshot.data.note) > 8 &&
+                    double.parse(snapshot.data.note) <= 9) {
                   return Container(
                     child: FlareActor("assets/flare/tree1.flr",
                         alignment: Alignment.center,
                         fit: BoxFit.fitHeight,
                         animation: "Preview2"),
                   );
-                }
-                else if(double.parse(snapshot.data.note) > 9 && double.parse(snapshot.data.note) <= 10) {
+                } else if (double.parse(snapshot.data.note) > 9 &&
+                    double.parse(snapshot.data.note) <= 10) {
                   return Container(
                     child: FlareActor("assets/flare/Tree.flr",
                         alignment: Alignment.center,
@@ -107,7 +113,7 @@ class _TreePageState extends State<TreePage> {
                   );
                 }
                 break;
-              case ConnectionState.none :
+              case ConnectionState.none:
                 break;
             }
           });
@@ -115,9 +121,8 @@ class _TreePageState extends State<TreePage> {
 
     return new SafeArea(
       child: new Scaffold(
-        backgroundColor: Colors.cyan[200],
         appBar: AppBar(
-          backgroundColor: Colors.green[600],
+          backgroundColor: Theme.of(context).primaryColor,
           elevation: 3,
           centerTitle: true,
           title: Text("Votre arbre"),
@@ -128,6 +133,33 @@ class _TreePageState extends State<TreePage> {
                 alignment: Alignment.center,
                 fit: BoxFit.fill,
                 animation: "Preview2"),
+            new FutureBuilder(
+                future: bloc.getUserById(widget.uid),
+                builder: (context, AsyncSnapshot<User> snapshot) {
+                  if (snapshot.hasData) {
+                    return Container(
+                        color: Colors.white12,
+                        width: 120,
+                        height: 60,
+                        margin: EdgeInsets.only(
+                            left: MediaQuery.of(context).size.width / 1.25),
+                        child: Row(
+                          children: <Widget>[
+                            Container(width: 50, height: 50,child: appleWidget),
+                            Container(
+                              padding: EdgeInsets.only(top: 15),
+                              child: AutoSizeText(
+                                snapshot.data.nbPomme.toString(),
+                                style: TextStyle(fontSize: 35),
+                                minFontSize: 12,
+                              ),
+                            ),
+                          ],
+                        ));
+                  } else {
+                    return Text("Chargement");
+                  }
+                }),
             Center(
                 child: Container(
               padding: EdgeInsets.only(top: 0),
@@ -141,7 +173,7 @@ class _TreePageState extends State<TreePage> {
                 padding: EdgeInsets.only(bottom: 25),
                 child: RaisedButton(
                   elevation: 5,
-                  color: Colors.blue,
+                  color: Theme.of(context).primaryColor,
                   onPressed: () {
                     Navigator.push(
                       context,

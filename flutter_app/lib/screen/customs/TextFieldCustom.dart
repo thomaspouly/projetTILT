@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class TextFieldCustom extends StatelessWidget {
   TextFieldCustom(
-      {this.controller, this.title, this.icon, this.hide, this.textError,this.type,this.editable});
+      {this.controller, this.title, this.icon, this.hide, this.textError,this.type,this.editable,this.colors});
 
   /// icon data to use (normally Icons.flight_takeoff or Icons.flight_land)
   final TextEditingController controller;
@@ -16,6 +16,7 @@ class TextFieldCustom extends StatelessWidget {
   /// Airport to show
   final Icon icon;
   final bool hide;
+  final Color colors;
 
   @override
   Widget build(BuildContext context) {
@@ -24,6 +25,7 @@ class TextFieldCustom extends StatelessWidget {
       enabled: editable,
       obscureText: hide,
       keyboardType: type,
+      style: TextStyle(color: colors),
       decoration: new InputDecoration(
         labelText: title,
         border: OutlineInputBorder(),

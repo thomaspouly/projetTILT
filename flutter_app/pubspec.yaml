@@ -52,6 +52,7 @@ dependencies:
   dynamic_theme: ^1.0.1
   flutter_colorpicker: ^0.2.3
   webview_flutter: ^0.3.6
+  cloud_functions: ^0.2.0
 
 
 dev_dependencies:
@@ -72,38 +73,39 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
-    - assets/earth.svg
-    - delete.svg
-    - assets/images/earth.png
-    - avatar.png
-    - assets/cup.png
-    - test.csv
-    - classement.txt
-    - country2017.json
-    - country2016.json
-    - country2015.json
-    - country2014.json
-    - trophy.svg
-    - assets/tree.svg
-    - assets/sprout.svg
-    - assets/flare/HeavyBombardment.flr
-    - assets/flare/Earth.flr
-    - assets/flare/House.flr
-    - assets/flare/Tree.flr
-    - assets/flare/tree1.flr
-    - assets/flare/tree2.flr
-    - assets/flare/tree3.flr
-    - assets/flare/paysage.flr
-    
+  - assets/earth.svg
+  - apple.svg
+  - delete.svg
+  - assets/images/earth.png
+  - avatar.png
+  - assets/cup.png
+  - test.csv
+  - classement.txt
+  - country2017.json
+  - country2016.json
+  - country2015.json
+  - country2014.json
+  - trophy.svg
+  - assets/tree.svg
+  - assets/sprout.svg
+  - assets/flare/HeavyBombardment.flr
+  - assets/flare/Earth.flr
+  - assets/flare/House.flr
+  - assets/flare/Tree.flr
+  - assets/flare/tree1.flr
+  - assets/flare/tree2.flr
+  - assets/flare/tree3.flr
+  - assets/flare/paysage.flr
+
   #  - images/a_dot_ham.jpeg
 
   fonts:
-    - family: Calibre-Semibold
-      fonts:
-        - asset: assets/font/Calibre Semibold.otf
-    - family: Monofonto-Regular
-      fonts:
-       - asset: assets/font/monofonto.ttf
+  - family: Calibre-Semibold
+    fonts:
+    - asset: assets/font/Calibre Semibold.otf
+  - family: Monofonto-Regular
+    fonts:
+    - asset: assets/font/monofonto.ttf
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.io/assets-and-images/#resolution-aware.

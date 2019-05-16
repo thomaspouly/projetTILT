@@ -23,19 +23,6 @@ class Repository {
 
   Future<String> getCurrentUser() => authProvider.currentUser();
 
-  Future<String> enterDataFormForm(
-          int valueWater,
-          int valueElectricity,
-          String waste,
-          String don,
-          String bulk,
-          String bio,
-          String car,
-          String bike,
-          String bus) =>
-      _firestoreProvider.enterDataFromFormTree(
-          valueWater, valueElectricity, waste, don, bulk, bio, car, bike, bus);
-
   Future<String> enterNote(String note) =>
     _firestoreProvider.enterNote(note);
 
@@ -46,8 +33,8 @@ class Repository {
     return _firestoreProvider.getNote();
   }
 
-  Future<User> modifyUser(String id,String email, String name, int treeNumber) {
-    return _firestoreProvider.modifyUser(id, email, name, treeNumber);
+  Future<User> modifyUser(String id,String email, String name, int treeNumber,int nbPomme) {
+    return _firestoreProvider.modifyUser(id, email, name, treeNumber,nbPomme);
   }
 
   Future<User> getUserById(String id) {
@@ -60,6 +47,10 @@ class Repository {
 
   Future<void> logout() {
     return authProvider.logout();
+  }
+
+  Future<void> login(String userId) {
+    return authProvider.login(userId);
   }
 
 }

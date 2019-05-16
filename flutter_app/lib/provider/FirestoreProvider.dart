@@ -1,7 +1,6 @@
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_app/models/Association.dart';
-import 'package:flutter_app/models/DataTreeForm.dart';
 import 'package:flutter_app/models/NoteForm.dart';
 import 'package:flutter_app/models/User.dart';
 import 'package:flutter_app/provider/AuthProvider.dart';
@@ -18,20 +17,21 @@ class FirestoreProvider {
         .document(id)
         .get()
         .then((documentSnapshot) {
-     User u = new User(
+      User u = new User(
           email: documentSnapshot.data['email'],
           name: documentSnapshot.data['name'],
           treeNumber: documentSnapshot.data['treeNumber'],
+          nbPomme: documentSnapshot.data['nbPomme'],
           reference: null);
-     return u;
+      return u;
     });
   }
 
-  Future<User> modifyUser(String id,String email, String name, int treeNumber) {
+  Future<User> modifyUser(
+      String id, String email, String name, int treeNumber, int nbPomme) {
     return auth.currentUser().then((userID) {
-      print("USER ===>" + userID);
-      User user = new User(email: email,name: name,treeNumber:treeNumber);
-      print("USER REEL ===> " + user.toString());
+      User user = new User(
+          email: email, name: name, treeNumber: treeNumber, nbPomme: nbPomme);
       _firestore.collection('user').document(userID).updateData(user.toJson());
       return user;
     });
@@ -42,39 +42,15 @@ class FirestoreProvider {
     return auth.registerUser(email, password).then((userId) {
       storage.setImage(userId, image);
       User user = new User(
-          reference: null, treeNumber: treeNumber, email: email, name: name);
-      NoteForm note = new NoteForm(note:"5");
+          reference: null,
+          treeNumber: treeNumber,
+          email: email,
+          name: name,
+          nbPomme: 0);
+      NoteForm note = new NoteForm(note: "5");
       _firestore.collection('user').document(userId).setData(user.toJson());
       _firestore.collection('data').document(userId).setData(note.toJson());
       return userId;
-    });
-  }
-
-  Future<String> enterDataFromFormTree(
-      int valueWater,
-      int valueElectricity,
-      String waste,
-      String don,
-      String bulk,
-      String bio,
-      String car,
-      String bike,
-      String bus) {
-    DataTreeForm data = new DataTreeForm(
-      reference: null,
-      bike: bike,
-      bio: bio,
-      bulk: bulk,
-      bus: bus,
-      car: car,
-      don: don,
-      valueElectricity: valueElectricity,
-      valueWater: valueWater,
-      waste: waste,
-    );
-    auth.currentUser().then((userID) {
-      _firestore.collection('data').document(userID).setData(data.toJson());
-      return userID;
     });
   }
 
@@ -102,8 +78,12 @@ class FirestoreProvider {
 
   Future<NoteForm> getNote() {
     return auth.currentUser().then((userID) {
-      return _firestore.collection('data').document(userID).get().then((noteInDb) {
-        NoteForm note = NoteForm(note :noteInDb.data['note']);
+      return _firestore
+          .collection('data')
+          .document(userID)
+          .get()
+          .then((noteInDb) {
+        NoteForm note = NoteForm(note: noteInDb.data['note']);
         return note;
       });
     });

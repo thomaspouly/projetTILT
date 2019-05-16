@@ -22,6 +22,16 @@ final Widget svg = new SvgPicture.asset(
   color: Colors.green[300],
 );
 
+final String appleName = 'assets/apple.svg';
+
+final Widget appleWidget = new SvgPicture.asset(
+  assetName,
+  semanticsLabel: 'Acme Logo',
+  width: 30,
+  height: 30,
+  color: Colors.green[300],
+);
+
 AuthProvider authProvider;
 FirestoreProvider firestoreProvider;
 
@@ -86,48 +96,54 @@ class _MyProfilPageState extends State<MyProfilPage> {
 
     TextEditingController emailController = TextEditingController();
     TextEditingController nameController = TextEditingController();
-    TextEditingController treeController = TextEditingController();
+    TextEditingController pommeController = TextEditingController();
 
     Widget _buildTextFields() {
       return new FutureBuilder(
           future: bloc.getUserById(widget.uid),
           builder: (context, AsyncSnapshot<User> snapshot) {
             if (snapshot.hasData) {
+              pommeController.text = snapshot.data.nbPomme.toString();
+              emailController.text = snapshot.data.email;
+              nameController.text = snapshot.data.name;
               var email = new TextFieldCustom(
                 icon: Icon(Icons.email),
-                title: snapshot.data.email,
+                title: "Email",
                 hide: false,
+                colors: Colors.grey[200],
                 controller: emailController,
+                editable: false,
               );
               var name = new TextFieldCustom(
                 icon: Icon(Icons.person_outline),
-                title: snapshot.data.name,
+                title: "Nom",
                 hide: false,
                 controller: nameController,
               );
-              var tree = new TextFieldCustom(
+              var pomme = new TextFieldCustom(
                 icon: Icon(Icons.nature),
-                title: snapshot.data.treeNumber.toString(),
+                title: "Nombre de pomme",
                 hide: false,
+                colors: Colors.grey[200],
                 editable: false,
-                controller: treeController,
+                controller: pommeController,
               );
               return Column(
                 children: <Widget>[
                   Container(
                     margin: EdgeInsets.only(top: 10, bottom: 10),
                     padding: EdgeInsets.only(left: padding, right: padding),
-                    child: email,
+                    child: name,
                   ),
                   Container(
                     margin: EdgeInsets.only(top: 10, bottom: 10),
                     padding: EdgeInsets.only(left: padding, right: padding),
-                    child: name,
+                    child: email,
                   ),
                   Container(
                     margin: EdgeInsets.only(top: 10, bottom: 100),
                     padding: EdgeInsets.only(left: padding, right: padding),
-                    child: tree,
+                    child: pomme,
                   ),
                   Material(
                     elevation: 5.0,
@@ -136,15 +152,29 @@ class _MyProfilPageState extends State<MyProfilPage> {
                     child: MaterialButton(
                       onPressed: () {
                         if (email.controller.text.isEmpty) {
-                          bloc.modifyUser(widget.uid, email.title,
-                              name.controller.text, int.parse(tree.title));
+                          bloc.modifyUser(
+                              widget.uid,
+                              email.controller.text,
+                              name.controller.text,
+                              snapshot.data.treeNumber,
+                              int.parse(pomme.controller.text));
                         } else if (name.controller.text.isEmpty) {
-                          bloc.modifyUser(widget.uid, email.controller.text,
-                              name.title, int.parse(tree.title));
+                          bloc.modifyUser(
+                              widget.uid,
+                              email.controller.text,
+                              name.title,
+                              snapshot.data.treeNumber,
+                              int.parse(pomme.controller.text));
                         } else {
-                          bloc.modifyUser(widget.uid, email.controller.text,
-                              name.controller.text, int.parse(tree.title));
+                          bloc.modifyUser(
+                              widget.uid,
+                              email.controller.text,
+                              name.controller.text,
+                              snapshot.data.treeNumber,
+                              int.parse(pomme.controller.text));
                         }
+
+                        Navigator.of(context).pop();
                       },
                       minWidth: MediaQuery.of(context).size.width,
                       padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),

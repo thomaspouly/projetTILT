@@ -1,35 +1,7 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/models/Association.dart';
-import 'package:flutter_app/models/Country.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:webview_flutter/webview_flutter.dart';
 
-final String assetName = 'assets/delete.svg';
-
-final Widget cupRank1 = new SvgPicture.asset(
-  assetName,
-  semanticsLabel: 'Acme Logo',
-  color: Colors.amber,
-  width: 50,
-  height: 50,
-);
-
-final Widget cupRank2 = new SvgPicture.asset(
-  assetName,
-  semanticsLabel: 'Acme Logo',
-  color: Color(0xFFC0C0C0),
-  width: 50,
-  height: 50,
-);
-
-final Widget cupRank3 = new SvgPicture.asset(
-  assetName,
-  semanticsLabel: 'Acme Logo',
-  color: Color(0xffb36700),
-  width: 50,
-  height: 50,
-);
 
 class Associations extends StatelessWidget {
   List<Association> associations = new List();
@@ -52,12 +24,12 @@ class Associations extends StatelessWidget {
               child: AutoSizeText(
                 associations[index].association,
                 minFontSize: 10,
-                style: TextStyle(fontSize: 25),
+                style: TextStyle(fontSize: 25,color: Theme.of(context).primaryColorDark),
               ),
             ),
             AutoSizeText(
               associations[index].presentation,
-              style: TextStyle(fontSize: 15, color: Theme.of(context).primaryColorDark),
+              style: TextStyle(fontSize: 15, color: Theme.of(context).primaryColorLight),
             ),
             FlatButton(
               onPressed: () {
@@ -71,7 +43,7 @@ class Associations extends StatelessWidget {
               },
               child: AutoSizeText(
                 associations[index].link,
-                style: TextStyle(fontSize: 15, color: Theme.of(context).primaryColorDark),
+                style: TextStyle(fontSize: 15, color: Theme.of(context).primaryColorLight),
               ),
             ),
           ],

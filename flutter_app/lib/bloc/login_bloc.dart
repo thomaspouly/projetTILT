@@ -18,6 +18,10 @@ class LoginBloc {
     return null;
   }
 
+  Future<void> login(String userId) {
+    return _repository.login(userId);
+  }
+
   bool validateFields(String email, String password) {
     if (email != null &&
         email.isNotEmpty &&
