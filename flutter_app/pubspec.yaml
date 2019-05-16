@@ -51,6 +51,7 @@ dependencies:
   http: ^0.12.0+2
   dynamic_theme: ^1.0.1
   flutter_colorpicker: ^0.2.3
+  webview_flutter: ^0.3.6
 
 
 dev_dependencies:
@@ -89,6 +90,9 @@ flutter:
     - assets/flare/Earth.flr
     - assets/flare/House.flr
     - assets/flare/Tree.flr
+    - assets/flare/tree1.flr
+    - assets/flare/tree2.flr
+    - assets/flare/tree3.flr
     - assets/flare/paysage.flr
     
   #  - images/a_dot_ham.jpeg

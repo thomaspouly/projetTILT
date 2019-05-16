@@ -1,0 +1,2018 @@
+{
+	"version": 21,
+	"artboards": [
+		{
+			"name": "Cloudy",
+			"translation": [
+				42.666656494140625,
+				-193.3333740234375
+			],
+			"width": 512,
+			"height": 1024,
+			"origin": [
+				0.0003006160259246826,
+				0.003122687339782715
+			],
+			"clipContents": true,
+			"color": [
+				0.364705890417099,
+				0.364705890417099,
+				0.364705890417099,
+				1
+			],
+			"nodes": [
+				{
+					"name": "base",
+					"translation": [
+						-26.74835968017578,
+						143.56362915039062
+					],
+					"rotation": 0,
+					"scale": [
+						0.5199999809265137,
+						0.5199999809265137
+					],
+					"opacity": 1,
+					"isCollapsed": false,
+					"clips": [],
+					"type": "node"
+				},
+				{
+					"name": "g10",
+					"parent": 0,
+					"translation": [
+						0,
+						1066.666748046875
+					],
+					"rotation": 0,
+					"scale": [
+						1.3333332538604736,
+						-1.3333332538604736
+					],
+					"opacity": 1,
+					"isCollapsed": false,
+					"clips": [],
+					"type": "node"
+				},
+				{
+					"name": "g36",
+					"parent": 1,
+					"translation": [
+						0,
+						0
+					],
+					"rotation": 0,
+					"scale": [
+						1,
+						1
+					],
+					"opacity": 1,
+					"isCollapsed": false,
+					"clips": [],
+					"type": "node"
+				},
+				{
+					"name": "g38",
+					"parent": 2,
+					"translation": [
+						0,
+						0
+					],
+					"rotation": 0,
+					"scale": [
+						1,
+						1
+					],
+					"opacity": 1,
+					"isCollapsed": false,
+					"clips": [],
+					"type": "node"
+				},
+				{
+					"name": "g496",
+					"parent": 3,
+					"translation": [
+						555.3788452148438,
+						-385.0195617675781
+					],
+					"rotation": 0,
+					"scale": [
+						8.061517715454102,
+						7.4845991134643555
+					],
+					"opacity": 1,
+					"isCollapsed": false,
+					"clips": [],
+					"type": "node"
+				},
+				{
+					"name": "g500",
+					"parent": 3,
+					"translation": [
+						507.3089599609375,
+						-385.0195617675781
+					],
+					"rotation": 0,
+					"scale": [
+						8.061517715454102,
+						7.4845991134643555
+					],
+					"opacity": 1,
+					"isCollapsed": false,
+					"clips": [],
+					"type": "node"
+				},
+				{
+					"name": "g524",
+					"parent": 3,
+					"translation": [
+						0,
+						0
+					],
+					"rotation": 0,
+					"scale": [
+						1,
+						1
+					],
+					"opacity": 1,
+					"isCollapsed": false,
+					"clips": [],
+					"type": "node"
+				},
+				{
+					"name": "g526",
+					"parent": 6,
+					"translation": [
+						0,
+						0
+					],
+					"rotation": 0,
+					"scale": [
+						1,
+						1
+					],
+					"opacity": 1,
+					"isCollapsed": false,
+					"clips": [],
+					"type": "node"
+				},
+				{
+					"name": "g538",
+					"parent": 6,
+					"translation": [
+						0,
+						0
+					],
+					"rotation": 0,
+					"scale": [
+						1,
+						1
+					],
+					"opacity": 1,
+					"isCollapsed": false,
+					"clips": [],
+					"type": "node"
+				},
+				{
+					"name": "g536",
+					"parent": 8,
+					"translation": [
+						0,
+						0
+					],
+					"rotation": 0,
+					"scale": [
+						1,
+						1
+					],
+					"opacity": 0.5,
+					"isCollapsed": false,
+					"clips": [],
+					"type": "node"
+				},
+				{
+					"name": "g620",
+					"parent": 3,
+					"translation": [
+						0,
+						0
+					],
+					"rotation": 0,
+					"scale": [
+						1,
+						1
+					],
+					"opacity": 1,
+					"isCollapsed": false,
+					"clips": [],
+					"type": "node"
+				},
+				{
+					"name": "g622",
+					"parent": 10,
+					"translation": [
+						0,
+						0
+					],
+					"rotation": 0,
+					"scale": [
+						1,
+						1
+					],
+					"opacity": 1,
+					"isCollapsed": false,
+					"clips": [],
+					"type": "node"
+				},
+				{
+					"name": "g634",
+					"parent": 10,
+					"translation": [
+						0,
+						0
+					],
+					"rotation": 0,
+					"scale": [
+						1,
+						1
+					],
+					"opacity": 1,
+					"isCollapsed": false,
+					"clips": [],
+					"type": "node"
+				},
+				{
+					"name": "g632",
+					"parent": 12,
+					"translation": [
+						0,
+						0
+					],
+					"rotation": 0,
+					"scale": [
+						1,
+						1
+					],
+					"opacity": 0.80000299,
+					"isCollapsed": false,
+					"clips": [],
+					"type": "node"
+				},
+				{
+					"name": "g648",
+					"parent": 3,
+					"translation": [
+						0,
+						0
+					],
+					"rotation": 0,
+					"scale": [
+						1,
+						1
+					],
+					"opacity": 1,
+					"isCollapsed": false,
+					"clips": [],
+					"type": "node"
+				},
+				{
+					"name": "g650",
+					"parent": 14,
+					"translation": [
+						0,
+						0
+					],
+					"rotation": 0,
+					"scale": [
+						1,
+						1
+					],
+					"opacity": 1,
+					"isCollapsed": false,
+					"clips": [],
+					"type": "node"
+				},
+				{
+					"name": "g662",
+					"parent": 14,
+					"translation": [
+						0,
+						0
+					],
+					"rotation": 0,
+					"scale": [
+						1,
+						1
+					],
+					"opacity": 1,
+					"isCollapsed": false,
+					"clips": [],
+					"type": "node"
+				},
+				{
+					"name": "g660",
+					"parent": 16,
+					"translation": [
+						0,
+						0
+					],
+					"rotation": 0,
+					"scale": [
+						1,
+						1
+					],
+					"opacity": 0.60000598,
+					"isCollapsed": false,
+					"clips": [],
+					"type": "node"
+				},
+				{
+					"name": "g676",
+					"parent": 3,
+					"translation": [
+						0,
+						0
+					],
+					"rotation": 0,
+					"scale": [
+						1,
+						1
+					],
+					"opacity": 1,
+					"isCollapsed": false,
+					"clips": [],
+					"type": "node"
+				},
+				{
+					"name": "g678",
+					"parent": 18,
+					"translation": [
+						0,
+						0
+					],
+					"rotation": 0,
+					"scale": [
+						1,
+						1
+					],
+					"opacity": 1,
+					"isCollapsed": false,
+					"clips": [],
+					"type": "node"
+				},
+				{
+					"name": "g690",
+					"parent": 18,
+					"translation": [
+						0,
+						0
+					],
+					"rotation": 0,
+					"scale": [
+						1,
+						1
+					],
+					"opacity": 1,
+					"isCollapsed": false,
+					"clips": [],
+					"type": "node"
+				},
+				{
+					"name": "g688",
+					"parent": 20,
+					"translation": [
+						0,
+						0
+					],
+					"rotation": 0,
+					"scale": [
+						1,
+						1
+					],
+					"opacity": 0.69999701,
+					"isCollapsed": false,
+					"clips": [],
+					"type": "node"
+				},
+				{
+					"name": "g736",
+					"parent": 3,
+					"translation": [
+						0,
+						0
+					],
+					"rotation": 0,
+					"scale": [
+						1,
+						1
+					],
+					"opacity": 1,
+					"isCollapsed": false,
+					"clips": [],
+					"type": "node"
+				},
+				{
+					"name": "g738",
+					"parent": 22,
+					"translation": [
+						0,
+						0
+					],
+					"rotation": 0,
+					"scale": [
+						1,
+						1
+					],
+					"opacity": 1,
+					"isCollapsed": false,
+					"clips": [],
+					"type": "node"
+				},
+				{
+					"name": "g750",
+					"parent": 22,
+					"translation": [
+						0,
+						0
+					],
+					"rotation": 0,
+					"scale": [
+						1,
+						1
+					],
+					"opacity": 1,
+					"isCollapsed": false,
+					"clips": [],
+					"type": "node"
+				},
+				{
+					"name": "g748",
+					"parent": 24,
+					"translation": [
+						0,
+						0
+					],
+					"rotation": 0,
+					"scale": [
+						1,
+						1
+					],
+					"opacity": 0.69999701,
+					"isCollapsed": false,
+					"clips": [],
+					"type": "node"
+				},
+				{
+					"name": "g764",
+					"parent": 3,
+					"translation": [
+						0,
+						0
+					],
+					"rotation": 0,
+					"scale": [
+						1,
+						1
+					],
+					"opacity": 1,
+					"isCollapsed": false,
+					"clips": [],
+					"type": "node"
+				},
+				{
+					"name": "g766",
+					"parent": 26,
+					"translation": [
+						0,
+						0
+					],
+					"rotation": 0,
+					"scale": [
+						1,
+						1
+					],
+					"opacity": 1,
+					"isCollapsed": false,
+					"clips": [],
+					"type": "node"
+				},
+				{
+					"name": "g778",
+					"parent": 26,
+					"translation": [
+						0,
+						0
+					],
+					"rotation": 0,
+					"scale": [
+						1,
+						1
+					],
+					"opacity": 1,
+					"isCollapsed": false,
+					"clips": [],
+					"type": "node"
+				},
+				{
+					"name": "g776",
+					"parent": 28,
+					"translation": [
+						0,
+						0
+					],
+					"rotation": 0,
+					"scale": [
+						1,
+						1
+					],
+					"opacity": 0.60000598,
+					"isCollapsed": false,
+					"clips": [],
+					"type": "node"
+				},
+				{
+					"name": "g812",
+					"parent": 3,
+					"translation": [
+						0,
+						0
+					],
+					"rotation": 0,
+					"scale": [
+						1,
+						1
+					],
+					"opacity": 1,
+					"isCollapsed": false,
+					"clips": [],
+					"type": "node"
+				},
+				{
+					"name": "g814",
+					"parent": 30,
+					"translation": [
+						0,
+						0
+					],
+					"rotation": 0,
+					"scale": [
+						1,
+						1
+					],
+					"opacity": 1,
+					"isCollapsed": false,
+					"clips": [],
+					"type": "node"
+				},
+				{
+					"name": "g826",
+					"parent": 30,
+					"translation": [
+						0,
+						0
+					],
+					"rotation": 0,
+					"scale": [
+						1,
+						1
+					],
+					"opacity": 1,
+					"isCollapsed": false,
+					"clips": [],
+					"type": "node"
+				},
+				{
+					"name": "g824",
+					"parent": 32,
+					"translation": [
+						0,
+						0
+					],
+					"rotation": 0,
+					"scale": [
+						1,
+						1
+					],
+					"opacity": 0.69999701,
+					"isCollapsed": false,
+					"clips": [],
+					"type": "node"
+				},
+				{
+					"name": "g840",
+					"parent": 3,
+					"translation": [
+						0,
+						0
+					],
+					"rotation": 0,
+					"scale": [
+						1,
+						1
+					],
+					"opacity": 1,
+					"isCollapsed": false,
+					"clips": [],
+					"type": "node"
+				},
+				{
+					"name": "g842",
+					"parent": 34,
+					"translation": [
+						0,
+						0
+					],
+					"rotation": 0,
+					"scale": [
+						1,
+						1
+					],
+					"opacity": 1,
+					"isCollapsed": false,
+					"clips": [],
+					"type": "node"
+				},
+				{
+					"name": "g854",
+					"parent": 34,
+					"translation": [
+						0,
+						0
+					],
+					"rotation": 0,
+					"scale": [
+						1,
+						1
+					],
+					"opacity": 1,
+					"isCollapsed": false,
+					"clips": [],
+					"type": "node"
+				},
+				{
+					"name": "g852",
+					"parent": 36,
+					"translation": [
+						0,
+						0
+					],
+					"rotation": 0,
+					"scale": [
+						1,
+						1
+					],
+					"opacity": 0.60000598,
+					"isCollapsed": false,
+					"clips": [],
+					"type": "node"
+				},
+				{
+					"name": "g872",
+					"parent": 3,
+					"translation": [
+						397.1682434082031,
+						-467.7218017578125
+					],
+					"rotation": 0,
+					"scale": [
+						8.061517715454102,
+						7.4845991134643555
+					],
+					"opacity": 1,
+					"isCollapsed": false,
+					"clips": [],
+					"type": "node"
+				},
+				{
+					"name": "g888",
+					"parent": 3,
+					"translation": [
+						246.5878448486328,
+						-428.8721008300781
+					],
+					"rotation": 0,
+					"scale": [
+						8.061517715454102,
+						7.4845991134643555
+					],
+					"opacity": 1,
+					"isCollapsed": false,
+					"clips": [],
+					"type": "node"
+				},
+				{
+					"name": "path890",
+					"parent": 39,
+					"translation": [
+						17.565998077392578,
+						23.571369171142578
+					],
+					"rotation": 0,
+					"scale": [
+						1,
+						1
+					],
+					"opacity": 1,
+					"isCollapsed": false,
+					"clips": [],
+					"isVisible": true,
+					"blendMode": 3,
+					"drawOrder": 421,
+					"type": "shape"
+				},
+				{
+					"name": "Color",
+					"parent": 40,
+					"opacity": 1,
+					"color": [
+						0.3686274588108063,
+						0.5411764979362488,
+						0.12156862765550613,
+						1
+					],
+					"fillRule": 1,
+					"type": "colorFill"
+				},
+				{
+					"name": "Path",
+					"parent": 40,
+					"translation": [
+						0,
+						0
+					],
+					"rotation": 0,
+					"scale": [
+						1,
+						1
+					],
+					"opacity": 1,
+					"isCollapsed": false,
+					"clips": [],
+					"bones": [],
+					"isVisible": true,
+					"isClosed": true,
+					"points": [
+						{
+							"pointType": 0,
+							"translation": [
+								-17.56599998474121,
+								-23.574499130249023
+							],
+							"radius": 0
+						},
+						{
+							"pointType": 0,
+							"translation": [
+								-29.128999710083008,
+								-4.974499225616455
+							],
+							"radius": 0
+						},
+						{
+							"pointType": 0,
+							"translation": [
+								-23.79199981689453,
+								16.653501510620117
+							],
+							"radius": 0
+						},
+						{
+							"pointType": 0,
+							"translation": [
+								-7.7820000648498535,
+								28.764501571655273
+							],
+							"radius": 0
+						},
+						{
+							"pointType": 0,
+							"translation": [
+								12.675000190734863,
+								25.73750114440918
+							],
+							"radius": 0
+						},
+						{
+							"pointType": 0,
+							"translation": [
+								27.795000076293945,
+								12.76050090789795
+							],
+							"radius": 0
+						},
+						{
+							"pointType": 0,
+							"translation": [
+								29.128999710083008,
+								-8.003499031066895
+							],
+							"radius": 0
+						},
+						{
+							"pointType": 0,
+							"translation": [
+								18.45599937438965,
+								-24.439498901367188
+							],
+							"radius": 0
+						},
+						{
+							"pointType": 0,
+							"translation": [
+								1.1130000352859497,
+								-28.76449966430664
+							],
+							"radius": 0
+						}
+					],
+					"type": "path"
+				},
+				{
+					"name": "g892",
+					"parent": 3,
+					"translation": [
+						196.39950561523438,
+						-127.78292083740234
+					],
+					"rotation": 0,
+					"scale": [
+						8.061517715454102,
+						7.4845991134643555
+					],
+					"opacity": 1,
+					"isCollapsed": false,
+					"clips": [],
+					"type": "node"
+				},
+				{
+					"name": "path894",
+					"parent": 43,
+					"translation": [
+						12.45199966430664,
+						1.7279027700424194
+					],
+					"rotation": 0,
+					"scale": [
+						1,
+						1
+					],
+					"opacity": 1,
+					"isCollapsed": false,
+					"clips": [],
+					"isVisible": true,
+					"blendMode": 3,
+					"drawOrder": 422,
+					"type": "shape"
+				},
+				{
+					"name": "Color",
+					"parent": 44,
+					"opacity": 1,
+					"color": [
+						0.615686297416687,
+						0.7921568751335144,
+						0.20392157137393951,
+						1
+					],
+					"fillRule": 1,
+					"type": "colorFill"
+				},
+				{
+					"name": "Path",
+					"parent": 44,
+					"translation": [
+						0,
+						0
+					],
+					"rotation": 0,
+					"scale": [
+						1,
+						1
+					],
+					"opacity": 1,
+					"isCollapsed": false,
+					"clips": [],
+					"bones": [],
+					"isVisible": true,
+					"isClosed": true,
+					"points": [
+						{
+							"pointType": 0,
+							"translation": [
+								-12.45199966430664,
+								-1.7309999465942383
+							],
+							"radius": 0
+						},
+						{
+							"pointType": 0,
+							"translation": [
+								3.5570003986358643,
+								10.381000518798828
+							],
+							"radius": 0
+						},
+						{
+							"pointType": 0,
+							"translation": [
+								12.452000617980957,
+								-10.380999565124512
+							],
+							"radius": 0
+						}
+					],
+					"type": "path"
+				},
+				{
+					"name": "g896",
+					"parent": 3,
+					"translation": [
+						196.39950561523438,
+						-127.78292083740234
+					],
+					"rotation": 0,
+					"scale": [
+						8.061517715454102,
+						7.4845991134643555
+					],
+					"opacity": 1,
+					"isCollapsed": false,
+					"clips": [],
+					"type": "node"
+				},
+				{
+					"name": "path898",
+					"parent": 47,
+					"translation": [
+						9.783501625061035,
+						-10.81711196899414
+					],
+					"rotation": 0,
+					"scale": [
+						1,
+						1
+					],
+					"opacity": 1,
+					"isCollapsed": false,
+					"clips": [],
+					"isVisible": true,
+					"blendMode": 3,
+					"drawOrder": 423,
+					"type": "shape"
+				},
+				{
+					"name": "Color",
+					"parent": 48,
+					"opacity": 1,
+					"color": [
+						0.5333333611488342,
+						0.7019608020782471,
+						0.18431372940540314,
+						1
+					],
+					"fillRule": 1,
+					"type": "colorFill"
+				},
+				{
+					"name": "Path",
+					"parent": 48,
+					"translation": [
+						0,
+						0
+					],
+					"rotation": 0,
+					"scale": [
+						1,
+						1
+					],
+					"opacity": 1,
+					"isCollapsed": false,
+					"clips": [],
+					"bones": [],
+					"isVisible": true,
+					"isClosed": true,
+					"points": [
+						{
+							"pointType": 0,
+							"translation": [
+								-9.783499717712402,
+								10.814000129699707
+							],
+							"radius": 0
+						},
+						{
+							"pointType": 0,
+							"translation": [
+								-15.120499610900879,
+								-10.814000129699707
+							],
+							"radius": 0
+						},
+						{
+							"pointType": 0,
+							"translation": [
+								15.120500564575195,
+								2.1640000343322754
+							],
+							"radius": 0
+						}
+					],
+					"type": "path"
+				},
+				{
+					"name": "g900",
+					"parent": 3,
+					"translation": [
+						397.1682434082031,
+						-192.5264129638672
+					],
+					"rotation": 0,
+					"scale": [
+						8.061517715454102,
+						7.4845991134643555
+					],
+					"opacity": 1,
+					"isCollapsed": false,
+					"clips": [],
+					"type": "node"
+				},
+				{
+					"name": "path902",
+					"parent": 51,
+					"translation": [
+						1.3339935541152954,
+						10.38097858428955
+					],
+					"rotation": 0,
+					"scale": [
+						1,
+						1
+					],
+					"opacity": 1,
+					"isCollapsed": false,
+					"clips": [],
+					"isVisible": true,
+					"blendMode": 3,
+					"drawOrder": 424,
+					"type": "shape"
+				},
+				{
+					"name": "Color",
+					"parent": 52,
+					"opacity": 1,
+					"color": [
+						0.5333333611488342,
+						0.7019608020782471,
+						0.18431372940540314,
+						1
+					],
+					"fillRule": 1,
+					"type": "colorFill"
+				},
+				{
+					"name": "Path",
+					"parent": 52,
+					"translation": [
+						0,
+						0
+					],
+					"rotation": 0,
+					"scale": [
+						1,
+						1
+					],
+					"opacity": 1,
+					"isCollapsed": false,
+					"clips": [],
+					"bones": [],
+					"isVisible": true,
+					"isClosed": true,
+					"points": [
+						{
+							"pointType": 0,
+							"translation": [
+								-1.3339999914169312,
+								-10.380999565124512
+							],
+							"radius": 0
+						},
+						{
+							"pointType": 0,
+							"translation": [
+								-10.229000091552734,
+								10.381000518798828
+							],
+							"radius": 0
+						},
+						{
+							"pointType": 0,
+							"translation": [
+								10.229000091552734,
+								7.353000640869141
+							],
+							"radius": 0
+						}
+					],
+					"type": "path"
+				},
+				{
+					"name": "g904",
+					"parent": 3,
+					"translation": [
+						397.1682434082031,
+						-192.5264129638672
+					],
+					"rotation": 0,
+					"scale": [
+						8.061517715454102,
+						7.4845991134643555
+					],
+					"opacity": 1,
+					"isCollapsed": false,
+					"clips": [],
+					"type": "node"
+				},
+				{
+					"name": "path906",
+					"parent": 55,
+					"translation": [
+						13.341499328613281,
+						-6.488494873046875
+					],
+					"rotation": 0,
+					"scale": [
+						1,
+						1
+					],
+					"opacity": 1,
+					"isCollapsed": false,
+					"clips": [],
+					"isVisible": true,
+					"blendMode": 3,
+					"drawOrder": 425,
+					"type": "shape"
+				},
+				{
+					"name": "Color",
+					"parent": 56,
+					"opacity": 1,
+					"color": [
+						0.3333333432674408,
+						0.47058823704719543,
+						0.10196078568696976,
+						1
+					],
+					"fillRule": 1,
+					"type": "colorFill"
+				},
+				{
+					"name": "Path",
+					"parent": 56,
+					"translation": [
+						0,
+						0
+					],
+					"rotation": 0,
+					"scale": [
+						1,
+						1
+					],
+					"opacity": 1,
+					"isCollapsed": false,
+					"clips": [],
+					"bones": [],
+					"isVisible": true,
+					"isClosed": true,
+					"points": [
+						{
+							"pointType": 0,
+							"translation": [
+								-13.341500282287598,
+								6.488500118255615
+							],
+							"radius": 0
+						},
+						{
+							"pointType": 0,
+							"translation": [
+								13.341499328613281,
+								11.246500015258789
+							],
+							"radius": 0
+						},
+						{
+							"pointType": 0,
+							"translation": [
+								0.4444997310638428,
+								-11.246500015258789
+							],
+							"radius": 0
+						}
+					],
+					"type": "path"
+				},
+				{
+					"name": "g908",
+					"parent": 3,
+					"translation": [
+						612.2697143554688,
+						-156.91712951660156
+					],
+					"rotation": 0,
+					"scale": [
+						8.061517715454102,
+						7.4845991134643555
+					],
+					"opacity": 1,
+					"isCollapsed": false,
+					"clips": [],
+					"type": "node"
+				},
+				{
+					"name": "path910",
+					"parent": 59,
+					"translation": [
+						-5.781505107879639,
+						-11.246527671813965
+					],
+					"rotation": 0,
+					"scale": [
+						1,
+						1
+					],
+					"opacity": 1,
+					"isCollapsed": false,
+					"clips": [],
+					"isVisible": true,
+					"blendMode": 3,
+					"drawOrder": 426,
+					"type": "shape"
+				},
+				{
+					"name": "Color",
+					"parent": 60,
+					"opacity": 1,
+					"color": [
+						0.27450981736183167,
+						0.34117648005485535,
+						0,
+						1
+					],
+					"fillRule": 1,
+					"type": "colorFill"
+				},
+				{
+					"name": "Path",
+					"parent": 60,
+					"translation": [
+						0,
+						0
+					],
+					"rotation": 0,
+					"scale": [
+						1,
+						1
+					],
+					"opacity": 1,
+					"isCollapsed": false,
+					"clips": [],
+					"bones": [],
+					"isVisible": true,
+					"isClosed": true,
+					"points": [
+						{
+							"pointType": 0,
+							"translation": [
+								5.781499862670898,
+								11.246500015258789
+							],
+							"radius": 0
+						},
+						{
+							"pointType": 0,
+							"translation": [
+								-7.114500045776367,
+								-11.246500015258789
+							],
+							"radius": 0
+						},
+						{
+							"pointType": 0,
+							"translation": [
+								7.114500045776367,
+								-9.517499923706055
+							],
+							"radius": 0
+						}
+					],
+					"type": "path"
+				},
+				{
+					"name": "g912",
+					"parent": 3,
+					"translation": [
+						0,
+						0
+					],
+					"rotation": 0,
+					"scale": [
+						1,
+						1
+					],
+					"opacity": 1,
+					"isCollapsed": false,
+					"clips": [],
+					"type": "node"
+				},
+				{
+					"name": "g914",
+					"parent": 63,
+					"translation": [
+						0,
+						0
+					],
+					"rotation": 0,
+					"scale": [
+						1,
+						1
+					],
+					"opacity": 1,
+					"isCollapsed": false,
+					"clips": [],
+					"type": "node"
+				},
+				{
+					"name": "g926",
+					"parent": 63,
+					"translation": [
+						0,
+						0
+					],
+					"rotation": 0,
+					"scale": [
+						1,
+						1
+					],
+					"opacity": 1,
+					"isCollapsed": false,
+					"clips": [],
+					"type": "node"
+				},
+				{
+					"name": "g924",
+					"parent": 65,
+					"translation": [
+						0,
+						0
+					],
+					"rotation": 0,
+					"scale": [
+						1,
+						1
+					],
+					"opacity": 0.69999701,
+					"isCollapsed": false,
+					"clips": [],
+					"type": "node"
+				},
+				{
+					"name": "g922",
+					"parent": 66,
+					"translation": [
+						508.30377197265625,
+						-325.2688903808594
+					],
+					"rotation": 0,
+					"scale": [
+						8.061517715454102,
+						7.4845991134643555
+					],
+					"opacity": 1,
+					"isCollapsed": false,
+					"clips": [],
+					"type": "node"
+				},
+				{
+					"name": "path920",
+					"parent": 67,
+					"translation": [
+						7.114224433898926,
+						-6.489039421081543
+					],
+					"rotation": 0,
+					"scale": [
+						1,
+						1
+					],
+					"opacity": 1,
+					"isCollapsed": false,
+					"clips": [],
+					"isVisible": true,
+					"blendMode": 3,
+					"drawOrder": 427,
+					"type": "shape"
+				},
+				{
+					"name": "Color",
+					"parent": 68,
+					"opacity": 1,
+					"color": [
+						0.26274511218070984,
+						0.3529411852359772,
+						0.027450980618596077,
+						1
+					],
+					"fillRule": 1,
+					"type": "colorFill"
+				},
+				{
+					"name": "Path",
+					"parent": 68,
+					"translation": [
+						0,
+						0
+					],
+					"rotation": 0,
+					"scale": [
+						1,
+						1
+					],
+					"opacity": 1,
+					"isCollapsed": false,
+					"clips": [],
+					"bones": [],
+					"isVisible": true,
+					"isClosed": true,
+					"points": [
+						{
+							"pointType": 0,
+							"translation": [
+								-7.114999771118164,
+								6.488999843597412
+							],
+							"radius": 0
+						},
+						{
+							"pointType": 0,
+							"translation": [
+								-3.556999683380127,
+								-8.218000411987305
+							],
+							"radius": 0
+						},
+						{
+							"pointType": 0,
+							"translation": [
+								7.115000247955322,
+								8.217999458312988
+							],
+							"radius": 0
+						}
+					],
+					"type": "path"
+				},
+				{
+					"name": "g928",
+					"parent": 3,
+					"translation": [
+						153.3759765625,
+						-289.6591796875
+					],
+					"rotation": 0,
+					"scale": [
+						8.061517715454102,
+						7.4845991134643555
+					],
+					"opacity": 1,
+					"isCollapsed": false,
+					"clips": [],
+					"type": "node"
+				},
+				{
+					"name": "path930",
+					"parent": 71,
+					"translation": [
+						22.013507843017578,
+						4.113118648529053
+					],
+					"rotation": 0,
+					"scale": [
+						1,
+						1
+					],
+					"opacity": 1,
+					"isCollapsed": false,
+					"clips": [],
+					"isVisible": true,
+					"blendMode": 3,
+					"drawOrder": 428,
+					"type": "shape"
+				},
+				{
+					"name": "Color",
+					"parent": 72,
+					"opacity": 1,
+					"color": [
+						0.43921568989753723,
+						0.6039215922355652,
+						0.15294118225574493,
+						1
+					],
+					"fillRule": 1,
+					"type": "colorFill"
+				},
+				{
+					"name": "Path",
+					"parent": 72,
+					"translation": [
+						0,
+						0
+					],
+					"rotation": 0,
+					"scale": [
+						1,
+						1
+					],
+					"opacity": 1,
+					"isCollapsed": false,
+					"clips": [],
+					"bones": [],
+					"isVisible": true,
+					"isClosed": true,
+					"points": [
+						{
+							"pointType": 0,
+							"translation": [
+								-22.013500213623047,
+								-4.110000133514404
+							],
+							"radius": 0
+						},
+						{
+							"pointType": 0,
+							"translation": [
+								8.227499961853027,
+								8.868000030517578
+							],
+							"radius": 0
+						},
+						{
+							"pointType": 0,
+							"translation": [
+								22.013500213623047,
+								-8.868000030517578
+							],
+							"radius": 0
+						}
+					],
+					"type": "path"
+				},
+				{
+					"name": "g932",
+					"parent": 3,
+					"translation": [
+						153.3759765625,
+						-289.6591796875
+					],
+					"rotation": 0,
+					"scale": [
+						8.061517715454102,
+						7.4845991134643555
+					],
+					"opacity": 1,
+					"isCollapsed": false,
+					"clips": [],
+					"type": "node"
+				},
+				{
+					"name": "path934",
+					"parent": 75,
+					"translation": [
+						22.013507843017578,
+						-9.296893119812012
+					],
+					"rotation": 0,
+					"scale": [
+						1,
+						1
+					],
+					"opacity": 1,
+					"isCollapsed": false,
+					"clips": [],
+					"isVisible": true,
+					"blendMode": 3,
+					"drawOrder": 429,
+					"type": "shape"
+				},
+				{
+					"name": "Color",
+					"parent": 76,
+					"opacity": 1,
+					"color": [
+						0.3333333432674408,
+						0.47058823704719543,
+						0.10196078568696976,
+						1
+					],
+					"fillRule": 1,
+					"type": "colorFill"
+				},
+				{
+					"name": "Path",
+					"parent": 76,
+					"translation": [
+						0,
+						0
+					],
+					"rotation": 0,
+					"scale": [
+						1,
+						1
+					],
+					"opacity": 1,
+					"isCollapsed": false,
+					"clips": [],
+					"bones": [],
+					"isVisible": true,
+					"isClosed": true,
+					"points": [
+						{
+							"pointType": 0,
+							"translation": [
+								-22.013500213623047,
+								9.300000190734863
+							],
+							"radius": 0
+						},
+						{
+							"pointType": 0,
+							"translation": [
+								-10.45050048828125,
+								-9.300000190734863
+							],
+							"radius": 0
+						},
+						{
+							"pointType": 0,
+							"translation": [
+								22.013500213623047,
+								4.5420002937316895
+							],
+							"radius": 0
+						}
+					],
+					"type": "path"
+				},
+				{
+					"name": "g936",
+					"parent": 3,
+					"translation": [
+						397.1682434082031,
+						-467.7218017578125
+					],
+					"rotation": 0,
+					"scale": [
+						8.061517715454102,
+						7.4845991134643555
+					],
+					"opacity": 1,
+					"isCollapsed": false,
+					"clips": [],
+					"type": "node"
+				},
+				{
+					"name": "path938",
+					"parent": 79,
+					"translation": [
+						8.672000885009766,
+						9.515995025634766
+					],
+					"rotation": 0,
+					"scale": [
+						1,
+						1
+					],
+					"opacity": 1,
+					"isCollapsed": false,
+					"clips": [],
+					"isVisible": true,
+					"blendMode": 3,
+					"drawOrder": 430,
+					"type": "shape"
+				},
+				{
+					"name": "Color",
+					"parent": 80,
+					"opacity": 1,
+					"color": [
+						0.27450981736183167,
+						0.34117648005485535,
+						0,
+						1
+					],
+					"fillRule": 1,
+					"type": "colorFill"
+				},
+				{
+					"name": "Path",
+					"parent": 80,
+					"translation": [
+						0,
+						0
+					],
+					"rotation": 0,
+					"scale": [
+						1,
+						1
+					],
+					"opacity": 1,
+					"isCollapsed": false,
+					"clips": [],
+					"bones": [],
+					"isVisible": true,
+					"isClosed": true,
+					"points": [
+						{
+							"pointType": 0,
+							"translation": [
+								-8.67199993133545,
+								-9.515999794006348
+							],
+							"radius": 0
+						},
+						{
+							"pointType": 0,
+							"translation": [
+								5.113999843597412,
+								9.515999794006348
+							],
+							"radius": 0
+						},
+						{
+							"pointType": 0,
+							"translation": [
+								8.67199993133545,
+								-5.190999984741211
+							],
+							"radius": 0
+						}
+					],
+					"type": "path"
+				},
+				{
+					"name": "g940",
+					"parent": 3,
+					"translation": [
+						246.5878448486328,
+						-428.8721008300781
+					],
+					"rotation": 0,
+					"scale": [
+						8.061517715454102,
+						7.4845991134643555
+					],
+					"opacity": 1,
+					"isCollapsed": false,
+					"clips": [],
+					"type": "node"
+				},
+				{
+					"name": "path942",
+					"parent": 83,
+					"translation": [
+						16.23249626159668,
+						4.322889804840088
+					],
+					"rotation": 0,
+					"scale": [
+						1,
+						1
+					],
+					"opacity": 1,
+					"isCollapsed": false,
+					"clips": [],
+					"isVisible": true,
+					"blendMode": 3,
+					"drawOrder": 431,
+					"type": "shape"
+				},
+				{
+					"name": "Color",
+					"parent": 84,
+					"opacity": 1,
+					"color": [
+						0.27450981736183167,
+						0.34117648005485535,
+						0,
+						1
+					],
+					"fillRule": 1,
+					"type": "colorFill"
+				},
+				{
+					"name": "Path",
+					"parent": 84,
+					"translation": [
+						0,
+						0
+					],
+					"rotation": 0,
+					"scale": [
+						1,
+						1
+					],
+					"opacity": 1,
+					"isCollapsed": false,
+					"clips": [],
+					"bones": [],
+					"isVisible": true,
+					"isClosed": false,
+					"points": [
+						{
+							"pointType": 0,
+							"translation": [
+								-16.232500076293945,
+								-4.326000213623047
+							],
+							"radius": 0
+						},
+						{
+							"pointType": 0,
+							"translation": [
+								2.446499824523926,
+								-9.515999794006348
+							],
+							"radius": 0
+						},
+						{
+							"pointType": 0,
+							"translation": [
+								16.232500076293945,
+								9.515999794006348
+							],
+							"radius": 0
+						},
+						{
+							"pointType": 0,
+							"translation": [
+								-14.453499794006348,
+								-3.4610002040863037
+							],
+							"radius": 0
+						}
+					],
+					"type": "path"
+				},
+				{
+					"name": "g968",
+					"parent": 3,
+					"translation": [
+						0,
+						0
+					],
+					"rotation": 0,
+					"scale": [
+						1,
+						1
+					],
+					"opacity": 1,
+					"isCollapsed": false,
+					"clips": [],
+					"type": "node"
+				},
+				{
+					"name": "g970",
+					"parent": 87,
+					"translation": [
+						0,
+						0
+					],
+					"rotation": 0,
+					"scale": [
+						1,
+						1
+					],
+					"opacity": 1,
+					"isCollapsed": false,
+					"clips": [],
+					"type": "node"
+				},
+				{
+					"name": "g982",
+					"parent": 87,
+					"translation": [
+						0,
+						0
+					],
+					"rotation": 0,
+					"scale": [
+						1,
+						1
+					],
+					"opacity": 1,
+					"isCollapsed": false,
+					"clips": [],
+					"type": "node"
+				},
+				{
+					"name": "g980",
+					"parent": 89,
+					"translation": [
+						0,
+						0
+					],
+					"rotation": 0,
+					"scale": [
+						1,
+						1
+					],
+					"opacity": 0.69999701,
+					"isCollapsed": false,
+					"clips": [],
+					"type": "node"
+				},
+				{
+					"name": "g1036",
+					"parent": 3,
+					"translation": [
+						0,
+						0
+					],
+					"rotation": 0,
+					"scale": [
+						1,
+						1
+					],
+					"opacity": 1,
+					"isCollapsed": false,
+					"clips": [],
+					"type": "node"
+				},
+				{
+					"name": "g1038",
+					"parent": 91,
+					"translation": [
+						0,
+						0
+					],
+					"rotation": 0,
+					"scale": [
+						1,
+						1
+					],
+					"opacity": 1,
+					"isCollapsed": false,
+					"clips": [],
+					"type": "node"
+				},
+				{
+					"name": "g1050",
+					"parent": 91,
+					"translation": [
+						0,
+						0
+					],
+					"rotation": 0,
+					"scale": [
+						1,
+						1
+					],
+					"opacity": 1,
+					"isCollapsed": false,
+					"clips": [],
+					"type": "node"
+				},
+				{
+					"name": "g1048",
+					"parent": 93,
+					"translation": [
+						0,
+						0
+					],
+					"rotation": 0,
+					"scale": [
+						1,
+						1
+					],
+					"opacity": 0.69999701,
+					"isCollapsed": false,
+					"clips": [],
+					"type": "node"
+				}
+			],
+			"animations": [
+				{
+					"name": "move",
+					"fps": 60,
+					"duration": 0,
+					"isLooping": true,
+					"keyed": [],
+					"animationStart": 0,
+					"animationEnd": 0,
+					"type": "animation"
+				}
+			],
+			"type": "artboard"
+		}
+	]
+}

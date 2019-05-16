@@ -178,9 +178,7 @@ class _HomePageState extends State<HomePage> {
     return new SafeArea(
       child: new Scaffold(
           extendBody: true,
-
           //    key:_scaffoldKey,
-
           bottomNavigationBar: _buildBottomBar(),
           floatingActionButtonLocation:
               FloatingActionButtonLocation.centerDocked,

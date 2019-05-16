@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/models/Association.dart';
 import 'package:flutter_app/models/Country.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:webview_flutter/webview_flutter.dart';
 
 final String assetName = 'assets/delete.svg';
 
@@ -40,11 +41,9 @@ class Associations extends StatelessWidget {
     return Card(
       color:Theme.of(context).primaryColor,
       child: Container(
-        height: 50,
-        padding: EdgeInsets.only(right: 10, left: 10, bottom: 10, top: 10),
+        padding: EdgeInsets.only(bottom: 10, top: 10),
         margin: EdgeInsets.all(10),
-        child:
-        Row(
+        child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
             AutoSizeText(
@@ -58,6 +57,25 @@ class Associations extends StatelessWidget {
                 associations[index].association,
                 minFontSize: 10,
                 style: TextStyle(fontSize: 25),
+              ),
+            ),
+            AutoSizeText(
+              associations[index].presentation,
+              style: TextStyle(fontSize: 15, color: Colors.green[900]),
+            ),
+            FlatButton(
+              onPressed: () {
+                //_buildView();
+                /*WebView(
+                  initialUrl: associations[index].link,
+                  onWebViewCreated: (WebViewController webViewController) {
+                    _controller = webViewController;
+                  },
+                );*/
+              },
+              child: AutoSizeText(
+                associations[index].link,
+                style: TextStyle(fontSize: 15, color: Colors.green[900]),
               ),
             ),
           ],
