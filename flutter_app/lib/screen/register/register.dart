@@ -179,19 +179,17 @@ class _RegisterPageState extends State<RegisterPage> {
         padding: EdgeInsets.only(right: 15, left: 15),
         child: SafeArea(
           child: new Column(
-             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
-
-              new Center(
-                child: Container(
-                  margin: EdgeInsets.only(bottom: 15, top: 15),
-                  child: Text("Inscription", style: TextStyle(fontSize: 30)),
-                ),
+              Container(
+                child: Text("Inscription", style: TextStyle(fontSize: 25)),
               ),
-              _buildImage(),
-              _buildTextFields(),
-              _selectArbre(),
+              Container(child : _buildImage(),margin:EdgeInsets.only(bottom: 30)),
+              new Column(
+                  children: <Widget>[
+                    _buildTextFields(),
+                  ]),
               _buildButtons(),
             ],
           ),
@@ -201,50 +199,48 @@ class _RegisterPageState extends State<RegisterPage> {
   }
 
   Widget _buildImage() {
-    return  new Container(
-            margin: EdgeInsets.only(bottom: 15),
-            child: _image == null
-                ? new Column(
-                    
-                  children: <Widget>[
-                    new FlatButton(
-                      onPressed: _showDialog,
-                      child: new Container(
-                          height: 100,
-                          width: 100,
-                          decoration: new BoxDecoration(
-                              shape: BoxShape.circle,
-                              image: new DecorationImage(
-                                fit: BoxFit.fill,
-                                image: AssetImage("assets/avatar.png"),
-                              ))),
-                    ),
-                    Text("Choisissez une image"),
-                  ])
-                : new FlatButton(
-                    onPressed: _showDialog,
-                    child: new Container(
-                        height: 100,
-                        width: 100,
-                        decoration: new BoxDecoration(
-                            shape: BoxShape.circle,
-                            image: new DecorationImage(
-                              fit: BoxFit.fill,
-                              image: Image.file(_image).image,
-                            ))),
-                  ),
+    return new Container(
+      margin: EdgeInsets.only(bottom: 10),
+      child: _image == null
+          ? new Column(children: <Widget>[
+              new FlatButton(
+                onPressed: _showDialog,
+                child: new Container(
+                    height: 100,
+                    width: 100,
+                    decoration: new BoxDecoration(
+                        shape: BoxShape.circle,
+                        image: new DecorationImage(
+                          fit: BoxFit.fill,
+                          image: AssetImage("assets/avatar.png"),
+                        ))),
+              ),
+              Text("Choisissez une image"),
+            ])
+          : new FlatButton(
+              onPressed: _showDialog,
+              child: new Container(
+                  height: 100,
+                  width: 100,
+                  decoration: new BoxDecoration(
+                      shape: BoxShape.circle,
+                      image: new DecorationImage(
+                        fit: BoxFit.fill,
+                        image: Image.file(_image).image,
+                      ))),
+            ),
     );
-      
   }
 
   Widget _buildTextFields() {
+    double margin = 30;
     return new Container(
       child: new Column(
-           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: <Widget>[
           new Container(
-            width: 300,
-              margin: EdgeInsets.only(bottom: 30),
+              width: MediaQuery.of(context).size.width / 2,
+              margin: EdgeInsets.only(bottom: margin),
               child: new TextFieldCustom(
                   controller: _nameFilter,
                   title: 'Nom',
@@ -252,8 +248,8 @@ class _RegisterPageState extends State<RegisterPage> {
                   hide: false,
                   textError: widget.nameError)),
           new Container(
-            width: 300,
-              margin: EdgeInsets.only(top: 10, bottom: 30),
+              width: MediaQuery.of(context).size.width / 2,
+              margin: EdgeInsets.only(bottom: margin),
               child: new TextFieldCustom(
                 controller: _emailFilter,
                 title: 'Email',
@@ -262,8 +258,8 @@ class _RegisterPageState extends State<RegisterPage> {
                 textError: widget.emailError,
               )),
           new Container(
-            width: 300,
-              margin: EdgeInsets.only(top: 10, bottom: 30),
+              width: MediaQuery.of(context).size.width / 2,
+              margin: EdgeInsets.only(bottom: margin),
               child: new TextFieldCustom(
                 controller: _passwordFilter,
                 title: 'Mot de Passe',
@@ -271,70 +267,6 @@ class _RegisterPageState extends State<RegisterPage> {
                 hide: true,
                 textError: widget.passwordError,
               )),
-          new Container(
-            child: new Text("Choississez un arbre:",
-                style: TextStyle(fontSize: 20)),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _selectArbre() {
-    double sizeSquare = 85;
-    return new Container(
-      margin: EdgeInsets.only(top: 10, bottom: 10),
-      child: new Row(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: <Widget>[
-          new Container(
-            width: sizeSquare,
-            height: sizeSquare,
-            child: RaisedButton(
-              child: Icon(Icons.nature),
-              color: widget._colorTree1,
-              onPressed: () {
-                setState(() {
-                  widget._colorTree1 = Colors.green[400];
-                  widget._colorTree2 = Colors.green[200];
-                  widget._colorTree3 = Colors.green[200];
-                  _treeNumber = 1;
-                });
-              },
-            ),
-          ),
-          new Container(
-            width: sizeSquare,
-            height: sizeSquare,
-            child: RaisedButton(
-              child: Icon(Icons.nature),
-              color: widget._colorTree2,
-              onPressed: () {
-                setState(() {
-                  widget._colorTree1 = Colors.green[200];
-                  widget._colorTree2 = Colors.green[400];
-                  widget._colorTree3 = Colors.green[200];
-                  _treeNumber = 2;
-                });
-              },
-            ),
-          ),
-          new Container(
-            width: sizeSquare,
-            height: sizeSquare,
-            child: RaisedButton(
-              color: widget._colorTree3,
-              child: Icon(Icons.nature),
-              onPressed: () {
-                setState(() {
-                  widget._colorTree1 = Colors.green[200];
-                  widget._colorTree2 = Colors.green[200];
-                  widget._colorTree3 = Colors.green[400];
-                  _treeNumber = 3;
-                });
-              },
-            ),
-          ),
         ],
       ),
     );
@@ -345,14 +277,13 @@ class _RegisterPageState extends State<RegisterPage> {
   Widget _buildButtons() {
     return new Container(
       child: new Column(
-        
         children: <Widget>[
           Text(
             _textError,
             style: TextStyle(fontSize: 12, color: Colors.red),
           ),
           Row(
-             crossAxisAlignment: CrossAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
               Checkbox(
                 value: _booleanCheckBox,
@@ -376,7 +307,7 @@ class _RegisterPageState extends State<RegisterPage> {
               shape: new RoundedRectangleBorder(
                   borderRadius: new BorderRadius.circular(30.0)),
               onPressed: () {
-                _loginPressed();
+                _registerPressed();
               },
             ),
           )
@@ -385,7 +316,7 @@ class _RegisterPageState extends State<RegisterPage> {
     );
   }
 
-  void _loginPressed() async {
+  void _registerPressed() async {
     if (_nameFilter.text.isEmpty) {
       setState(() {
         widget.nameError = "Veuillez remplir tout les champs";
@@ -437,7 +368,7 @@ class _RegisterPageState extends State<RegisterPage> {
       String id = await _bloc.registerUser(
           _email, _password, _name, _treeNumber, _image);
       if (id.isNotEmpty) {
-       sleep(Duration(seconds: 2));
+        sleep(Duration(seconds: 2));
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(

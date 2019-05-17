@@ -310,11 +310,11 @@ class _MyLoginPageState extends State<MyLoginPage> {
                   child: svg,
                 ),
                 Container(
-                  width: 300,
+                  width: MediaQuery.of(context).size.width/2,
                   child: emailField,
                   padding: EdgeInsets.only(bottom: 10),
                 ),
-                Container(width: 300, child: passwordField),
+                Container(width: MediaQuery.of(context).size.width/2, child: passwordField),
                 Row(children: <Widget>[
                   Expanded(
                       child: Align(
@@ -322,7 +322,7 @@ class _MyLoginPageState extends State<MyLoginPage> {
                     child: _forgot,
                   )),
                 ]),
-                Container(width: 300, child: loginButon),
+                Container(width: MediaQuery.of(context).size.width/2, child: loginButon),
                 Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: <Widget>[

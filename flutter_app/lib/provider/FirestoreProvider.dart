@@ -44,7 +44,7 @@ class FirestoreProvider {
       storage.setImage(userId, image);
       User user = new User(
           reference: null,
-          treeNumber: treeNumber,
+          treeNumber: 1,
           email: email,
           name: name,
           date: DateTime.now().toIso8601String(),
