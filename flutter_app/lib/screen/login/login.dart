@@ -1,6 +1,8 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/bloc/login_bloc.dart';
+import 'package:flutter_app/models/NoteForm.dart';
+import 'package:flutter_app/models/User.dart';
 import 'package:flutter_app/provider/AuthProvider.dart';
 import 'package:flutter_app/provider/FirestoreProvider.dart';
 import 'package:flutter_app/provider/BlocProvider.dart';
@@ -114,7 +116,7 @@ class _MyLoginPageState extends State<MyLoginPage> {
 
     final loginButon = Material(
       elevation: 5.0,
-      color: Color.fromRGBO(32, 168, 30, 1),
+      color: Theme.of(context).primaryColor,
       borderRadius: BorderRadius.circular(5),
       child: MaterialButton(
         minWidth: MediaQuery.of(context).size.width,
@@ -136,6 +138,7 @@ class _MyLoginPageState extends State<MyLoginPage> {
                       prefs.setString('id', userId);
                       print(
                           "SharedPreferences = " + prefs.getKeys().toString());
+                      bloc.login(userId, DateTime.now());
                       Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(
@@ -144,6 +147,18 @@ class _MyLoginPageState extends State<MyLoginPage> {
                                   )));
                     });
                   } else {
+                    print("COUCOU");
+                    bloc.login(userId, DateTime.now());
+                    bloc.getUserById(userId).then((user) {
+                      bloc.getNote().then((note) {
+                        if (int.parse(note.note) == 10) {
+                          int date = DateTime.now()
+                              .difference(DateTime.parse(user.date))
+                              .inDays;
+                          bloc.enterNbPomme(date);
+                        }
+                      });
+                    });
                     Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(
@@ -241,7 +256,7 @@ class _MyLoginPageState extends State<MyLoginPage> {
         "Register",
         textAlign: TextAlign.end,
         style: TextStyle(
-          color: Color.fromRGBO(32, 168, 30, 1),
+          color: Theme.of(context).primaryColor,
         ),
       ),
       onPressed: register,
@@ -253,7 +268,7 @@ class _MyLoginPageState extends State<MyLoginPage> {
         "Forgot password ?",
         textAlign: TextAlign.end,
         style: TextStyle(
-          color: Color.fromRGBO(32, 168, 30, 1),
+          color: Theme.of(context).primaryColor,
         ),
       ),
       onPressed: () {
@@ -274,7 +289,7 @@ class _MyLoginPageState extends State<MyLoginPage> {
         child: Text(
           "Continuer en tant qu'invité",
           style: TextStyle(
-            color: Color.fromRGBO(32, 168, 30, 1),
+            color: Theme.of(context).primaryColor,
           ),
         ));
 
@@ -289,73 +304,48 @@ class _MyLoginPageState extends State<MyLoginPage> {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
-                Column(
-                  children: <Widget>[
-                    Container(
-                      height: 150,
-                      width: 150,
-                      child: svg,
-                      /* child: FlareActor("assets/flare/Earth.flr",
-                        alignment: Alignment.center,
-                        fit: BoxFit.contain,
-                        animation: ""),
-                        */
-                    ),
-                  ],
+                Container(
+                  height: 100,
+                  width: 100,
+                  child: svg,
                 ),
-                Column(
-
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: <Widget>[
-                    Container(width: 300, child: emailField),
-                    Column(
-                      children: <Widget>[
-                        Container(width: 300, child: passwordField),
-                        Row(children: <Widget>[
-                          Expanded(
-                              child: Align(
-                            alignment: Alignment.center,
-                            child: _forgot,
+                Container(
+                  width: 300,
+                  child: emailField,
+                  padding: EdgeInsets.only(bottom: 10),
+                ),
+                Container(width: 300, child: passwordField),
+                Row(children: <Widget>[
+                  Expanded(
+                      child: Align(
+                    alignment: Alignment.center,
+                    child: _forgot,
+                  )),
+                ]),
+                Container(width: 300, child: loginButon),
+                Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: <Widget>[
+                      Checkbox(
+                        value: souvenir,
+                        onChanged: (bool value) {
+                          setState(() {
+                            souvenir = value;
+                          });
+                        },
+                        activeColor: Colors.green,
+                      ),
+                      Container(
+                          margin: EdgeInsets.only(top: 5),
+                          child: AutoSizeText(
+                            "Se souvenir de moi",
+                            minFontSize: 10,
                           )),
-                        ]),
-                      ],
-                    ),
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: <Widget>[
-                        Container(width: 150, child: loginButon),
-                        Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: <Widget>[
-                              Checkbox(
-                                value: souvenir,
-                                onChanged: (bool value) {
-                                  setState(() {
-                                    souvenir = value;
-                                  });
-                                },
-                                activeColor: Colors.green,
-                              ),
-                              Container(
-                                  margin: EdgeInsets.only(top: 5),
-                                  child: AutoSizeText(
-                                    "Se souvenir de moi",
-                                    minFontSize: 10,
-                                  )),
-                            ]),
-                        Align(
-                          alignment: Alignment.center,
-                          child: _register,
-                        ),
-                        Align(
-                          alignment: FractionalOffset.center,
-                          child: _continue,
-                        ),
-                      ],
-                    )
-                  ],
+                    ]),
+                _register,
+                Align(
+                  alignment: Alignment.bottomCenter,
+                  child: _continue,
                 ),
               ],
             )),

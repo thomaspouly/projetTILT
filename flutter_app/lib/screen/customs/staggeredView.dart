@@ -66,14 +66,8 @@ class _StaggeredViewState extends State<StaggeredView>
     String res;
     if (1000000000 > number && number > 999999) {
       res = (number / 1000000).toStringAsFixed(0) + " millions";
-    } else if (1000000000000 > number && number > 999999999) {
+    } else if (number > 999999999) {
       res = (number / 1000000000).toStringAsFixed(0) + " milliards";
-    } else if (1000000000000000 > number && number > 999999999999) {
-      res = (number / 1000000000000).toStringAsFixed(0) + " billions";
-    } else if (1000000000000000000 > number && number > 999999999999999) {
-      res = (number / 1000000000000000).toStringAsFixed(0) + " billiards";
-    } else if (number > 999999999999999999) {
-      res = (number / 1000000000000000000).toStringAsFixed(0) + " trillions";
     } else {
       res = buildCounterFront(number);
     }

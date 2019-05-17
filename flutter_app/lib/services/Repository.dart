@@ -33,6 +33,9 @@ class Repository {
     return _firestoreProvider.getNote();
   }
 
+  Future<void> enterNbPomme(int nbPomme) =>
+      _firestoreProvider.enterNbPomme(nbPomme);
+
   Future<User> modifyUser(String id,String email, String name, int treeNumber,int nbPomme) {
     return _firestoreProvider.modifyUser(id, email, name, treeNumber,nbPomme);
   }
@@ -49,8 +52,8 @@ class Repository {
     return authProvider.logout();
   }
 
-  Future<void> login(String userId) {
-    return authProvider.login(userId);
+  Future<void> login(String userId,DateTime date) {
+    return authProvider.login(userId,date);
   }
 
 }
