@@ -14,12 +14,9 @@ import 'package:image_crop/image_crop.dart';
 import 'package:flutter_statusbarcolor/flutter_statusbarcolor.dart';
 
 class RegisterPage extends StatefulWidget {
-  var _colorTree1 = Colors.green[200];
-  var _colorTree2 = Colors.green[200];
-  var _colorTree3 = Colors.green[200];
-
   String emailError;
   String passwordError;
+  String passwordError2;
   String nameError;
 
   RegisterPage({Key key}) : super(key: key);
@@ -34,14 +31,18 @@ class RegisterPage extends StatefulWidget {
 }
 
 class _RegisterPageState extends State<RegisterPage> {
+  var heightScreen;
+
   final TextEditingController _nameFilter = new TextEditingController();
   final TextEditingController _emailFilter = new TextEditingController();
   final TextEditingController _passwordFilter = new TextEditingController();
+  final TextEditingController _passwordFilter2 = new TextEditingController();
   RegisterBloc _bloc;
 
   String _name = "";
   String _email = "";
   String _password = "";
+  String _password2 = "";
   bool _booleanCheckBox = false;
   int _treeNumber = -1;
   String _textError = "";
@@ -52,6 +53,7 @@ class _RegisterPageState extends State<RegisterPage> {
     _nameFilter.addListener(_nameListen);
     _emailFilter.addListener(_emailListen);
     _passwordFilter.addListener(_passwordListen);
+    _passwordFilter2.addListener(_passwordListen2);
   }
 
   void _nameListen() {
@@ -78,8 +80,17 @@ class _RegisterPageState extends State<RegisterPage> {
     }
   }
 
+  void _passwordListen2() {
+    if (_passwordFilter2.text.isEmpty) {
+      _password2 = "";
+    } else {
+      _password2 = _passwordFilter2.text;
+    }
+  }
+
   Future getImageFromCamera() async {
     var image = await ImagePicker.pickImage(source: ImageSource.camera);
+     if(image!=null){
     image = await ImageCropper.cropImage(
       sourcePath: image.path,
       ratioX: 1.0,
@@ -90,11 +101,13 @@ class _RegisterPageState extends State<RegisterPage> {
     setState(() {
       _image = image;
     });
+     }
   }
 
   Future getImageFromGallery() async {
     var image = await ImagePicker.pickImage(source: ImageSource.gallery);
-    image = await ImageCropper.cropImage(
+    if(image!=null){
+ image = await ImageCropper.cropImage(
       sourcePath: image.path,
       ratioX: 1.0,
       ratioY: 1.0,
@@ -104,66 +117,32 @@ class _RegisterPageState extends State<RegisterPage> {
     setState(() {
       _image = image;
     });
+    }
+   
   }
 
-  void _showDialog() {
-    // flutter defined function
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        // return object of type Dialog
-        return AlertDialog(
-          title: new Text("Selectionnez une image:"),
-          content: Column(
-            children: <Widget>[
-              new RaisedButton(
-                onPressed: () {
-                  getImageFromCamera();
-                  Navigator.of(context).pop();
-                },
-                child: Text("Camera"),
-              ),
-              new RaisedButton(
-                onPressed: () async {
-                  getImageFromGallery();
-                  Navigator.of(context).pop();
-                },
-                child: Text("Galerie"),
-              )
-            ],
-          ),
-          actions: <Widget>[
-            // usually buttons at the bottom of the dialog
-            new FlatButton(
-              child: new Text("Close"),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-          ],
-        );
-      },
-    );
-  }
-
+ 
   void _showCGU() {
     // flutter defined function
     showDialog(
       context: context,
       builder: (BuildContext context) {
         // return object of type Dialog
-        return AlertDialog(
-          title: new Text("Conditions générales d'utilisation:"),
-          content: Center(child: Text("Hello World")),
-          actions: <Widget>[
-            // usually buttons at the bottom of the dialog
-            new FlatButton(
-              child: new Text("Close"),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-          ],
+        return Container(
+          child: AlertDialog(
+            title: new Text("Conditions générales d'utilisation:"),
+            content: Center(child: Text("Hello World")),
+            actions: <Widget>[
+              // usually buttons at the bottom of the dialog
+              new FlatButton(
+                child: new Text("Close"),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
+          ),
+          height: 200,
         );
       },
     );
@@ -171,6 +150,7 @@ class _RegisterPageState extends State<RegisterPage> {
 
   @override
   Widget build(BuildContext context) {
+    heightScreen = MediaQuery.of(context).size.height;
     _bloc = BlocProvider.ofRegister(context);
     FlutterStatusbarcolor.setStatusBarColor(Colors.green[100]);
     FlutterStatusbarcolor.setStatusBarWhiteForeground(false);
@@ -185,11 +165,11 @@ class _RegisterPageState extends State<RegisterPage> {
               Container(
                 child: Text("Inscription", style: TextStyle(fontSize: 25)),
               ),
-              Container(child : _buildImage(),margin:EdgeInsets.only(bottom: 30)),
-              new Column(
-                  children: <Widget>[
-                    _buildTextFields(),
-                  ]),
+              Container(
+                  child: _buildImage(), margin: EdgeInsets.only(bottom: 30)),
+              new Column(children: <Widget>[
+                _buildTextFields(),
+              ]),
               _buildButtons(),
             ],
           ),
@@ -203,23 +183,43 @@ class _RegisterPageState extends State<RegisterPage> {
       margin: EdgeInsets.only(bottom: 10),
       child: _image == null
           ? new Column(children: <Widget>[
-              new FlatButton(
-                onPressed: _showDialog,
-                child: new Container(
-                    height: 100,
-                    width: 100,
-                    decoration: new BoxDecoration(
-                        shape: BoxShape.circle,
-                        image: new DecorationImage(
-                          fit: BoxFit.fill,
-                          image: AssetImage("assets/avatar.png"),
-                        ))),
-              ),
-              Text("Choisissez une image"),
+            Container(child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    
+                    children: <Widget>[
+                      Text("Photo de profil:"),
+                       FlatButton(
+                   onPressed: () {
+                  getImageFromCamera();
+                },
+                  child:CircleAvatar(
+                          radius: 50.0,
+                          backgroundColor: Theme.of(context).primaryColor,
+                          child: Icon(
+                            Icons.photo_camera,
+                            size: 40,
+                          ),
+                        ),),
+                        
+                         FlatButton(
+                  onPressed: () async {
+                  getImageFromGallery();
+                },
+                  child: new CircleAvatar(
+                          radius: 50.0,
+                          backgroundColor: Theme.of(context).primaryColor,
+                          child: Icon(
+                            Icons.photo_library,
+                            size: 40,
+                          ),
+                        ),
+                         ),
+                    ],
+                  ),width: heightScreen/3,),
             ])
-          : new FlatButton(
-              onPressed: _showDialog,
-              child: new Container(
+          : Column(children: <Widget>[
+
+           Container(
                   height: 100,
                   width: 100,
                   decoration: new BoxDecoration(
@@ -228,7 +228,19 @@ class _RegisterPageState extends State<RegisterPage> {
                         fit: BoxFit.fill,
                         image: Image.file(_image).image,
                       ))),
-            ),
+                      RaisedButton(
+                        shape: new RoundedRectangleBorder(borderRadius: new BorderRadius.circular(30.0)),
+                        color: Theme.of(context).primaryColorLight,
+                        child: Text("Changer"),
+                        onPressed: (){
+                          setState(() {
+                            _image=null;
+                          });
+                        },
+                      )
+          ],)
+          
+            
     );
   }
 
@@ -267,6 +279,16 @@ class _RegisterPageState extends State<RegisterPage> {
                 hide: true,
                 textError: widget.passwordError,
               )),
+          new Container(
+              width: MediaQuery.of(context).size.width / 2,
+              margin: EdgeInsets.only(bottom: margin),
+              child: new TextFieldCustom(
+                controller: _passwordFilter2,
+                title: 'Confirmer le mot de passe',
+                icon: Icon(Icons.lock),
+                hide: true,
+                textError: widget.passwordError2,
+              )),
         ],
       ),
     );
@@ -303,7 +325,7 @@ class _RegisterPageState extends State<RegisterPage> {
             child: new RaisedButton(
               child: new Text('Inscription'),
               padding: EdgeInsets.only(left: 40, right: 40),
-              color: Colors.green[200],
+              color: Theme.of(context).primaryColor,
               shape: new RoundedRectangleBorder(
                   borderRadius: new BorderRadius.circular(30.0)),
               onPressed: () {
@@ -339,6 +361,10 @@ class _RegisterPageState extends State<RegisterPage> {
         widget.passwordError =
             "Le mot de passe doit faire au moins 6 caractères";
       });
+    } else if (_passwordFilter.text != _passwordFilter2.text) {
+      setState(() {
+        widget.passwordError2 = "Les mots de passe sont différents";
+      });
     } else if (_booleanCheckBox == false) {
       setState(() {
         _textError = "Veuillez accepter les CGU";
@@ -361,8 +387,7 @@ class _RegisterPageState extends State<RegisterPage> {
         preferredWidth: 100,
         preferredHeight: 100,
       );
-      String id = await _bloc.registerUser(
-          _email, _password, _name, 1, _image);
+      String id = await _bloc.registerUser(_email, _password, _name, 1, _image);
       if (id.isNotEmpty) {
         sleep(Duration(seconds: 2));
         Navigator.pushReplacement(

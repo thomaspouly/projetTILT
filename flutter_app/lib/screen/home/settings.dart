@@ -1,14 +1,11 @@
 import 'package:flutter/cupertino.dart';
-import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:dynamic_theme/dynamic_theme.dart';
 import 'package:flutter_app/provider/BlocProvider.dart';
-import 'package:flutter_app/screen/home/home.dart';
 import 'package:flutter_app/screen/login/login.dart';
-import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 
-import '../../main.dart';
 
 class Settings extends StatefulWidget {
   final String uid;
@@ -22,9 +19,11 @@ class Settings extends StatefulWidget {
 }
 
 class _SettingsState extends State<Settings> {
+  FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
   String _currentThemeSelected;
   var heightScreen;
   bool nightMode;
+  bool enabledNotifications;
   Color pickerColor = Color(0xff443a49);
   Color currentColor = Color(0xff443a49);
 
@@ -32,6 +31,7 @@ class _SettingsState extends State<Settings> {
   void initState() {
     // TODO: implement initState
     super.initState();
+
 
     SharedPreferences.getInstance().then((prefs) {
       setState(() {
@@ -61,6 +61,9 @@ class _SettingsState extends State<Settings> {
     SharedPreferences.getInstance().then((prefs) {
       prefs.setBool("nightMode", b);
     });
+  }
+  void changeNotifications(bool b){
+    print("changeNotifications");
   }
 
   void changeTheme(String theme) {
@@ -140,12 +143,12 @@ setState(() {
                 children: <Widget>[
                   Text('Mode nuit', style: TextStyle(fontSize: sizeTextTiles)),
                   Switch(
+                    
                     value: nightMode,
                     onChanged: (value) {
                       setState(() {
                         nightMode = value;
                       });
-                      print("hi");
                       changeBrightness(nightMode);
                     },
                     activeTrackColor: Colors.lightGreenAccent,
@@ -155,6 +158,29 @@ setState(() {
               ),
               leading: Icon(
                 Icons.brightness_3,
+                size: sizeIconTiles,
+              ),
+            ),
+            ListTile(
+              title: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  Text('Notifications', style: TextStyle(fontSize: sizeTextTiles)),
+                  Switch(
+                    value: enabledNotifications,
+                    onChanged: (value) {
+                      setState(() {
+                        enabledNotifications = value;
+                      });
+                      changeNotifications(enabledNotifications);
+                    },
+                    activeTrackColor: Colors.lightGreenAccent,
+                    activeColor: Colors.green,
+                  )
+                ],
+              ),
+              leading: Icon(
+                Icons.notifications,
                 size: sizeIconTiles,
               ),
             ),
