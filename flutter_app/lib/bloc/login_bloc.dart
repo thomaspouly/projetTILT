@@ -1,4 +1,6 @@
 import 'dart:async';
+import 'package:flutter_app/models/NoteForm.dart';
+import 'package:flutter_app/models/User.dart';
 import 'package:flutter_app/services/Repository.dart';
 
 class LoginBloc {
@@ -18,8 +20,19 @@ class LoginBloc {
     return null;
   }
 
-  Future<void> login(String userId) {
-    return _repository.login(userId);
+  Future<User> getUserById(String id) {
+    return _repository.getUserById(id);
+  }
+
+  Future<void> enterNbPomme(int nbPomme) =>
+      _repository.enterNbPomme(nbPomme);
+
+  Future<NoteForm> getNote() {
+    return _repository.getNote();
+  }
+
+  Future<void> login(String userId,DateTime date) {
+    return _repository.login(userId,date);
   }
 
   bool validateFields(String email, String password) {

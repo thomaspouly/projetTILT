@@ -11,10 +11,10 @@ class FirestoreProvider {
   AuthProvider auth = AuthProvider();
   StorageProvider storage = StorageProvider();
 
-  Future<User> getUserById(String id) {
+  Future<User> getUserById(String userID) {
     return _firestore
         .collection('user')
-        .document(id)
+        .document(userID)
         .get()
         .then((documentSnapshot) {
       User u = new User(
@@ -22,16 +22,17 @@ class FirestoreProvider {
           name: documentSnapshot.data['name'],
           treeNumber: documentSnapshot.data['treeNumber'],
           nbPomme: documentSnapshot.data['nbPomme'],
+          date: documentSnapshot.data['date'],
           reference: null);
       return u;
     });
   }
 
   Future<User> modifyUser(
-      String id, String email, String name, int treeNumber, int nbPomme) {
+      String id, String email, String name, int treeNumber, int nbPomme,String date) {
     return auth.currentUser().then((userID) {
       User user = new User(
-          email: email, name: name, treeNumber: treeNumber, nbPomme: nbPomme);
+          email: email, name: name, treeNumber: treeNumber, nbPomme: nbPomme,date: date);
       _firestore.collection('user').document(userID).updateData(user.toJson());
       return user;
     });
@@ -43,9 +44,10 @@ class FirestoreProvider {
       storage.setImage(userId, image);
       User user = new User(
           reference: null,
-          treeNumber: treeNumber,
+          treeNumber: 1,
           email: email,
           name: name,
+          date: DateTime.now().toIso8601String(),
           nbPomme: 0);
       NoteForm note = new NoteForm(note: "5");
       _firestore.collection('user').document(userId).setData(user.toJson());
@@ -73,6 +75,26 @@ class FirestoreProvider {
         }
       });
       return userID;
+    });
+  }
+
+  Future<void> enterNbPomme(int nbPomme) {
+    return auth.currentUser().then((userID) {
+      return _firestore
+          .collection('user')
+          .document(userID)
+          .get()
+          .then((documentSnapshot) {
+            /*User u = new User(
+              nbPomme: documentSnapshot.data['nbPomme'] + nbPomme,
+              date: DateTime.now().toIso8601String(),
+            );*/
+        return _firestore.collection('user').document(userID).updateData({
+          "nbPomme": documentSnapshot.data['nbPomme'] + nbPomme,
+          "date": DateTime.now().toIso8601String(),
+        });
+        //return userID;
+      });
     });
   }
 

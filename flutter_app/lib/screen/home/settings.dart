@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:dynamic_theme/dynamic_theme.dart';
+import 'package:flutter_app/provider/BlocProvider.dart';
 import 'package:flutter_app/screen/home/home.dart';
 import 'package:flutter_app/screen/login/login.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
@@ -89,6 +90,7 @@ setState(() {
   @override
   Widget build(BuildContext context) {
     print("Theme: " + nightMode.toString());
+    final bloc = BlocProvider.ofHome(context);
 
     heightScreen = MediaQuery.of(context).size.height;
     double sizeIconTiles = 30;
@@ -168,7 +170,7 @@ setState(() {
 
                 prefs.remove("id").then((onValue) {
                   print("ID PREFSDECO: " + prefs.getString('id').toString());
-
+                  bloc.logout();
  Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(builder: (context) => MyLoginPage()),

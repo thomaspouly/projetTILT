@@ -98,6 +98,18 @@ void main() {
                     }
                   },
                   themedWidgetBuilder: (context, theme) {
+                    final bloc = BlocProvider.ofLogin(context);
+                    bloc.getUserById(id).then((user) {
+                      bloc.getNote().then((note) {
+                        if (int.parse(note.note) == 10) {
+                          int date = DateTime.now()
+                              .difference(DateTime.parse(user.date))
+                              .inDays;
+                          print("DATE MAIN ====>" + date.toString());
+                          bloc.enterNbPomme(date);
+                        }
+                      });
+                    });
                     return new MaterialApp(
                       title: 'Flutter Demo',
                       theme: theme,

@@ -1,18 +1,19 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'FirestoreProvider.dart';
+
 class AuthProvider {
   FirebaseAuth firebase = FirebaseAuth.instance;
 
   Future<String> authenticateUser(String email, String password) async {
     FirebaseUser user;
-   
-      user = await firebase.signInWithEmailAndPassword(
-          email: email, password: password);
 
-      print("Signed in : " + user.uid);
-      return user.uid;
-  
+    user = await firebase.signInWithEmailAndPassword(
+        email: email, password: password);
+
+    print("Signed in : " + user.uid);
+    return user.uid;
   }
 
   Future<String> currentUser() {
@@ -32,15 +33,13 @@ class AuthProvider {
   }
 
   Future<void> logout() {
-    return SharedPreferences.getInstance().then((prefs) {
-      prefs.clear();
-      return firebase.signOut();
-    });
+    return firebase.signOut();
   }
 
-  Future<void> login(String userId) {
+  Future<void> login(String userId, DateTime date) {
     return SharedPreferences.getInstance().then((prefs) {
       prefs.setString('id', userId);
+      print("PREF =>" + prefs.getString("id"));
     });
   }
 }
