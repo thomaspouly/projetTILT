@@ -29,10 +29,10 @@ class FirestoreProvider {
   }
 
   Future<User> modifyUser(
-      String id, String email, String name, int treeNumber, int nbPomme) {
+      String id, String email, String name, int treeNumber, int nbPomme,String date) {
     return auth.currentUser().then((userID) {
       User user = new User(
-          email: email, name: name, treeNumber: treeNumber, nbPomme: nbPomme);
+          email: email, name: name, treeNumber: treeNumber, nbPomme: nbPomme,date: date);
       _firestore.collection('user').document(userID).updateData(user.toJson());
       return user;
     });

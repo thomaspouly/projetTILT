@@ -343,10 +343,6 @@ class _RegisterPageState extends State<RegisterPage> {
       setState(() {
         _textError = "Veuillez accepter les CGU";
       });
-    } else if (_treeNumber < 0) {
-      setState(() {
-        _textError = "Veuillez selectionner un arbre";
-      });
     } else if (_image == null) {
       setState(() {
         //  _image =new File("avatar.png");
@@ -366,7 +362,7 @@ class _RegisterPageState extends State<RegisterPage> {
         preferredHeight: 100,
       );
       String id = await _bloc.registerUser(
-          _email, _password, _name, _treeNumber, _image);
+          _email, _password, _name, 1, _image);
       if (id.isNotEmpty) {
         sleep(Duration(seconds: 2));
         Navigator.pushReplacement(
