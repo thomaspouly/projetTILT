@@ -7,7 +7,6 @@ import 'package:flutter_app/bloc/login_bloc.dart';
 import 'package:flutter_app/bloc/partner_bloc.dart';
 import 'package:flutter_app/bloc/profile_bloc.dart';
 import 'package:flutter_app/bloc/register_bloc.dart';
-import 'package:flutter_app/bloc/theme_bloc.dart';
 
 class BlocProvider extends InheritedWidget {
   final loginBloc = LoginBloc();
@@ -17,17 +16,11 @@ class BlocProvider extends InheritedWidget {
   final counterWidget = CounterBloc();
   final profileBloc = ProfileBloc();
   final partnerBloc = PartnerBloc();
-  final themeBloc= ThemeBloc();
   final homeBloc = HomeBloc();
 
   BlocProvider({Key key, Widget child}) : super(key: key, child: child);
 
   bool updateShouldNotify(_) => true;
-
- static ThemeBloc ofTheme(BuildContext context) {
-    return (context.inheritFromWidgetOfExactType(BlocProvider) as BlocProvider)
-        .themeBloc;
-  }
 
   static CounterBloc ofCounter(BuildContext context) {
     return (context.inheritFromWidgetOfExactType(BlocProvider) as BlocProvider)

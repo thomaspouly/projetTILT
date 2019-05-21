@@ -1,14 +1,7 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_app/models/NoteForm.dart';
-import 'package:flutter_app/provider/AuthProvider.dart';
 import 'package:flutter_app/provider/BlocProvider.dart';
 import 'package:flutter_app/screen/customs/Associations.dart';
-import 'package:flutter_app/screen/customs/TextFieldCustom.dart';
-import 'package:flutter_app/screen/tree/form.dart';
-import 'package:flutter_sparkline/flutter_sparkline.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:fluttie/fluttie.dart';
 
 final String sproutName = 'assets/sprout.svg';
 final String treeName = 'assets/tree.svg';

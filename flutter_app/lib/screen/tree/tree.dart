@@ -4,12 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/models/NoteForm.dart';
 import 'package:flutter_app/models/User.dart';
 import 'package:flutter_app/provider/BlocProvider.dart';
-import 'package:flutter_app/screen/customs/TextFieldCustom.dart';
 import 'package:flutter_app/screen/tree/form.dart';
 import 'package:flutter_sparkline/flutter_sparkline.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:fluttie/fluttie.dart';
-import 'package:cloud_functions/cloud_functions.dart';
 
 final String sproutName = 'assets/sprout.svg';
 final String appleName = 'assets/apple.svg';

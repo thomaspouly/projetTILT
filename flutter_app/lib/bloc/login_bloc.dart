@@ -13,6 +13,10 @@ class LoginBloc {
     return null;
   }
 
+  Future<String> authenticateUserWithFb() async {
+    return _repository.authenticateUserWithFb();
+  }
+
   Future<void> submitWithEmail(String email) {
     if (validateFieldsEmail(email)) {
       return _repository.resetPasswordEmail(email);

@@ -201,6 +201,60 @@ class _MyLoginPageState extends State<MyLoginPage> {
       ),
     );
 
+    final loginButonFb = Material(
+      elevation: 5.0,
+      color: Theme.of(context).primaryColor,
+      borderRadius: BorderRadius.circular(5),
+      child: MaterialButton(
+        minWidth: MediaQuery.of(context).size.width,
+        padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
+        onPressed: () {
+            bloc.authenticateUserWithFb().then((userID) {
+              if (souvenir == true) {
+                SharedPreferences.getInstance().then((prefs) {
+                  print("ID PREFS LOGIn: " +
+                      prefs.getString('id').toString());
+
+                  prefs.setString('id', userID);
+                  print(
+                      "SharedPreferences = " + prefs.getKeys().toString());
+                  bloc.login(userID, DateTime.now());
+                  Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                          builder: (BuildContext ctx) => HomePage(
+                            uid: userID,
+                          )));
+                });
+              } else {
+                bloc.login(userID, DateTime.now());
+                bloc.getUserById(userID).then((user) {
+                  bloc.getNote().then((note) {
+                    if (int.parse(note.note) == 10) {
+                      int date = DateTime.now()
+                          .difference(DateTime.parse(user.date))
+                          .inDays;
+                      bloc.enterNbPomme(date);
+                    }
+                  });
+                });
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => HomePage(
+                        uid: userID,
+                      )),
+                );
+              }
+            });
+        },
+        child: Text("Login With Fb",
+            textAlign: TextAlign.center,
+            style: style.copyWith(
+                color: Colors.white, fontWeight: FontWeight.bold)),
+      ),
+    );
+
     void register() async {
       Navigator.push(
         context,
@@ -323,6 +377,7 @@ class _MyLoginPageState extends State<MyLoginPage> {
                   )),
                 ]),
                 Container(width: MediaQuery.of(context).size.width/2, child: loginButon),
+                Container(width: MediaQuery.of(context).size.width/2, child: loginButonFb),
                 Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: <Widget>[
