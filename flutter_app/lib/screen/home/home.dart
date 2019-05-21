@@ -352,7 +352,7 @@ class _HomePageState extends State<HomePage> {
         }
       },
       child: Icon(Icons.nature),
-      elevation: 3.0,
+      elevation: 10.0,
     );
   }
 
