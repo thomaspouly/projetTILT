@@ -4,7 +4,7 @@ import 'package:dynamic_theme/dynamic_theme.dart';
 import 'package:flutter_app/provider/BlocProvider.dart';
 import 'package:flutter_app/screen/login/login.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
+//import 'package:firebase_messaging/firebase_messaging.dart';
 
 
 class Settings extends StatefulWidget {
@@ -19,7 +19,7 @@ class Settings extends StatefulWidget {
 }
 
 class _SettingsState extends State<Settings> {
-  FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
+  //FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
   String _currentThemeSelected;
   var heightScreen;
   bool nightMode;
