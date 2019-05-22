@@ -5,10 +5,10 @@ import 'FirestoreProvider.dart';
 
 class AuthProvider {
   FirebaseAuth firebase = FirebaseAuth.instance;
+ 
 
   Future<String> authenticateUser(String email, String password) async {
     FirebaseUser user;
-
     user = await firebase.signInWithEmailAndPassword(
         email: email, password: password);
 

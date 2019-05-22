@@ -15,15 +15,28 @@ void main() {
     if(prefs.getString("theme") == null) {
       prefs.setString("theme","Défaut");
     }
-    print("THEME: " + prefs.getString("theme"));
+
 
     if(prefs.getBool("nightMode") == null) {
       prefs.setBool("nightMode",false);
     }
-    print("Night: " + prefs.getBool("nightMode").toString());
+    
 
+
+if(prefs.getBool("remember") == null) {
+      prefs.setBool("remember",false);
+    }
     var id = prefs.getString('id');
+
+
     bool nightMode = prefs.getBool("nightMode");
+ bool remember = prefs.getBool("remember");
+
+
+    print("THEME: " + prefs.getString("theme"));
+print("Night: " + nightMode.toString());
+print("Remember: " + remember.toString());
+
 
     Brightness b;
     if (nightMode == false || nightMode == null) {
@@ -32,7 +45,7 @@ void main() {
       b = Brightness.dark;
     }
     runApp(MaterialApp(
-      home: id == null
+      home: remember == false
           ? new BlocProvider(
               child: DynamicTheme(
                   defaultBrightness: b,

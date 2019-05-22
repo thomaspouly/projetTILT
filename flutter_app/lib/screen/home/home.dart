@@ -21,8 +21,6 @@ import 'package:flutter_app/screen/tree/tree.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:flutter_statusbarcolor/flutter_statusbarcolor.dart';
 
-import 'package:http/http.dart' as http;
-
 class HomePage extends StatefulWidget {
   String uid;
 
