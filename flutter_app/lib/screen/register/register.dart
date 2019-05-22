@@ -184,7 +184,7 @@ class _RegisterPageState extends State<RegisterPage> {
       child: _image == null
           ? new Column(children: <Widget>[
             Container(child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      mainAxisAlignment: MainAxisAlignment.center,
                     
                     children: <Widget>[
                       Text("Photo de profil:"),
@@ -215,7 +215,7 @@ class _RegisterPageState extends State<RegisterPage> {
                         ),
                          ),
                     ],
-                  ),width: heightScreen/3,),
+                  ),width: heightScreen,),
             ])
           : Column(children: <Widget>[
 

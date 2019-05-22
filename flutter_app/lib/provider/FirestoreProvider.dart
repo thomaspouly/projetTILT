@@ -1,10 +1,14 @@
+import 'dart:convert';
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_app/models/Association.dart';
 import 'package:flutter_app/models/NoteForm.dart';
 import 'package:flutter_app/models/User.dart';
 import 'package:flutter_app/provider/AuthProvider.dart';
 import 'package:flutter_app/provider/StorageProvider.dart';
+import 'package:flutter_facebook_login/flutter_facebook_login.dart';
+import 'package:http/http.dart' as http;
 
 class FirestoreProvider {
   Firestore _firestore = Firestore.instance;
@@ -28,11 +32,53 @@ class FirestoreProvider {
     });
   }
 
-  Future<User> modifyUser(
-      String id, String email, String name, int treeNumber, int nbPomme,String date) {
+  Future<String> authenticateUserWithFb() async {
+    FacebookLogin facebookLogin = new FacebookLogin();
+    FacebookLoginResult result =
+        await facebookLogin.logInWithReadPermissions(['email']);
+    try{
+      switch (result.status) {
+        case FacebookLoginStatus.loggedIn:
+          AuthCredential credential = FacebookAuthProvider.getCredential(
+              accessToken: result.accessToken.token);
+          var graphResponse = await http.get(
+              'https://graph.facebook.com/v2.12/me?fields=name,first_name,last_name,email&access_token=${result.accessToken.token}');
+          var profile = json.decode(graphResponse.body);
+          print("PROFILE ===> " + profile.toString());
+          return auth.signInWithCredential(credential).then((firebaseUser) {
+            User user = new User(
+              name: firebaseUser.displayName,
+              email: firebaseUser.email,
+              nbPomme: 0,
+              treeNumber: 1,
+              date: DateTime.now().toIso8601String(),
+            );
+            storage.setImage(firebaseUser.uid, File(firebaseUser.photoUrl));
+            _firestore.collection('user').document(firebaseUser.uid).setData(user.toJson());
+            return firebaseUser.uid;
+          });
+          break;
+        case FacebookLoginStatus.cancelledByUser:
+          print("Cancelled by User");
+          break;
+        case FacebookLoginStatus.error:
+          print("Error : " + FacebookLoginStatus.error.index.toString());
+          break;
+      }
+    } on Exception catch(e) {
+      print(e);
+    }
+  }
+
+  Future<User> modifyUser(String id, String email, String name, int treeNumber,
+      int nbPomme, String date) {
     return auth.currentUser().then((userID) {
       User user = new User(
-          email: email, name: name, treeNumber: treeNumber, nbPomme: nbPomme,date: date);
+          email: email,
+          name: name,
+          treeNumber: treeNumber,
+          nbPomme: nbPomme,
+          date: date);
       _firestore.collection('user').document(userID).updateData(user.toJson());
       return user;
     });
@@ -85,7 +131,7 @@ class FirestoreProvider {
           .document(userID)
           .get()
           .then((documentSnapshot) {
-            /*User u = new User(
+        /*User u = new User(
               nbPomme: documentSnapshot.data['nbPomme'] + nbPomme,
               date: DateTime.now().toIso8601String(),
             );*/

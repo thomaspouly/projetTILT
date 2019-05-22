@@ -196,6 +196,67 @@ class _MyLoginPageState extends State<MyLoginPage> {
       ),
     );
 
+    final loginButonFb = Material(
+      elevation: 5.0,
+      color: Colors.blue,
+      borderRadius: BorderRadius.circular(5),
+      child: MaterialButton(
+        minWidth: MediaQuery.of(context).size.width,
+        padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
+        onPressed: () {
+          try {
+            bloc.authenticateUserWithFb().then((userID) {
+              //print("USER ID ===>" + userID);
+              if (souvenir == true) {
+                //bloc.login(userID, DateTime.now());
+                /*bloc.getUserById(userID).then((user) {
+                bloc.getNote().then((note) {
+                  if (int.parse(note.note) == 10) {
+                    int date = DateTime.now()
+                        .difference(DateTime.parse(user.date))
+                        .inDays;
+                    bloc.enterNbPomme(date);
+                  }
+                });
+              });*/
+                Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                        builder: (BuildContext ctx) => HomePage(
+                          uid: userID,
+                        )));
+              } else {
+                /*bloc.getUserById(userID).then((user) {
+                bloc.getNote().then((note) {
+                  if (int.parse(note.note) == 10) {
+                    int date = DateTime.now()
+                        .difference(DateTime.parse(user.date))
+                        .inDays;
+                    bloc.enterNbPomme(date);
+                  }
+                });
+              });*/
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => HomePage(
+                        uid: userID,
+                      )),
+                );
+              }
+            });
+          } on Exception catch(e) {
+            print(e);
+          }
+
+        },
+        child: Text("Login with Facebook",
+            textAlign: TextAlign.center,
+            style: style.copyWith(
+                color: Colors.white, fontWeight: FontWeight.bold)),
+      ),
+    );
+
     void register() async {
       Navigator.push(
         context,

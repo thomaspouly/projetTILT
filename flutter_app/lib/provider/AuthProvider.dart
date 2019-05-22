@@ -1,11 +1,15 @@
+import 'dart:io';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_app/models/User.dart';
+import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
 import 'FirestoreProvider.dart';
+import 'StorageProvider.dart';
 
 class AuthProvider {
   FirebaseAuth firebase = FirebaseAuth.instance;
- 
+  StorageProvider storage = StorageProvider();
 
   Future<String> authenticateUser(String email, String password) async {
     FirebaseUser user;
@@ -14,6 +18,10 @@ class AuthProvider {
 
     print("Signed in : " + user.uid);
     return user.uid;
+  }
+
+  Future<FirebaseUser> signInWithCredential(AuthCredential credential) {
+    return firebase.signInWithCredential(credential);
   }
 
   Future<String> currentUser() {

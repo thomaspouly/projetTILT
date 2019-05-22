@@ -29,6 +29,7 @@ class _SettingsState extends State<Settings> {
   @override
   void initState() {
     // TODO: implement initState
+    enabledNotifications = true;
     super.initState();
 enabledNotifications=true;
 
