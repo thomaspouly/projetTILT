@@ -131,21 +131,23 @@ class _MyLoginPageState extends State<MyLoginPage> {
                     .submit(emailFieldController.text, passFieldController.text)
                     .then((userId) {
                   if (souvenir == true) {
-                    SharedPreferences.getInstance().then((prefs) {
-                      print("ID PREFS LOGIn: " +
-                          prefs.getString('id').toString());
-
-                      prefs.setString('id', userId);
-                      print(
-                          "SharedPreferences = " + prefs.getKeys().toString());
                       bloc.login(userId, DateTime.now());
+                      bloc.getUserById(userId).then((user) {
+                        bloc.getNote().then((note) {
+                          if (int.parse(note.note) == 10) {
+                            int date = DateTime.now()
+                                .difference(DateTime.parse(user.date))
+                                .inDays;
+                            bloc.enterNbPomme(date);
+                          }
+                        });
+                      });
                       Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(
                               builder: (BuildContext ctx) => HomePage(
                                     uid: userId,
                                   )));
-                    });
                   } else {
                     print("COUCOU");
                     bloc.login(userId, DateTime.now());
@@ -203,41 +205,44 @@ class _MyLoginPageState extends State<MyLoginPage> {
 
     final loginButonFb = Material(
       elevation: 5.0,
-      color: Theme.of(context).primaryColor,
+      color: Colors.blue,
       borderRadius: BorderRadius.circular(5),
       child: MaterialButton(
         minWidth: MediaQuery.of(context).size.width,
         padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
         onPressed: () {
+          try {
             bloc.authenticateUserWithFb().then((userID) {
+              //print("USER ID ===>" + userID);
               if (souvenir == true) {
-                SharedPreferences.getInstance().then((prefs) {
-                  print("ID PREFS LOGIn: " +
-                      prefs.getString('id').toString());
-
-                  prefs.setString('id', userID);
-                  print(
-                      "SharedPreferences = " + prefs.getKeys().toString());
-                  bloc.login(userID, DateTime.now());
-                  Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(
-                          builder: (BuildContext ctx) => HomePage(
-                            uid: userID,
-                          )));
+                //bloc.login(userID, DateTime.now());
+                /*bloc.getUserById(userID).then((user) {
+                bloc.getNote().then((note) {
+                  if (int.parse(note.note) == 10) {
+                    int date = DateTime.now()
+                        .difference(DateTime.parse(user.date))
+                        .inDays;
+                    bloc.enterNbPomme(date);
+                  }
                 });
+              });*/
+                Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                        builder: (BuildContext ctx) => HomePage(
+                          uid: userID,
+                        )));
               } else {
-                bloc.login(userID, DateTime.now());
-                bloc.getUserById(userID).then((user) {
-                  bloc.getNote().then((note) {
-                    if (int.parse(note.note) == 10) {
-                      int date = DateTime.now()
-                          .difference(DateTime.parse(user.date))
-                          .inDays;
-                      bloc.enterNbPomme(date);
-                    }
-                  });
+                /*bloc.getUserById(userID).then((user) {
+                bloc.getNote().then((note) {
+                  if (int.parse(note.note) == 10) {
+                    int date = DateTime.now()
+                        .difference(DateTime.parse(user.date))
+                        .inDays;
+                    bloc.enterNbPomme(date);
+                  }
                 });
+              });*/
                 Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(
@@ -247,8 +252,12 @@ class _MyLoginPageState extends State<MyLoginPage> {
                 );
               }
             });
+          } on Exception catch(e) {
+            print(e);
+          }
+
         },
-        child: Text("Login With Fb",
+        child: Text("Login with Facebook",
             textAlign: TextAlign.center,
             style: style.copyWith(
                 color: Colors.white, fontWeight: FontWeight.bold)),
@@ -364,11 +373,13 @@ class _MyLoginPageState extends State<MyLoginPage> {
                   child: svg,
                 ),
                 Container(
-                  width: MediaQuery.of(context).size.width/2,
+                  width: MediaQuery.of(context).size.width / 2,
                   child: emailField,
                   padding: EdgeInsets.only(bottom: 10),
                 ),
-                Container(width: MediaQuery.of(context).size.width/2, child: passwordField),
+                Container(
+                    width: MediaQuery.of(context).size.width / 2,
+                    child: passwordField),
                 Row(children: <Widget>[
                   Expanded(
                       child: Align(
@@ -376,8 +387,12 @@ class _MyLoginPageState extends State<MyLoginPage> {
                     child: _forgot,
                   )),
                 ]),
-                Container(width: MediaQuery.of(context).size.width/2, child: loginButon),
-                Container(width: MediaQuery.of(context).size.width/2, child: loginButonFb),
+                Container(
+                    width: MediaQuery.of(context).size.width / 2,
+                    child: loginButon),
+                Container(
+                    width: MediaQuery.of(context).size.width / 2,
+                    child: loginButonFb),
                 Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: <Widget>[

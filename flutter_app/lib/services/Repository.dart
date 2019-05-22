@@ -15,7 +15,7 @@ class Repository {
       authProvider.authenticateUser(email, password);
 
   Future<String> authenticateUserWithFb() async {
-    return authProvider.authenticateUserWithFb();
+    return _firestoreProvider.authenticateUserWithFb();
   }
 
   Future<String> registerUser(String email, String password, String name,

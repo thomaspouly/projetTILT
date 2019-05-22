@@ -1,8 +1,10 @@
 import 'dart:io';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_app/models/User.dart';
 import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'FirestoreProvider.dart';
 import 'StorageProvider.dart';
 
 class AuthProvider {
@@ -19,33 +21,8 @@ class AuthProvider {
     return user.uid;
   }
 
-  Future<String> authenticateUserWithFb() async {
-    FacebookLogin facebookLogin = new FacebookLogin();
-    FacebookLoginResult result = await facebookLogin
-        .logInWithReadPermissions(['email']);
-    switch (result.status) {
-      case FacebookLoginStatus.loggedIn:
-        AuthCredential credential = FacebookAuthProvider.getCredential(
-            accessToken: result.accessToken.token);
-        return firebase.signInWithCredential(credential).then((firebaseUser) {
-          User user = new User(
-            name: firebaseUser.displayName,
-            email: firebaseUser.email ?? '',
-            nbPomme: 0,
-            treeNumber: 1,
-            date: DateTime.now().toIso8601String(),
-          );
-          storage.setImage(firebaseUser.uid, File(firebaseUser.photoUrl));
-          return firebaseUser.uid;
-        });
-        break;
-      case FacebookLoginStatus.cancelledByUser:
-        print("Cancelled by User");
-        break;
-      case FacebookLoginStatus.error:
-        print("Error");
-        break;
-    }
+  Future<FirebaseUser> signInWithCredential(AuthCredential credential) {
+    return firebase.signInWithCredential(credential);
   }
 
   Future<String> currentUser() {

@@ -4,7 +4,7 @@ import 'package:flutter_app/models/User.dart';
 import 'package:flutter_app/services/Repository.dart';
 
 class LoginBloc {
-  final _repository = Repository();
+  final _repository = new Repository();
 
   Future<String> submit(String email, String password) {
     if (validateFields(email, password)) {
