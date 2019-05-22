@@ -1,8 +1,6 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/bloc/login_bloc.dart';
-import 'package:flutter_app/models/NoteForm.dart';
-import 'package:flutter_app/models/User.dart';
 import 'package:flutter_app/provider/AuthProvider.dart';
 import 'package:flutter_app/provider/FirestoreProvider.dart';
 import 'package:flutter_app/provider/BlocProvider.dart';
@@ -12,7 +10,9 @@ import 'package:flutter_app/screen/register/register.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_statusbarcolor/flutter_statusbarcolor.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:flare_flutter/flare_actor.dart';
+import 'package:local_auth/local_auth.dart';
+import 'package:flutter/services.dart';
+import 'package:local_auth/error_codes.dart' as auth_error;
 
 // INITIALISATION
 
@@ -54,6 +54,11 @@ class _MyLoginPageState extends State<MyLoginPage> {
   String _email;
   String _password;
 
+  var localAuth = new LocalAuthentication();
+  bool didAuthenticate = false;
+  bool canCheckBiometrics;
+  String id;
+
   _MyLoginPageState() {
     emailFieldController.addListener(_emailListen);
     passFieldController.addListener(_passwordListen);
@@ -73,6 +78,23 @@ class _MyLoginPageState extends State<MyLoginPage> {
     } else {
       _password = passFieldController.text;
     }
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+
+    localAuth.canCheckBiometrics.then((onValue) {
+      canCheckBiometrics = onValue;
+    });
+
+    SharedPreferences.getInstance().then((prefs) {
+      setState(() {
+        id = prefs.getString("id");
+      });
+      print("ID: " + id);
+    });
   }
 
   @override
@@ -130,43 +152,16 @@ class _MyLoginPageState extends State<MyLoginPage> {
             if (bloc
                     .submit(emailFieldController.text, passFieldController.text)
                     .then((userId) {
-                  if (souvenir == true) {
-                    SharedPreferences.getInstance().then((prefs) {
-                      print("ID PREFS LOGIn: " +
-                          prefs.getString('id').toString());
-
-                      prefs.setString('id', userId);
-                      print(
-                          "SharedPreferences = " + prefs.getKeys().toString());
-                      bloc.login(userId, DateTime.now());
-                      Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(
-                              builder: (BuildContext ctx) => HomePage(
-                                    uid: userId,
-                                  )));
-                    });
-                  } else {
-                    print("COUCOU");
+                  SharedPreferences.getInstance().then((prefs) {
+                    prefs.setBool('remember', souvenir);
                     bloc.login(userId, DateTime.now());
-                    bloc.getUserById(userId).then((user) {
-                      bloc.getNote().then((note) {
-                        if (int.parse(note.note) == 10) {
-                          int date = DateTime.now()
-                              .difference(DateTime.parse(user.date))
-                              .inDays;
-                          bloc.enterNbPomme(date);
-                        }
-                      });
-                    });
                     Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => HomePage(
-                                uid: userId,
-                              )),
-                    );
-                  }
+                        context,
+                        MaterialPageRoute(
+                            builder: (BuildContext ctx) => HomePage(
+                                  uid: userId,
+                                )));
+                  });
                 }).catchError((error) {
                   print(error);
                 }) !=
@@ -293,6 +288,38 @@ class _MyLoginPageState extends State<MyLoginPage> {
           ),
         ));
 
+    final _fingerprint = MaterialButton(
+      padding: EdgeInsets.all(0),
+      child: Icon(Icons.fingerprint,size: 50,color:Theme.of(context).primaryColorDark ,),
+      onPressed: () {
+        try {
+          localAuth
+              .authenticateWithBiometrics(
+                  localizedReason: 'Please authenticate yourself')
+              .then((onValue) {
+           
+           setState(() {
+              didAuthenticate = onValue;
+           });
+           
+          });
+
+          if (didAuthenticate) {
+            SharedPreferences.getInstance().then((prefs) {
+               bloc.login(id, DateTime.now());
+              prefs.setBool('remember', souvenir);
+              Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                      builder: (BuildContext ctx) => HomePage(
+                            uid: id,
+                          )));
+            });
+          }
+        } on PlatformException catch (e) {}
+      },
+    );
+
     double padding = 20;
 
     return SafeArea(
@@ -310,11 +337,13 @@ class _MyLoginPageState extends State<MyLoginPage> {
                   child: svg,
                 ),
                 Container(
-                  width: MediaQuery.of(context).size.width/2,
+                  width: MediaQuery.of(context).size.width / 2,
                   child: emailField,
                   padding: EdgeInsets.only(bottom: 10),
                 ),
-                Container(width: MediaQuery.of(context).size.width/2, child: passwordField),
+                Container(
+                    width: MediaQuery.of(context).size.width / 2,
+                    child: passwordField),
                 Row(children: <Widget>[
                   Expanded(
                       child: Align(
@@ -322,7 +351,9 @@ class _MyLoginPageState extends State<MyLoginPage> {
                     child: _forgot,
                   )),
                 ]),
-                Container(width: MediaQuery.of(context).size.width/2, child: loginButon),
+                Container(
+                    width: MediaQuery.of(context).size.width / 2,
+                    child: loginButon),
                 Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: <Widget>[
@@ -347,6 +378,12 @@ class _MyLoginPageState extends State<MyLoginPage> {
                   alignment: Alignment.bottomCenter,
                   child: _continue,
                 ),
+                id != null && canCheckBiometrics == true
+                    ? Align(
+                        alignment: Alignment.bottomCenter,
+                        child: _fingerprint,
+                      )
+                    : Container()
               ],
             )),
       ),

@@ -8,7 +8,6 @@ import 'package:flutter_app/screen/customs/TextFieldCustom.dart';
 import 'package:flutter_app/screen/tree/form.dart';
 import 'package:flutter_sparkline/flutter_sparkline.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:fluttie/fluttie.dart';
 
 final String sproutName = 'assets/sprout.svg';
 final String treeName = 'assets/tree.svg';

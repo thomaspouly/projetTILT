@@ -4,7 +4,6 @@ import 'package:dynamic_theme/dynamic_theme.dart';
 import 'package:flutter_app/provider/BlocProvider.dart';
 import 'package:flutter_app/screen/login/login.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 
 
 class Settings extends StatefulWidget {
@@ -19,11 +18,11 @@ class Settings extends StatefulWidget {
 }
 
 class _SettingsState extends State<Settings> {
-  FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
   String _currentThemeSelected;
   var heightScreen;
   bool nightMode;
   bool enabledNotifications;
+  bool remember;
   Color pickerColor = Color(0xff443a49);
   Color currentColor = Color(0xff443a49);
 
@@ -31,7 +30,7 @@ class _SettingsState extends State<Settings> {
   void initState() {
     // TODO: implement initState
     super.initState();
-
+enabledNotifications=true;
 
     SharedPreferences.getInstance().then((prefs) {
       setState(() {
@@ -41,10 +40,16 @@ class _SettingsState extends State<Settings> {
           nightMode = false;
         }
 
+            if (prefs.getBool("remember")!=null) {
+          remember = prefs.getBool("remember");
+        } else {
+          remember = false;
+        }
+
         _currentThemeSelected = prefs.getString("theme");
       });
-      print("NIGHTMODE PREFS: " + prefs.getBool("nightMode").toString());
-      print("Theme: " + _currentThemeSelected);
+      print("ID: " + prefs.getString("id"));
+       print("Remember: " + remember.toString());
     });
   }
 
@@ -194,18 +199,17 @@ setState(() {
               onTap: () async {
                 SharedPreferences prefs = await SharedPreferences.getInstance();
 
-                prefs.remove("id").then((onValue) {
-                  print("ID PREFSDECO: " + prefs.getString('id').toString());
-                  bloc.logout();
+prefs.setBool("remember", false);
+
+   bloc.logout();
  Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(builder: (context) => MyLoginPage()),
                 );
 
-                
-                }).catchError((onError) {
-                  print(onError);
-                });
+                  print("ID DECO: " + prefs.getString('id').toString());
+                  print("REMEMBER DECO: " + prefs.getBool('remember').toString());
+            
               },
             )
           ],

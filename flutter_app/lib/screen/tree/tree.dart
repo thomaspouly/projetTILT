@@ -8,8 +8,8 @@ import 'package:flutter_app/screen/customs/TextFieldCustom.dart';
 import 'package:flutter_app/screen/tree/form.dart';
 import 'package:flutter_sparkline/flutter_sparkline.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:fluttie/fluttie.dart';
-import 'package:cloud_functions/cloud_functions.dart';
+
+import 'linky.dart';
 
 final String sproutName = 'assets/sprout.svg';
 final String appleName = 'assets/apple.svg';
@@ -145,7 +145,8 @@ class _TreePageState extends State<TreePage> {
                             left: MediaQuery.of(context).size.width / 1.25),
                         child: Row(
                           children: <Widget>[
-                            Container(width: 50, height: 50,child: appleWidget),
+                            Container(
+                                width: 50, height: 50, child: appleWidget),
                             Container(
                               padding: EdgeInsets.only(top: 15),
                               child: AutoSizeText(
@@ -168,58 +169,47 @@ class _TreePageState extends State<TreePage> {
               child: treeView(),
             )),
             Align(
-              alignment: Alignment.bottomCenter,
-              child: Container(
-                padding: EdgeInsets.only(bottom: 25),
-                child: RaisedButton(
-                  elevation: 5,
-                  color: Theme.of(context).primaryColor,
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => MyFormTreePage()),
-                    );
-                  },
-                  child: Text("Formulaire",
-                      style: TextStyle(fontSize: 20, color: Colors.white)),
-                ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: <Widget>[
+                  Container(
+                    padding: EdgeInsets.only(bottom: 25),
+                    child: RaisedButton(
+                      elevation: 5,
+                      color: Theme.of(context).primaryColor,
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => MyFormTreePage()),
+                        );
+                      },
+                      child: Text("Formulaire",
+                          style: TextStyle(fontSize: 20, color: Colors.white)),
+                    ),
+                  ),
+                  Container(
+                    padding: EdgeInsets.only(bottom: 25),
+                    child: RaisedButton(
+                      elevation: 5,
+                      color: Theme.of(context).primaryColor,
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => Linky()),
+                        );
+                      },
+                      child: Text("Linky",
+                          style: TextStyle(fontSize: 20, color: Colors.white)),
+                    ),
+                  ),
+                ],
               ),
-            ),
+              alignment: Alignment.bottomCenter,
+            )
           ],
         ),
       ),
-    );
-  }
-
-  void _showEvolution() {
-    var data = [0.0, 1.0, 1.5, 2.0, 0.0, 0.0, -0.5, -1.0, -0.5, 0.0, 0.0];
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        // return object of type Dialog
-        return AlertDialog(
-          title: new Text("Evolution de votre arbre:"),
-          content: Container(
-            margin: EdgeInsets.all(20),
-            child: Sparkline(
-              data: data,
-              pointSize: 8,
-              lineColor: Colors.blue,
-              pointColor: Colors.blue[700],
-              pointsMode: PointsMode.all,
-            ),
-          ),
-          actions: <Widget>[
-            // usually buttons at the bottom of the dialog
-            new FlatButton(
-              child: new Text("Close"),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-          ],
-        );
-      },
     );
   }
 }
