@@ -160,21 +160,21 @@ class _MyProfilPageState extends State<MyProfilPage> {
                               email.controller.text,
                               name.controller.text,
                               snapshot.data.treeNumber,
-                              int.parse(pomme.controller.text),snapshot.data.date);
+                              int.parse(pomme.controller.text),snapshot.data.date,snapshot.data.friendList);
                         } else if (name.controller.text.isEmpty) {
                           bloc.modifyUser(
                               widget.uid,
                               email.controller.text,
                               name.title,
                               snapshot.data.treeNumber,
-                              int.parse(pomme.controller.text),snapshot.data.date);
+                              int.parse(pomme.controller.text),snapshot.data.date,snapshot.data.friendList);
                         } else {
                           bloc.modifyUser(
                               widget.uid,
                               email.controller.text,
                               name.controller.text,
                               snapshot.data.treeNumber,
-                              int.parse(pomme.controller.text),snapshot.data.date);
+                              int.parse(pomme.controller.text),snapshot.data.date,snapshot.data.friendList);
                         }
 
                         Navigator.of(context).pop();
