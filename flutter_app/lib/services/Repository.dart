@@ -60,4 +60,8 @@ class Repository {
     return authProvider.login(userId,date);
   }
 
+  Future<User> addUserInFriendList(String email) {
+    return _firestoreProvider.addUserInFriendList(email);
+  }
+
 }

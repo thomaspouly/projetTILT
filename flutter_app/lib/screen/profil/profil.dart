@@ -98,6 +98,7 @@ class _MyProfilPageState extends State<MyProfilPage> {
     TextEditingController emailController = TextEditingController();
     TextEditingController nameController = TextEditingController();
     TextEditingController pommeController = TextEditingController();
+    TextEditingController addController = TextEditingController();
 
     Widget _buildTextFields() {
       return new FutureBuilder(
@@ -121,6 +122,12 @@ class _MyProfilPageState extends State<MyProfilPage> {
                 hide: false,
                 controller: nameController,
               );
+              var addFriend = new TextFieldCustom(
+                icon: Icon(Icons.person_outline),
+                title: "Ajouter un amis, entrez son email",
+                hide: false,
+                controller: addController,
+              );
               var pomme = new TextFieldCustom(
                 icon: Icon(Icons.nature),
                 title: "Nombre de pomme",
@@ -131,7 +138,7 @@ class _MyProfilPageState extends State<MyProfilPage> {
               );
               return Column(
                 children: <Widget>[
-                  Container(
+                  /*Container(
                     margin: EdgeInsets.only(top: 10, bottom: 10),
                     child: name,
                   ),
@@ -189,8 +196,35 @@ class _MyProfilPageState extends State<MyProfilPage> {
                               fontWeight: FontWeight.bold)),
                     ),
                   ),
-              )
-                 
+              ),*/
+                  Container(
+                    margin: EdgeInsets.only(top: 10, bottom: 100),
+                    child: addFriend,
+                  ),
+                  Container(
+                    margin:  EdgeInsets.only(left:  MediaQuery.of(context).size.width/7,right: MediaQuery.of(context).size.width/7 ),
+                    child:  Material(
+
+                      elevation: 5.0,
+
+                      color: Theme.of(context).primaryColor,
+                      borderRadius: BorderRadius.circular(5),
+                      child: MaterialButton(
+
+                        onPressed: () {
+                          bloc.addUserInFriendList(addFriend.controller.text);
+                        },
+                        minWidth: MediaQuery.of(context).size.width,
+
+                        child: AutoSizeText("Ajouter un amis via son email",
+                            maxLines: 1,
+                            textAlign: TextAlign.center,
+                            style: style.copyWith(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold)),
+                      ),
+                    ),
+                  ),
                 ],
               );
             } else {

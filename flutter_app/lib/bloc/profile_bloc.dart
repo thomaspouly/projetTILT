@@ -14,4 +14,8 @@ class ProfileBloc {
     return _repository.modifyUser(id, email, name, treeNumber,nbPomme,date,friendList);
   }
 
+  Future<User> addUserInFriendList(String email) {
+    return _repository.addUserInFriendList(email);
+  }
+
 }

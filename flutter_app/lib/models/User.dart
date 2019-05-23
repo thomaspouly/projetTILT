@@ -9,7 +9,14 @@ class User {
   String date;
   List<User> friendList;
 
-  User({this.email, this.name, this.treeNumber,this.nbPomme, this.reference,this.date,this.friendList});
+  User(
+      {this.email,
+      this.name,
+      this.treeNumber,
+      this.nbPomme,
+      this.reference,
+      this.date,
+      this.friendList});
 
   User.fromMap(Map<String, dynamic> map, {this.reference})
       : assert(map['email'] != null),
@@ -34,11 +41,10 @@ class User {
         'treeNumber': treeNumber,
         'nbPomme': nbPomme,
         'date': date,
-        'friendList' : friendList,
+        'friendList': friendList,
       };
 
   @override
-  String toString() => "User<$email:$name:$treeNumber:$nbPomme:$date:$friendList>";
-
-
+  String toString() =>
+      "User<$email:$name:$treeNumber:$nbPomme:$date:$friendList>";
 }

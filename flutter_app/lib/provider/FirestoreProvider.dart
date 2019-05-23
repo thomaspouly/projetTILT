@@ -33,6 +33,73 @@ class FirestoreProvider {
     });
   }
 
+  Future<User> getUserByEmail(String email) {
+    return _firestore
+        .collection('user')
+        .getDocuments()
+        .then((documentSnapshot) {
+      for (int i = 0; i < documentSnapshot.documents.length; i++) {
+        if (documentSnapshot.documents[i]['email'] == email) {
+          User user = new User(
+            date: documentSnapshot.documents[i].data['date'],
+            treeNumber: documentSnapshot.documents[i].data['treeNumber'],
+            nbPomme: documentSnapshot.documents[i].data['nbPomme'],
+            name: documentSnapshot.documents[i].data['name'],
+            email: documentSnapshot.documents[i].data['email'],
+            friendList: documentSnapshot.documents[i].data['friendList'],
+          );
+          return user;
+        }
+      }
+    });
+  }
+
+  Future<User> addUserInFriendList(String email) {
+    return auth.currentUser().then((userID) {
+      // Récupére l'utilisateur recherché
+      return getUserByEmail(email).then((user) {
+        // Recupére l'utilisateur courrant en fonction de l'ID
+        return getUserById(userID).then((user2) {
+          List<User> friendList = user2.friendList;
+          friendList.add(user);
+          List<User> friendListUserSearch = user.friendList;
+          friendListUserSearch.add(user2);
+          User add = new User(
+            friendList: friendList,
+            email: user2.email,
+            name: user2.name,
+            nbPomme: user2.nbPomme,
+            treeNumber: user2.treeNumber,
+            date: user2.date,
+          );
+          User search = new User(
+            friendList: friendListUserSearch,
+            email: user.email,
+            name: user.name,
+            nbPomme: user.nbPomme,
+            treeNumber: user.treeNumber,
+            date: user.date,
+          );
+          _firestore
+              .collection('user')
+              .document(userID)
+              .updateData(add.toJson());
+          _firestore.collection('user').getDocuments().then((documentSnapshot) {
+            for (int i = 0; i < documentSnapshot.documents.length; i++) {
+              if (documentSnapshot.documents[i]['email'] == email) {
+                _firestore
+                    .collection('user')
+                    .document(documentSnapshot.documents[i].documentID)
+                    .updateData(search.toJson());
+              }
+            }
+          });
+          return add;
+        });
+      });
+    });
+  }
+
   Future<String> authenticateUserWithFb() async {
     FacebookLogin facebookLogin = new FacebookLogin();
     FacebookLoginResult result =
