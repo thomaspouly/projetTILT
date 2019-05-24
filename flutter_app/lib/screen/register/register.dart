@@ -1,13 +1,9 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
-import 'package:flutter_app/main.dart';
 import 'package:flutter_app/provider/BlocProvider.dart';
 import 'package:flutter_app/screen/customs/TextFieldCustom.dart';
 import 'package:flutter_app/screen/home/home.dart';
-import 'package:flutter_app/screen/login/login.dart';
 import 'package:image_picker/image_picker.dart';
-
 import 'package:flutter_app/bloc/register_bloc.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_crop/image_crop.dart';
@@ -42,9 +38,9 @@ class _RegisterPageState extends State<RegisterPage> {
   String _name = "";
   String _email = "";
   String _password = "";
-  String _password2 = "";
+  String password2 = "";
   bool _booleanCheckBox = false;
-  int _treeNumber = -1;
+  int treeNumber = -1;
   String _textError = "";
 
   File _image;
@@ -82,9 +78,9 @@ class _RegisterPageState extends State<RegisterPage> {
 
   void _passwordListen2() {
     if (_passwordFilter2.text.isEmpty) {
-      _password2 = "";
+      password2 = "";
     } else {
-      _password2 = _passwordFilter2.text;
+      password2 = _passwordFilter2.text;
     }
   }
 

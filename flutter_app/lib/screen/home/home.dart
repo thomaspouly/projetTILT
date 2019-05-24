@@ -41,7 +41,7 @@ Future<String> getImage(String uid) async {
 }
 
 class _HomePageState extends State<HomePage> {
-  GlobalKey<ScaffoldState> _scaffoldKey;
+  GlobalKey<ScaffoldState> scaffoldKey;
   var heightScreen;
   List<Tile> tiles = TileHelper().listTile();
   List<StaggeredView> tileGrid = new List<StaggeredView>();
@@ -140,7 +140,7 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
-  int _index = 1;
+  int index = 1;
 
   @override
   Widget build(BuildContext context) {
@@ -151,7 +151,7 @@ class _HomePageState extends State<HomePage> {
 
     FlutterStatusbarcolor.setStatusBarColor(Colors.grey[200]);
     FlutterStatusbarcolor.setStatusBarWhiteForeground(false);
-    _scaffoldKey = new GlobalKey<ScaffoldState>();
+    scaffoldKey = new GlobalKey<ScaffoldState>();
     return new SafeArea(
       child: new Scaffold(
           extendBody: true,
@@ -601,8 +601,6 @@ class _HomePageState extends State<HomePage> {
                                     AsyncSnapshot<NoteForm> snapshot) {
                                   switch (snapshot.connectionState) {
                                     case ConnectionState.done:
-                                      double note =
-                                          double.parse(snapshot.data.note);
                                       return Text(
                                         "Note: " +
                                             double.parse(snapshot.data.note)

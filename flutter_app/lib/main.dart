@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/provider/BlocProvider.dart';
 import 'package:flutter_app/screen/home/home.dart';
 import 'package:flutter_app/screen/login/login.dart';
-import 'package:flutter_app/screen/login/login.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:splashscreen/splashscreen.dart';
 import 'package:dynamic_theme/dynamic_theme.dart';

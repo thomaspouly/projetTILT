@@ -40,13 +40,13 @@ class _PartnerPageState extends State<PartnerPage> {
     departementFieldController.addListener(_departementListen);
   }
 
-  String _departement;
+  String departement;
 
   void _departementListen() {
     if (departementFieldController.text.isEmpty) {
-      _departement = "";
+      departement = "";
     } else {
-      _departement = departementFieldController.text;
+      departement = departementFieldController.text;
     }
   }
 
