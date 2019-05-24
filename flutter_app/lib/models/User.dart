@@ -7,7 +7,7 @@ class User {
   int treeNumber;
   int nbPomme;
   String date;
-  List<User> friendList;
+  List<String> friendList;
 
   User(
       {this.email,

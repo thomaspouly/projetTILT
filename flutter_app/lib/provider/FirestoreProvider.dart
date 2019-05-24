@@ -46,12 +46,21 @@ class FirestoreProvider {
             nbPomme: documentSnapshot.documents[i].data['nbPomme'],
             name: documentSnapshot.documents[i].data['name'],
             email: documentSnapshot.documents[i].data['email'],
-            friendList: documentSnapshot.documents[i].data['friendList'],
+            friendList:
+                documentSnapshot.documents[i].data['friendList'].cast<String>(),
           );
           return user;
         }
       }
     });
+  }
+
+  List<String> copyList(List<String> list,int length) {
+    List<String> listFinal = new List();
+    for (int i = 0; i < length; i++) {
+      listFinal[i] = list[i];
+    }
+    return listFinal;
   }
 
   Future<User> addUserInFriendList(String email) {
@@ -60,41 +69,46 @@ class FirestoreProvider {
       return getUserByEmail(email).then((user) {
         // Recupére l'utilisateur courrant en fonction de l'ID
         return getUserById(userID).then((user2) {
-          List<User> friendList = user2.friendList;
-          friendList.add(user);
-          List<User> friendListUserSearch = user.friendList;
-          friendListUserSearch.add(user2);
-          User add = new User(
-            friendList: friendList,
-            email: user2.email,
-            name: user2.name,
-            nbPomme: user2.nbPomme,
-            treeNumber: user2.treeNumber,
-            date: user2.date,
-          );
+          List<String> friendListSearch = copyList(user.friendList,user.friendList.length);
+          friendListSearch.add(userID);
           User search = new User(
-            friendList: friendListUserSearch,
+            friendList: friendListSearch,
             email: user.email,
             name: user.name,
             nbPomme: user.nbPomme,
             treeNumber: user.treeNumber,
             date: user.date,
           );
-          _firestore
+          return _firestore
               .collection('user')
-              .document(userID)
-              .updateData(add.toJson());
-          _firestore.collection('user').getDocuments().then((documentSnapshot) {
+              .getDocuments()
+              .then((documentSnapshot) {
+            User add;
+            List<String> friendList;
             for (int i = 0; i < documentSnapshot.documents.length; i++) {
               if (documentSnapshot.documents[i]['email'] == email) {
+                friendList = copyList(user2.friendList,user2.friendList.length);
+                friendList.add(documentSnapshot.documents[i].documentID);
+                add = new User(
+                  friendList: friendList,
+                  email: user2.email,
+                  name: user2.name,
+                  nbPomme: user2.nbPomme,
+                  treeNumber: user2.treeNumber,
+                  date: user2.date,
+                );
                 _firestore
                     .collection('user')
                     .document(documentSnapshot.documents[i].documentID)
                     .updateData(search.toJson());
+                _firestore
+                    .collection('user')
+                    .document(userID)
+                    .updateData(add.toJson());
               }
             }
+            return add;
           });
-          return add;
         });
       });
     });
@@ -120,7 +134,7 @@ class FirestoreProvider {
               nbPomme: 0,
               treeNumber: 1,
               date: DateTime.now().toIso8601String(),
-              friendList: new List<User>(),
+              friendList: new List<String>(),
             );
             NoteForm note = new NoteForm(note: "5");
             storage.setImage(firebaseUser.uid, File(firebaseUser.photoUrl));
@@ -148,7 +162,7 @@ class FirestoreProvider {
   }
 
   Future<User> modifyUser(String id, String email, String name, int treeNumber,
-      int nbPomme, String date, List<User> friendList) {
+      int nbPomme, String date, List<String> friendList) {
     return auth.currentUser().then((userID) {
       User user = new User(
           email: email,
@@ -173,7 +187,7 @@ class FirestoreProvider {
           name: name,
           date: DateTime.now().toIso8601String(),
           nbPomme: 0,
-          friendList: new List<User>());
+          friendList: new List<String>());
       NoteForm note = new NoteForm(note: "5");
       _firestore.collection('user').document(userId).setData(user.toJson());
       _firestore.collection('data').document(userId).setData(note.toJson());
