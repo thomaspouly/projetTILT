@@ -55,7 +55,7 @@ class FirestoreProvider {
     });
   }
 
-  List<String> copyList(List<String> list,int length) {
+  List<String> copyList(List<String> list, int length) {
     List<String> listFinal = new List();
     for (int i = 0; i < length; i++) {
       listFinal[i] = list[i];
@@ -69,7 +69,8 @@ class FirestoreProvider {
       return getUserByEmail(email).then((user) {
         // Recupére l'utilisateur courrant en fonction de l'ID
         return getUserById(userID).then((user2) {
-          List<String> friendListSearch = copyList(user.friendList,user.friendList.length);
+          List<String> friendListSearch =
+              copyList(user.friendList, user.friendList.length);
           friendListSearch.add(userID);
           User search = new User(
             friendList: friendListSearch,
@@ -87,7 +88,8 @@ class FirestoreProvider {
             List<String> friendList;
             for (int i = 0; i < documentSnapshot.documents.length; i++) {
               if (documentSnapshot.documents[i]['email'] == email) {
-                friendList = copyList(user2.friendList,user2.friendList.length);
+                friendList =
+                    copyList(user2.friendList, user2.friendList.length);
                 friendList.add(documentSnapshot.documents[i].documentID);
                 add = new User(
                   friendList: friendList,
@@ -173,6 +175,12 @@ class FirestoreProvider {
           friendList: friendList);
       _firestore.collection('user').document(userID).updateData(user.toJson());
       return user;
+    });
+  }
+
+  Future<String> modifyImageUser(File image) {
+    return auth.currentUser().then((userID) {
+      return storage.setImage(userID, image);
     });
   }
 

@@ -117,6 +117,36 @@ class _TreePageState extends State<TreePage> {
           });
     }
 
+    void _showDialog() {
+      // flutter defined function
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          // return object of type Dialog
+          return AlertDialog(
+            title: new Text("Aide"),
+            content: new Column(
+              children: <Widget>[
+                Text("Voici votre arbre, celui-ci grandit en fonction de ce que vous remplissez dans le formulaire."),
+                Text("Pour que celui-ci grandissent, il faut que votre note soit supérieur à 5."),
+                Text("Une fois qu'il grandit et lorsqu'il atteint la plus haute note, de 10, celui-ci vous rapporte des pommes."),
+                Text("Ces pommes s'ajoutent a votre nombre de pomme toute les 24 heures et sont échangeable contre un don à une association."),
+              ],
+            ),
+            actions: <Widget>[
+              // usually buttons at the bottom of the dialog
+              new FlatButton(
+                child: new Text("Fermer"),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
+          );
+        },
+      );
+    }
+
     return new SafeArea(
       child: new Scaffold(
         appBar: AppBar(
@@ -124,6 +154,20 @@ class _TreePageState extends State<TreePage> {
           elevation: 3,
           centerTitle: true,
           title: Text("Votre arbre"),
+          actions: <Widget>[
+            PopupMenuButton(
+              itemBuilder: (BuildContext context) {
+                return [
+                  PopupMenuItem(child: IconButton(
+                    icon: Icon(Icons.help),
+                    onPressed: () {
+                      _showDialog();
+                    },
+                  ),),
+                ];
+              },
+            )
+          ],
         ),
         body: Stack(
           children: <Widget>[

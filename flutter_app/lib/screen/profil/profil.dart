@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/models/User.dart';
@@ -8,6 +10,8 @@ import 'package:flutter_app/screen/customs/TextFieldCustom.dart';
 import 'package:flutter_app/screen/home/home.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_statusbarcolor/flutter_statusbarcolor.dart';
+import 'package:image_cropper/image_cropper.dart';
+import 'package:image_picker/image_picker.dart';
 
 // INITIALISATION
 
@@ -112,7 +116,7 @@ class _MyProfilPageState extends State<MyProfilPage> {
                 icon: Icon(Icons.email),
                 title: "Email",
                 hide: false,
-                colors:Theme.of(context).primaryColor,
+                colors: Theme.of(context).primaryColor,
                 controller: emailController,
                 editable: false,
               );
@@ -138,7 +142,7 @@ class _MyProfilPageState extends State<MyProfilPage> {
               );
               return Column(
                 children: <Widget>[
-                  /*Container(
+                  Container(
                     margin: EdgeInsets.only(top: 10, bottom: 10),
                     child: name,
                   ),
@@ -150,54 +154,58 @@ class _MyProfilPageState extends State<MyProfilPage> {
                     margin: EdgeInsets.only(top: 10, bottom: 100),
                     child: pomme,
                   ),
-              Container(
-                margin:  EdgeInsets.only(left:  MediaQuery.of(context).size.width/7,right: MediaQuery.of(context).size.width/7 ),
-                child:  Material(
-                    
-                    elevation: 5.0,
-                   
-                    color: Theme.of(context).primaryColor,
-                    borderRadius: BorderRadius.circular(5),
-                    child: MaterialButton(
-                      
-                      onPressed: () {
-                        if (email.controller.text.isEmpty) {
-                          bloc.modifyUser(
-                              widget.uid,
-                              email.controller.text,
-                              name.controller.text,
-                              snapshot.data.treeNumber,
-                              int.parse(pomme.controller.text),snapshot.data.date,snapshot.data.friendList);
-                        } else if (name.controller.text.isEmpty) {
-                          bloc.modifyUser(
-                              widget.uid,
-                              email.controller.text,
-                              name.title,
-                              snapshot.data.treeNumber,
-                              int.parse(pomme.controller.text),snapshot.data.date,snapshot.data.friendList);
-                        } else {
-                          bloc.modifyUser(
-                              widget.uid,
-                              email.controller.text,
-                              name.controller.text,
-                              snapshot.data.treeNumber,
-                              int.parse(pomme.controller.text),snapshot.data.date,snapshot.data.friendList);
-                        }
+                  Container(
+                    margin: EdgeInsets.only(
+                        left: MediaQuery.of(context).size.width / 7,
+                        right: MediaQuery.of(context).size.width / 7),
+                    child: Material(
+                      elevation: 5.0,
+                      color: Theme.of(context).primaryColor,
+                      borderRadius: BorderRadius.circular(5),
+                      child: MaterialButton(
+                        onPressed: () {
+                          if (email.controller.text.isEmpty) {
+                            bloc.modifyUser(
+                                widget.uid,
+                                email.controller.text,
+                                name.controller.text,
+                                snapshot.data.treeNumber,
+                                int.parse(pomme.controller.text),
+                                snapshot.data.date,
+                                snapshot.data.friendList);
+                          } else if (name.controller.text.isEmpty) {
+                            bloc.modifyUser(
+                                widget.uid,
+                                email.controller.text,
+                                name.title,
+                                snapshot.data.treeNumber,
+                                int.parse(pomme.controller.text),
+                                snapshot.data.date,
+                                snapshot.data.friendList);
+                          } else {
+                            bloc.modifyUser(
+                                widget.uid,
+                                email.controller.text,
+                                name.controller.text,
+                                snapshot.data.treeNumber,
+                                int.parse(pomme.controller.text),
+                                snapshot.data.date,
+                                snapshot.data.friendList);
+                          }
 
-                        Navigator.of(context).pop();
-                      },
-                      minWidth: MediaQuery.of(context).size.width,
-                   
-                      child: AutoSizeText("Enregistrer",
-                      maxLines: 1,
-                          textAlign: TextAlign.center,
-                          style: style.copyWith(
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold)),
+                          Navigator.of(context).pop();
+                        },
+                        minWidth: MediaQuery.of(context).size.width,
+                        child: AutoSizeText("Enregistrer",
+                            maxLines: 1,
+                            textAlign: TextAlign.center,
+                            style: style.copyWith(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold)),
+                      ),
                     ),
                   ),
-              ),*/
-                  Container(
+                  /*Container(
                     margin: EdgeInsets.only(top: 10, bottom: 100),
                     child: addFriend,
                   ),
@@ -224,12 +232,92 @@ class _MyProfilPageState extends State<MyProfilPage> {
                                 fontWeight: FontWeight.bold)),
                       ),
                     ),
-                  ),
+                  ),*/
                 ],
               );
             } else {
               return Text("Chargement");
             }
+          });
+    }
+
+    Future getImageFromCamera() async {
+      var image = await ImagePicker.pickImage(source: ImageSource.camera);
+      if (image != null) {
+        image = await ImageCropper.cropImage(
+          sourcePath: image.path,
+          ratioX: 1.0,
+          ratioY: 1.0,
+          maxWidth: 512,
+          maxHeight: 512,
+        );
+        setState(() {
+          bloc.modifyImageUser(image);
+        });
+      }
+    }
+
+    Future getImageFromGallery() async {
+      var image = await ImagePicker.pickImage(source: ImageSource.gallery);
+      if (image != null) {
+        image = await ImageCropper.cropImage(
+          sourcePath: image.path,
+          ratioX: 1.0,
+          ratioY: 1.0,
+          maxWidth: 512,
+          maxHeight: 512,
+        );
+        setState(() {
+          bloc.modifyImageUser(image);
+        });
+      }
+    }
+
+    void _settingModalBottomSheet(context) {
+      showModalBottomSheet(
+          context: context,
+          builder: (BuildContext bc) {
+            return Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisSize: MainAxisSize.min,
+                children: <Widget>[
+                  Text("Changer votre photo de profil"),
+                  Container(
+                    margin: EdgeInsets.only(top: 20),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        FlatButton(
+                          onPressed: () {
+                            getImageFromCamera();
+                          },
+                          child: CircleAvatar(
+                            radius: 50.0,
+                            backgroundColor: Theme.of(context).primaryColor,
+                            child: Icon(
+                              Icons.photo_camera,
+                              size: 40,
+                            ),
+                          ),
+                        ),
+                        FlatButton(
+                          onPressed: () async {
+                            getImageFromGallery();
+                          },
+                          child: new CircleAvatar(
+                            radius: 50.0,
+                            backgroundColor: Theme.of(context).primaryColor,
+                            child: Icon(
+                              Icons.photo_library,
+                              size: 40,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ]);
           });
     }
 
@@ -246,7 +334,18 @@ class _MyProfilPageState extends State<MyProfilPage> {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
-                    _buildImage(),
+                    Column(
+                      children: <Widget>[
+                        FlatButton(
+                          shape: new RoundedRectangleBorder(
+                              borderRadius: new BorderRadius.circular(30.0)),
+                          child: _buildImage(),
+                          onPressed: () {
+                            _settingModalBottomSheet(context);
+                          },
+                        )
+                      ],
+                    ),
                     _buildTextFields(),
                   ]),
             ],

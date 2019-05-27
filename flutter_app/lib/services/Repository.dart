@@ -44,6 +44,10 @@ class Repository {
     return _firestoreProvider.modifyUser(id, email, name, treeNumber,nbPomme,date,friendList);
   }
 
+  Future<String> modifyImageUser(File image) {
+    return _firestoreProvider.modifyImageUser(image);
+  }
+
   Future<User> getUserById(String id) {
     return _firestoreProvider.getUserById(id);
   }
