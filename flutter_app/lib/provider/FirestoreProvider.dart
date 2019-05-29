@@ -27,6 +27,7 @@ class FirestoreProvider {
           treeNumber: documentSnapshot.data['treeNumber'],
           nbPomme: documentSnapshot.data['nbPomme'],
           date: documentSnapshot.data['date'],
+          friendList: documentSnapshot.data['frendList'],
           reference: null);
       return u;
     });
@@ -36,7 +37,7 @@ class FirestoreProvider {
     FacebookLogin facebookLogin = new FacebookLogin();
     FacebookLoginResult result =
         await facebookLogin.logInWithReadPermissions(['email']);
-    try{
+    try {
       switch (result.status) {
         case FacebookLoginStatus.loggedIn:
           AuthCredential credential = FacebookAuthProvider.getCredential(
@@ -52,9 +53,18 @@ class FirestoreProvider {
               nbPomme: 0,
               treeNumber: 1,
               date: DateTime.now().toIso8601String(),
+              friendList: new List<User>(),
             );
+            NoteForm note = new NoteForm(note: "5");
             storage.setImage(firebaseUser.uid, File(firebaseUser.photoUrl));
-            _firestore.collection('user').document(firebaseUser.uid).setData(user.toJson());
+            _firestore
+                .collection('user')
+                .document(firebaseUser.uid)
+                .setData(user.toJson());
+            _firestore
+                .collection('data')
+                .document(firebaseUser.uid)
+                .setData(note.toJson());
             return firebaseUser.uid;
           });
           break;
@@ -65,20 +75,21 @@ class FirestoreProvider {
           print("Error : " + FacebookLoginStatus.error.index.toString());
           break;
       }
-    } on Exception catch(e) {
+    } on Exception catch (e) {
       print(e);
     }
   }
 
   Future<User> modifyUser(String id, String email, String name, int treeNumber,
-      int nbPomme, String date) {
+      int nbPomme, String date, List<User> friendList) {
     return auth.currentUser().then((userID) {
       User user = new User(
           email: email,
           name: name,
           treeNumber: treeNumber,
           nbPomme: nbPomme,
-          date: date);
+          date: date,
+          friendList: friendList);
       _firestore.collection('user').document(userID).updateData(user.toJson());
       return user;
     });
@@ -94,7 +105,8 @@ class FirestoreProvider {
           email: email,
           name: name,
           date: DateTime.now().toIso8601String(),
-          nbPomme: 0);
+          nbPomme: 0,
+          friendList: new List<User>());
       NoteForm note = new NoteForm(note: "5");
       _firestore.collection('user').document(userId).setData(user.toJson());
       _firestore.collection('data').document(userId).setData(note.toJson());

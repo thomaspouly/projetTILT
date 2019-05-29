@@ -40,8 +40,8 @@ class Repository {
   Future<void> enterNbPomme(int nbPomme) =>
       _firestoreProvider.enterNbPomme(nbPomme);
 
-  Future<User> modifyUser(String id,String email, String name, int treeNumber,int nbPomme,String date) {
-    return _firestoreProvider.modifyUser(id, email, name, treeNumber,nbPomme,date);
+  Future<User> modifyUser(String id,String email, String name, int treeNumber,int nbPomme,String date,List<User>friendList) {
+    return _firestoreProvider.modifyUser(id, email, name, treeNumber,nbPomme,date,friendList);
   }
 
   Future<User> getUserById(String id) {
