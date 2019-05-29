@@ -46,7 +46,6 @@ class _LinkyState extends State<Linky> {
   Future readText() async {
     FirebaseVisionImage ourImage = FirebaseVisionImage.fromFile(pickedImage);
     TextRecognizer recognizeText = FirebaseVision.instance.textRecognizer();
-final ImageLabeler labeler = FirebaseVision.instance.imageLabeler();
 
     VisionText readText = await recognizeText.processImage(ourImage);
 
@@ -60,22 +59,32 @@ final ImageLabeler labeler = FirebaseVision.instance.imageLabeler();
       }
     }
   }
+/*
 
+ detectPicture() {
+ 
+final FirebaseVisionImage visionImage = FirebaseVisionImage.fromFile(pickedImage);
+   final VisionEdgeImageLabeler visionEdgeLabeler = FirebaseVision.instance.visionEdgeImageLabeler(
+ 'auto_ml', 
+ VisionEdgeImageLabelerOptions(confidenceThreshold: 0.5)
+);
+ visionEdgeLabeler.processImage(visionImage).then((onValue){
+for(int i=0;i<onValue.length;i++){
+  final String text = onValue[i].text;
+  final double confidence =  onValue[i].confidence;
 
-  Future detectPicture() async {
-    FirebaseVisionImage ourImage = FirebaseVisionImage.fromFile(pickedImage);
-    
-      ImageLabeler labeler = FirebaseVision.instance.imageLabeler();
-      List<ImageLabel> labels = await labeler.processImage(ourImage);
-
-for(int i=0;i<labels.length;i++){
- setState(() {
-   t+=labels[i].text+" ";
- });
+  setState(() {
+    t+="\nTexte:"+text+" ; Confidence"+confidence.toString();
+  });
 }
+  
+  });
 
+
+
+  
   }
-
+*/
 
   Widget _buildImage() {
     return new Container(
@@ -158,7 +167,7 @@ for(int i=0;i<labels.length;i++){
         ),
         RaisedButton(
           child: Text('Détecter image'),
-          onPressed: detectPicture,
+         // onPressed: detectPicture,
           
         ),
         RaisedButton(
