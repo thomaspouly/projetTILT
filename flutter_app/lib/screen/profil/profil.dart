@@ -132,6 +132,7 @@ class _MyProfilPageState extends State<MyProfilPage> {
                 hide: false,
                 controller: addController,
               );
+              addController.text = "maxance@gmail.com";
               var pomme = new TextFieldCustom(
                 icon: Icon(Icons.nature),
                 title: "Nombre de pomme",
@@ -151,7 +152,7 @@ class _MyProfilPageState extends State<MyProfilPage> {
                     child: email,
                   ),
                   Container(
-                    margin: EdgeInsets.only(top: 10, bottom: 100),
+                    margin: EdgeInsets.only(top: 10, bottom: 50),
                     child: pomme,
                   ),
                   Container(
@@ -204,26 +205,28 @@ class _MyProfilPageState extends State<MyProfilPage> {
                                 fontWeight: FontWeight.bold)),
                       ),
                     ),
+                    padding: EdgeInsets.only(bottom: 30),
                   ),
                   /*Container(
-                    margin: EdgeInsets.only(top: 10, bottom: 100),
+                    margin: EdgeInsets.only(top: 10, bottom: 30),
+                    padding: EdgeInsets.only(
+                        left: MediaQuery.of(context).size.width / 7,
+                        right: MediaQuery.of(context).size.width / 7),
                     child: addFriend,
                   ),
                   Container(
-                    margin:  EdgeInsets.only(left:  MediaQuery.of(context).size.width/7,right: MediaQuery.of(context).size.width/7 ),
-                    child:  Material(
-
+                    margin: EdgeInsets.only(
+                        left: MediaQuery.of(context).size.width / 7,
+                        right: MediaQuery.of(context).size.width / 7),
+                    child: Material(
                       elevation: 5.0,
-
                       color: Theme.of(context).primaryColor,
                       borderRadius: BorderRadius.circular(5),
                       child: MaterialButton(
-
                         onPressed: () {
                           bloc.addUserInFriendList(addFriend.controller.text);
                         },
                         minWidth: MediaQuery.of(context).size.width,
-
                         child: AutoSizeText("Ajouter un amis via son email",
                             maxLines: 1,
                             textAlign: TextAlign.center,
@@ -273,22 +276,37 @@ class _MyProfilPageState extends State<MyProfilPage> {
       }
     }
 
+    double paddingModal = 20;
+    double paddingBetweenFlat = 50;
+
     void _settingModalBottomSheet(context) {
       showModalBottomSheet(
           context: context,
           builder: (BuildContext bc) {
-            return Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisSize: MainAxisSize.min,
-                children: <Widget>[
-                  Text("Changer votre photo de profil"),
-                  Container(
-                    margin: EdgeInsets.only(top: 20),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        FlatButton(
+            return Column(mainAxisSize: MainAxisSize.min, children: <Widget>[
+              Container(
+                padding: EdgeInsets.only(left: 10, top: paddingModal),
+                margin: EdgeInsets.only(bottom: paddingModal),
+                child: Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    "Changer votre photo de profil",
+                    style: TextStyle(fontSize: 25),
+                  ),
+                ),
+              ),
+              Divider(
+                height: 1,
+              ),
+              Container(
+                margin:
+                    EdgeInsets.only(top: paddingModal, bottom: paddingModal),
+                padding: EdgeInsets.only(),
+                child: Row(
+                  children: <Widget>[
+                    new Column(children: <Widget>[
+                      Container(
+                        child: FlatButton(
                           onPressed: () {
                             getImageFromCamera();
                           },
@@ -301,23 +319,42 @@ class _MyProfilPageState extends State<MyProfilPage> {
                             ),
                           ),
                         ),
-                        FlatButton(
-                          onPressed: () async {
-                            getImageFromGallery();
-                          },
-                          child: new CircleAvatar(
-                            radius: 50.0,
-                            backgroundColor: Theme.of(context).primaryColor,
-                            child: Icon(
-                              Icons.photo_library,
-                              size: 40,
+                      ),
+                      Container(
+                        padding: EdgeInsets.only(top: 10),
+                        child: Align(
+                          alignment: Alignment.centerLeft,
+                          child: Text("Caméra"),
+                        ),
+                      ),
+                    ]),
+                    new Column(
+                      children: <Widget>[
+                        Container(
+                          child: FlatButton(
+                            onPressed: () async {
+                              getImageFromGallery();
+                            },
+                            child: new CircleAvatar(
+                              radius: 50.0,
+                              backgroundColor: Theme.of(context).primaryColor,
+                              child: Icon(
+                                Icons.photo_library,
+                                size: 40,
+                              ),
                             ),
                           ),
                         ),
+                        Container(
+                          padding: EdgeInsets.only(top: 10),
+                          child: Text("Gallerie"),
+                        ),
                       ],
                     ),
-                  ),
-                ]);
+                  ],
+                ),
+              ),
+            ]);
           });
     }
 

@@ -52,6 +52,10 @@ class Repository {
     return _firestoreProvider.getUserById(id);
   }
 
+  Future<List<User>>getAllFriend() {
+    return _firestoreProvider.getAllFriend();
+  }
+
   Future<List<Association>> getAssociations() {
     return _firestoreProvider.getAssociations();
   }

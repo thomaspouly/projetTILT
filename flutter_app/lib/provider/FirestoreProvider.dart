@@ -21,14 +21,7 @@ class FirestoreProvider {
         .document(userID)
         .get()
         .then((documentSnapshot) {
-      User u = new User(
-          email: documentSnapshot.data['email'],
-          name: documentSnapshot.data['name'],
-          treeNumber: documentSnapshot.data['treeNumber'],
-          nbPomme: documentSnapshot.data['nbPomme'],
-          date: documentSnapshot.data['date'],
-          friendList: documentSnapshot.data['frendList'],
-          reference: null);
+      User u = new User.fromSnapshot(documentSnapshot);
       return u;
     });
   }
@@ -40,76 +33,61 @@ class FirestoreProvider {
         .then((documentSnapshot) {
       for (int i = 0; i < documentSnapshot.documents.length; i++) {
         if (documentSnapshot.documents[i]['email'] == email) {
-          User user = new User(
-            date: documentSnapshot.documents[i].data['date'],
-            treeNumber: documentSnapshot.documents[i].data['treeNumber'],
-            nbPomme: documentSnapshot.documents[i].data['nbPomme'],
-            name: documentSnapshot.documents[i].data['name'],
-            email: documentSnapshot.documents[i].data['email'],
-            friendList:
-                documentSnapshot.documents[i].data['friendList'].cast<String>(),
-          );
+          User user = User.fromSnapshot(documentSnapshot.documents[i]);
           return user;
         }
       }
     });
   }
 
-  List<String> copyList(List<String> list, int length) {
-    List<String> listFinal = new List();
-    for (int i = 0; i < length; i++) {
-      listFinal[i] = list[i];
-    }
-    return listFinal;
+  Future<List<User>> getAllFriend() {
+    List<User> allUser = new List<User>();
+    return auth.currentUser().then((userID) {
+      return getUserById(userID).then((userCourrant) {
+        int i = 0;
+        while (i <= userCourrant.friendList.length) {
+          getUserById(userCourrant.friendList[i]).then((user) {
+            allUser.add(user);
+            i++;
+          });
+          return allUser;
+        }
+      });
+    });
   }
 
   Future<User> addUserInFriendList(String email) {
     return auth.currentUser().then((userID) {
       // Récupére l'utilisateur recherché
-      return getUserByEmail(email).then((user) {
+      return getUserByEmail(email).then((userRecherche) {
         // Recupére l'utilisateur courrant en fonction de l'ID
-        return getUserById(userID).then((user2) {
-          List<String> friendListSearch =
-              copyList(user.friendList, user.friendList.length);
-          friendListSearch.add(userID);
-          User search = new User(
-            friendList: friendListSearch,
-            email: user.email,
-            name: user.name,
-            nbPomme: user.nbPomme,
-            treeNumber: user.treeNumber,
-            date: user.date,
-          );
+        return getUserById(userID).then((userCourrant) {
+          if (!userRecherche.friendList.contains(userID)) {
+            userRecherche.friendList.add(userID);
+          }
           return _firestore
               .collection('user')
               .getDocuments()
               .then((documentSnapshot) {
-            User add;
-            List<String> friendList;
             for (int i = 0; i < documentSnapshot.documents.length; i++) {
               if (documentSnapshot.documents[i]['email'] == email) {
-                friendList =
-                    copyList(user2.friendList, user2.friendList.length);
-                friendList.add(documentSnapshot.documents[i].documentID);
-                add = new User(
-                  friendList: friendList,
-                  email: user2.email,
-                  name: user2.name,
-                  nbPomme: user2.nbPomme,
-                  treeNumber: user2.treeNumber,
-                  date: user2.date,
-                );
+                if (!userCourrant.friendList
+                    .contains(documentSnapshot.documents[i].documentID)) {
+                  userCourrant.friendList
+                      .add(documentSnapshot.documents[i].documentID);
+                }
+                //Add a new friend to the current user
                 _firestore
                     .collection('user')
                     .document(documentSnapshot.documents[i].documentID)
-                    .updateData(search.toJson());
+                    .setData(userRecherche.toJson(), merge: true);
                 _firestore
                     .collection('user')
                     .document(userID)
-                    .updateData(add.toJson());
+                    .setData(userCourrant.toJson(), merge: true);
               }
             }
-            return add;
+            return userRecherche;
           });
         });
       });

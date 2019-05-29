@@ -124,13 +124,20 @@ class _TreePageState extends State<TreePage> {
         builder: (BuildContext context) {
           // return object of type Dialog
           return AlertDialog(
-            title: new Text("Aide"),
+            title: new Text("Aide",style: TextStyle(fontSize: 25),),
             content: new Column(
+              mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                Text("Voici votre arbre, celui-ci grandit en fonction de ce que vous remplissez dans le formulaire."),
-                Text("Pour que celui-ci grandissent, il faut que votre note soit supérieur à 5."),
-                Text("Une fois qu'il grandit et lorsqu'il atteint la plus haute note, de 10, celui-ci vous rapporte des pommes."),
-                Text("Ces pommes s'ajoutent a votre nombre de pomme toute les 24 heures et sont échangeable contre un don à une association."),
+                Text(
+                    "Voici votre arbre, celui-ci grandit en fonction de ce que vous remplissez dans le formulaire.",style: TextStyle(fontSize: 20),),
+                Text(
+                    "Pour que celui-ci grandissent, il faut que votre note soit supérieur à 5.",style: TextStyle(fontSize: 20),),
+                Text(
+                    "Une fois qu'il grandit et lorsqu'il atteint la plus haute note, de 10, celui-ci vous rapporte des pommes.",style: TextStyle(fontSize: 20),),
+                Text(
+                    "Ces pommes s'ajoutent a votre nombre de pomme toute les 24 heures et sont échangeable contre un don à une association.",style: TextStyle(fontSize: 20),),
               ],
             ),
             actions: <Widget>[
@@ -155,18 +162,12 @@ class _TreePageState extends State<TreePage> {
           centerTitle: true,
           title: Text("Votre arbre"),
           actions: <Widget>[
-            PopupMenuButton(
-              itemBuilder: (BuildContext context) {
-                return [
-                  PopupMenuItem(child: IconButton(
-                    icon: Icon(Icons.help),
-                    onPressed: () {
-                      _showDialog();
-                    },
-                  ),),
-                ];
+            IconButton(
+              icon: Icon(Icons.help),
+              onPressed: () {
+                _showDialog();
               },
-            )
+            ),
           ],
         ),
         body: Stack(

@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class User {
@@ -18,19 +20,20 @@ class User {
       this.date,
       this.friendList});
 
-  User.fromMap(Map<String, dynamic> map, {this.reference})
-      : assert(map['email'] != null),
-        assert(map['name'] != null),
-        assert(map['nbPomme'] != null),
-        assert(map['treeNumber'] != null),
-        assert(map['date'] != null),
-        assert(map['friendList'] != null),
-        email = map['email'],
-        name = map['name'],
-        nbPomme = map['nbPomme'],
-        treeNumber = map['treeNumber'],
-        date = map['date'],
-        friendList = map['friendList'];
+  User.fromMap(Map<String, dynamic> map, {this.reference}) {
+    assert(map['email'] != null);
+    assert(map['name'] != null);
+    assert(map['nbPomme'] != null);
+    assert(map['treeNumber'] != null);
+    assert(map['date'] != null);
+    assert(map['friendList'] != null);
+    email = map['email'];
+    name = map['name'];
+    nbPomme = map['nbPomme'];
+    treeNumber = map['treeNumber'];
+    date = map['date'];
+    friendList = ((jsonDecode(json.encode(map))['friendList']) as List<dynamic>).cast<String>();
+  }
 
   User.fromSnapshot(DocumentSnapshot snapshot)
       : this.fromMap(snapshot.data, reference: snapshot.reference);
