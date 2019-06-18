@@ -21,15 +21,72 @@ class FirestoreProvider {
         .document(userID)
         .get()
         .then((documentSnapshot) {
-      User u = new User(
-          email: documentSnapshot.data['email'],
-          name: documentSnapshot.data['name'],
-          treeNumber: documentSnapshot.data['treeNumber'],
-          nbPomme: documentSnapshot.data['nbPomme'],
-          date: documentSnapshot.data['date'],
-          friendList: documentSnapshot.data['frendList'],
-          reference: null);
+      User u = new User.fromSnapshot(documentSnapshot);
       return u;
+    });
+  }
+
+  Future<User> getUserByEmail(String email) {
+    return _firestore
+        .collection('user')
+        .getDocuments()
+        .then((documentSnapshot) {
+      for (int i = 0; i < documentSnapshot.documents.length; i++) {
+        if (documentSnapshot.documents[i]['email'] == email) {
+          User user = User.fromSnapshot(documentSnapshot.documents[i]);
+          return user;
+        }
+      }
+    });
+  }
+
+  Future<List<String>> getAllFriend() {
+    return auth.currentUser().then((userID) {
+      List<String> allUser = new List<String>();
+      return getUserById(userID).then((userCourrant) {
+        for (int i = 0; i < userCourrant.friendList.length; i++) {
+          allUser.add(userCourrant.friendList[i]);
+        }
+        return allUser;
+      });
+    });
+  }
+
+  Future<User> addUserInFriendList(String email) {
+    return auth.currentUser().then((userID) {
+      // Récupére l'utilisateur recherché
+      return getUserByEmail(email).then((userRecherche) {
+        // Recupére l'utilisateur courrant en fonction de l'ID
+        return getUserById(userID).then((userCourrant) {
+          if (!userRecherche.friendList.contains(userID)) {
+            userRecherche.friendList.add(userID);
+          }
+          return _firestore
+              .collection('user')
+              .getDocuments()
+              .then((documentSnapshot) {
+            for (int i = 0; i < documentSnapshot.documents.length; i++) {
+              if (documentSnapshot.documents[i]['email'] == email) {
+                if (!userCourrant.friendList
+                    .contains(documentSnapshot.documents[i].documentID)) {
+                  userCourrant.friendList
+                      .add(documentSnapshot.documents[i].documentID);
+                }
+                //Add a new friend to the current user
+                _firestore
+                    .collection('user')
+                    .document(documentSnapshot.documents[i].documentID)
+                    .setData(userRecherche.toJson(), merge: true);
+                _firestore
+                    .collection('user')
+                    .document(userID)
+                    .setData(userCourrant.toJson(), merge: true);
+              }
+            }
+            return userRecherche;
+          });
+        });
+      });
     });
   }
 
@@ -53,7 +110,7 @@ class FirestoreProvider {
               nbPomme: 0,
               treeNumber: 1,
               date: DateTime.now().toIso8601String(),
-              friendList: new List<User>(),
+              friendList: new List<String>(),
             );
             NoteForm note = new NoteForm(note: "5");
             storage.setImage(firebaseUser.uid, File(firebaseUser.photoUrl));
@@ -81,7 +138,7 @@ class FirestoreProvider {
   }
 
   Future<User> modifyUser(String id, String email, String name, int treeNumber,
-      int nbPomme, String date, List<User> friendList) {
+      int nbPomme, String date, List<String> friendList) {
     return auth.currentUser().then((userID) {
       User user = new User(
           email: email,
@@ -92,6 +149,12 @@ class FirestoreProvider {
           friendList: friendList);
       _firestore.collection('user').document(userID).updateData(user.toJson());
       return user;
+    });
+  }
+
+  Future<String> modifyImageUser(File image) {
+    return auth.currentUser().then((userID) {
+      return storage.setImage(userID, image);
     });
   }
 
@@ -106,7 +169,7 @@ class FirestoreProvider {
           name: name,
           date: DateTime.now().toIso8601String(),
           nbPomme: 0,
-          friendList: new List<User>());
+          friendList: new List<String>());
       NoteForm note = new NoteForm(note: "5");
       _firestore.collection('user').document(userId).setData(user.toJson());
       _firestore.collection('data').document(userId).setData(note.toJson());
@@ -143,10 +206,6 @@ class FirestoreProvider {
           .document(userID)
           .get()
           .then((documentSnapshot) {
-        /*User u = new User(
-              nbPomme: documentSnapshot.data['nbPomme'] + nbPomme,
-              date: DateTime.now().toIso8601String(),
-            );*/
         return _firestore.collection('user').document(userID).updateData({
           "nbPomme": documentSnapshot.data['nbPomme'] + nbPomme,
           "date": DateTime.now().toIso8601String(),

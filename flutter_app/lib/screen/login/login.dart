@@ -12,7 +12,6 @@ import 'package:flutter_statusbarcolor/flutter_statusbarcolor.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:local_auth/local_auth.dart';
 import 'package:flutter/services.dart';
-import 'package:local_auth/error_codes.dart' as auth_error;
 
 // INITIALISATION
 
@@ -51,8 +50,8 @@ class _MyLoginPageState extends State<MyLoginPage> {
   final emailFieldController = TextEditingController();
   final passFieldController = TextEditingController();
 
-  String _email;
-  String _password;
+  String email;
+  String password;
 
   var localAuth = new LocalAuthentication();
   bool didAuthenticate = false;
@@ -66,17 +65,17 @@ class _MyLoginPageState extends State<MyLoginPage> {
 
   void _emailListen() {
     if (emailFieldController.text.isEmpty) {
-      _email = "";
+      email = "";
     } else {
-      _email = emailFieldController.text;
+      email = emailFieldController.text;
     }
   }
 
   void _passwordListen() {
     if (passFieldController.text.isEmpty) {
-      _password = "";
+      password = "";
     } else {
-      _password = passFieldController.text;
+      password = passFieldController.text;
     }
   }
 

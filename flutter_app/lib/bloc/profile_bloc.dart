@@ -10,8 +10,16 @@ class ProfileBloc {
     return _repository.getUserById(id);
   }
 
-  Future<User> modifyUser(String id,String email, String name, int treeNumber,int nbPomme,String date,List<User>friendList) {
+  Future<User> modifyUser(String id,String email, String name, int treeNumber,int nbPomme,String date,List<String>friendList) {
     return _repository.modifyUser(id, email, name, treeNumber,nbPomme,date,friendList);
+  }
+
+  Future<String> modifyImageUser(File image) {
+    return _repository.modifyImageUser(image);
+  }
+
+  Future<User> addUserInFriendList(String email) {
+    return _repository.addUserInFriendList(email);
   }
 
 }
