@@ -660,7 +660,7 @@ class _HomePageState extends State<HomePage> {
                   ),
                   ListTile(
                     title: Text(
-                      'Ajouter un amis',
+                      'Ajouter un ami',
                       style: TextStyle(fontSize: sizeTextTiles),
                     ),
                     leading: Icon(
@@ -672,6 +672,25 @@ class _HomePageState extends State<HomePage> {
                         context,
                         MaterialPageRoute(
                             builder: (context) => MyFriendPage(
+                              uid: widget.uid,
+                            )),
+                      );
+                    },
+                  ),
+                  ListTile(
+                    title: Text(
+                      'Classement entre ami',
+                      style: TextStyle(fontSize: sizeTextTiles),
+                    ),
+                    leading: Icon(
+                      Icons.format_list_numbered,
+                      size: sizeIconTiles,
+                    ),
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => MyProfilPage(
                               uid: widget.uid,
                             )),
                       );

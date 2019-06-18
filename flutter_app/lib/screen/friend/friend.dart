@@ -59,30 +59,6 @@ class _MyFriendPageState extends State<MyFriendPage> {
                 right: MediaQuery.of(context).size.width / 7),
             child: addFriend,
           ),
-          Text("Votre liste d'amis"),
-          Container(
-            child: FutureBuilder(
-                future: bloc.getAllFriend(),
-                builder:
-                    (BuildContext context, AsyncSnapshot<List<User>> snapshot) {
-                  switch (snapshot.connectionState) {
-                    case ConnectionState.active:
-                      return Text("Active");
-                      break;
-                    case ConnectionState.done:
-                      print("List ===>" + snapshot.data.toString());
-                      return Friends(snapshot.data,snapshot.data.length).build(context);
-                      break;
-                    case ConnectionState.none:
-                      return Text("None");
-                      break;
-                    case ConnectionState.waiting:
-                      return Text("Waiting");
-                      break;
-                  }
-                }),
-            padding: EdgeInsets.only(bottom: 20),
-          ),
           Container(
             margin: EdgeInsets.only(
                 left: MediaQuery.of(context).size.width / 7,
@@ -104,6 +80,34 @@ class _MyFriendPageState extends State<MyFriendPage> {
               ),
             ),
           ),
+          Container(
+            padding: EdgeInsets.only(top : 30,bottom:20),
+            child: Text("Votre liste d'amis"),
+          ),
+          Container(
+            child: FutureBuilder(
+                future: bloc.getAllFriend(),
+                builder: (BuildContext context,
+                    AsyncSnapshot<List<String>> snapshot) {
+                  switch (snapshot.connectionState) {
+                    case ConnectionState.active:
+                      return Text("Active");
+                      break;
+                    case ConnectionState.done:
+                      //print("List ===>" + snapshot.data.toString());
+                      return Friends(snapshot.data, snapshot.data.length)
+                          .build(context);
+                      break;
+                    case ConnectionState.none:
+                      return Text("None");
+                      break;
+                    case ConnectionState.waiting:
+                      return Text("Waiting");
+                      break;
+                  }
+                }),
+            padding: EdgeInsets.only(bottom: 20),
+          ),
         ],
       );
     }
@@ -115,19 +119,9 @@ class _MyFriendPageState extends State<MyFriendPage> {
         ),
         body: Container(
           padding: EdgeInsets.only(left: padding, right: padding),
-          child: Stack(
-            children: <Widget>[
-              Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: <Widget>[
-                    Column(
-                      children: <Widget>[],
-                    ),
-                    _buildTextFields(),
-                  ]),
-            ],
-          ),
+          child: ListView(children: <Widget>[
+            _buildTextFields(),
+          ]),
         ),
       ),
     );

@@ -52,7 +52,7 @@ class Repository {
     return _firestoreProvider.getUserById(id);
   }
 
-  Future<List<User>>getAllFriend() {
+  Future<List<String>>getAllFriend() {
     return _firestoreProvider.getAllFriend();
   }
 

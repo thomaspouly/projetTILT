@@ -40,18 +40,14 @@ class FirestoreProvider {
     });
   }
 
-  Future<List<User>> getAllFriend() {
-    List<User> allUser = new List<User>();
+  Future<List<String>> getAllFriend() {
     return auth.currentUser().then((userID) {
+      List<String> allUser = new List<String>();
       return getUserById(userID).then((userCourrant) {
-        int i = 0;
-        while (i <= userCourrant.friendList.length) {
-          getUserById(userCourrant.friendList[i]).then((user) {
-            allUser.add(user);
-            i++;
-          });
-          return allUser;
+        for (int i = 0; i < userCourrant.friendList.length; i++) {
+          allUser.add(userCourrant.friendList[i]);
         }
+        return allUser;
       });
     });
   }
@@ -210,10 +206,6 @@ class FirestoreProvider {
           .document(userID)
           .get()
           .then((documentSnapshot) {
-        /*User u = new User(
-              nbPomme: documentSnapshot.data['nbPomme'] + nbPomme,
-              date: DateTime.now().toIso8601String(),
-            );*/
         return _firestore.collection('user').document(userID).updateData({
           "nbPomme": documentSnapshot.data['nbPomme'] + nbPomme,
           "date": DateTime.now().toIso8601String(),

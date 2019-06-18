@@ -10,8 +10,12 @@ class FriendBloc {
     return _repository.addUserInFriendList(email);
   }
 
-  Future<List<User>> getAllFriend() {
+  Future<List<String>> getAllFriend() {
     return _repository.getAllFriend();
+  }
+
+  Future<User> getUserById(String userID) {
+    return _repository.getUserById(userID);
   }
 
 }
