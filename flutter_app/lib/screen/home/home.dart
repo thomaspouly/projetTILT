@@ -17,6 +17,7 @@ import 'package:flutter_app/screen/home/settings.dart';
 import 'package:flutter_app/screen/login/login.dart';
 import 'package:flutter_app/screen/partner/partner.dart';
 import 'package:flutter_app/screen/profil/profil.dart';
+import 'package:flutter_app/screen/ranking_friend/ranking_friend.dart';
 import 'package:flutter_app/screen/tree/tree.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:flutter_statusbarcolor/flutter_statusbarcolor.dart';
@@ -690,7 +691,7 @@ class _HomePageState extends State<HomePage> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => MyProfilPage(
+                            builder: (context) => MyRankingFriendPage(
                               uid: widget.uid,
                             )),
                       );

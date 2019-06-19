@@ -18,16 +18,16 @@ import 'package:image_picker/image_picker.dart';
 
 TextStyle style = TextStyle(fontFamily: 'Montserrat', fontSize: 20.0);
 
-class MyFriendPage extends StatefulWidget {
-  MyFriendPage({Key key, this.uid}) : super(key: key);
+class MyRankingFriendPage extends StatefulWidget {
+  MyRankingFriendPage({Key key, this.uid}) : super(key: key);
 
   String uid;
 
   @override
-  _MyFriendPageState createState() => _MyFriendPageState();
+  _MyRankingFriendPageState createState() => _MyRankingFriendPageState();
 }
 
-class _MyFriendPageState extends State<MyFriendPage> {
+class _MyRankingFriendPageState extends State<MyRankingFriendPage> {
   TextStyle style = TextStyle(fontFamily: 'Montserrat', fontSize: 20.0);
 
   @override
@@ -41,49 +41,10 @@ class _MyFriendPageState extends State<MyFriendPage> {
     FlutterStatusbarcolor.setStatusBarColor(Color.fromRGBO(210, 251, 209, 1));
     FlutterStatusbarcolor.setStatusBarWhiteForeground(false);
     double padding = 50;
-    TextEditingController addController = TextEditingController();
 
     Widget _buildTextFields() {
-      var addFriend = new TextFieldCustom(
-        icon: Icon(Icons.person_outline),
-        title: "Ajouter un amis, entrez son email",
-        hide: false,
-        controller: addController,
-      );
       return Column(
         children: <Widget>[
-          Container(
-            margin: EdgeInsets.only(top: 10, bottom: 30),
-            padding: EdgeInsets.only(
-                left: MediaQuery.of(context).size.width / 7,
-                right: MediaQuery.of(context).size.width / 7),
-            child: addFriend,
-          ),
-          Container(
-            margin: EdgeInsets.only(
-                left: MediaQuery.of(context).size.width / 7,
-                right: MediaQuery.of(context).size.width / 7),
-            child: Material(
-              elevation: 5.0,
-              color: Theme.of(context).primaryColor,
-              borderRadius: BorderRadius.circular(5),
-              child: MaterialButton(
-                onPressed: () {
-                  bloc.addUserInFriendList(addFriend.controller.text);
-                },
-                minWidth: MediaQuery.of(context).size.width,
-                child: AutoSizeText("Enregistrer les modifications",
-                    maxLines: 1,
-                    textAlign: TextAlign.center,
-                    style: style.copyWith(
-                        color: Colors.white, fontWeight: FontWeight.bold)),
-              ),
-            ),
-          ),
-          Container(
-            padding: EdgeInsets.only(top : 30,bottom:20),
-            child: Text("Votre liste d'amis"),
-          ),
           Container(
             child: FutureBuilder(
                 future: bloc.getAllFriend(),
@@ -94,8 +55,7 @@ class _MyFriendPageState extends State<MyFriendPage> {
                       return Text("Active");
                       break;
                     case ConnectionState.done:
-                      //print("List ===>" + snapshot.data.toString());
-                      return Friends(snapshot.data, snapshot.data.length,false)
+                      return Friends(snapshot.data, snapshot.data.length,true)
                           .build(context);
                       break;
                     case ConnectionState.none:
@@ -115,7 +75,7 @@ class _MyFriendPageState extends State<MyFriendPage> {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
-          title: Text("Ajouter un ami"),
+          title: Text("Classement entre amis"),
         ),
         body: Container(
           padding: EdgeInsets.only(left: padding, right: padding),
