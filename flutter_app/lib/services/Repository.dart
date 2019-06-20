@@ -40,12 +40,20 @@ class Repository {
   Future<void> enterNbPomme(int nbPomme) =>
       _firestoreProvider.enterNbPomme(nbPomme);
 
-  Future<User> modifyUser(String id,String email, String name, int treeNumber,int nbPomme,String date,List<User>friendList) {
+  Future<User> modifyUser(String id,String email, String name, int treeNumber,int nbPomme,String date,List<String>friendList) {
     return _firestoreProvider.modifyUser(id, email, name, treeNumber,nbPomme,date,friendList);
+  }
+
+  Future<String> modifyImageUser(File image) {
+    return _firestoreProvider.modifyImageUser(image);
   }
 
   Future<User> getUserById(String id) {
     return _firestoreProvider.getUserById(id);
+  }
+
+  Future<List<String>>getAllFriend() {
+    return _firestoreProvider.getAllFriend();
   }
 
   Future<List<Association>> getAssociations() {
@@ -58,6 +66,10 @@ class Repository {
 
   Future<void> login(String userId,DateTime date) {
     return authProvider.login(userId,date);
+  }
+
+  Future<User> addUserInFriendList(String email) {
+    return _firestoreProvider.addUserInFriendList(email);
   }
 
 }

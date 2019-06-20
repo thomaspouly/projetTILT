@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class User {
@@ -7,23 +9,31 @@ class User {
   int treeNumber;
   int nbPomme;
   String date;
-  List<User> friendList;
+  List<String> friendList;
 
-  User({this.email, this.name, this.treeNumber,this.nbPomme, this.reference,this.date,this.friendList});
+  User(
+      {this.email,
+      this.name,
+      this.treeNumber,
+      this.nbPomme,
+      this.reference,
+      this.date,
+      this.friendList});
 
-  User.fromMap(Map<String, dynamic> map, {this.reference})
-      : assert(map['email'] != null),
-        assert(map['name'] != null),
-        assert(map['nbPomme'] != null),
-        assert(map['treeNumber'] != null),
-        assert(map['date'] != null),
-        assert(map['friendList'] != null),
-        email = map['email'],
-        name = map['name'],
-        nbPomme = map['nbPomme'],
-        treeNumber = map['treeNumber'],
-        date = map['date'],
-        friendList = map['friendList'];
+  User.fromMap(Map<String, dynamic> map, {this.reference}) {
+    assert(map['email'] != null);
+    assert(map['name'] != null);
+    assert(map['nbPomme'] != null);
+    assert(map['treeNumber'] != null);
+    assert(map['date'] != null);
+    assert(map['friendList'] != null);
+    email = map['email'];
+    name = map['name'];
+    nbPomme = map['nbPomme'];
+    treeNumber = map['treeNumber'];
+    date = map['date'];
+    friendList = ((jsonDecode(json.encode(map))['friendList']) as List<dynamic>).cast<String>();
+  }
 
   User.fromSnapshot(DocumentSnapshot snapshot)
       : this.fromMap(snapshot.data, reference: snapshot.reference);
@@ -34,11 +44,10 @@ class User {
         'treeNumber': treeNumber,
         'nbPomme': nbPomme,
         'date': date,
-        'friendList' : friendList,
+        'friendList': friendList,
       };
 
   @override
-  String toString() => "User<$email:$name:$treeNumber:$nbPomme:$date:$friendList>";
-
-
+  String toString() =>
+      "User<$email:$name:$treeNumber:$nbPomme:$date:$friendList>";
 }

@@ -21,7 +21,6 @@ class TextFieldCustom extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return new TextField(
-      
       controller: controller,
       enabled: editable,
       obscureText: hide,

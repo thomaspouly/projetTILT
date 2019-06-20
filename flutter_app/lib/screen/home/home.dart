@@ -12,10 +12,12 @@ import 'package:flutter_app/models/User.dart';
 import 'package:flutter_app/provider/BlocProvider.dart';
 import 'package:flutter_app/screen/customs/Countries.dart';
 import 'package:flutter_app/screen/customs/staggeredView.dart';
+import 'package:flutter_app/screen/friend/friend.dart';
 import 'package:flutter_app/screen/home/settings.dart';
 import 'package:flutter_app/screen/login/login.dart';
 import 'package:flutter_app/screen/partner/partner.dart';
 import 'package:flutter_app/screen/profil/profil.dart';
+import 'package:flutter_app/screen/ranking_friend/ranking_friend.dart';
 import 'package:flutter_app/screen/tree/tree.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:flutter_statusbarcolor/flutter_statusbarcolor.dart';
@@ -41,7 +43,7 @@ Future<String> getImage(String uid) async {
 }
 
 class _HomePageState extends State<HomePage> {
-  GlobalKey<ScaffoldState> _scaffoldKey;
+  GlobalKey<ScaffoldState> scaffoldKey;
   var heightScreen;
   List<Tile> tiles = TileHelper().listTile();
   List<StaggeredView> tileGrid = new List<StaggeredView>();
@@ -140,7 +142,7 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
-  int _index = 1;
+  int index = 1;
 
   @override
   Widget build(BuildContext context) {
@@ -151,7 +153,7 @@ class _HomePageState extends State<HomePage> {
 
     FlutterStatusbarcolor.setStatusBarColor(Colors.grey[200]);
     FlutterStatusbarcolor.setStatusBarWhiteForeground(false);
-    _scaffoldKey = new GlobalKey<ScaffoldState>();
+    scaffoldKey = new GlobalKey<ScaffoldState>();
     return new SafeArea(
       child: new Scaffold(
           extendBody: true,
@@ -572,7 +574,7 @@ class _HomePageState extends State<HomePage> {
                         Row(
                           children: <Widget>[
                             Container(
-                              margin: EdgeInsets.only(right: heightScreen/40),
+                              margin: EdgeInsets.only(right: heightScreen / 40),
                               child: _buildImage(),
                             ),
                             FutureBuilder(
@@ -582,8 +584,7 @@ class _HomePageState extends State<HomePage> {
                                   switch (snapshot.connectionState) {
                                     case ConnectionState.done:
                                       return Text(snapshot.data.name,
-                                          style: TextStyle(
-                                              fontSize: 20));
+                                          style: TextStyle(fontSize: 20));
                                       break;
                                     default:
                                       return CircularProgressIndicator();
@@ -601,15 +602,12 @@ class _HomePageState extends State<HomePage> {
                                     AsyncSnapshot<NoteForm> snapshot) {
                                   switch (snapshot.connectionState) {
                                     case ConnectionState.done:
-                                      double note =
-                                          double.parse(snapshot.data.note);
                                       return Text(
                                         "Note: " +
                                             double.parse(snapshot.data.note)
                                                 .toStringAsFixed(0) +
                                             "/10",
-                                        style: TextStyle(
-                                            fontSize: 15),
+                                        style: TextStyle(fontSize: 15),
                                       );
                                       break;
                                     case ConnectionState.waiting:
@@ -629,8 +627,7 @@ class _HomePageState extends State<HomePage> {
                                       return Text(
                                           "Pommes: " +
                                               snapshot.data.nbPomme.toString(),
-                                          style: TextStyle(
-                                              fontSize: 15));
+                                          style: TextStyle(fontSize: 15));
                                       break;
                                     default:
                                       return CircularProgressIndicator();
@@ -659,6 +656,44 @@ class _HomePageState extends State<HomePage> {
                             builder: (context) => MyProfilPage(
                                   uid: widget.uid,
                                 )),
+                      );
+                    },
+                  ),
+                  ListTile(
+                    title: Text(
+                      'Ajouter un ami',
+                      style: TextStyle(fontSize: sizeTextTiles),
+                    ),
+                    leading: Icon(
+                      Icons.perm_contact_calendar,
+                      size: sizeIconTiles,
+                    ),
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => MyFriendPage(
+                              uid: widget.uid,
+                            )),
+                      );
+                    },
+                  ),
+                  ListTile(
+                    title: Text(
+                      'Classement entre ami',
+                      style: TextStyle(fontSize: sizeTextTiles),
+                    ),
+                    leading: Icon(
+                      Icons.format_list_numbered,
+                      size: sizeIconTiles,
+                    ),
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => MyRankingFriendPage(
+                              uid: widget.uid,
+                            )),
                       );
                     },
                   ),
@@ -720,37 +755,44 @@ class _HomePageState extends State<HomePage> {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: <Widget>[
             _buildDropDownStatCategory(),
-               Container( 
-                    height: heightScreen/10, width: heightScreen/10,
-                    //child:svg
-                    child: FlareActor("assets/flare/Earth2.flr",
-                        alignment: Alignment.center,
-                        fit: BoxFit.cover,
-                        animation: "Preview2"),
-                  ),
+            Container(
+              height: heightScreen / 10, width: heightScreen / 10,
+              //child:svg
+              child: FlareActor("assets/flare/Earth2.flr",
+                  alignment: Alignment.center,
+                  fit: BoxFit.cover,
+                  animation: "Preview2"),
+            ),
             _buildDropDownStatDuration(),
           ],
         );
         break;
       case true:
-        return new Row(
-          // crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: <Widget>[
-            _buildDropDownRankingTop(),
-           Container( 
-                    height: heightScreen/10, width: heightScreen/10,
-                    //child:svg
-                    child: FlareActor("assets/flare/Earth2.flr",
-                        alignment: Alignment.center,
-                        fit: BoxFit.cover,
-                        animation: "Preview2"),
-                  ),
-            
-            _buildDropDownRankingYear(),
-          ],
-        );
-
+        return new Column(children: <Widget>[
+          new Row(
+            // crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: <Widget>[
+              _buildDropDownRankingTop(),
+              Container(
+                height: heightScreen / 10, width: heightScreen / 10,
+                //child:svg
+                child: FlareActor("assets/flare/Earth2.flr",
+                    alignment: Alignment.center,
+                    fit: BoxFit.cover,
+                    animation: "Preview2"),
+              ),
+              _buildDropDownRankingYear(),
+            ],
+          ),
+          Container(
+            padding: EdgeInsets.only(right: 10),
+            child: Align(
+              alignment: Alignment.bottomRight,
+              child: Text("Metrique tonnes de dioxyde de carbone"),
+            ),
+          ),
+        ]);
         break;
     }
   }

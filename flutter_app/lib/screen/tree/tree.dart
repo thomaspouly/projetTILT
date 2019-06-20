@@ -5,7 +5,6 @@ import 'package:flutter_app/models/NoteForm.dart';
 import 'package:flutter_app/models/User.dart';
 import 'package:flutter_app/provider/BlocProvider.dart';
 import 'package:flutter_app/screen/tree/form.dart';
-import 'package:flutter_sparkline/flutter_sparkline.dart';
 import 'package:flutter_svg/svg.dart';
 
 import 'linky.dart';
@@ -118,6 +117,43 @@ class _TreePageState extends State<TreePage> {
           });
     }
 
+    void _showDialog() {
+      // flutter defined function
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          // return object of type Dialog
+          return AlertDialog(
+            title: new Text("Aide",style: TextStyle(fontSize: 25),),
+            content: new Column(
+              mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Text(
+                    "Voici votre arbre, celui-ci grandit en fonction de ce que vous remplissez dans le formulaire.",style: TextStyle(fontSize: 20),),
+                Text(
+                    "Pour que celui-ci grandissent, il faut que votre note soit supérieur à 5.",style: TextStyle(fontSize: 20),),
+                Text(
+                    "Une fois qu'il grandit et lorsqu'il atteint la plus haute note, de 10, celui-ci vous rapporte des pommes.",style: TextStyle(fontSize: 20),),
+                Text(
+                    "Ces pommes s'ajoutent a votre nombre de pomme toute les 24 heures et sont échangeable contre un don à une association.",style: TextStyle(fontSize: 20),),
+              ],
+            ),
+            actions: <Widget>[
+              // usually buttons at the bottom of the dialog
+              new FlatButton(
+                child: new Text("Fermer"),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
+          );
+        },
+      );
+    }
+
     return new SafeArea(
       child: new Scaffold(
         appBar: AppBar(
@@ -125,6 +161,14 @@ class _TreePageState extends State<TreePage> {
           elevation: 3,
           centerTitle: true,
           title: Text("Votre arbre"),
+          actions: <Widget>[
+            IconButton(
+              icon: Icon(Icons.help),
+              onPressed: () {
+                _showDialog();
+              },
+            ),
+          ],
         ),
         body: Stack(
           children: <Widget>[
