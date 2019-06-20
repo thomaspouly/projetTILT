@@ -148,15 +148,14 @@ class _MyFormTreePageState extends State<MyFormTreePage> {
     double widthContainerText = 100;
     double paddingContainerTextFieldCustom = 40;
     double marginContainerTextFieldCustom = 20;
-
+    double width =  MediaQuery.of(context).size.width/23;
     return SafeArea(
       child: Scaffold(
         backgroundColor: Color.fromRGBO(210, 251, 209, 1),
         body: Container(
-          child: Stack(
+          child: ListView(
             children: <Widget>[
-              ListView(
-                padding: EdgeInsets.only(left: padding, right: padding),
+              Column(
                 children: <Widget>[
                   Text(
                     "Consommations",
@@ -189,7 +188,7 @@ class _MyFormTreePageState extends State<MyFormTreePage> {
                         type: TextInputType.number,
                         hide: false,
                       )),
-                  new Container(
+                    Container(
                     height: 5.0,
                     width: MediaQuery.of(context).size.width,
                     color: Colors.amber,
@@ -215,7 +214,7 @@ class _MyFormTreePageState extends State<MyFormTreePage> {
                               fontSize: 16.0,
                             ),
                           )),
-                      new Expanded(
+                      Expanded(
                         child: new RadioListTile(
                           title: AutoSizeText(
                             'Oui',
@@ -227,8 +226,8 @@ class _MyFormTreePageState extends State<MyFormTreePage> {
                           onChanged: _handleRadioValueChangeWaste,
                         ),
                       ),
-                      Container(width: 170),
-                      new Expanded(
+                      Container(width: width),
+                      Expanded(
                         child: new RadioListTile(
                           title: AutoSizeText(
                             'Non',
@@ -268,7 +267,7 @@ class _MyFormTreePageState extends State<MyFormTreePage> {
                           onChanged: _handleRadioValueChangeDon,
                         ),
                       ),
-                      Container(width: 170),
+                      Container(width: width),
                       new Expanded(
                         child: new RadioListTile(
                           title: AutoSizeText(
@@ -309,7 +308,7 @@ class _MyFormTreePageState extends State<MyFormTreePage> {
                           onChanged: _handleRadioValueChangeBulk,
                         ),
                       ),
-                      Container(width: 170),
+                      Container(width: width),
                       new Expanded(
                         child: new RadioListTile(
                           title: AutoSizeText(
@@ -350,7 +349,7 @@ class _MyFormTreePageState extends State<MyFormTreePage> {
                           onChanged: _handleRadioValueChangeBio,
                         ),
                       ),
-                      Container(width: 170),
+                      Container(width: width),
                       new Expanded(
                         child: new RadioListTile(
                           title: AutoSizeText(
@@ -394,9 +393,9 @@ class _MyFormTreePageState extends State<MyFormTreePage> {
                       new Expanded(
                         child: new RadioListTile(
                           title: AutoSizeText(
-                            'Régulièrement',
-                            minFontSize: 6,
-                            style: TextStyle(fontSize: 12),
+                            'Semaine',
+                            minFontSize: 4,
+                            maxFontSize: 10,
                           ),
                           value: 0,
                           groupValue: _radioValueCar,
@@ -406,9 +405,9 @@ class _MyFormTreePageState extends State<MyFormTreePage> {
                       new Expanded(
                         child: new RadioListTile(
                           title: AutoSizeText(
-                            'Occasionnel',
-                            minFontSize: 6,
-                            style: TextStyle(fontSize: 12),
+                            'Mois',
+                            minFontSize: 4,
+                            maxFontSize: 10,
                           ),
                           value: 1,
                           groupValue: _radioValueCar,
@@ -419,8 +418,8 @@ class _MyFormTreePageState extends State<MyFormTreePage> {
                         child: new RadioListTile(
                           title: AutoSizeText(
                             'Jamais',
-                            minFontSize: 6,
-                            style: TextStyle(fontSize: 12),
+                            minFontSize: 4,
+                            maxFontSize: 10,
                           ),
                           value: 2,
                           groupValue: _radioValueCar,
@@ -455,7 +454,7 @@ class _MyFormTreePageState extends State<MyFormTreePage> {
                           onChanged: _handleRadioValueChangeBike,
                         ),
                       ),
-                      Container(width: 170),
+                      Container(width: width),
                       new Expanded(
                         child: new RadioListTile(
                           title: AutoSizeText(
@@ -496,7 +495,7 @@ class _MyFormTreePageState extends State<MyFormTreePage> {
                           onChanged: _handleRadioValueChangeBus,
                         ),
                       ),
-                      Container(width: 170),
+                      Container(width: width),
                       new Expanded(
                         child: new RadioListTile(
                           title: AutoSizeText(
@@ -523,17 +522,6 @@ class _MyFormTreePageState extends State<MyFormTreePage> {
                         color: Colors.blue,
                         onPressed: () {
                           note = 1;
-                          /*bloc.enterDataFormForm(
-                              int.parse(waterFieldController.text),
-                              int.parse(electricityFieldController.text),
-                              textWaste,
-                              textDon,
-                              textBulk,
-                              textBio,
-                              textCar,
-                              textBike,
-                              textBus);*/
-
                           if (_radioValueWaste.toString() == "0") {
                             note++;
                           }

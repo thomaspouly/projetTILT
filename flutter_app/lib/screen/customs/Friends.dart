@@ -18,10 +18,7 @@ class Friends extends StatelessWidget {
         child: Container(
           height: 35,
           padding: EdgeInsets.only(
-              right: 10,
-              left: MediaQuery.of(context).size.width / 4,
-              bottom: 10,
-              top: 10),
+              left: MediaQuery.of(context).size.width / 4, bottom: 10, top: 10),
           margin: EdgeInsets.all(10),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -33,21 +30,17 @@ class Friends extends StatelessWidget {
                     if (snapshot.data == null) {
                       return Center(
                         child: Text(
-                          "\n\n\nChargement...",
-                          style: TextStyle(fontSize: 30),
+                          "Chargement...",
+                          style: TextStyle(fontSize: 10),
                         ),
                       );
                     } else {
-                      return Row(
-                        children: <Widget>[
-                          AutoSizeText(
-                            snapshot.data.name,
-                            style: TextStyle(
-                              fontSize: 20,
-                              color: Colors.white,
-                            ),
-                          ),
-                        ],
+                      return AutoSizeText(
+                        snapshot.data.name,
+                        style: TextStyle(
+                          fontSize: 20,
+                          color: Colors.white,
+                        ),
                       );
                     }
                   }),

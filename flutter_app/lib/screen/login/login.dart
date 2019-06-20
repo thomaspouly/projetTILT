@@ -109,13 +109,6 @@ class _MyLoginPageState extends State<MyLoginPage> {
 
   @override
   Widget build(BuildContext context) {
-    final Widget svg = new SvgPicture.asset(
-      assetName,
-      semanticsLabel: 'Acme Logo',
-      width: 100,
-      height: 100,
-      color: Theme.of(context).primaryColorDark,
-    );
     final bloc = BlocProvider.ofLogin(context);
     FlutterStatusbarcolor.setStatusBarColor(Color.fromRGBO(210, 251, 209, 1));
     FlutterStatusbarcolor.setStatusBarWhiteForeground(false);
@@ -222,8 +215,8 @@ class _MyLoginPageState extends State<MyLoginPage> {
                     context,
                     MaterialPageRoute(
                         builder: (BuildContext ctx) => HomePage(
-                          uid: userID,
-                        )));
+                              uid: userID,
+                            )));
               } else {
                 /*bloc.getUserById(userID).then((user) {
                 bloc.getNote().then((note) {
@@ -239,15 +232,14 @@ class _MyLoginPageState extends State<MyLoginPage> {
                   context,
                   MaterialPageRoute(
                       builder: (context) => HomePage(
-                        uid: userID,
-                      )),
+                            uid: userID,
+                          )),
                 );
               }
             });
-          } on Exception catch(e) {
+          } on Exception catch (e) {
             print(e);
           }
-
         },
         child: Text("Login with Facebook",
             textAlign: TextAlign.center,
@@ -306,7 +298,6 @@ class _MyLoginPageState extends State<MyLoginPage> {
     }
 
     final _register = MaterialButton(
-      padding: EdgeInsets.all(0),
       child: Text(
         "Register",
         textAlign: TextAlign.end,
@@ -318,7 +309,6 @@ class _MyLoginPageState extends State<MyLoginPage> {
     );
 
     final _forgot = MaterialButton(
-      padding: EdgeInsets.all(0),
       child: Text(
         "Forgot password ?",
         textAlign: TextAlign.end,
@@ -349,24 +339,25 @@ class _MyLoginPageState extends State<MyLoginPage> {
         ));
 
     final _fingerprint = MaterialButton(
-      padding: EdgeInsets.all(0),
-      child: Icon(Icons.fingerprint,size: 50,color:Theme.of(context).primaryColorDark ,),
+      child: Icon(
+        Icons.fingerprint,
+        size: 50,
+        color: Theme.of(context).primaryColorDark,
+      ),
       onPressed: () {
         try {
           localAuth
               .authenticateWithBiometrics(
                   localizedReason: 'Please authenticate yourself')
               .then((onValue) {
-           
-           setState(() {
+            setState(() {
               didAuthenticate = onValue;
-           });
-           
+            });
           });
 
           if (didAuthenticate) {
             SharedPreferences.getInstance().then((prefs) {
-               bloc.login(id, DateTime.now());
+              bloc.login(id, DateTime.now());
               prefs.setBool('remember', souvenir);
               Navigator.pushReplacement(
                   context,
@@ -380,11 +371,11 @@ class _MyLoginPageState extends State<MyLoginPage> {
       },
     );
 
-    double padding = 20;
+    double padding = 10;
 
     return SafeArea(
       child: Scaffold(
-        //resizeToAvoidBottomPadding: false,
+        resizeToAvoidBottomInset: false,
         body: Container(
             padding: EdgeInsets.only(left: padding, right: padding),
             child: Column(
@@ -392,48 +383,48 @@ class _MyLoginPageState extends State<MyLoginPage> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
                 Container(
-                  height: 100,
-                  width: 100,
-                  child: svg,
-                ),
-                Container(
                   width: MediaQuery.of(context).size.width / 2,
                   child: emailField,
-                  padding: EdgeInsets.only(bottom: 10),
+                ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: <Widget>[
+                    Container(
+                        width: MediaQuery.of(context).size.width / 2,
+                        child: passwordField),
+                    _forgot,
+                  ],
+                ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: <Widget>[
+                    Container(
+                        width: MediaQuery.of(context).size.width / 2,
+                        child: loginButon),
+                    Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: <Widget>[
+                          Checkbox(
+                            value: souvenir,
+                            onChanged: (bool value) {
+                              setState(() {
+                                souvenir = value;
+                              });
+                            },
+                            activeColor: Colors.green,
+                          ),
+                          Container(
+                              margin: EdgeInsets.only(top: 5),
+                              child: AutoSizeText(
+                                "Se souvenir de moi",
+                                minFontSize: 10,
+                              )),
+                        ]),
+                  ],
                 ),
                 Container(
-                    width: MediaQuery.of(context).size.width / 2,
-                    child: passwordField),
-                Row(children: <Widget>[
-                  Expanded(
-                      child: Align(
-                    alignment: Alignment.center,
-                    child: _forgot,
-                  )),
-                ]),
-                Container(
-                    width: MediaQuery.of(context).size.width / 2,
-                    child: loginButon),
-                Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: <Widget>[
-                      Checkbox(
-                        value: souvenir,
-                        onChanged: (bool value) {
-                          setState(() {
-                            souvenir = value;
-                          });
-                        },
-                        activeColor: Colors.green,
-                      ),
-                      Container(
-                          margin: EdgeInsets.only(top: 5),
-                          child: AutoSizeText(
-                            "Se souvenir de moi",
-                            minFontSize: 10,
-                          )),
-                    ]),
-                _register,
+                  child: _register,
+                ),
                 Align(
                   alignment: Alignment.bottomCenter,
                   child: _continue,
