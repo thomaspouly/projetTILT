@@ -115,7 +115,7 @@ class _StaggeredViewState extends State<StaggeredView>
                           widget.description,
                           style: TextStyle(
                               color: widget.categorie.colorText,
-                              fontSize: widthScreen / 28),
+                              fontSize: widthScreen / 35),
                           overflow: TextOverflow.ellipsis,
                           maxLines: 4,
                         )
@@ -162,7 +162,7 @@ class _StaggeredViewState extends State<StaggeredView>
                       padding: EdgeInsets.only(
                           left: widthScreen / 20, right: widthScreen / 20),
                       child: Column(children: <Widget>[
-                        Text(
+                       AutoSizeText(
                           counterBack,
                           textAlign: TextAlign.center,
                           style: TextStyle(
@@ -172,35 +172,42 @@ class _StaggeredViewState extends State<StaggeredView>
                               fontFamily: "Monofonto-Regular"),
                           maxLines: 1,
                         ),
-                        Text(
+                        AutoSizeText(
                           widget.description,
+                          
                           style: TextStyle(
+                            
                               color: widget.categorie.colorText,
-                              fontSize: widthScreen / 28),
+                              fontSize: widthScreen / 35),
                         ),
                       ]),
                     ),
                   ],
                 ),
+
+                
                 Container(
                   padding: EdgeInsets.only(
                       left: widthScreen / 20,
                       right: widthScreen / 20,
                       top: widthScreen / 15),
                   child: Column(children: <Widget>[
-                    Text("Conseils:\n",
+                /*  Text("Conseils:\n",
                         style: TextStyle(
                             color: Colors.white,
                             fontWeight: FontWeight.bold,
                             fontSize: widthScreen / 22)),
                     AutoSizeText(
                       widget.categorie.conseils,
+                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(
                           color: widget.categorie.colorText,
                           fontSize: widthScreen / 28),
-                    ),
+                    ),*/
                   ]),
                 ),
+
+                
               ]),
               Align(
                   child: FlatButton(
