@@ -1,101 +1,150 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_app/provider/BlocProvider.dart';
+import 'package:flutter_app/screen/home/home.dart';
+import 'package:flutter_app/screen/login/login.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:splashscreen/splashscreen.dart';
+import 'package:dynamic_theme/dynamic_theme.dart';
 
-import 'package:cloud_firestore/cloud_firestore.dart';
+final String assetName = 'assets/images/earth.png';
 
-void main() => runApp(MyApp());
+void main() {
+  SharedPreferences.getInstance().then((prefs) {
 
-class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-        title: 'Flutter Demo',
-        theme: ThemeData(
-          // This is the theme of your application.
-          //
-          // Try running your application with "flutter run". You'll see the
-          // application has a blue toolbar. Then, without quitting the app, try
-          // changing the primarySwatch below to Colors.green and then invoke
-          // "hot reload" (press "r" in the console where you ran "flutter run",
-          // or simply save your changes to "hot reload" in a Flutter IDE).
-          // Notice that the counter didn't reset back to zero; the application
-          // is not restarted.
-          primarySwatch: Colors.green,
-        ),
-        home: MyHomePage(title: 'EarthState'));
-  }
-}
-
-class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key, this.title}) : super(key: key);
-
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
-
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
-
-  final String title;
-
-  @override
-  _MyHomePageState createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() async {
-    /*
- try {
-
-   //Test Authentification
-      final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
-      FirebaseUser user = await _firebaseAuth.signInWithEmailAndPassword(
-          email: "toto@gmail.com", password: "123456");
-      print(user.uid);
-//Test cloud_firestore
-       Firestore.instance.collection('carres').document().setData({
-                    'couleur': "rouge",});
-
-
-    } catch (e) {
-      print(e.toString());
+    if(prefs.getString("theme") == null) {
+      prefs.setString("theme","Défaut");
     }
-*/
-    setState(() {
-      _counter++;
-    });
-  }
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(
-              'You have pushed the button this many times:',
+
+    if(prefs.getBool("nightMode") == null) {
+      prefs.setBool("nightMode",false);
+    }
+    
+
+
+if(prefs.getBool("remember") == null) {
+      prefs.setBool("remember",false);
+    }
+    var id = prefs.getString('id');
+
+
+    bool nightMode = prefs.getBool("nightMode");
+ bool remember = prefs.getBool("remember");
+
+
+    print("THEME: " + prefs.getString("theme"));
+print("Night: " + nightMode.toString());
+print("Remember: " + remember.toString());
+
+
+    Brightness b;
+    if (nightMode == false || nightMode == null) {
+      b = Brightness.light;
+    } else {
+      b = Brightness.dark;
+    }
+    runApp(MaterialApp(
+      home: remember == false
+          ? new BlocProvider(
+              child: DynamicTheme(
+                  defaultBrightness: b,
+                  data: (brightness) {
+                    switch (prefs.getString("theme")) {
+                      case "Bleu":
+                        return ThemeData(
+                            primarySwatch: Colors.blue, brightness: brightness);
+                        break;
+                      case "Rouge":
+                        return ThemeData(
+                            primarySwatch: Colors.red, brightness: brightness);
+                        break;
+                      default:
+                        return ThemeData(
+                            primarySwatch: Colors.green,
+                            brightness: brightness);
+                        break;
+                    }
+                  },
+                  themedWidgetBuilder: (context, theme) {
+                    return new MaterialApp(
+                      title: 'Flutter Demo',
+                      theme: theme,
+                      home: new SplashScreen(
+                          seconds: 5,
+                          navigateAfterSeconds: new MyLoginPage(),
+                          title: new Text(
+                            'EarthState',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                                fontSize: 40,
+                                color: Colors.green,
+                                wordSpacing: 3),
+                          ),
+                          image: Image.asset(
+                            "assets/images/earth.png",
+                            width: 3000,
+                          ),
+                          styleTextUnderTheLoader: new TextStyle(),
+                          photoSize: 100.0,
+                          loaderColor: Colors.blue),
+                    );
+                  }))
+          : new BlocProvider(
+              child: DynamicTheme(
+                  defaultBrightness: b,
+                  data: (brightness) {
+                    switch (prefs.getString("theme")) {
+                      case "Bleu":
+                        return ThemeData(
+                            primarySwatch: Colors.blue, brightness: brightness);
+                        break;
+                      case "Rouge":
+                        return ThemeData(
+                            primarySwatch: Colors.red, brightness: brightness);
+                        break;
+                      default:
+                        return ThemeData(
+                            primarySwatch: Colors.green,
+                            brightness: brightness);
+                        break;
+                    }
+                  },
+                  themedWidgetBuilder: (context, theme) {
+                    final bloc = BlocProvider.ofLogin(context);
+                    bloc.getUserById(id).then((user) {
+                      bloc.getNote().then((note) {
+                        if (int.parse(note.note) == 10) {
+                          int date = DateTime.now()
+                              .difference(DateTime.parse(user.date))
+                              .inDays;
+                          print("DATE MAIN ====>" + date.toString());
+                          bloc.enterNbPomme(date);
+                        }
+                      });
+                    });
+                    return new MaterialApp(
+                      title: 'Flutter Demo',
+                      theme: theme,
+                      home: new SplashScreen(
+                          seconds: 5,
+                          navigateAfterSeconds: new HomePage(
+                            uid: id,
+                          ),
+                          title: new Text(
+                            'EarthState',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                                fontSize: 20,
+                                color: Colors.grey,
+                                wordSpacing: 3),
+                          ),
+                          image: Image.asset(assetName),
+                          styleTextUnderTheLoader: new TextStyle(),
+                          photoSize: 100.0,
+                          loaderColor: Colors.greenAccent),
+                    );
+                  }),
             ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.display1,
-            ),
-          ],
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: Icon(Icons.add),
-      ),
-    );
-  }
+    ));
+  });
 }
