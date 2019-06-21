@@ -78,8 +78,8 @@ class _MyProfilPageState extends State<MyProfilPage> {
             return new FlatButton(
               onPressed: null,
               child: new Container(
-                  height: MediaQuery.of(context).size.height / 9,
-                  width: MediaQuery.of(context).size.height / 9,
+                  height: MediaQuery.of(context).size.height / 11,
+                  width: MediaQuery.of(context).size.height / 11,
                   decoration: new BoxDecoration(
                       shape: BoxShape.circle,
                       image: new DecorationImage(
@@ -101,15 +101,12 @@ class _MyProfilPageState extends State<MyProfilPage> {
 
     TextEditingController emailController = TextEditingController();
     TextEditingController nameController = TextEditingController();
-    TextEditingController pommeController = TextEditingController();
-    TextEditingController addController = TextEditingController();
 
     Widget _buildTextFields() {
       return new FutureBuilder(
           future: bloc.getUserById(widget.uid),
           builder: (context, AsyncSnapshot<User> snapshot) {
             if (snapshot.hasData) {
-              pommeController.text = snapshot.data.nbPomme.toString();
               emailController.text = snapshot.data.email;
               nameController.text = snapshot.data.name;
               var email = new TextFieldCustom(
@@ -126,118 +123,74 @@ class _MyProfilPageState extends State<MyProfilPage> {
                 hide: false,
                 controller: nameController,
               );
-              var addFriend = new TextFieldCustom(
-                icon: Icon(Icons.person_outline),
-                title: "Ajouter un amis, entrez son email",
-                hide: false,
-                controller: addController,
-              );
-              addController.text = "maxance@gmail.com";
-              var pomme = new TextFieldCustom(
-                icon: Icon(Icons.nature),
-                title: "Nombre de pomme",
-                hide: false,
-                colors: Theme.of(context).primaryColor,
-                editable: false,
-                controller: pommeController,
-              );
-              return Column(
-                children: <Widget>[
-                  Container(
-                    margin: EdgeInsets.only(top: 10, bottom: 10),
-                    child: name,
-                  ),
-                  Container(
-                    margin: EdgeInsets.only(top: 10, bottom: 10),
-                    child: email,
-                  ),
-                  Container(
-                    margin: EdgeInsets.only(top: 10, bottom: 50),
-                    child: pomme,
-                  ),
-                  Container(
-                    margin: EdgeInsets.only(
-                        left: MediaQuery.of(context).size.width / 7,
-                        right: MediaQuery.of(context).size.width / 7),
-                    child: Material(
-                      elevation: 5.0,
-                      color: Theme.of(context).primaryColor,
-                      borderRadius: BorderRadius.circular(5),
-                      child: MaterialButton(
-                        onPressed: () {
-                          if (email.controller.text.isEmpty) {
-                            bloc.modifyUser(
-                                widget.uid,
-                                email.controller.text,
-                                name.controller.text,
-                                snapshot.data.treeNumber,
-                                int.parse(pomme.controller.text),
-                                snapshot.data.date,
-                                snapshot.data.friendList);
-                          } else if (name.controller.text.isEmpty) {
-                            bloc.modifyUser(
-                                widget.uid,
-                                email.controller.text,
-                                name.title,
-                                snapshot.data.treeNumber,
-                                int.parse(pomme.controller.text),
-                                snapshot.data.date,
-                                snapshot.data.friendList);
-                          } else {
-                            bloc.modifyUser(
-                                widget.uid,
-                                email.controller.text,
-                                name.controller.text,
-                                snapshot.data.treeNumber,
-                                int.parse(pomme.controller.text),
-                                snapshot.data.date,
-                                snapshot.data.friendList);
-                          }
+              return Container(
+                  margin: EdgeInsets.only(top: 20),
+                  child: Column(
+                    children: <Widget>[
+                      Container(
+                        margin: EdgeInsets.only(bottom: 10),
+                        width: MediaQuery.of(context).size.width / 1.4,
+                        child: name,
+                      ),
+                      Container(
+                        margin: EdgeInsets.only(bottom: 10),
+                        width: MediaQuery.of(context).size.width / 1.4,
+                        child: email,
+                      ),
+                      Container(
+                        margin: EdgeInsets.only(
+                            left: MediaQuery.of(context).size.width / 7,
+                            right: MediaQuery.of(context).size.width / 7),
+                        child: Material(
+                          elevation: 5.0,
+                          color: Theme.of(context).primaryColor,
+                          borderRadius: BorderRadius.circular(5),
+                          child: MaterialButton(
+                            onPressed: () {
+                              if (email.controller.text.isEmpty) {
+                                bloc.modifyUser(
+                                    widget.uid,
+                                    email.controller.text,
+                                    name.controller.text,
+                                    snapshot.data.treeNumber,
+                                    snapshot.data.nbPomme,
+                                    snapshot.data.date,
+                                    snapshot.data.friendList);
+                              } else if (name.controller.text.isEmpty) {
+                                bloc.modifyUser(
+                                    widget.uid,
+                                    email.controller.text,
+                                    name.title,
+                                    snapshot.data.treeNumber,
+                                    snapshot.data.nbPomme,
+                                    snapshot.data.date,
+                                    snapshot.data.friendList);
+                              } else {
+                                bloc.modifyUser(
+                                    widget.uid,
+                                    email.controller.text,
+                                    name.controller.text,
+                                    snapshot.data.treeNumber,
+                                    snapshot.data.nbPomme,
+                                    snapshot.data.date,
+                                    snapshot.data.friendList);
+                              }
 
-                          Navigator.of(context).pop();
-                        },
-                        minWidth: MediaQuery.of(context).size.width,
-                        child: AutoSizeText("Enregistrer",
-                            maxLines: 1,
-                            textAlign: TextAlign.center,
-                            style: style.copyWith(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold)),
+                              Navigator.of(context).pop();
+                            },
+                            minWidth: MediaQuery.of(context).size.width,
+                            child: AutoSizeText("Enregistrer",
+                                maxLines: 1,
+                                textAlign: TextAlign.center,
+                                style: style.copyWith(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold)),
+                          ),
+                        ),
+                        padding: EdgeInsets.only(bottom: 30),
                       ),
-                    ),
-                    padding: EdgeInsets.only(bottom: 30),
-                  ),
-                  /*Container(
-                    margin: EdgeInsets.only(top: 10, bottom: 30),
-                    padding: EdgeInsets.only(
-                        left: MediaQuery.of(context).size.width / 7,
-                        right: MediaQuery.of(context).size.width / 7),
-                    child: addFriend,
-                  ),
-                  Container(
-                    margin: EdgeInsets.only(
-                        left: MediaQuery.of(context).size.width / 7,
-                        right: MediaQuery.of(context).size.width / 7),
-                    child: Material(
-                      elevation: 5.0,
-                      color: Theme.of(context).primaryColor,
-                      borderRadius: BorderRadius.circular(5),
-                      child: MaterialButton(
-                        onPressed: () {
-                          bloc.addUserInFriendList(addFriend.controller.text);
-                        },
-                        minWidth: MediaQuery.of(context).size.width,
-                        child: AutoSizeText("Ajouter un amis via son email",
-                            maxLines: 1,
-                            textAlign: TextAlign.center,
-                            style: style.copyWith(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold)),
-                      ),
-                    ),
-                  ),*/
-                ],
-              );
+                    ],
+                  ));
             } else {
               return Text("Chargement");
             }
@@ -277,7 +230,6 @@ class _MyProfilPageState extends State<MyProfilPage> {
     }
 
     double paddingModal = 20;
-    double paddingBetweenFlat = 50;
 
     void _settingModalBottomSheet(context) {
       showModalBottomSheet(
@@ -363,31 +315,26 @@ class _MyProfilPageState extends State<MyProfilPage> {
         appBar: AppBar(
           title: Text("Profil"),
         ),
-        body: Container(
-          padding: EdgeInsets.only(left: padding, right: padding),
-          child: Stack(
+        body: ListView(
+            //mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            //crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
               Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: <Widget>[
-                    Column(
-                      children: <Widget>[
-                        FlatButton(
-                          shape: new RoundedRectangleBorder(
-                              borderRadius: new BorderRadius.circular(30.0)),
-                          child: _buildImage(),
-                          onPressed: () {
-                            _settingModalBottomSheet(context);
-                          },
-                        )
-                      ],
-                    ),
-                    _buildTextFields(),
-                  ]),
-            ],
-          ),
-        ),
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  FlatButton(
+                    shape: new RoundedRectangleBorder(
+                        borderRadius: new BorderRadius.circular(30.0)),
+                    child: _buildImage(),
+                    onPressed: () {
+                      _settingModalBottomSheet(context);
+                    },
+                  )
+                ],
+              ),
+              _buildTextFields(),
+            ]),
       ),
     );
   }

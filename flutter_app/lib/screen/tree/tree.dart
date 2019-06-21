@@ -130,14 +130,14 @@ class _TreePageState extends State<TreePage> {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                Text(
-                    "Voici votre arbre, celui-ci grandit en fonction de ce que vous remplissez dans le formulaire.",style: TextStyle(fontSize: 20),),
-                Text(
-                    "Pour que celui-ci grandissent, il faut que votre note soit supérieur à 5.",style: TextStyle(fontSize: 20),),
-                Text(
-                    "Une fois qu'il grandit et lorsqu'il atteint la plus haute note, de 10, celui-ci vous rapporte des pommes.",style: TextStyle(fontSize: 20),),
-                Text(
-                    "Ces pommes s'ajoutent a votre nombre de pomme toute les 24 heures et sont échangeable contre un don à une association.",style: TextStyle(fontSize: 20),),
+                AutoSizeText(
+                    "Voici votre arbre, celui-ci grandit en fonction de ce que vous remplissez dans le formulaire.",minFontSize: 10),
+                AutoSizeText(
+                    "Pour que celui-ci grandissent, il faut que votre note soit supérieur à 5.",minFontSize: 10,),
+                AutoSizeText(
+                    "Une fois qu'il grandit et lorsqu'il atteint la plus haute note, de 10, celui-ci vous rapporte des pommes.",minFontSize: 10),
+                AutoSizeText(
+                    "Ces pommes s'ajoutent a votre nombre de pomme toute les 24 heures et sont échangeable contre un don à une association.",minFontSize: 10),
               ],
             ),
             actions: <Widget>[
@@ -228,21 +228,6 @@ class _TreePageState extends State<TreePage> {
                         );
                       },
                       child: Text("Formulaire",
-                          style: TextStyle(fontSize: 20, color: Colors.white)),
-                    ),
-                  ),
-                  Container(
-                    padding: EdgeInsets.only(bottom: 25),
-                    child: RaisedButton(
-                      elevation: 5,
-                      color: Theme.of(context).primaryColor,
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => Linky()),
-                        );
-                      },
-                      child: Text("Linky",
                           style: TextStyle(fontSize: 20, color: Colors.white)),
                     ),
                   ),

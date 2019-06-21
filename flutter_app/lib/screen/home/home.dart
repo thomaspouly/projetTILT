@@ -775,7 +775,7 @@ class _HomePageState extends State<HomePage> {
             children: <Widget>[
               _buildDropDownRankingTop(),
               Container(
-                height: heightScreen / 10, width: heightScreen / 10,
+                height: heightScreen / 11, width: heightScreen / 11,
                 //child:svg
                 child: FlareActor("assets/flare/Earth2.flr",
                     alignment: Alignment.center,
@@ -788,7 +788,7 @@ class _HomePageState extends State<HomePage> {
           Container(
             padding: EdgeInsets.only(right: 10),
             child: Align(
-              alignment: Alignment.bottomRight,
+              alignment: Alignment.centerRight,
               child: Text("Metrique tonnes de dioxyde de carbone"),
             ),
           ),

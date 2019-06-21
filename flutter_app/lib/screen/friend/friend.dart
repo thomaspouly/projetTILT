@@ -46,7 +46,7 @@ class _MyFriendPageState extends State<MyFriendPage> {
     Widget _buildTextFields() {
       var addFriend = new TextFieldCustom(
         icon: Icon(Icons.person_outline),
-        title: "Ajouter un amis, entrez son email",
+        title: "Entrez le mail",
         hide: false,
         controller: addController,
       );
@@ -54,9 +54,7 @@ class _MyFriendPageState extends State<MyFriendPage> {
         children: <Widget>[
           Container(
             margin: EdgeInsets.only(top: 10, bottom: 30),
-            padding: EdgeInsets.only(
-                left: MediaQuery.of(context).size.width / 7,
-                right: MediaQuery.of(context).size.width / 7),
+            width: MediaQuery.of(context).size.width,
             child: addFriend,
           ),
           Container(
@@ -71,8 +69,8 @@ class _MyFriendPageState extends State<MyFriendPage> {
                 onPressed: () {
                   bloc.addUserInFriendList(addFriend.controller.text);
                 },
-                minWidth: MediaQuery.of(context).size.width,
-                child: AutoSizeText("Enregistrer les modifications",
+                minWidth: MediaQuery.of(context).size.width/2,
+                child: AutoSizeText("Ajouter",
                     maxLines: 1,
                     textAlign: TextAlign.center,
                     style: style.copyWith(

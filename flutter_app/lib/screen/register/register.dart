@@ -151,6 +151,7 @@ class _RegisterPageState extends State<RegisterPage> {
     FlutterStatusbarcolor.setStatusBarColor(Colors.green[100]);
     FlutterStatusbarcolor.setStatusBarWhiteForeground(false);
     return new Scaffold(
+      resizeToAvoidBottomInset: false,
       body: new Container(
         padding: EdgeInsets.only(right: 15, left: 15),
         child: SafeArea(
@@ -159,10 +160,10 @@ class _RegisterPageState extends State<RegisterPage> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
               Container(
-                child: Text("Inscription", style: TextStyle(fontSize: 25)),
+                child: Text("Inscription", style: TextStyle(fontSize: 15)),
               ),
               Container(
-                  child: _buildImage(), margin: EdgeInsets.only(bottom: 30)),
+                  child: _buildImage(), margin: EdgeInsets.only(bottom: 10)),
               new Column(children: <Widget>[
                 _buildTextFields(),
               ]),
@@ -183,7 +184,6 @@ class _RegisterPageState extends State<RegisterPage> {
                       mainAxisAlignment: MainAxisAlignment.center,
                     
                     children: <Widget>[
-                      Text("Photo de profil:"),
                        FlatButton(
                    onPressed: () {
                   getImageFromCamera();
@@ -241,13 +241,13 @@ class _RegisterPageState extends State<RegisterPage> {
   }
 
   Widget _buildTextFields() {
-    double margin = 30;
+    double margin = 20;
     return new Container(
       child: new Column(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: <Widget>[
           new Container(
-              width: MediaQuery.of(context).size.width / 2,
+              width: MediaQuery.of(context).size.width / 1.3,
               margin: EdgeInsets.only(bottom: margin),
               child: new TextFieldCustom(
                   controller: _nameFilter,
@@ -256,7 +256,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   hide: false,
                   textError: widget.nameError)),
           new Container(
-              width: MediaQuery.of(context).size.width / 2,
+              width: MediaQuery.of(context).size.width / 1.3,
               margin: EdgeInsets.only(bottom: margin),
               child: new TextFieldCustom(
                 controller: _emailFilter,
@@ -266,7 +266,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 textError: widget.emailError,
               )),
           new Container(
-              width: MediaQuery.of(context).size.width / 2,
+              width: MediaQuery.of(context).size.width / 1.3,
               margin: EdgeInsets.only(bottom: margin),
               child: new TextFieldCustom(
                 controller: _passwordFilter,
@@ -276,7 +276,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 textError: widget.passwordError,
               )),
           new Container(
-              width: MediaQuery.of(context).size.width / 2,
+              width: MediaQuery.of(context).size.width / 1.3,
               margin: EdgeInsets.only(bottom: margin),
               child: new TextFieldCustom(
                 controller: _passwordFilter2,
